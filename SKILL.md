@@ -20,6 +20,7 @@ Before dispatching agents:
 3. Check whether OpenSpec, security, GitNexus, TDD, review, or other project skills apply.
 4. Decide whether multi-agent work is truly useful for this task.
 5. Record the owner authorization state; default to no commit/push authorization.
+6. When an owner decision is needed, plan to explain it in plain, non-specialist language: what was done, what the decision affects, and why the decision is needed. For commit/push decisions, describe what the stage completed without extra impact analysis unless the owner asks.
 
 Default roles:
 
@@ -39,6 +40,17 @@ Small/medium/complex task: PM + Advisor
 Code implementation task: PM + Advisor + Reviewer
 Security/permission/API/database/architecture/high-risk task: PM + Advisor + Reviewer
 ```
+
+Agent lifecycle:
+
+```text
+Default: keep PM and Advisor open until the current complete stage goal finishes.
+OpenSpec lifecycle default: keep the same PM and Advisor from proposal/opening through archive when practical.
+Close or restart agents at a stage boundary, long owner pause, context overload, role/risk change, or suspected drift.
+When restarting, provide a compact evidence packet; do not treat the prior agent's memory as authority.
+```
+
+For git-specific stages, keep the relevant Advisor available across the pre-commit review, commit execution, post-commit review, push authorization request, push execution, CI check, and post-push/CI review when the work stays within the same stage.
 
 If the owner explicitly assigns roles differently, for example Claude Code CLI as PM/Worker and Codex as Advisor, honor that assignment while preserving all boundaries and gates.
 
@@ -68,6 +80,7 @@ Leader:
 - Own orchestration, synthesis, verification, and communication with owner.
 - Verify agent outputs against canonical evidence.
 - Never treat agreement as proof.
+- Explain owner decisions in plain language, especially for non-specialist owners: what was done, what the decision affects, and why the decision is needed. For commit/push, summarize what the stage completed and keep authorization language explicit.
 - Never self-authorize commit/push.
 
 PM Agent:
@@ -222,6 +235,20 @@ Default:
   One-time commit authorization covers only the current explicit commit action.
   One-time push authorization covers only the current explicit push action.
 
+Before commit:
+  Advisor must review the commit-ready scope unless a stricter project rule requires PM + Advisor or Reviewer too.
+  Leader must tell the owner in plain language that Advisor has reviewed, found no required changes, and commit can proceed.
+  This statement is not authorization by itself; the owner must still explicitly authorize commit unless a valid controlled preauthorization window covers it.
+
+After commit:
+  Advisor must review the actual commit result before Leader asks for push authorization.
+  Leader must report whether Advisor found required changes or cleared the commit for push consideration.
+
+Push:
+  Push requires explicit owner authorization unless a valid controlled preauthorization window covers the current push action.
+  After push, Leader must check CI/status required by the project. CI scope/full-run decisions follow project rules and may be triggered by Leader under those rules.
+  Advisor must review the push result and CI/status evidence before Leader reports final push outcome to the owner.
+
 Controlled preauthorization window:
   Valid only when explicitly granted in the current Leader conversation.
   Must define scope, expiry or turn/stage boundary, target remote/branch/ref, risk ceiling, required validation, and excluded operations.
@@ -285,4 +312,4 @@ Evidence used
 Recommended next action
 ```
 
-Leader final outputs should include what was verified, what remains uncertain, whether any degradation occurred, and whether commit/push is unauthorized, one-time authorized, or covered by a controlled preauthorization window.
+Leader final outputs should include what was verified, what remains uncertain, whether any degradation occurred, and whether commit/push is unauthorized, one-time authorized, or covered by a controlled preauthorization window. When asking the owner to decide, use plain language and include what was done, what the decision affects, and why the decision is needed; for commit/push decisions, summarize what the stage completed without extra impact explanation unless requested.
