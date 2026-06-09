@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multi-Agent Working Group"
+  short_description: "Run a guarded PM/advisor/worker/reviewer workflow"
+  default_prompt: "Use this skill to set up a guarded multi-agent working group for this task."
