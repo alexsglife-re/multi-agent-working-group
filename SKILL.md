@@ -46,8 +46,41 @@ Agent lifecycle:
 ```text
 Default: keep PM and Advisor open until the current complete stage goal finishes.
 OpenSpec lifecycle default: keep the same PM and Advisor from proposal/opening through archive when practical.
+For OpenSpec workstreams, "complete stage goal" usually means the whole spec lifecycle through C4/archive, not merely artifact drafting, validation, commit, push, or CI.
 Close or restart agents at a stage boundary, long owner pause, context overload, role/risk change, or suspected drift.
 When restarting, provide a compact evidence packet; do not treat the prior agent's memory as authority.
+```
+
+Continuity is not the same as repeated review. For a scoped multi-agent workstream, especially an OpenSpec lifecycle, the Leader must maintain PM and Advisor continuity as explicit state:
+
+```text
+PM identity / role instance
+Advisor identity / role instance
+Lifecycle start point
+Current stage or C-stage
+Continuity memory or handoff file used, if any
+Continuity status: intact, restarted, degraded, or unavailable
+Reason for any restart, degradation, or unavailability
+```
+
+For OpenSpec workstreams, treat PM/Advisor continuity as strict by default:
+
+```text
+Keep the same PM and Advisor from initial analysis/proposal through C4/archive completion.
+Do not close or restart them merely because C1, C1.6, C2, C3, validation, commit, push, or CI completed.
+A stage boundary alone is not enough reason to close them when the next stage belongs to the same OpenSpec lifecycle.
+Close only after C4/archive completion, an explicit owner-approved boundary, long pause, context overload, tool/usage boundary, role/risk change, or suspected drift.
+```
+
+A newly launched PM or Advisor after interruption is a restarted agent, not the same uninterrupted agent. The Leader must not present restarted or one-shot review as uninterrupted lifecycle continuity.
+
+When continuity breaks:
+
+```text
+Record the break plainly.
+Provide a compact evidence packet to the restarted agent.
+Require the restarted PM/Advisor to perform continuity recovery review.
+Label later consensus as restarted continuity or degraded continuity, not uninterrupted continuity.
 ```
 
 For git-specific stages, keep the relevant Advisor available across the pre-commit review, commit execution, post-commit review, push authorization request, push execution, CI check, and post-push/CI review when the work stays within the same stage.
@@ -153,6 +186,24 @@ Stop-condition focus
 Reminder: do not read PM conclusions before first pass
 Reminder: output is unverified until Leader verifies it
 ```
+
+PM/Advisor continuity memory:
+
+For long-running or OpenSpec-bound work, the Leader should maintain concise PM/Advisor continuity memory when the project has a suitable writable location.
+
+Recommended layers:
+
+```text
+Project baseline memory:
+  Stable project-level baseline for PM/Advisor startup.
+  Records stable rules, current project baseline, standing owner rules, git/CI/OpenSpec conventions, forbidden local noise, and recurring risks.
+
+Workstream continuity file:
+  Per-workstream file for an active long-running or OpenSpec change.
+  Records PM/Advisor identities, lifecycle start, current stage or C-stage, consensus, P0/P1/P2 findings, gate decisions, validation evidence, interruptions, restart packets, and next action.
+```
+
+These files are continuity aids, not authority. Reading a continuity file does not make a restarted agent the same uninterrupted agent. Old consensus, handoffs, and continuity files remain evidence for Leader verification, not authorization for commit, push, scope expansion, or bypassing current gates.
 
 Worker additions:
 
@@ -310,6 +361,15 @@ If no skill was used, why not
 Findings by P0/P1/P2 when reviewing
 Evidence used
 Recommended next action
+```
+
+For PM/Advisor outputs in a continuous lifecycle, also include:
+
+```text
+Continuity status: intact, restarted, degraded, or unavailable
+Continuity memory or baseline read
+Prior consensus or unresolved findings carried forward
+Whether this output continues the same lifecycle or is a restarted review
 ```
 
 Leader final outputs should include what was verified, what remains uncertain, whether any degradation occurred, and whether commit/push is unauthorized, one-time authorized, or covered by a controlled preauthorization window. When asking the owner to decide, use plain language and include what was done, what the decision affects, and why the decision is needed; for commit/push decisions, summarize what the stage completed without extra impact explanation unless requested.
