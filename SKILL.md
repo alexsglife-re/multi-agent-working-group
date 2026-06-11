@@ -9,7 +9,35 @@ description: Use when a user asks to coordinate multiple agents, PM/advisor/work
 
 Use this skill to run a guarded, evidence-based multi-agent workflow. The Leader remains responsible for orchestration, verification, owner communication, and git exits; other agents provide scoped work or independent critique.
 
-Project `AGENTS.md`, memory, OpenSpec, security, legal, or owner instructions may only tighten this skill. Do not use this skill to weaken a project-specific gate. Read only the current project's local rule files; do not import another project's protocol, memories, or handoff documents unless the owner explicitly asks for that cross-project reference.
+Project `AGENTS.md`, memory, spec workflow, security, legal, or owner instructions may only tighten this skill. Do not use this skill to weaken a project-specific gate. Read only the current project's local rule files; do not import another project's protocol, memories, or handoff documents unless the owner explicitly asks for that cross-project reference.
+
+## Advisor Minimum Permissions
+
+Using this skill means the owner has approved Advisor agents to read the local evidence needed for the current task's project, in any project where this skill is used.
+
+This default approval is limited to the minimum necessary review context:
+
+```text
+Allowed by default for Advisor review:
+  Read current-project files relevant to the assigned scope.
+  Read local project instructions, handoff/continuity files, specs, tests, config, and docs relevant to the assigned scope.
+  Read global memory and skill files needed to apply stable owner/project rules.
+  Run or receive non-mutating discovery output such as rg, find, ls, read-only sed, nl, wc, git status, git diff, git log, git show, git branch, git rev-parse, and git ls-files.
+  Inspect existing validation, CI, test, spec-workflow, secret-scan, or review evidence when needed for the assigned gate.
+```
+
+This default approval does not authorize broad access or mutation:
+
+```text
+Not allowed by default:
+  File writes, edits, deletes, moves, formatters, code generation, or apply_patch.
+  git add, commit, push, merge, rebase, tag, release, or branch publication.
+  Deployment, external publication, network calls, production access, or irreversible external effects.
+  Reading secrets, credentials, tokens, private keys, browser data, unrelated personal directories, or unrelated projects.
+  Broad context dumping to external advisors beyond the minimum evidence needed for the role.
+```
+
+If an Advisor cannot read the minimum local evidence, record Advisor as blocked or degraded. Do not fabricate review conclusions from memory or summaries alone. For commit/push-bound, code, medium, complex, high-risk, permission/API/database/architecture, or security work, missing required Advisor evidence fails closed unless the owner explicitly approves a narrower degradation.
 
 ## Startup Checklist
 
@@ -17,10 +45,24 @@ Before dispatching agents:
 
 1. Read project instructions and memory required by the current repo.
 2. Classify the task risk.
-3. Check whether OpenSpec, security, GitNexus, TDD, review, or other project skills apply.
+3. Check whether spec workflow, security, code-intelligence/impact-analysis, TDD, review, or other project skills apply.
 4. Decide whether multi-agent work is truly useful for this task.
 5. Record the owner authorization state; default to no commit/push authorization.
 6. When an owner decision is needed, plan to explain it in plain, non-specialist language: what was done, what the decision affects, and why the decision is needed. For commit/push decisions, describe what the stage completed without extra impact analysis unless the owner asks.
+7. Once the owner gives a work goal, keep progressing until the goal is complete by default, unless an owner decision, explicit authorization, risk gate, failed validation, unresolved P0/P1, unavailable required reviewer/advisor, or irreversible external-effect gate requires stopping. Do not use progress pressure to downgrade risk/scope classification, skip the project's spec workflow, enter Small Task Mode, or bypass gates.
+
+Small Task Mode:
+
+```text
+If Leader determines that the task is small low-risk and that neither the project's spec workflow nor the full multi-agent-working-group workflow is required, Leader may complete the work directly.
+This does not bypass project instructions, memory, code-intelligence or impact-analysis checks, validation, dirty-worktree protection, or owner authorization rules.
+Small Task Mode is a narrow execution exception only; it does not authorize unilateral commit/push, weaken Git Exit Rules, or permit default exclusions.
+Commit and push are separate checkpoints: before commit and before push, Advisor review is still required and the Git Exit Rules below apply.
+Advisor may reject the Small Task Mode classification during commit/push review. Advisor review must follow the existing independence standard and must not rely on Leader self-assessment as a substitute for independent review.
+If Advisor is unavailable, commit/push-bound Small Task Mode work fails closed unless owner explicitly approves a narrower degradation.
+If scope becomes medium/complex/high-risk, spec-workflow-required, touches a default exclusion, or receives unresolved P0/P1 Advisor objection, exit Small Task Mode and use the stricter required workflow.
+Progress-to-completion pressure must not downgrade risk/scope classification, skip the project's spec workflow, enter Small Task Mode, or bypass any gate. When classification is uncertain, use the stricter workflow.
+```
 
 Default roles:
 
@@ -45,13 +87,13 @@ Agent lifecycle:
 
 ```text
 Default: keep PM and Advisor open until the current complete stage goal finishes.
-OpenSpec lifecycle default: keep the same PM and Advisor from proposal/opening through archive when practical.
-For OpenSpec workstreams, "complete stage goal" usually means the whole spec lifecycle through C4/archive, not merely artifact drafting, validation, commit, push, or CI.
+Spec-workflow lifecycle default: keep the same PM and Advisor from proposal/opening through archive when practical.
+For spec-bound workstreams, "complete stage goal" usually means the whole spec lifecycle through C4/archive, not merely artifact drafting, validation, commit, push, or CI.
 Close or restart agents at a stage boundary, long owner pause, context overload, role/risk change, or suspected drift.
 When restarting, provide a compact evidence packet; do not treat the prior agent's memory as authority.
 ```
 
-Continuity is not the same as repeated review. For a scoped multi-agent workstream, especially an OpenSpec lifecycle, the Leader must maintain PM and Advisor continuity as explicit state:
+Continuity is not the same as repeated review. For a scoped multi-agent workstream, especially a spec-bound lifecycle, the Leader must maintain PM and Advisor continuity as explicit state:
 
 ```text
 PM identity / role instance
@@ -63,12 +105,12 @@ Continuity status: intact, restarted, degraded, or unavailable
 Reason for any restart, degradation, or unavailability
 ```
 
-For OpenSpec workstreams, treat PM/Advisor continuity as strict by default:
+For spec-bound workstreams, treat PM/Advisor continuity as strict by default:
 
 ```text
 Keep the same PM and Advisor from initial analysis/proposal through C4/archive completion.
 Do not close or restart them merely because C1, C1.6, C2, C3, validation, commit, push, or CI completed.
-A stage boundary alone is not enough reason to close them when the next stage belongs to the same OpenSpec lifecycle.
+A stage boundary alone is not enough reason to close them when the next stage belongs to the same spec-bound lifecycle.
 Close only after C4/archive completion, an explicit owner-approved boundary, long pause, context overload, tool/usage boundary, role/risk change, or suspected drift.
 ```
 
@@ -95,7 +137,7 @@ Use the higher tier when uncertain.
 | --- | --- |
 | Small low-risk | Read-only work, narrow docs/copy/style/config, or isolated tests with no approved-behavior, permission, data, persistence, external-effect, or git-remote change. |
 | Medium | Multi-file docs/tests, contained bug fixes, local tooling, or work needing multiple evidence sources without high-risk areas. |
-| Complex | New user-visible workflow, architecture/module boundary, cross-layer work, public API, external integration, or OpenSpec-bound change. |
+| Complex | New user-visible workflow, architecture/module boundary, cross-layer work, public API, external integration, or spec-bound change. |
 | High-risk | Security, permission, auth, approval/sandbox, credentials, payment/account/wallet, schema/persistence, destructive/irreversible operation, external publication, release/tag/protected branch, force-push/history rewrite, or unresolved P0/P1. |
 
 Severity:
@@ -151,7 +193,7 @@ Current goal
 Scope / non-goals
 Current owner instruction
 Owner authorization state, default no commit/push
-OpenSpec / spec state
+Spec-workflow state
 Git branch / commit / dirty state, if relevant
 Risk tier and risk notes
 Applicable skills or checklist requirement
@@ -189,17 +231,17 @@ Reminder: output is unverified until Leader verifies it
 
 PM/Advisor continuity memory:
 
-For long-running or OpenSpec-bound work, the Leader should maintain concise PM/Advisor continuity memory when the project has a suitable writable location.
+For long-running or spec-bound work, the Leader should maintain concise PM/Advisor continuity memory when the project has a suitable writable location.
 
 Recommended layers:
 
 ```text
 Project baseline memory:
   Stable project-level baseline for PM/Advisor startup.
-  Records stable rules, current project baseline, standing owner rules, git/CI/OpenSpec conventions, forbidden local noise, and recurring risks.
+  Records stable rules, current project baseline, standing owner rules, git/CI/spec-workflow conventions, forbidden local noise, and recurring risks.
 
 Workstream continuity file:
-  Per-workstream file for an active long-running or OpenSpec change.
+  Per-workstream file for an active long-running or spec-bound change.
   Records PM/Advisor identities, lifecycle start, current stage or C-stage, consensus, P0/P1/P2 findings, gate decisions, validation evidence, interruptions, restart packets, and next action.
 ```
 
@@ -250,7 +292,7 @@ Before dispatch, acceptance, repair, commit, or push:
 
 1. Restate the current owner instruction and whether it authorizes the next action.
 2. Check git branch/base/dirty state and changed files when relevant.
-3. Check spec/OpenSpec state when applicable.
+3. Check spec-workflow state when applicable.
 4. Check that PM/Advisor outputs were independent or record approved degradation.
 5. Check required Reviewer status.
 6. Check required validation output and freshness for the current diff.
@@ -285,6 +327,19 @@ Agreement is not authorization.
 Default:
   One-time commit authorization covers only the current explicit commit action.
   One-time push authorization covers only the current explicit push action.
+
+Small Task Mode:
+  Applies only when Leader has recorded that the task is small low-risk, the project's spec workflow is not required, and the full multi-agent workflow is not required.
+  Leader may complete the task directly without PM or Worker dispatch.
+  Does not create commit or push authorization by itself. Because Small Task Mode has no PM participation, it cannot use any standing multi-agent commit/push gate that requires PM agreement; commit or push authorization must come from current explicit owner authorization or a valid controlled preauthorization window.
+  Any controlled preauthorization window must still satisfy all required window conditions and exclusions.
+  Before commit, Advisor must independently review the commit-ready scope, including the Small Task Mode classification, and have no unresolved P0/P1 objection. Advisor must not rely on Leader self-assessment as a substitute for independent review.
+  After commit, Advisor must review the actual commit result before any push gate can pass.
+  Before push, Advisor must review the outgoing scope, including the Small Task Mode classification; required validation must be fresh; available secret/credential scanning over the outgoing diff must pass; and the target remote/branch/ref must be clear.
+  After push, Leader must check required CI/status and have Advisor review the push/CI result before reporting final push outcome.
+  Small Task Mode never authorizes default exclusions unless the owner explicitly names the exception.
+  If Advisor is unavailable, commit/push-bound Small Task Mode work fails closed unless owner explicitly approves a narrower degradation.
+  The evidence record must include why the task qualified as Small Task Mode, Advisor review status for each git checkpoint, validation evidence, secret-scan status before push when applicable, and any non-required gate that was not run with the reason. Required gates may not be skipped merely by recording a reason.
 
 Before commit:
   Advisor must review the commit-ready scope unless a stricter project rule requires PM + Advisor or Reviewer too.
@@ -337,7 +392,7 @@ Scope and non-goals
 Completed and incomplete work
 PM/Advisor consensus, if any
 Unresolved disagreements
-Spec/OpenSpec state
+Spec-workflow state
 Git branch / commit / dirty state
 Changed and do-not-touch files
 Validation run and not run
