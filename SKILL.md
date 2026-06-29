@@ -129,6 +129,50 @@ For git-specific stages, keep the relevant Advisor available across the pre-comm
 
 If the owner explicitly assigns roles differently, for example Claude Code CLI as PM/Worker and Codex as Advisor, honor that assignment while preserving all boundaries and gates.
 
+## Leader Context Control
+
+For long-running or spec-bound work, the Leader should treat context size as an explicit state to manage. Project rules may provide a named protocol such as `Leader Context Control V0.3`; when present, follow that stricter project protocol.
+
+Generic ContextBudget states:
+
+```text
+Normal
+Soft Warning
+ContextBudget Watch
+Rollover Recommended
+Rollover Required
+```
+
+When multiple triggers apply, use the highest applicable state. ContextBudget states are continuity and safety signals only. They never authorize commit, push, CI, deployment, release, external publication, secret or credential access, destructive commands, schema/security/authentication/permission changes, force-push, history rewrite, automatic successor thread creation, role-session registry changes, delivery-queue changes, or product runtime behavior changes.
+
+Use context-budget triggers as evidence-control signals:
+
+```text
+Soft Warning:
+  Long stage, long PM/Advisor/Worker return, large tool output,
+  oversized current ledger snapshot, or repeated long returns.
+
+ContextBudget Watch:
+  Multiple compressions/summaries, repeated old-context lookup,
+  accumulated long returns, or active ledger nearing its budget.
+
+Rollover Recommended:
+  Many compressions/summaries, multiple large stage steps,
+  owner context-length concern, new Worker dispatch from long context,
+  or ledger still too large after refresh.
+
+Rollover Required:
+  Leader cannot reliably verify current git/spec/validation/PM/Advisor/
+  Reviewer/Worker/authorization state; state conflicts cannot be resolved
+  from current evidence; high-risk gate is next and ledger is stale;
+  state confusion appears; owner requests a new Leader; or owner says
+  context length is affecting quality.
+```
+
+Compression or summary counts are soft hints. The hard trigger is loss of reliable current-state verification, unsafe continuation signs, owner instruction, or stale ledger before a high-risk gate.
+
+When `Rollover Required` applies, the current Leader should enter `sealed-ready` behavior for the affected workstream: update ledger or handoff state, list takeover verification requirements, generate a successor startup packet, and report the safe next step. The Leader should not dispatch new Workers, accept new Worker results for the handed-off workstream, enter commit/push/CI/archive gates, or execute external-effect actions until reliable takeover verification is restored. This is a development-workflow self-restriction only; it does not create or modify product runtime role sessions, delivery queues, or handoff readiness.
+
 ## Risk and Severity
 
 Use the higher tier when uncertain.
@@ -216,6 +260,7 @@ Open decisions
 Consensus requirements
 Owner escalation conditions
 Reminder: do not read Advisor conclusions before first pass
+Expected output must preserve complete reasoning, option comparison, recommendation, objections, P0/P1/P2 findings, owner-decision needs, and key error details when present
 ```
 
 Advisor additions:
@@ -227,6 +272,7 @@ Required counterexamples / objections
 Stop-condition focus
 Reminder: do not read PM conclusions before first pass
 Reminder: output is unverified until Leader verifies it
+Expected output must preserve complete reasoning, option comparison, recommendation, objections, P0/P1/P2 findings, owner-decision needs, and key error details when present
 ```
 
 PM/Advisor continuity memory:
@@ -258,8 +304,23 @@ Implementation context
 Impact-analysis result when touching business symbols, if the project requires it
 Acceptance target
 Required evidence on return
+Return must preserve complete result, done/not-done status, changed files, validation, findings, blockers, next action, and key error details
+Key error details include command/tool, exit code or exception type, key stdout/stderr, failing file/test/check/step, and retry safety when available
 No scope expansion, self-approval, commit, or push
 ```
+
+Bulky raw material should be summarized and referenced instead of pasted into the Leader conversation when safe local evidence storage exists:
+
+```text
+Long logs
+Full command output
+Full diffs
+Large source excerpts
+Repeated check output
+Long external excerpts
+```
+
+This evidence limiting must not remove PM/Advisor reasoning, Worker results, findings, recommendations, objections, or key error details.
 
 Reviewer additions:
 
