@@ -54,13 +54,15 @@ Before dispatching agents:
 Small Task Mode:
 
 ```text
-If Leader determines that the task is small low-risk and that neither the project's spec workflow nor the full multi-agent-working-group workflow is required, Leader may complete the work directly.
+If Leader explicitly records that the task is small low-risk, that neither the project's spec workflow nor the full multi-agent-working-group workflow is required, and that independent Worker ownership is not required, Leader may complete the work directly.
+Small Task Mode uses no PM, no Worker, and no Reviewer.
 This does not bypass project instructions, memory, code-intelligence or impact-analysis checks, validation, dirty-worktree protection, or owner authorization rules.
 Small Task Mode is a narrow execution exception only; it does not authorize unilateral commit/push, weaken Git Exit Rules, or permit default exclusions.
+Leader direct execution must stay narrow, explicit, and low-risk, and must be reported as Leader direct execution rather than hidden Worker execution.
 Commit and push are separate checkpoints: before commit and before push, Advisor review is still required and the Git Exit Rules below apply.
 Advisor may reject the Small Task Mode classification during commit/push review. Advisor review must follow the existing independence standard and must not rely on Leader self-assessment as a substitute for independent review.
 If Advisor is unavailable, commit/push-bound Small Task Mode work fails closed unless owner explicitly approves a narrower degradation.
-If scope becomes medium/complex/high-risk, spec-workflow-required, touches a default exclusion, or receives unresolved P0/P1 Advisor objection, exit Small Task Mode and use the stricter required workflow.
+Medium or higher work must not be performed by Leader as hidden Worker execution. If scope becomes medium/complex/high-risk, spec-workflow-required, touches a default exclusion, needs independent Worker ownership, or receives unresolved P0/P1 Advisor objection, exit Small Task Mode and use the stricter required workflow.
 Progress-to-completion pressure must not downgrade risk/scope classification, skip the project's spec workflow, enter Small Task Mode, or bypass any gate. When classification is uncertain, use the stricter workflow.
 ```
 
@@ -382,18 +384,19 @@ Reviewer failure:
 
 ## Git Exit Rules
 
-Agreement is not authorization.
+PM + Advisor consensus authorizes only normal non-high-risk git exits that satisfy the gates below. It does not authorize default exclusions or any other high-risk action.
 
 ```text
 Default:
-  One-time commit authorization covers only the current explicit commit action.
-  One-time push authorization covers only the current explicit push action.
+  Do not commit or push unless the applicable gate below passes.
+  A one-time owner-named commit or push exception covers only that explicit action.
+  PM + Advisor consensus covers only normal non-high-risk git exits and never covers default exclusions.
 
 Small Task Mode:
   Applies only when Leader has recorded that the task is small low-risk, the project's spec workflow is not required, and the full multi-agent workflow is not required.
-  Leader may complete the task directly without PM or Worker dispatch.
-  Does not create commit or push authorization by itself. Because Small Task Mode has no PM participation, it cannot use any standing multi-agent commit/push gate that requires PM agreement; commit or push authorization must come from current explicit owner authorization or a valid controlled preauthorization window.
-  Any controlled preauthorization window must still satisfy all required window conditions and exclusions.
+  Small Task Mode uses no PM, no Worker, and no Reviewer.
+  Leader direct execution must be narrow, explicit, low-risk, and reported as Leader direct execution rather than hidden Worker execution.
+  Does not create commit or push authorization by itself.
   Before commit, Advisor must independently review the commit-ready scope, including the Small Task Mode classification, and have no unresolved P0/P1 objection. Advisor must not rely on Leader self-assessment as a substitute for independent review.
   After commit, Advisor must review the actual commit result before any push gate can pass.
   Before push, Advisor must review the outgoing scope, including the Small Task Mode classification; required validation must be fresh; available secret/credential scanning over the outgoing diff must pass; and the target remote/branch/ref must be clear.
@@ -403,23 +406,25 @@ Small Task Mode:
   The evidence record must include why the task qualified as Small Task Mode, Advisor review status for each git checkpoint, validation evidence, secret-scan status before push when applicable, and any non-required gate that was not run with the reason. Required gates may not be skipped merely by recording a reason.
 
 Before commit:
-  Advisor must review the commit-ready scope unless a stricter project rule requires PM + Advisor or Reviewer too.
-  Leader must tell the owner in plain language that Advisor has reviewed, found no required changes, and commit can proceed.
-  This statement is not authorization by itself; the owner must still explicitly authorize commit unless a valid controlled preauthorization window covers it.
+  Normal non-high-risk commit may proceed after PM + Advisor consensus, no unresolved P0/P1, required Reviewer approval when applicable, fresh validation, and a clear commit-ready target/scope.
+  Small Task Mode does not satisfy the PM requirement and therefore cannot use this normal multi-agent commit gate unless the owner explicitly authorizes a valid exception path.
+  Leader should report in plain language that the commit gate passed and why.
 
 After commit:
-  Advisor must review the actual commit result before Leader asks for push authorization.
+  PM + Advisor must review the actual commit result before the flow is complete.
+  Advisor must review the actual commit result before Leader enters any push gate.
   Leader must report whether Advisor found required changes or cleared the commit for push consideration.
 
 Push:
-  Push requires explicit owner authorization unless a valid controlled preauthorization window covers the current push action.
+  Normal non-high-risk push may proceed after PM + Advisor consensus, no unresolved P0/P1, required Reviewer approval when applicable, fresh validation, a clear target remote/branch/ref, and applicable secret/credential scanning over the outgoing diff.
+  Small Task Mode does not satisfy the PM requirement and therefore cannot use this normal multi-agent push gate unless the owner explicitly authorizes a valid exception path.
   After push, Leader must check CI/status required by the project. CI scope/full-run decisions follow project rules and may be triggered by Leader under those rules.
+  PM + Advisor must review the actual push result before the flow is complete.
   Advisor must review the push result and CI/status evidence before Leader reports final push outcome to the owner.
 
 Controlled preauthorization window:
   Valid only when explicitly granted in the current Leader conversation.
   Must define scope, expiry or turn/stage boundary, target remote/branch/ref, risk ceiling, required validation, and excluded operations.
-  If owner explicitly says PM/Advisor agreement may commit/push in the same Leader conversation, treat that as a controlled preauthorization window only when the required window fields are complete.
   PM and Advisor must agree.
   Required Reviewer must pass.
   No unresolved P0/P1 may remain.
@@ -434,6 +439,7 @@ Default exclusions unless owner explicitly names the exception:
 Push to main/protected branch
 Force-push or history rewrite
 Tag/release publication
+Deployment or public publication
 Credential/security/permission/authentication changes
 Schema migration
 Destructive operation
