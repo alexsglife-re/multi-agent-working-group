@@ -26,4 +26,4 @@
 - [x] 4.3 Check git diff and ensure `.codex/` and `.claude/` remain untracked and out of scope.
 - [x] 4.4 Run PM plus different-model Advisor review of the completed local diff.
 - [x] 4.4a Add `.claude/` and `.codex/` to `.gitignore` so local generated directories are not accidentally staged.
-- [ ] 4.5 If PM plus Advisor agree with no unresolved P0/P1 and gates pass, proceed through normal commit/push closeout when requested or applicable.
+- [x] 4.5 If PM plus Advisor agree with no unresolved P0/P1 and gates pass, proceed through normal commit/push closeout when requested or applicable.
