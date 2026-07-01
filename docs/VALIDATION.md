@@ -42,8 +42,9 @@ Run these checks for the `v0.4.0` stabilization set: `README.md`, `CHANGELOG.md`
 - Reviewer remains conditional for documentation tasks and required for code or higher-risk gates as defined by `SKILL.md`.
 - Normal non-high-risk commits may proceed only through the PM plus Advisor gate with no unresolved P0/P1, fresh required validation, required Reviewer approval when applicable, and post-commit PM plus Advisor review.
 - Normal non-high-risk pushes may proceed only through the PM plus Advisor gate with no unresolved P0/P1, fresh required validation, required Reviewer approval when applicable, clear target, applicable secret or credential scanning, required status or CI evidence when available, and post-push PM plus Advisor review.
+- Normal push to `main` may proceed under the normal PM plus Advisor push gate when all normal requirements pass and no protected-branch bypass or exception action is needed.
 - High-risk and default-exclusion actions still require explicit Owner approval; PM plus Advisor agreement is insufficient for those actions.
-- Default exclusions include protected-branch exception actions, force-push, history rewrite, tags, releases, deployment, public publication, credentials, secrets, security/auth/permission changes, schema migrations, destructive actions, and irreversible external effects.
+- Default exclusions include protected-branch bypass/exception actions, force-push, history rewrite, tags, releases, deployment, public publication, credentials, secrets, security/auth/permission changes, schema migrations, destructive actions, and irreversible external effects.
 - Project docs remain English-only.
 - Reference-source influence from ClawTeam/OpenClaw remains rule-level only: stage names, task states, blocked reports, gate vocabulary, and role-scoped recovery are allowed; runtime code, CLI behavior, automatic spawning, subprocess orchestration, worktree automation, board UI, automatic approval, CI automation, packaging automation, and release automation are rejected unless a future explicit approval changes scope.
 
@@ -65,7 +66,8 @@ Run these checks whenever `SKILL.md` changes.
 - Small Task Mode does not require PM, Worker, or Reviewer.
 - Commit and push are still separate gates.
 - Normal non-high-risk commit/push gates remain distinct from high-risk or default-exclusion Owner approval gates.
-- Default exclusions still include protected branch pushes, force-push, releases, credentials, security/auth changes, schema migrations, destructive actions, and irreversible external effects.
+- A normal push whose target branch is `main` is allowed by the normal gate by itself; protected-branch bypass/exception actions still require explicit Owner approval.
+- Default exclusions still include protected-branch bypass/exception actions, force-push, releases, credentials, security/auth changes, schema migrations, destructive actions, and irreversible external effects.
 - Handoff remains continuity evidence, not authorization.
 
 ## Agent Metadata Checks

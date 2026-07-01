@@ -30,6 +30,7 @@ Goal: stabilize the documentation-first workflow around role boundaries, Leader 
 - [x] Update `SKILL.md` to clarify that Leader direct execution must be narrow, explicit, and low-risk.
 - [x] Update `SKILL.md` to clarify that medium or higher work must not become hidden Worker execution by Leader.
 - [x] Align `SKILL.md` normal non-high-risk commit and push wording with the PM plus Advisor gate.
+- [x] Clarify that a normal push to `main` is allowed by the normal PM plus Advisor gate when all requirements pass and no protected-branch bypass or exception is needed.
 - [x] Confirm `SKILL.md` still keeps high-risk and default-exclusion actions behind explicit Owner approval.
 - [x] Verify that Reviewer remains conditional for documentation tasks and required for code or higher-risk gates as defined by the skill.
 
@@ -37,6 +38,7 @@ Goal: stabilize the documentation-first workflow around role boundaries, Leader 
 
 - [x] Update `docs/VALIDATION.md` for `v0.4.0` stabilization checks.
 - [x] Check that examples do not imply commit or push authorization outside the applicable git gates.
+- [x] Check that push-gate examples distinguish normal `origin/main` push from Owner-only protected-branch bypass or exception actions.
 - [x] Check that examples do not require Reviewer for small low-risk tasks.
 - [x] Check that medium examples do not allow Leader to perform hidden Worker execution.
 - [x] Check that `README.md`, `ROADMAP.md`, `docs/ROLE_BOUNDARIES.md`, examples, and `SKILL.md` remain consistent.

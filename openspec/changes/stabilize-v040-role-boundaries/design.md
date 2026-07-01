@@ -64,7 +64,7 @@ Alternative considered: update only validation docs. Rejected because examples m
 
 ### Decision 4: Preserve explicit high-risk Owner gates
 
-The global rule allows normal non-high-risk commits and pushes after PM plus Advisor consensus and required gates. It does not authorize force-push, history rewrite, protected-branch exceptions, tags/releases, deployment, schema migrations, credentials/secrets, security/auth/permission changes, destructive operations, or irreversible external effects.
+The global rule allows normal non-high-risk commits and pushes after PM plus Advisor consensus and required gates, including normal push to `main` when target clarity, validation, required reviews, and applicable secret/credential scanning pass. It does not authorize force-push, history rewrite, protected-branch bypass/exception actions, tags/releases, deployment, schema migrations, credentials/secrets, security/auth/permission changes, destructive operations, or irreversible external effects.
 
 Alternative considered: require Owner approval for every commit/push. Rejected because it conflicts with the current global owner rule.
 

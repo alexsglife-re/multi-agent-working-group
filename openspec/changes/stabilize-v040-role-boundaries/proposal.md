@@ -8,7 +8,7 @@ The project now has enough reference notes and operating examples to stabilize t
 - Add missing operating examples for commit gates, push gates, and handoff or continuity recovery.
 - Promote only the shortest stable role-boundary rules from `docs/ROLE_BOUNDARIES.md` into `SKILL.md`.
 - Align git-gate wording with the global rule: normal non-high-risk commits and pushes may proceed after PM plus Advisor consensus and required gates, followed by PM plus Advisor review of the actual result.
-- Preserve explicit Owner approval for high-risk actions and default exclusions such as force-push, releases, deployment, schema, credential, security, auth, permission, destructive, protected-branch exception, or irreversible external-effect changes.
+- Preserve explicit Owner approval for high-risk actions and default exclusions such as force-push, releases, deployment, schema, credential, security, auth, permission, destructive, protected-branch bypass/exception, or irreversible external-effect changes.
 - Update validation and roadmap docs so v0.4.0 checks are clear and examples remain consistent.
 - Record reference-source influence from ClawTeam/OpenClaw at the rule level only: stage gates, task status vocabulary, blocked reports, role-scoped recovery, and approval concepts.
 

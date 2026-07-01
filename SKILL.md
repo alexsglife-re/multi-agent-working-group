@@ -184,7 +184,7 @@ Use the higher tier when uncertain.
 | Small low-risk | Read-only work, narrow docs/copy/style/config, or isolated tests with no approved-behavior, permission, data, persistence, external-effect, or git-remote change. |
 | Medium | Multi-file docs/tests, contained bug fixes, local tooling, or work needing multiple evidence sources without high-risk areas. |
 | Complex | New user-visible workflow, architecture/module boundary, cross-layer work, public API, external integration, or spec-bound change. |
-| High-risk | Security, permission, auth, approval/sandbox, credentials, payment/account/wallet, schema/persistence, destructive/irreversible operation, external publication, release/tag/protected branch, force-push/history rewrite, or unresolved P0/P1. |
+| High-risk | Security, permission, auth, approval/sandbox, credentials, payment/account/wallet, schema/persistence, destructive/irreversible operation, external publication, release/tag/protected-branch bypass or exception, force-push/history rewrite, or unresolved P0/P1. |
 
 Severity:
 
@@ -417,6 +417,7 @@ After commit:
 
 Push:
   Normal non-high-risk push may proceed after PM + Advisor consensus, no unresolved P0/P1, required Reviewer approval when applicable, fresh validation, a clear target remote/branch/ref, and applicable secret/credential scanning over the outgoing diff.
+  Normal push to main is covered by this gate when it satisfies these requirements and does not require a protected-branch bypass or exception.
   Small Task Mode does not satisfy the PM requirement and therefore cannot use this normal multi-agent push gate unless the owner explicitly authorizes a valid exception path.
   After push, Leader must check CI/status required by the project. CI scope/full-run decisions follow project rules and may be triggered by Leader under those rules.
   PM + Advisor must review the actual push result before the flow is complete.
@@ -436,11 +437,11 @@ Controlled preauthorization window:
 Default exclusions unless owner explicitly names the exception:
 
 ```text
-Push to main/protected branch
+Protected-branch bypass or exception action
 Force-push or history rewrite
 Tag/release publication
 Deployment or public publication
-Credential/security/permission/authentication changes
+Credential/secret/security/permission/authentication changes
 Schema migration
 Destructive operation
 Irreversible external effect

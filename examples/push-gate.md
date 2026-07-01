@@ -45,7 +45,8 @@ Outgoing commit set:
 
 Target:
   Remote: origin
-  Branch: docs/v040-role-boundaries
+  Branch: main
+  Ref: origin/main
 
 Validation freshness:
   - Manual doc review rerun after final edits: yes
@@ -84,6 +85,7 @@ Advisor independently confirms:
 No unresolved P0/P1: yes
 Target clarity is sufficient: yes
 Applicable secret/credential scan passed: yes
+Normal push to origin/main does not require a protected-branch bypass or exception: yes
 No default exclusion or hidden external-effect expansion: yes
 Recommended next action: normal push may proceed
 ```
@@ -101,6 +103,7 @@ Reviewer required: no
 Target clear: yes
 Secret/credential scan clear: yes
 Push type: normal non-high-risk
+Target origin/main allowed by normal gate: yes
 Default exclusion present: no
 Decision: push may proceed under the normal PM plus Advisor gate
 ```
@@ -154,7 +157,7 @@ The normal push gate does not cover:
 
 ```text
 - Force-push or history rewrite
-- Protected-branch exceptions
+- Protected-branch bypass or exception actions
 - Tag or release publication
 - Deployment or public publication
 - Schema migration

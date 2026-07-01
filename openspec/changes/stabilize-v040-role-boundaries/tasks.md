@@ -24,6 +24,7 @@
 - [x] 3.5 Update `SKILL.md` git-exit wording to match the global rule for normal non-high-risk commit/push after PM plus Advisor consensus and required gates, with post-result PM plus Advisor review.
 - [x] 3.6 Confirm `SKILL.md` preserves explicit Owner approval for high-risk and default-exclusion actions.
 - [x] 3.7 Update `docs/TODO.md` checkboxes for completed role-boundary promotion work.
+- [x] 3.8 Clarify that normal push to `main` is allowed by the normal PM plus Advisor gate when all requirements pass and no protected-branch bypass or exception is needed.
 
 ## 4. Validation And Roadmap
 
@@ -40,6 +41,7 @@
 - [x] 5.4 Check git status and classify files as baseline documentation adoption versus v0.4.0 changes before any git gate.
 - [x] 5.5 Run PM plus Advisor review of the completed local diff.
 - [x] 5.6 If PM plus Advisor agree with no unresolved P0/P1 and no high-risk/default-exclusion action is present, proceed with normal commit under the global rule.
+- [x] 5.6a Validate that normal `origin/main` push is allowed by the normal gate and protected-branch bypass/exception still requires explicit Owner approval.
 - [ ] 5.7 After commit, run PM plus Advisor review of the actual commit result.
 - [ ] 5.8 If PM plus Advisor agree, required checks are fresh, target is clear, and applicable secret/credential scanning passes, proceed with normal push under the global rule.
 - [ ] 5.9 After push, check required status/CI evidence when available and run PM plus Advisor review of the actual push result before reporting completion.

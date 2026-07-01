@@ -36,7 +36,7 @@ The skill and examples SHALL state that Reviewer must not review its own impleme
 - **THEN** Reviewer is not required by default, while PM plus Advisor review and validation still apply
 
 ### Requirement: Normal git exits follow PM plus Advisor gate
-The skill and examples SHALL align with the global rule that normal non-high-risk commits and pushes may proceed after PM plus Advisor consensus, required Reviewer approval when applicable, fresh validation, clear target, and applicable secret or credential scanning before push.
+The skill and examples SHALL align with the global rule that normal non-high-risk commits and pushes may proceed after PM plus Advisor consensus, required Reviewer approval when applicable, fresh validation, clear target, and applicable secret or credential scanning before push. A normal push to `main` SHALL be eligible for this gate when it does not require a protected-branch bypass or exception.
 
 #### Scenario: Normal commit is ready
 - **WHEN** a normal non-high-risk commit-ready scope has PM plus Advisor agreement, no unresolved P0/P1, required validation is fresh, and required Reviewer approval has passed if applicable
@@ -46,11 +46,15 @@ The skill and examples SHALL align with the global rule that normal non-high-ris
 - **WHEN** a normal non-high-risk push-ready scope has PM plus Advisor agreement, no unresolved P0/P1, required validation is fresh, required Reviewer approval has passed if applicable, target remote and branch are clear, and applicable secret or credential scanning passes
 - **THEN** the push may proceed without asking Owner again, followed by CI/status checks when required and PM plus Advisor review of the actual push result
 
+#### Scenario: Normal push targets main
+- **WHEN** a normal non-high-risk push-ready scope targets `origin/main`, has PM plus Advisor agreement, no unresolved P0/P1, required validation is fresh, required Reviewer approval has passed if applicable, and applicable secret or credential scanning passes
+- **THEN** the push may proceed under the normal gate unless it requires a force-push, history rewrite, protected-branch bypass/exception action, or another high-risk/default-exclusion action
+
 ### Requirement: High-risk and default exclusions still require Owner
-The skill and examples SHALL preserve explicit Owner approval for force-push, history rewrite, protected-branch exceptions, tags/releases, deployment, schema migrations, credential or secret changes, security/auth/permission changes, destructive operations, irreversible external effects, and other high-risk actions.
+The skill and examples SHALL preserve explicit Owner approval for force-push, history rewrite, protected-branch bypass/exception actions, tags/releases, deployment, schema migrations, credential or secret changes, security/auth/permission changes, destructive operations, irreversible external effects, and other high-risk actions.
 
 #### Scenario: Push request includes a default exclusion
-- **WHEN** a requested git or external action includes a default exclusion such as force-push, release, deployment, protected-branch exception, credential change, schema migration, or security permission change
+- **WHEN** a requested git or external action includes a default exclusion such as force-push, release, deployment, protected-branch bypass/exception action, credential change, schema migration, or security permission change
 - **THEN** PM plus Advisor agreement is insufficient and explicit Owner approval is required
 
 ### Requirement: Validation checks prevent role and gate drift
