@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current planned upgrade: `v0.4.2` in local documentation. `v0.4.0` local stabilization and `v0.4.1` Advisor model diversity are complete, and the next documentation-first upgrade focuses on CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure. This is not a release, tag, push, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.2` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, and `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -79,6 +79,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; the active planned upgrade is `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete.
 
-`v0.4.2` remains a planned local documentation upgrade, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.2` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

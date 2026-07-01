@@ -1,5 +1,8 @@
-## ADDED Requirements
+# cli-trust-and-openspec-lifecycle Specification
 
+## Purpose
+Define the v0.4.2 requirements for CLI agent workspace trust, trusted Advisor context classification, PM/Advisor model separation, goal completion through applicable archive, and OpenSpec C0-C4 lifecycle closure.
+## Requirements
 ### Requirement: CLI agent workspace trust preflight
 The skill SHALL require the Leader to confirm a current-project workspace-trust preflight before relying on a CLI-based PM, Advisor, Worker, or Reviewer.
 
@@ -23,7 +26,7 @@ The skill SHALL require PM and Advisor to default to different AI models when mo
 
 #### Scenario: Only same-model PM and Advisor are available
 - **WHEN** the Leader cannot use different AI models for PM and Advisor
-- **THEN** the Leader MUST treat same-model PM/Advisor pairing as blocked or degraded and MUST NOT proceed automatically unless the Owner explicitly approves and the override is recorded
+- **THEN** the Leader MUST treat same-model PM/Advisor pairing as blocked and MUST NOT proceed unless the Owner explicitly approves and the override is recorded
 
 ### Requirement: Goal completion includes applicable archive
 The skill SHALL define Owner goal completion as all goal-related work through validation, git closeout, status review, and OpenSpec archive when applicable.

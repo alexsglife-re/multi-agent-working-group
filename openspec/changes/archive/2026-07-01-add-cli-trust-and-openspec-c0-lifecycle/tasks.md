@@ -22,6 +22,6 @@
 ## 4. Verification And Closeout
 
 - [x] 4.1 Run OpenSpec validation and documentation checks.
-- [ ] 4.2 Complete PM and different-model Advisor review.
-- [ ] 4.3 Commit and push the v0.4.2 change when the normal gate passes.
-- [ ] 4.4 Archive the OpenSpec change, validate, commit, push, and complete post-push review.
+- [x] 4.2 Complete PM and different-model Advisor review.
+- [x] 4.3 Commit and push the v0.4.2 change when the normal gate passes.
+- [x] 4.4 Archive the OpenSpec change, validate, commit, push, and complete post-push review.

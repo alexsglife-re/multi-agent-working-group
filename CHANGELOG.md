@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Planned for v0.4.2
+### Completed local upgrade for v0.4.2
 
 - Add CLI agent workspace-trust preflight rules for Claude CLI, Codex CLI, and similar role agents.
 - Clarify that an Owner-specified Advisor is a trusted bounded collaboration role for the current workstream, not an ordinary third-party service.

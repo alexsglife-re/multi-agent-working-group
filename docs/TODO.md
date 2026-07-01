@@ -83,7 +83,7 @@ Goal: make CLI-based role agents, trusted Advisor context, PM/Advisor model sepa
 
 - [x] Create `add-cli-trust-and-openspec-c0-lifecycle` OpenSpec change.
 - [x] Add proposal, design, spec, and tasks artifacts.
-- [ ] Validate and archive the OpenSpec change after implementation and git closeout.
+- [x] Validate and archive the OpenSpec change after implementation and git closeout.
 
 ### Skill Rules
 
@@ -100,7 +100,7 @@ Goal: make CLI-based role agents, trusted Advisor context, PM/Advisor model sepa
 - [x] Add an OpenSpec C0-C4 lifecycle example.
 - [x] Sync the updated `SKILL.md` to the global installed skill.
 - [x] Run OpenSpec validation and documentation checks.
-- [ ] Complete PM plus different-model Advisor review before commit, after commit, before push, and after push.
+- [x] Complete PM plus different-model Advisor review before commit, after commit, before push, and after push.
 
 ## Later
 

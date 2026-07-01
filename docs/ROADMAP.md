@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization and `v0.4.1` Advisor model diversity are complete; `v0.4.2` is the current planned follow-up for CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure.
+`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, and `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -89,4 +89,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Complete the `v0.4.2` CLI trust and OpenSpec lifecycle pass: keep `SKILL.md`, README, changelog, TODO, roadmap, validation, examples, and OpenSpec wording consistent around current-project CLI workspace trust, trusted Advisor context, PM/Advisor model separation, C0 goal analysis, completion through C4 archive, and recorded blockers when a required role cannot proceed.
+Decide the next version target after `v0.4.2`: likely candidates are lightweight local validation tooling, more copyable role-output templates, or packaging/install guidance. Keep automation out of scope until the manual workflow remains stable across more real tasks.
