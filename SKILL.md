@@ -50,6 +50,7 @@ Before dispatching agents:
 5. Record the owner authorization state; default to no commit/push authorization.
 6. When an owner decision is needed, plan to explain it in plain, non-specialist language: what was done, what the decision affects, and why the decision is needed. For commit/push decisions, describe what the stage completed without extra impact analysis unless the owner asks.
 7. Once the owner gives a work goal, keep progressing until the goal is complete by default, unless an owner decision, explicit authorization, risk gate, failed validation, unresolved P0/P1, unavailable required reviewer/advisor, or irreversible external-effect gate requires stopping. Do not use progress pressure to downgrade risk/scope classification, skip the project's spec workflow, enter Small Task Mode, or bypass gates.
+8. For workstreams that use this skill together with OpenSpec, start with C0 Goal Analysis before creating or applying OpenSpec artifacts. Record the owner goal, risk, active changes, required skills, model routing, CLI agent workspace-trust needs, Advisor trust/model state, and whether completion includes archive.
 
 Small Task Mode:
 
@@ -100,8 +101,46 @@ Startup:
 
 Trust and bounds:
   When the Owner explicitly assigns Claude or another model/tool as Advisor, treat that Advisor as a trusted Advisor role for necessary bounded project/task context, not as an ordinary third-party disclosure.
+  The main AI Agent App must not treat an Owner-specified Advisor as an ordinary external third-party service for the current workstream. Necessary bounded task context may be sent to the Advisor role.
   This does not authorize secrets, credentials, unrelated projects, broad context dumps, or irrelevant data unless the Owner explicitly names that scope.
   Model diversity reinforces critique diversity only; it does not replace no-peek independence, PM/Advisor consensus, Leader verification, Reviewer requirements, validation, or unresolved P0/P1 stop conditions.
+```
+
+PM/Advisor model separation:
+
+```text
+Default:
+  PM and Advisor default to different AI models when model selection is available.
+  Prefer different provider or model family separation when practical.
+  The Leader must record PM model/provider, Advisor model/provider, separation status, and any override or degradation reason when the workstream uses both roles.
+
+Same-model pairing:
+  The Leader must not automatically degrade PM and Advisor to the same AI model.
+  Same-model PM/Advisor pairing requires explicit Owner approval and must be recorded as a same-model PM/Advisor override.
+  If PM/Advisor model separation is unavailable and the Owner has not approved same-model pairing, commit/push-bound, OpenSpec-backed, small, medium, complex, high-risk, code, permission/API/database/architecture, or security work fails closed.
+  Do not claim PM/Advisor independence was strengthened by model diversity when same-model pairing was used.
+```
+
+CLI agent workspace trust:
+
+```text
+Applies when Claude CLI, Codex CLI, or another CLI-based agent is assigned as PM, Advisor, Worker, Reviewer, or another role.
+
+Preflight:
+  Before relying on a CLI agent, confirm it can read the exact current project workspace under the intended role.
+  A minimal read-only probe is enough when available, such as asking the CLI agent to identify the project path or inspect a non-sensitive project file.
+  If the CLI reports an untrusted workspace, blocked project, or similar trust prompt, record `workspace-trust-blocked`.
+
+Trust setup:
+  For an Owner-assigned CLI agent in the current project, trusting the exact current project workspace is a normal setup step for that role.
+  The Leader must confirm or report the trust step rather than silently running trust commands or bypassing the CLI's trust prompt.
+  Keep trust scoped to the current project workspace only.
+  Do not trust unrelated directories, broaden file access, expose secrets, or change global tool policy unless the Owner explicitly approves that wider action.
+  After trust setup, rerun a minimal read-only probe before using the CLI agent's output as evidence.
+
+Failure:
+  Do not mark the role unavailable, silently switch models, reuse stale Advisor output, or degrade PM/Advisor separation merely because workspace trust is blocked.
+  Stop at the applicable gate and report what trust step is needed in plain language.
 ```
 
 Agent lifecycle:
@@ -152,6 +191,46 @@ Label later consensus as restarted continuity or degraded continuity, not uninte
 For git-specific stages, keep the relevant Advisor available across the pre-commit review, commit execution, post-commit review, push authorization request, push execution, CI check, and post-push/CI review when the work stays within the same stage.
 
 If the owner explicitly assigns roles differently, for example Claude Code CLI as PM/Worker and Codex as Advisor, honor that assignment while preserving all boundaries and gates.
+
+Goal completion:
+
+```text
+When the Owner asks the Leader to complete a goal, treat completion as all goal-related work through the normal closeout path:
+  required validation,
+  required PM/Advisor/Reviewer review,
+  commit when covered by the applicable gate,
+  push when covered by the applicable gate,
+  status or CI check when available or required,
+  post-commit and post-push PM/Advisor review,
+  OpenSpec archive and archive validation when the goal is OpenSpec-backed.
+
+Stop before full completion only for an Owner decision, explicit authorization need, failed validation, unresolved P0/P1, missing required role, workspace-trust blocker, high-risk/default-exclusion gate, tool failure that cannot be safely retried, or another concrete blocker.
+Do not stop merely because implementation, validation, commit, push, or C3 closeout finished if C4/archive still belongs to the same goal.
+```
+
+OpenSpec lifecycle integration:
+
+```text
+Use this sequence whenever this skill and OpenSpec are both active for a workstream:
+
+C0 Goal Analysis:
+  Confirm owner goal, current task, active OpenSpec changes, risk tier, applicable skills, PM/Advisor model routing, PM/Advisor model separation, CLI agent workspace-trust needs, Advisor trusted-context boundary, git state, validation expectations, and completion target including archive.
+
+C1 Proposal:
+  Create or update proposal, design when needed, spec deltas, and tasks.
+  PM and Advisor review scope before implementation.
+
+C2 Implementation:
+  Make the documentation or code changes, run required validation, and keep tasks current.
+
+C3 Closeout:
+  Complete required review, commit, push, status or CI checks, and post-push review when the applicable gates pass.
+
+C4 Archive:
+  Archive the OpenSpec change, validate the archived spec state, commit and push the archive when the applicable gates pass, and complete post-push review.
+
+Do not skip C0, and do not treat C3 as final completion when C4 applies.
+```
 
 ## Leader Context Control
 
@@ -262,9 +341,13 @@ Scope / non-goals
 Current owner instruction
 Owner authorization state, default no commit/push
 Spec-workflow state
+OpenSpec C-stage and C0 analysis summary, if applicable
 Git branch / commit / dirty state, if relevant
 Risk tier and risk notes
+PM model/provider and PM/Advisor model separation status, if relevant
 Advisor model/provider and model diversity status, if relevant
+CLI agent workspace-trust status, if relevant
+Goal completion target, including whether archive is required
 Applicable skills or checklist requirement
 Evidence provided and evidence hierarchy
 Readable context
@@ -484,8 +567,11 @@ Completed and incomplete work
 PM/Advisor consensus, if any
 Unresolved disagreements
 Spec-workflow state
+OpenSpec C-stage and archive requirement, if applicable
 Git branch / commit / dirty state
+PM model/provider and PM/Advisor model separation status
 Advisor model/provider and model diversity status
+CLI agent workspace-trust status
 Changed and do-not-touch files
 Validation run and not run
 Risk level

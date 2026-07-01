@@ -61,6 +61,24 @@ Run these checks for the `v0.4.1` Advisor model-diversity set: `README.md`, `CHA
 - Trusted Advisor context still excludes secrets, credentials, unrelated projects, broad context dumps, and irrelevant data unless explicitly authorized.
 - Model diversity is not described as a correctness guarantee, automatic approval, gate bypass, or replacement for PM/Advisor independence, Leader verification, Reviewer requirements, validation, or unresolved P0/P1 stop conditions.
 
+## v0.4.2 CLI Trust And OpenSpec Lifecycle Checks
+
+Run these checks for the `v0.4.2` CLI trust and OpenSpec lifecycle set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, examples, and the OpenSpec change.
+
+- CLI-based PM, Advisor, Worker, or Reviewer roles require current-project workspace-trust preflight before their output is relied on.
+- Workspace trust is scoped to the exact current project workspace and does not authorize unrelated directories, secrets, global policy changes, or broader file access.
+- A workspace-trust failure is recorded as `workspace-trust-blocked` and does not silently become role unavailability, same-model degradation, stale-output reuse, or model switching.
+- An Owner-specified Advisor is treated as a trusted bounded collaboration role for the current workstream, not as an ordinary third-party service.
+- Trusted Advisor context still excludes secrets, credentials, unrelated projects, broad context dumps, and irrelevant data unless explicitly authorized.
+- PM and Advisor default to different AI models when model selection is available.
+- Same-model PM/Advisor pairing requires explicit Owner approval and is recorded as an override.
+- Missing PM/Advisor model separation fails closed for commit/push-bound, OpenSpec-backed, small, medium, complex, high-risk, code, permission/API/database/architecture, or security work unless the Owner explicitly approves degradation.
+- Owner goal completion includes validation, applicable commit/push/status checks, post-result PM plus Advisor review, and OpenSpec archive when archive belongs to the goal.
+- OpenSpec-backed work using this skill starts at C0 Goal Analysis before C1 proposal work.
+- C0 records owner goal, risk, active OpenSpec changes, applicable skills, PM/Advisor model routing and separation, CLI workspace-trust needs, Advisor trust/model state, git state, validation expectations, and archive requirement.
+- C3 closeout is not described as final completion when C4 archive applies.
+- The new example demonstrates blocked/degraded behavior without adding automation or weakening existing gates.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -73,7 +91,11 @@ Run these checks whenever `SKILL.md` changes.
 - Advisor output remains unverified until the Leader checks current evidence.
 - PM and Advisor independence requirements remain clear.
 - Advisor model/provider and diversity status are recorded when relevant.
+- PM model/provider and PM/Advisor model separation status are recorded when relevant.
+- CLI agent workspace-trust status is recorded when relevant.
+- OpenSpec C-stage and C0 analysis are recorded when relevant.
 - Same-model Advisor overrides and model-diversity degradation are explicit when they occur.
+- Same-model PM/Advisor overrides and PM/Advisor model-separation degradation are explicit when they occur.
 - Worker scope remains narrow and explicitly bounded.
 - Reviewer does not review their own implementation.
 - Leader direct execution remains narrow, explicitly labeled, and does not become hidden Worker execution.
@@ -84,6 +106,7 @@ Run these checks whenever `SKILL.md` changes.
 - A normal push whose target branch is `main` is allowed by the normal gate by itself; protected-branch bypass/exception actions still require explicit Owner approval.
 - Default exclusions still include protected-branch bypass/exception actions, force-push, releases, credentials, security/auth changes, schema migrations, destructive actions, and irreversible external effects.
 - Handoff remains continuity evidence, not authorization.
+- Goal completion through C4 archive is explicit for OpenSpec-backed goals when archive applies.
 
 ## Agent Metadata Checks
 
@@ -99,6 +122,10 @@ Run these checks whenever `agents/openai.yaml` changes.
 - No secrets, credentials, tokens, private keys, or local machine-specific private paths were added.
 - Documentation does not authorize broader advisor access than `SKILL.md`.
 - Documentation does not imply that Advisor model diversity expands context sharing, authorizes secrets, or proves correctness.
+- Documentation does not imply that trusted Advisor context authorizes secrets, unrelated projects, broad dumps, or irrelevant data.
+- Documentation does not imply that CLI workspace trust can be applied globally or to unrelated directories by default.
+- Documentation does not imply that PM/Advisor same-model pairing can happen silently.
+- Documentation does not imply that an OpenSpec-backed goal is complete before archive when archive applies.
 - Documentation does not imply that CI, tests, secret scanning, or reviewer gates can be skipped.
 - Documentation does not imply that Reviewer is required for small low-risk tasks.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.

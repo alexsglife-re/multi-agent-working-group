@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization complete; `v0.4.1` is the current planned follow-up for Advisor model diversity.
+`v0.4.0` local stabilization and `v0.4.1` Advisor model diversity are complete; `v0.4.2` is the current planned follow-up for CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -32,6 +32,7 @@ Goal: make the workflow easier to apply consistently.
 - Document when Small Task Mode is appropriate and when the stricter workflow is required.
 - Document Leader direct execution boundaries before promoting them into `SKILL.md`.
 - Add a short guide for restarting continuity after a context rollover or new conversation.
+- Add an example for OpenSpec C0-C4 workstreams, including CLI workspace trust, PM/Advisor model separation, goal completion, and archive closure.
 
 Exit criteria:
 
@@ -39,7 +40,8 @@ Exit criteria:
 - The examples demonstrate both normal flow and blocked/degraded flow.
 - Commit and push examples clearly separate normal non-high-risk PM plus Advisor gates from explicit Owner approval gates for high-risk and default-exclusion actions.
 - Validation docs confirm Small Task Mode, Leader direct execution, Reviewer independence, English-only docs, and reference-source automation boundaries.
-- Advisor model-diversity rules are documented as a v0.4.1 follow-up without adding automation.
+- Advisor model-diversity rules are documented as a completed v0.4.1 follow-up without adding automation.
+- CLI workspace-trust and OpenSpec C0-C4 lifecycle rules are documented as a v0.4.2 follow-up without adding automation.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -87,4 +89,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Complete the `v0.4.1` Advisor model-diversity pass: keep `SKILL.md`, README, changelog, TODO, roadmap, validation, and OpenSpec wording consistent around different-model Advisor defaults, explicit same-model Owner overrides, bounded trusted-Advisor context, and recorded degradation when a different model is unavailable.
+Complete the `v0.4.2` CLI trust and OpenSpec lifecycle pass: keep `SKILL.md`, README, changelog, TODO, roadmap, validation, examples, and OpenSpec wording consistent around current-project CLI workspace trust, trusted Advisor context, PM/Advisor model separation, C0 goal analysis, completion through C4 archive, and recorded blockers when a required role cannot proceed.

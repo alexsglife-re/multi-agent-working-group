@@ -6,7 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Planned for v0.4.1
+### Planned for v0.4.2
+
+- Add CLI agent workspace-trust preflight rules for Claude CLI, Codex CLI, and similar role agents.
+- Clarify that an Owner-specified Advisor is a trusted bounded collaboration role for the current workstream, not an ordinary third-party service.
+- Require PM and Advisor to use different AI models by default, without silent same-model degradation unless the Owner explicitly approves it.
+- Add OpenSpec C0 goal/task analysis before C1 proposal work and require C4 archive when archive belongs to the goal.
+
+### Completed local upgrade for v0.4.1
 
 - Add Advisor model-diversity defaults so Advisor uses a different AI model by default when model selection is available.
 - Require Leader to ask for and record Advisor model/provider when no project, session, continuity, or handoff record exists.

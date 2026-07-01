@@ -75,6 +75,33 @@ Goal: make Advisor independence stronger by defaulting Advisor to a different AI
 - [x] Confirm single-model environments are recorded as degradation rather than silently treated as model diversity.
 - [x] Confirm model diversity is not described as a correctness guarantee or gate bypass.
 
+## v0.4.2: CLI Trust And OpenSpec Lifecycle Closure
+
+Goal: make CLI-based role agents, trusted Advisor context, PM/Advisor model separation, goal completion, and OpenSpec C0-C4 closure explicit before adding any automation.
+
+### OpenSpec
+
+- [x] Create `add-cli-trust-and-openspec-c0-lifecycle` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [ ] Validate and archive the OpenSpec change after implementation and git closeout.
+
+### Skill Rules
+
+- [x] Add CLI agent workspace-trust preflight rules to `SKILL.md`.
+- [x] Clarify that an Owner-specified Advisor is a trusted bounded collaboration role, not an ordinary third-party service.
+- [x] Require PM and Advisor to default to different AI models when model selection is available.
+- [x] Block silent PM/Advisor same-model degradation unless the Owner explicitly approves and the override is recorded.
+- [x] Define Owner goal completion as including applicable validation, commit, push, status review, post-result review, and OpenSpec archive.
+- [x] Add OpenSpec C0 goal/task analysis before C1 proposal work when this skill and OpenSpec are used together.
+
+### Documentation And Validation
+
+- [x] Update README, changelog, roadmap, TODO, and validation docs for v0.4.2.
+- [x] Add an OpenSpec C0-C4 lifecycle example.
+- [x] Sync the updated `SKILL.md` to the global installed skill.
+- [x] Run OpenSpec validation and documentation checks.
+- [ ] Complete PM plus different-model Advisor review before commit, after commit, before push, and after push.
+
 ## Later
 
 - [ ] Add lightweight local validation tooling.
