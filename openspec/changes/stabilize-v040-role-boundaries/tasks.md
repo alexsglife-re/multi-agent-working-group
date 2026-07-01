@@ -42,6 +42,6 @@
 - [x] 5.5 Run PM plus Advisor review of the completed local diff.
 - [x] 5.6 If PM plus Advisor agree with no unresolved P0/P1 and no high-risk/default-exclusion action is present, proceed with normal commit under the global rule.
 - [x] 5.6a Validate that normal `origin/main` push is allowed by the normal gate and protected-branch bypass/exception still requires explicit Owner approval.
-- [ ] 5.7 After commit, run PM plus Advisor review of the actual commit result.
-- [ ] 5.8 If PM plus Advisor agree, required checks are fresh, target is clear, and applicable secret/credential scanning passes, proceed with normal push under the global rule.
-- [ ] 5.9 After push, check required status/CI evidence when available and run PM plus Advisor review of the actual push result before reporting completion.
+- [x] 5.7 After commit, run PM plus Advisor review of the actual commit result.
+- [x] 5.8 If PM plus Advisor agree, required checks are fresh, target is clear, and applicable secret/credential scanning passes, proceed with normal push under the global rule.
+- [x] 5.9 After push, check required status/CI evidence when available and run PM plus Advisor review of the actual push result before reporting completion.
