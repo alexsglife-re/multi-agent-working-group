@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.3` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, and `v0.4.3` Leader state compaction are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.4` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, and `v0.4.4` lightweight local validation tooling are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -17,6 +17,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Making commit and push gates explicit.
 - Preserving continuity across long-running or spec-bound work.
 - Keeping Leader handoff and continuity state compact with current state cards, evidence indexes, and historical archive notes.
+- Running a lightweight local validation command before commit or push.
 - Recording enough evidence for a future agent or conversation to safely resume.
 
 ## What This Skill Does Not Do
@@ -39,6 +40,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 | `docs/VALIDATION.md` | Checklist for reviewing changes before publication. |
 | `examples/` | Copyable workflow examples, including blocked, git-gate, and OpenSpec C0-C4 scenarios. |
 | `openspec/` | OpenSpec changes, archived changes, and accepted specs. |
+| `scripts/validate-local.sh` | Lightweight read-only local validation command for repo docs, OpenSpec, and installed skill sync. |
 
 ## Using The Skill
 
@@ -60,6 +62,22 @@ When this skill is used with OpenSpec, each workstream starts with C0 goal/task 
 
 For long-running or spec-bound work, active Leader handoff state should be refreshed into a compact current state card. Longer logs, old handoffs, full diffs, and completed-stage narrative should be summarized and referenced through an evidence index or historical archive note when safe local evidence storage exists.
 
+## Local Validation
+
+Run the local validation command before normal commit or push gates:
+
+```sh
+./scripts/validate-local.sh
+```
+
+After an OpenSpec-backed change is archived, use closeout mode:
+
+```sh
+./scripts/validate-local.sh --require-no-active-changes
+```
+
+The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, and the installed global skill copy when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, or git gate requirements.
+
 ## Development Principles
 
 - Keep the skill readable before making it comprehensive.
@@ -68,7 +86,7 @@ For long-running or spec-bound work, active Leader handoff state should be refre
 - Add examples before adding more rules when examples would reduce ambiguity.
 - Treat continuity files, handoffs, and previous agent output as evidence, not authority.
 - Refresh long active handoffs around current verifiable state instead of appending old handoff text indefinitely.
-- Avoid adding automation until the manual workflow has been tested on real tasks.
+- Keep local validation lightweight and read-only until heavier automation is explicitly accepted.
 - Keep Leader direct execution narrow and visible; use `docs/ROLE_BOUNDARIES.md` before promoting new role rules into `SKILL.md`.
 
 ## Validation
@@ -83,6 +101,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete.
 
-`v0.4.3` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.4` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

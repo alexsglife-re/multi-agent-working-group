@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.4
+
+- Add `scripts/validate-local.sh` as a lightweight read-only local validation command.
+- Check `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, OpenSpec validation, active-change state, and installed global skill sync.
+- Add closeout mode for requiring no active OpenSpec changes after archive.
+- Document that the local command does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, or git gates.
+
 ### Completed local upgrade for v0.4.3
 
 - Add Leader state compaction rules using a current state card, evidence index, and historical archive notes.

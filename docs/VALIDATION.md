@@ -2,6 +2,22 @@
 
 Use this checklist before accepting changes to this repository. It is intentionally lightweight so it can be run manually during early development.
 
+## Local Command
+
+Run the lightweight local validation command before normal commit or push gates:
+
+```sh
+./scripts/validate-local.sh
+```
+
+After archiving an OpenSpec-backed change, run closeout mode:
+
+```sh
+./scripts/validate-local.sh --require-no-active-changes
+```
+
+The command is read-only and no-network. It does not replace PM, Advisor, Reviewer, OpenSpec archive, secret scanning, or git gate requirements.
+
 ## Baseline Checks
 
 - Confirm the working tree state before editing:
@@ -93,6 +109,18 @@ Run these checks for the `v0.4.3` Leader state compaction set: `README.md`, `CHA
 - Compaction does not remove PM/Advisor reasoning, Worker results, findings, recommendations, objections, key error details, owner-decision needs, validation status, or required review evidence.
 - Reference-source influence from ClawTeam/OpenClaw remains rule-level only: layered state, task/status summaries, evidence references, and board-style overview concepts are allowed; runtime state stores, inbox automation, dashboards, automatic spawning, subprocess orchestration, and worktree automation remain out of scope.
 
+## v0.4.4 Lightweight Local Validation Checks
+
+Run these checks for the `v0.4.4` local validation set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- The local validation command is read-only and no-network.
+- The local validation command reports failures without modifying files automatically.
+- The default mode can run during an active OpenSpec change and reports active changes as informational.
+- The closeout mode fails when active OpenSpec changes remain.
+- The command checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, and installed global skill sync when the global skill file exists.
+- The command does not claim to replace PM, Advisor, Reviewer, Leader verification, OpenSpec archive, secret scanning, CI/status checks, or git gates.
+- Documentation does not describe local validation as CI, packaging automation, release automation, or automatic repair.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -109,6 +137,7 @@ Run these checks whenever `SKILL.md` changes.
 - CLI agent workspace-trust status is recorded when relevant.
 - OpenSpec C-stage and C0 analysis are recorded when relevant.
 - Leader state compaction preserves active current-state cards, evidence indexes, and archived history boundaries when long handoff or continuity state is involved.
+- Local validation command output is recorded when it is relevant to commit, push, or closeout gates.
 - Same-model Advisor overrides and model-diversity degradation are explicit when they occur.
 - Same-model PM/Advisor overrides and PM/Advisor model-separation degradation are explicit when they occur.
 - Worker scope remains narrow and explicitly bounded.
@@ -143,6 +172,7 @@ Run these checks whenever `agents/openai.yaml` changes.
 - Documentation does not imply that an OpenSpec-backed goal is complete before archive when archive applies.
 - Documentation does not imply that compacting handoff state permits dropping unresolved P0/P1, validation freshness, PM/Advisor findings, owner-decision needs, or git authorization state.
 - Documentation does not imply that old handoffs, archive notes, summaries, or evidence indexes are authority for current action.
+- Documentation does not imply that local validation authorizes commit, push, archive, release, deployment, external publication, CI bypass, secret-scan bypass, or reviewer-gate bypass.
 - Documentation does not imply that CI, tests, secret scanning, or reviewer gates can be skipped.
 - Documentation does not imply that Reviewer is required for small low-risk tasks.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.
@@ -158,10 +188,9 @@ Run these checks whenever `agents/openai.yaml` changes.
 
 ## Future Automated Checks
 
-The project may later add a local validation command. Good first candidates:
+The project may later expand the local validation command. Good next candidates:
 
 - Markdown link checks for local files.
 - YAML parsing for `agents/openai.yaml`.
-- Frontmatter parsing for `SKILL.md`.
 - Required-section checks for `SKILL.md`.
 - Secret-pattern scanning over outgoing diffs before push.

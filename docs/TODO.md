@@ -125,9 +125,32 @@ Goal: keep Leader handoff and continuity documents compact by separating current
 - [x] Run OpenSpec validation and documentation checks.
 - [x] Complete PM plus different-model Advisor review before archive and git closeout.
 
+## v0.4.4: Lightweight Local Validation Tooling
+
+Goal: make the repeated README, SKILL, OpenSpec, version-marker, and installed-skill sync checks runnable through one local read-only command.
+
+### OpenSpec
+
+- [x] Create `add-local-validation-tool` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Validate and archive the OpenSpec change after implementation and review.
+
+### Local Tooling
+
+- [x] Add `scripts/validate-local.sh`.
+- [x] Keep the command read-only and no-network.
+- [x] Support normal active-change validation and closeout validation requiring no active OpenSpec changes.
+- [x] Check `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, OpenSpec validation, and installed global skill sync.
+
+### Documentation And Validation
+
+- [x] Update README, changelog, roadmap, TODO, validation docs, and `SKILL.md` for v0.4.4.
+- [x] Run the local validation command.
+- [x] Run OpenSpec validation and documentation checks.
+- [x] Complete PM plus different-model Advisor review before archive and git closeout.
+
 ## Later
 
-- [ ] Add lightweight local validation tooling.
 - [ ] Add installation and packaging guidance.
 - [ ] Add license and public reuse decision if this becomes a reusable public skill package.
 - [ ] Consider CI only after the manual workflow is stable.

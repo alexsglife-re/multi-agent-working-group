@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, and `v0.4.3` Leader state compaction are complete.
+`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, and `v0.4.4` lightweight local validation tooling are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -44,17 +44,20 @@ Exit criteria:
 - Advisor model-diversity rules are documented as a completed v0.4.1 follow-up without adding automation.
 - CLI workspace-trust and OpenSpec C0-C4 lifecycle rules are documented as a v0.4.2 follow-up without adding automation.
 - Leader state compaction rules are documented as a v0.4.3 follow-up without adding automation.
+- Lightweight local validation tooling is documented as a completed v0.4.4 follow-up without adding CI, release automation, or automatic repair.
 
 ## Stage 3: Lightweight Validation Tooling
 
 Goal: catch accidental documentation and packaging regressions before publication.
 
-Status: future work. No local validation command, CI validation, packaging check, or automation is available yet.
+Status: partially complete. A lightweight local validation command exists for docs, OpenSpec, version markers, and installed skill sync. CI validation, packaging checks, release automation, and automatic repair are not available.
 
 - Add a simple local validation command or script.
 - Check `SKILL.md` frontmatter shape.
-- Check required major sections are present.
-- Check internal links from README and docs.
+- Check required current version markers.
+- Check accepted OpenSpec specs and `openspec validate --all`.
+- Check installed global skill sync when the global skill file exists.
+- Consider internal link checks for README and docs.
 - Consider a lightweight spelling or markdown consistency check if it stays low-friction.
 
 Exit criteria:
@@ -91,4 +94,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Decide the next version target after `v0.4.3`: likely candidates are lightweight local validation tooling, more copyable role-output templates, or packaging/install guidance. Keep automation out of scope until the manual workflow remains stable across more real tasks.
+Decide the next version target after `v0.4.4`: likely candidates are more copyable role-output templates or packaging/install guidance. Keep heavier automation out of scope until the lightweight local command remains stable across more real tasks.

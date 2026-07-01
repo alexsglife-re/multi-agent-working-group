@@ -504,6 +504,23 @@ Before dispatch, acceptance, repair, commit, or push:
 7. Label key claims as verified, inferred, assumed, or unverified advisor input.
 8. Stop at any unresolved P0/P1.
 
+Local validation:
+
+```text
+For this repository, v0.4.4 adds `./scripts/validate-local.sh` as the lightweight local
+validation command for README/SKILL/OpenSpec/version-marker/installed-skill
+checks. Use it when local repository validation is relevant to commit, push,
+or OpenSpec closeout.
+
+During active OpenSpec work, the default command may report active changes as
+informational. After archive, use `./scripts/validate-local.sh
+--require-no-active-changes` when validating closeout.
+
+The command is read-only evidence only. It does not authorize commit, push,
+archive, release, deployment, external publication, secret-scan bypass,
+Reviewer bypass, PM/Advisor bypass, or any high-risk/default-exclusion action.
+```
+
 If owner escalation is required and owner does not respond, enter `blocked-pending-owner`. Do not silently degrade.
 
 ## Failure Rules
