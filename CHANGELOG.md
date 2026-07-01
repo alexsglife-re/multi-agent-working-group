@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.3
+
+- Add Leader state compaction rules using a current state card, evidence index, and historical archive notes.
+- Require long active handoffs and ledgers to be refreshed around current verifiable state instead of becoming append-only transcripts.
+- Add a compact handoff example that preserves gates, validation freshness, PM/Advisor continuity, unresolved findings, and evidence references.
+- Add validation checks for handoff bloat controls while keeping reference-source influence rule-level only.
+
 ### Completed local upgrade for v0.4.2
 
 - Add CLI agent workspace-trust preflight rules for Claude CLI, Codex CLI, and similar role agents.

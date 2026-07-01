@@ -236,6 +236,37 @@ Do not skip C0, and do not treat C3 as final completion when C4 applies.
 
 For long-running or spec-bound work, the Leader should treat context size as an explicit state to manage. Project rules may provide a named protocol such as `Leader Context Control V0.3`; when present, follow that stricter project protocol.
 
+Leader state compaction:
+
+```text
+For long-running, spec-bound, or cross-conversation work, active Leader state should be layered:
+
+Current state card:
+  The single active takeover entry point. It records the compact current truth:
+  owner instruction, current goal, scope and non-goals, stage or C-stage,
+  archive requirement, gate state, PM/Advisor/Reviewer continuity, unresolved
+  disagreements and P0/P1, validation run and not run, validation freshness,
+  changed and do-not-touch files, next action, stop conditions, and commit/push
+  authorization state.
+
+Evidence index:
+  Claim-indexed pointers to the evidence behind the current state. Each key
+  claim should map to the evidence type, evidence location or command, freshness
+  or current/stale status, and whether Leader has verified it. Evidence may
+  include validation commands and results, diffs or file lists, commits,
+  PM/Advisor/Reviewer outputs, Worker returns, decision records, old handoffs,
+  and archived notes.
+
+Historical archive notes:
+  Completed stage detail, superseded handoff narrative, long logs, full command
+  output, complete diffs, and old agent outputs that should remain reachable but
+  should not stay in the active handoff body.
+```
+
+Active handoff or ledger updates should be refreshed around the current state card rather than maintained as append-only narrative. The current state card must not push required gate facts into "see evidence index"; the index explains why the current state is believed, but the state card remains the entry point for current action. When an old handoff is used, summarize the verified current truth and reference the old handoff as evidence instead of copying it forward verbatim.
+
+Compaction must not remove unresolved P0/P1, owner-decision needs, PM/Advisor/Reviewer findings, validation freshness, changed and do-not-touch files, stop conditions, or git authorization state. It also must not convert old handoffs, archive notes, summaries, or evidence indexes into authority for commit, push, scope expansion, gate bypass, or external effects.
+
 Generic ContextBudget states:
 
 ```text
@@ -401,6 +432,8 @@ Workstream continuity file:
 
 These files are continuity aids, not authority. Reading a continuity file does not make a restarted agent the same uninterrupted agent. Old consensus, handoffs, and continuity files remain evidence for Leader verification, not authorization for commit, push, scope expansion, or bypassing current gates.
 
+When a continuity file or handoff grows large, refresh it into the three-layer compaction structure above. Keep the active state card short and current, move completed or superseded detail to a historical archive note when a safe local storage location exists, and leave evidence references that a successor can re-verify.
+
 Worker additions:
 
 ```text
@@ -426,6 +459,9 @@ Full diffs
 Large source excerpts
 Repeated check output
 Long external excerpts
+Superseded handoff text
+Completed stage narrative
+Full agent outputs that are no longer active blockers
 ```
 
 This evidence limiting must not remove PM/Advisor reasoning, Worker results, findings, recommendations, objections, or key error details.
@@ -579,6 +615,8 @@ Next recommended action
 Stop conditions
 Commit/push authorization state, default no
 ```
+
+For long-running or spec-bound work, the handoff packet should be the current state card, not an append-only transcript. If more detail is needed, add an evidence index with claim-to-evidence mappings, paths, commands, commits, freshness status, verification status, or archive-note references. Old handoffs may be listed as evidence, but their text should not be repeatedly copied into the active packet unless a narrow excerpt is required to explain an unresolved blocker.
 
 New conversations must re-read project instructions, memory, handoff material, git/spec/current evidence, and restart PM + Advisor continuity review when available.
 

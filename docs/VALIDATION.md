@@ -79,6 +79,20 @@ Run these checks for the `v0.4.2` CLI trust and OpenSpec lifecycle set: `README.
 - C3 closeout is not described as final completion when C4 archive applies.
 - The new example demonstrates blocked/degraded behavior without adding automation or weakening existing gates.
 
+## v0.4.3 Leader State Compaction Checks
+
+Run these checks for the `v0.4.3` Leader state compaction set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, examples, and the OpenSpec change.
+
+- Long-running or spec-bound Leader state uses a current state card, evidence index, and historical archive notes.
+- The current state card is the single active takeover entry point and does not hide required gate facts behind "see evidence index".
+- Active handoff or ledger updates are refreshed around current verifiable state instead of repeatedly appending old handoff text.
+- Evidence indexes map each key claim to evidence type, evidence location or command, freshness/currentness status, and Leader verification status.
+- Old handoffs, archived notes, summaries, and evidence indexes remain evidence only and are not described as authorization for commit, push, scope expansion, gate bypass, or external effects.
+- Compact handoffs still preserve current goal, stage or C-stage, gate state, PM/Advisor/Reviewer continuity, unresolved P0/P1, validation freshness, changed and do-not-touch files, next action, stop conditions, and commit/push authorization state.
+- Bulky raw material is summarized and referenced when safe local evidence storage exists, including long logs, full command output, full diffs, repeated check output, completed stage narrative, and superseded handoff text.
+- Compaction does not remove PM/Advisor reasoning, Worker results, findings, recommendations, objections, key error details, owner-decision needs, validation status, or required review evidence.
+- Reference-source influence from ClawTeam/OpenClaw remains rule-level only: layered state, task/status summaries, evidence references, and board-style overview concepts are allowed; runtime state stores, inbox automation, dashboards, automatic spawning, subprocess orchestration, and worktree automation remain out of scope.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -94,6 +108,7 @@ Run these checks whenever `SKILL.md` changes.
 - PM model/provider and PM/Advisor model separation status are recorded when relevant.
 - CLI agent workspace-trust status is recorded when relevant.
 - OpenSpec C-stage and C0 analysis are recorded when relevant.
+- Leader state compaction preserves active current-state cards, evidence indexes, and archived history boundaries when long handoff or continuity state is involved.
 - Same-model Advisor overrides and model-diversity degradation are explicit when they occur.
 - Same-model PM/Advisor overrides and PM/Advisor model-separation degradation are explicit when they occur.
 - Worker scope remains narrow and explicitly bounded.
@@ -126,6 +141,8 @@ Run these checks whenever `agents/openai.yaml` changes.
 - Documentation does not imply that CLI workspace trust can be applied globally or to unrelated directories by default.
 - Documentation does not imply that PM/Advisor same-model pairing can happen silently.
 - Documentation does not imply that an OpenSpec-backed goal is complete before archive when archive applies.
+- Documentation does not imply that compacting handoff state permits dropping unresolved P0/P1, validation freshness, PM/Advisor findings, owner-decision needs, or git authorization state.
+- Documentation does not imply that old handoffs, archive notes, summaries, or evidence indexes are authority for current action.
 - Documentation does not imply that CI, tests, secret scanning, or reviewer gates can be skipped.
 - Documentation does not imply that Reviewer is required for small low-risk tasks.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.

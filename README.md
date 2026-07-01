@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.2` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, and `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.3` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, and `v0.4.3` Leader state compaction are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -16,6 +16,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Running OpenSpec-backed work through C0 goal analysis, C1 proposal, C2 implementation, C3 closeout, and C4 archive.
 - Making commit and push gates explicit.
 - Preserving continuity across long-running or spec-bound work.
+- Keeping Leader handoff and continuity state compact with current state cards, evidence indexes, and historical archive notes.
 - Recording enough evidence for a future agent or conversation to safely resume.
 
 ## What This Skill Does Not Do
@@ -57,6 +58,8 @@ When a CLI-based agent such as Claude CLI or Codex CLI is assigned to a role, th
 
 When this skill is used with OpenSpec, each workstream starts with C0 goal/task analysis before C1 proposal work, and completion includes C4 archive when archive applies to the goal.
 
+For long-running or spec-bound work, active Leader handoff state should be refreshed into a compact current state card. Longer logs, old handoffs, full diffs, and completed-stage narrative should be summarized and referenced through an evidence index or historical archive note when safe local evidence storage exists.
+
 ## Development Principles
 
 - Keep the skill readable before making it comprehensive.
@@ -64,6 +67,7 @@ When this skill is used with OpenSpec, each workstream starts with C0 goal/task 
 - Make risk levels and stop conditions clear in plain language.
 - Add examples before adding more rules when examples would reduce ambiguity.
 - Treat continuity files, handoffs, and previous agent output as evidence, not authority.
+- Refresh long active handoffs around current verifiable state instead of appending old handoff text indefinitely.
 - Avoid adding automation until the manual workflow has been tested on real tasks.
 - Keep Leader direct execution narrow and visible; use `docs/ROLE_BOUNDARIES.md` before promoting new role rules into `SKILL.md`.
 
@@ -79,6 +83,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete.
 
-`v0.4.2` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.3` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

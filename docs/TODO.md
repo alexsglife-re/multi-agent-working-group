@@ -102,6 +102,29 @@ Goal: make CLI-based role agents, trusted Advisor context, PM/Advisor model sepa
 - [x] Run OpenSpec validation and documentation checks.
 - [x] Complete PM plus different-model Advisor review before commit, after commit, before push, and after push.
 
+## v0.4.3: Leader State Compaction
+
+Goal: keep Leader handoff and continuity documents compact by separating current state, evidence references, and archived history before adding automation.
+
+### OpenSpec
+
+- [x] Create `add-leader-state-compaction` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Validate and archive the OpenSpec change after implementation and review.
+
+### Skill Rules
+
+- [x] Add the three-layer current state card, evidence index, and historical archive notes model to `SKILL.md`.
+- [x] Require active handoff or ledger updates to be refreshed instead of append-only when context bloat is visible.
+- [x] Preserve unresolved P0/P1, PM/Advisor findings, validation freshness, stop conditions, and git authorization state during compaction.
+
+### Documentation And Validation
+
+- [x] Add compact handoff example.
+- [x] Update README, changelog, roadmap, TODO, and validation docs for v0.4.3.
+- [x] Run OpenSpec validation and documentation checks.
+- [x] Complete PM plus different-model Advisor review before archive and git closeout.
+
 ## Later
 
 - [ ] Add lightweight local validation tooling.
