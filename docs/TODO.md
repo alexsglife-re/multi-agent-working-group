@@ -110,7 +110,7 @@ Goal: keep Leader handoff and continuity documents compact by separating current
 
 - [x] Create `add-leader-state-compaction` OpenSpec change.
 - [x] Add proposal, design, spec, and tasks artifacts.
-- [x] Validate and archive the OpenSpec change after implementation and review.
+- [x] Archive the OpenSpec change after implementation and review.
 
 ### Skill Rules
 
@@ -133,7 +133,7 @@ Goal: make the repeated README, SKILL, OpenSpec, version-marker, and installed-s
 
 - [x] Create `add-local-validation-tool` OpenSpec change.
 - [x] Add proposal, design, spec, and tasks artifacts.
-- [x] Validate and archive the OpenSpec change after implementation and review.
+- [x] Archive the OpenSpec change after implementation and review.
 
 ### Local Tooling
 
@@ -145,6 +145,31 @@ Goal: make the repeated README, SKILL, OpenSpec, version-marker, and installed-s
 ### Documentation And Validation
 
 - [x] Update README, changelog, roadmap, TODO, validation docs, and `SKILL.md` for v0.4.4.
+- [x] Run the local validation command.
+- [x] Run OpenSpec validation and documentation checks.
+- [x] Complete PM plus different-model Advisor review before archive and git closeout.
+
+## v0.4.5: Copyable Role Templates
+
+Goal: make common PM, Advisor, Worker, Reviewer, C0, blocked, handoff, and git-gate outputs easy to copy without expanding old handoff documents.
+
+### OpenSpec
+
+- [x] Create `add-copyable-role-templates` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Archive the OpenSpec change after implementation and review.
+
+### Templates
+
+- [x] Add `templates/README.md`.
+- [x] Add C0, PM, Advisor, Worker assignment, Worker return, Reviewer, blocked, compact handoff, and git gate templates.
+- [x] Document how to handle legacy v0.3 or bloated handoff documents without rewriting history.
+- [x] Confirm templates preserve unresolved P0/P1, validation freshness, evidence references, and authorization state.
+
+### Documentation And Validation
+
+- [x] Update README, changelog, roadmap, TODO, validation docs, and `SKILL.md` for v0.4.5.
+- [x] Update local validation for v0.4.5 template checks.
 - [x] Run the local validation command.
 - [x] Run OpenSpec validation and documentation checks.
 - [x] Complete PM plus different-model Advisor review before archive and git closeout.

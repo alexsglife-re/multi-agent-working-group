@@ -521,6 +521,26 @@ archive, release, deployment, external publication, secret-scan bypass,
 Reviewer bypass, PM/Advisor bypass, or any high-risk/default-exclusion action.
 ```
 
+Copyable templates:
+
+```text
+For this repository, v0.4.5 adds copyable templates under `templates/` for
+C0 analysis, PM review, Advisor review, Worker assignment, Worker return,
+Reviewer report, blocked reports, compact handoffs, and git gates.
+
+Use templates as fill-in structure and evidence capture only. A filled template
+does not authorize commit, push, archive, release, deployment, external
+publication, secret access, PM/Advisor bypass, Reviewer bypass, validation
+bypass, CI/status bypass, or high-risk/default-exclusion actions.
+
+When old v0.3-era or otherwise bloated handoff documents already exist, preserve
+them as historical evidence. Create a new current state card from
+`templates/compact-handoff.md`, copy only facts that are still needed and
+currently verified, and reference the old material through the evidence index.
+Do not append old handoffs verbatim below the new active handoff, and do not
+rewrite old evidence in place merely to match the new template.
+```
+
 If owner escalation is required and owner does not respond, enter `blocked-pending-owner`. Do not silently degrade.
 
 ## Failure Rules

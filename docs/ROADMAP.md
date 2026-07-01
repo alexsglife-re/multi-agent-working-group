@@ -22,12 +22,13 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, and `v0.4.4` lightweight local validation tooling are complete.
+`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, and `v0.4.5` copyable role templates are complete.
 
 Goal: make the workflow easier to apply consistently.
 
 - Add `examples/` with small, medium, commit-gate, push-gate, and handoff scenarios.
 - Add example PM, Advisor, Worker, and Reviewer outputs.
+- Add copyable PM, Advisor, Worker, Reviewer, C0, blocked, handoff, and git-gate templates.
 - Add example owner-decision prompts written in plain language.
 - Document when Small Task Mode is appropriate and when the stricter workflow is required.
 - Document Leader direct execution boundaries before promoting them into `SKILL.md`.
@@ -45,6 +46,7 @@ Exit criteria:
 - CLI workspace-trust and OpenSpec C0-C4 lifecycle rules are documented as a v0.4.2 follow-up without adding automation.
 - Leader state compaction rules are documented as a v0.4.3 follow-up without adding automation.
 - Lightweight local validation tooling is documented as a completed v0.4.4 follow-up without adding CI, release automation, or automatic repair.
+- Copyable role templates are documented as a completed v0.4.5 follow-up without rewriting legacy handoff history.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -94,4 +96,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Decide the next version target after `v0.4.4`: likely candidates are more copyable role-output templates or packaging/install guidance. Keep heavier automation out of scope until the lightweight local command remains stable across more real tasks.
+Decide the next version target after `v0.4.5`: likely candidates are packaging/install guidance or more lightweight validation hardening. Keep heavier automation out of scope until the templates and local command remain stable across more real tasks.

@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.4` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, and `v0.4.4` lightweight local validation tooling are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.5` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, and `v0.4.5` copyable role templates are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -18,6 +18,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Preserving continuity across long-running or spec-bound work.
 - Keeping Leader handoff and continuity state compact with current state cards, evidence indexes, and historical archive notes.
 - Running a lightweight local validation command before commit or push.
+- Copying recommended role and gate templates for C0, PM, Advisor, Worker, Reviewer, blocked, handoff, and git gate outputs.
 - Recording enough evidence for a future agent or conversation to safely resume.
 
 ## What This Skill Does Not Do
@@ -39,6 +40,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 | `docs/ROLE_BOUNDARIES.md` | Working notes for Leader direct execution and role separation. |
 | `docs/VALIDATION.md` | Checklist for reviewing changes before publication. |
 | `examples/` | Copyable workflow examples, including blocked, git-gate, and OpenSpec C0-C4 scenarios. |
+| `templates/` | Fill-in templates for common role outputs, handoffs, blocked reports, and git gates. |
 | `openspec/` | OpenSpec changes, archived changes, and accepted specs. |
 | `scripts/validate-local.sh` | Lightweight read-only local validation command for repo docs, OpenSpec, and installed skill sync. |
 
@@ -61,6 +63,14 @@ When a CLI-based agent such as Claude CLI or Codex CLI is assigned to a role, th
 When this skill is used with OpenSpec, each workstream starts with C0 goal/task analysis before C1 proposal work, and completion includes C4 archive when archive applies to the goal.
 
 For long-running or spec-bound work, active Leader handoff state should be refreshed into a compact current state card. Longer logs, old handoffs, full diffs, and completed-stage narrative should be summarized and referenced through an evidence index or historical archive note when safe local evidence storage exists.
+
+## Copyable Templates
+
+Use the templates in `templates/` when a workstream needs a consistent fill-in shape for C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, or commit/push gate evidence.
+
+The v0.4.5 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates.
+
+When older v0.3 or earlier handoff documents have already grown large, preserve them as historical evidence. Create a new `templates/compact-handoff.md` current state card, copy only verified current facts into it, and reference the old document through the evidence index instead of appending or rewriting the old text.
 
 ## Local Validation
 
@@ -101,6 +111,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete.
 
-`v0.4.4` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.5` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

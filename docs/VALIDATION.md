@@ -121,6 +121,21 @@ Run these checks for the `v0.4.4` local validation set: `README.md`, `CHANGELOG.
 - The command does not claim to replace PM, Advisor, Reviewer, Leader verification, OpenSpec archive, secret scanning, CI/status checks, or git gates.
 - Documentation does not describe local validation as CI, packaging automation, release automation, or automatic repair.
 
+## v0.4.5 Copyable Role Template Checks
+
+Run these checks for the `v0.4.5` template set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, `templates/`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- Templates are fill-in structures, not authorization or approval.
+- Templates preserve scope, risk, evidence, validation freshness, unresolved P0/P1, owner-decision needs, stop conditions, and commit/push authorization state where relevant.
+- PM and Advisor templates preserve independent first-pass review and model/provider recording.
+- Worker templates keep Worker ownership bounded to allowed files or modules and prohibit scope expansion, self-approval, commit, and push.
+- Reviewer template states that Reviewer must not review their own implementation.
+- Blocked report template clearly distinguishes completed local work from not-performed gated actions.
+- Compact handoff template uses a current state card, evidence index, and historical archive note.
+- Legacy v0.3 or bloated documents are preserved as historical evidence, not bulk-rewritten in place.
+- Migration guidance says to copy only verified current facts into the v0.4.5 compact handoff and reference old material through the evidence index.
+- Templates do not imply bypass of PM, Advisor, Reviewer, validation, OpenSpec archive, secret scanning, CI/status, commit gates, push gates, release approval, deployment approval, or public publication approval.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -138,6 +153,7 @@ Run these checks whenever `SKILL.md` changes.
 - OpenSpec C-stage and C0 analysis are recorded when relevant.
 - Leader state compaction preserves active current-state cards, evidence indexes, and archived history boundaries when long handoff or continuity state is involved.
 - Local validation command output is recorded when it is relevant to commit, push, or closeout gates.
+- Copyable templates remain evidence-capture aids and do not create new authorization paths.
 - Same-model Advisor overrides and model-diversity degradation are explicit when they occur.
 - Same-model PM/Advisor overrides and PM/Advisor model-separation degradation are explicit when they occur.
 - Worker scope remains narrow and explicitly bounded.
@@ -173,6 +189,7 @@ Run these checks whenever `agents/openai.yaml` changes.
 - Documentation does not imply that compacting handoff state permits dropping unresolved P0/P1, validation freshness, PM/Advisor findings, owner-decision needs, or git authorization state.
 - Documentation does not imply that old handoffs, archive notes, summaries, or evidence indexes are authority for current action.
 - Documentation does not imply that local validation authorizes commit, push, archive, release, deployment, external publication, CI bypass, secret-scan bypass, or reviewer-gate bypass.
+- Documentation does not imply that templates authorize commit, push, archive, release, deployment, external publication, secret access, CI bypass, reviewer bypass, or PM/Advisor bypass.
 - Documentation does not imply that CI, tests, secret scanning, or reviewer gates can be skipped.
 - Documentation does not imply that Reviewer is required for small low-risk tasks.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.5
+
+- Add `templates/` with copyable C0, PM, Advisor, Worker, Reviewer, blocked, handoff, and git-gate templates.
+- Document that v0.4.5 templates are structure only and do not replace validation, review, OpenSpec archive, secret scanning, CI/status, commit gates, or push gates.
+- Add legacy and bloated document handling: preserve old v0.3-era handoffs as historical evidence, extract only verified current facts into the new compact handoff, and reference old material through the evidence index.
+- Update local validation to check v0.4.5 markers, required templates, and the copyable-role-templates spec.
+
 ### Completed local upgrade for v0.4.4
 
 - Add `scripts/validate-local.sh` as a lightweight read-only local validation command.
