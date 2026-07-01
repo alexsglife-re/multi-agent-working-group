@@ -274,6 +274,7 @@ Normal
 Soft Warning
 ContextBudget Watch
 Rollover Recommended
+Rollover Strongly Recommended
 Rollover Required
 ```
 
@@ -287,11 +288,11 @@ Soft Warning:
   oversized current ledger snapshot, or repeated long returns.
 
 ContextBudget Watch:
-  Multiple compressions/summaries, repeated old-context lookup,
+  3-4 observed compressions/summaries, repeated old-context lookup,
   accumulated long returns, or active ledger nearing its budget.
 
 Rollover Recommended:
-  Many compressions/summaries, multiple large stage steps,
+  5-7 observed compressions/summaries, multiple large stage steps,
   owner context-length concern, new Worker dispatch from long context,
   or ledger still too large after refresh.
 
@@ -305,7 +306,99 @@ Rollover Required:
 
 Compression or summary counts are soft hints. The hard trigger is loss of reliable current-state verification, unsafe continuation signs, owner instruction, or stale ledger before a high-risk gate.
 
-When `Rollover Required` applies, the current Leader should enter `sealed-ready` behavior for the affected workstream: update ledger or handoff state, list takeover verification requirements, generate a successor startup packet, and report the safe next step. The Leader should not dispatch new Workers, accept new Worker results for the handed-off workstream, enter commit/push/CI/archive gates, or execute external-effect actions until reliable takeover verification is restored. This is a development-workflow self-restriction only; it does not create or modify product runtime role sessions, delivery queues, or handoff readiness.
+Leader Rollover Protocol:
+
+```text
+For v0.4.6 and later, rollover handling means automatic detection and
+automatic handoff preparation, not automatic successor conversation creation.
+The Leader may identify rollover conditions, refresh current state, organize
+the evidence index, and prepare a successor startup packet. The Leader must not
+silently create or rely on a new conversation, carry forward git authorization,
+or bypass current verification gates.
+```
+
+Context-budget record:
+
+```text
+For long-running, spec-bound, or cross-conversation work, record this compact
+state in the current state card, compact handoff, ledger, or successor packet
+when context pressure is visible:
+
+Context budget state:
+Observed compression/summary count:
+Compression count confidence: known | inferred | unknown
+Last context-budget check:
+Reason for current state:
+Next safe rollover boundary:
+Rollover action:
+```
+
+If the compression or summary count is unknown, record `unknown` instead of
+inventing a number. Unknown count plus unreliable current-state verification is
+`Rollover Required`.
+
+Observed compression/summary thresholds:
+
+```text
+0-1 observed compressions/summaries:
+  State: Normal or Soft Warning.
+  Action: refresh current state card when useful; do not recommend rollover
+  from count alone.
+
+2 observed compressions/summaries:
+  State: Soft Warning.
+  Action: record observed count; do not recommend rollover from count alone.
+
+3-4 observed compressions/summaries:
+  State: ContextBudget Watch.
+  Action: record context budget and organize the evidence index; do not
+  proactively recommend rollover from count alone.
+
+5-6 observed compressions/summaries:
+  State: Rollover Recommended.
+  Action: recommend switching at the next safe boundary.
+
+7 observed compressions/summaries:
+  State: strong Rollover Recommended.
+  Action: finish only a near-complete small step when safe; otherwise prepare
+  a successor packet.
+
+8 or more observed compressions/summaries:
+  State: Rollover Strongly Recommended.
+  Action: prepare a successor packet unless a very small current step can
+  finish immediately.
+
+6 or more observed compressions/summaries plus a next action of Worker
+dispatch, commit, push, CI, archive, or a high-risk gate:
+  State: Rollover Required.
+  Action: enter sealed-ready and hand off before that gate.
+
+Unknown count plus inability to reliably verify current git/spec/validation/
+PM/Advisor/Reviewer/Worker/authorization state:
+  State: Rollover Required.
+  Action: hand off using the successor protocol.
+```
+
+When thresholds and other triggers overlap, use the highest applicable state.
+
+Safe rollover boundaries:
+
+```text
+Preferred:
+  OpenSpec C-stage boundary.
+  Implementation slice complete and validation run.
+  Commit/push/post-review flow fully complete.
+  Before dispatching a new Worker.
+  After current state card and evidence index are refreshed.
+
+Avoid:
+  Mid-patch.
+  While a command or validation is still running.
+  Between commit/push execution and required post-review or CI/status evidence.
+  With unresolved P0/P1 unless the rollover is a blocked handoff.
+```
+
+When `Rollover Required` applies, the current Leader should enter `sealed-ready` behavior for the affected workstream: update ledger or handoff state, keep one active current-state card, list takeover verification requirements, generate a successor startup packet, and report the safe next step. If a newer successor packet replaces an older one, the older packet becomes historical evidence. The Leader should not dispatch new Workers, accept new Worker results for the handed-off workstream, enter commit/push/CI/archive gates, or execute external-effect actions until reliable takeover verification is restored. This is a development-workflow self-restriction only; it does not create or modify product runtime role sessions, delivery queues, handoff readiness, or successor conversations.
 
 ## Risk and Severity
 
@@ -527,6 +620,8 @@ Copyable templates:
 For this repository, v0.4.5 adds copyable templates under `templates/` for
 C0 analysis, PM review, Advisor review, Worker assignment, Worker return,
 Reviewer report, blocked reports, compact handoffs, and git gates.
+v0.4.6 adds Leader Rollover Protocol fields plus
+`templates/successor-startup-packet.md` for rollover handoff.
 
 Use templates as fill-in structure and evidence capture only. A filled template
 does not authorize commit, push, archive, release, deployment, external
@@ -637,6 +732,11 @@ Date/time
 Current goal
 Scope and non-goals
 Completed and incomplete work
+Context budget state
+Observed compression/summary count
+Compression count confidence
+Rollover reason and action, if any
+Next safe rollover boundary, if any
 PM/Advisor consensus, if any
 Unresolved disagreements
 Spec-workflow state
@@ -648,12 +748,16 @@ CLI agent workspace-trust status
 Changed and do-not-touch files
 Validation run and not run
 Risk level
+Task status dashboard, if relevant
+Pending messages, conflicts, and overlaps, if relevant
 Next recommended action
 Stop conditions
 Commit/push authorization state, default no
 ```
 
 For long-running or spec-bound work, the handoff packet should be the current state card, not an append-only transcript. If more detail is needed, add an evidence index with claim-to-evidence mappings, paths, commands, commits, freshness status, verification status, or archive-note references. Old handoffs may be listed as evidence, but their text should not be repeatedly copied into the active packet unless a narrow excerpt is required to explain an unresolved blocker.
+
+Successor startup packets should also include a takeover checklist. A successor Leader must verify current owner instruction, git state, OpenSpec state, validation freshness, PM/Advisor/Reviewer continuity, Worker state, unresolved P0/P1, and authorization state before continuing. Task-status dashboards, pending messages, conflicts, and overlaps are compact takeover aids only; they do not create authority.
 
 New conversations must re-read project instructions, memory, handoff material, git/spec/current evidence, and restart PM + Advisor continuity review when available.
 

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.6
+
+- Add Leader Rollover Protocol for explicit context-budget records, observed compression/summary thresholds, and rollover-safe actions.
+- Add `Rollover Strongly Recommended` and sealed-ready guidance before Worker dispatch, commit, push, CI, archive, and high-risk gates.
+- Add `templates/successor-startup-packet.md` and update compact handoff templates with context-budget, dashboard, pending-message, conflict, and successor verification fields.
+- Document that v0.4.6 automatically detects rollover conditions and prepares handoff evidence, but does not automatically create successor conversations or carry forward authorization.
+- Update local validation to check v0.4.6 markers, rollover protocol text, the successor packet template, and the accepted rollover spec.
+
 ### Completed local upgrade for v0.4.5
 
 - Add `templates/` with copyable C0, PM, Advisor, Worker, Reviewer, blocked, handoff, and git-gate templates.

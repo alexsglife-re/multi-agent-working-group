@@ -136,6 +136,23 @@ Run these checks for the `v0.4.5` template set: `README.md`, `CHANGELOG.md`, `do
 - Migration guidance says to copy only verified current facts into the v0.4.5 compact handoff and reference old material through the evidence index.
 - Templates do not imply bypass of PM, Advisor, Reviewer, validation, OpenSpec archive, secret scanning, CI/status, commit gates, push gates, release approval, deployment approval, or public publication approval.
 
+## v0.4.6 Leader Rollover Protocol Checks
+
+Run these checks for the `v0.4.6` rollover set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, `templates/`, `examples/`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- Leader Rollover Protocol is described as automatic detection plus handoff preparation, not automatic successor thread creation.
+- Context-budget records include state, observed compression/summary count, count confidence, last check, reason, next safe boundary, and rollover action.
+- Compression/summary thresholds are non-overlapping and include 0-1, 2, 3-4, 5-6, 7, 8+, 6+ before gated actions, and unknown count with unreliable current-state verification.
+- `Rollover Strongly Recommended` is documented as a preparation signal, not a gate bypass or authorization.
+- `Rollover Required` enters sealed-ready behavior before Worker dispatch, commit, push, CI, archive, or high-risk gates when the threshold applies.
+- Sealed-ready behavior does not allow new Worker dispatch, accepting new Worker results for the handed-off workstream, commit/push/CI/archive gates, or external-effect actions until reliable takeover verification is restored.
+- The workflow keeps a single active current-state card for a workstream during sealed-ready; older packets are historical evidence if superseded.
+- Successor startup packets include current state, context-budget evidence, task status dashboard, pending messages, conflicts, overlaps, evidence index, authorization state, and successor verification checklist.
+- Successor startup packet guidance says successor packet != automatic thread creation.
+- Successor Leaders must re-verify project instructions, memory, skill rules, owner instruction, git state, OpenSpec state, validation freshness, PM/Advisor/Reviewer continuity, Worker state, unresolved P0/P1, and authorization state before continuing.
+- Legacy v0.3 or bloated handoffs remain historical evidence and are not pasted verbatim into active rollover packets.
+- Reference-source influence from ClawTeam/OpenClaw remains rule-level only: task states, explicit approval vocabulary, scoped context, and board-style summaries are allowed; runtime code, automatic spawning, subprocess orchestration, board UI, cost dashboard automation, and thread automation remain out of scope.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -190,6 +207,8 @@ Run these checks whenever `agents/openai.yaml` changes.
 - Documentation does not imply that old handoffs, archive notes, summaries, or evidence indexes are authority for current action.
 - Documentation does not imply that local validation authorizes commit, push, archive, release, deployment, external publication, CI bypass, secret-scan bypass, or reviewer-gate bypass.
 - Documentation does not imply that templates authorize commit, push, archive, release, deployment, external publication, secret access, CI bypass, reviewer bypass, or PM/Advisor bypass.
+- Documentation does not imply that rollover states or successor startup packets automatically create successor threads or carry forward commit/push/CI/archive authorization.
+- Documentation does not imply that compression/summary counts alone authorize gate bypass or external effects.
 - Documentation does not imply that CI, tests, secret scanning, or reviewer gates can be skipped.
 - Documentation does not imply that Reviewer is required for small low-risk tasks.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.

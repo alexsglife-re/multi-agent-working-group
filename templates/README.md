@@ -2,7 +2,7 @@
 
 These templates are reusable shapes for common Multi-Agent Working Group outputs. They are meant to be copied, filled in, and kept short.
 
-Version: v0.4.5 recommended templates.
+Version: v0.4.6 recommended templates.
 
 ## Use Rules
 
@@ -12,6 +12,7 @@ Version: v0.4.5 recommended templates.
 - Keep filled templates current and compact.
 - Move bulky detail into evidence references when safe local storage exists.
 - Preserve unresolved P0/P1, owner-decision needs, validation freshness, stop conditions, and git authorization state.
+- Treat rollover templates as continuity evidence only; successor startup packet != automatic thread creation.
 
 ## Template Index
 
@@ -25,7 +26,21 @@ Version: v0.4.5 recommended templates.
 | `reviewer-report.md` | Capture independent review findings. |
 | `blocked-report.md` | Stop cleanly when a gate, validation, or evidence blocker appears. |
 | `compact-handoff.md` | Refresh Leader handoff state without append-only growth. |
+| `successor-startup-packet.md` | Prepare rollover takeover evidence without automatically creating a new conversation. |
 | `git-gate.md` | Capture commit or push gate evidence. |
+
+## Leader Rollover Use
+
+Use `successor-startup-packet.md` when `Rollover Recommended`,
+`Rollover Strongly Recommended`, or `Rollover Required` applies. The packet is
+for a future Leader to verify current evidence before continuing. It does not
+create or authorize a successor thread, commit, push, CI, archive, release,
+deployment, publication, secret access, PM/Advisor bypass, Reviewer bypass, or
+validation bypass.
+
+When `Rollover Required` applies, keep one active current-state card for the
+workstream. Do not fork multiple competing handoffs. If a newer packet replaces
+an older packet, mark the older packet as historical evidence.
 
 ## Handling Legacy Or Bloated Documents
 
@@ -50,7 +65,7 @@ Handling:
   Preserved as historical evidence. Not edited in place.
 
 Current-state extraction:
-  Only verified current facts were copied into the v0.4.5 compact handoff.
+  Only verified current facts were copied into the v0.4.6 compact handoff.
 
 Not carried forward:
   Superseded plans, old validation output, old agent transcripts, stale git state,

@@ -174,6 +174,33 @@ Goal: make common PM, Advisor, Worker, Reviewer, C0, blocked, handoff, and git-g
 - [x] Run OpenSpec validation and documentation checks.
 - [x] Complete PM plus different-model Advisor review before archive and git closeout.
 
+## v0.4.6: Leader Rollover Protocol
+
+Goal: make Leader context rollover explicit enough to trigger in real long-running work without adding automatic successor conversation creation.
+
+### OpenSpec
+
+- [x] Create `add-leader-rollover-protocol` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Archive the OpenSpec change after implementation and review.
+
+### Skill Rules
+
+- [x] Add context-budget fields and non-overlapping compression/summary thresholds.
+- [x] Add `Rollover Strongly Recommended`.
+- [x] Clarify that v0.4.6 automatically detects rollover conditions and prepares handoff evidence, but does not automatically create a successor conversation.
+- [x] Define sealed-ready behavior before Worker dispatch, commit, push, CI, archive, or high-risk gates.
+- [x] Require successor verification before continuing from a rollover packet.
+
+### Templates And Validation
+
+- [x] Add `templates/successor-startup-packet.md`.
+- [x] Update compact handoff and template README for context-budget state, pending messages, conflicts, and single active current-state card handling.
+- [x] Update README, changelog, roadmap, validation docs, and local validation checks for v0.4.6.
+- [x] Run the local validation command.
+- [x] Run OpenSpec validation and documentation checks.
+- [x] Complete PM plus different-model Advisor review before archive and git closeout.
+
 ## Later
 
 - [ ] Add installation and packaging guidance.

@@ -1,6 +1,6 @@
 # Blocked Report Template
 
-Version: v0.4.5 recommended template.
+Version: v0.4.6 recommended template.
 
 ```text
 Status:

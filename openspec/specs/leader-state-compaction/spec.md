@@ -11,6 +11,10 @@ The skill SHALL define active Leader handoff and continuity state as a layered r
 - **WHEN** a Leader updates a long-running or cross-conversation handoff
 - **THEN** the current state card records the owner instruction, current goal, stage, archive requirement when applicable, gate state, unresolved disagreements and P0/P1, validation run and not run, validation freshness, next action, stop conditions, and commit/push authorization state without copying the full prior handoff narrative
 
+#### Scenario: Leader refreshes active state during rollover
+- **WHEN** a Leader updates a long-running or cross-conversation handoff during `ContextBudget Watch`, `Rollover Recommended`, `Rollover Strongly Recommended`, or `Rollover Required`
+- **THEN** the current state card also records context budget state, observed compression/summary count, count confidence, last context-budget check, rollover reason, next safe rollover boundary, and rollover action without copying the full prior handoff narrative
+
 #### Scenario: Leader preserves evidence reachability
 - **WHEN** important details are too large for active state
 - **THEN** the Leader records a concise claim-indexed evidence reference with evidence type, location or command, freshness or currentness, and Leader verification status
@@ -28,6 +32,10 @@ The skill SHALL prohibit compaction from removing required reasoning outputs, PM
 #### Scenario: Compacting before takeover
 - **WHEN** a Leader prepares a successor startup packet or compact handoff
 - **THEN** unresolved P0/P1, PM/Advisor continuity status, validation run and not run, changed and do-not-touch files, and commit/push authorization state remain explicit
+
+#### Scenario: Compacting before successor takeover
+- **WHEN** a Leader prepares a successor startup packet or compact handoff
+- **THEN** unresolved P0/P1, PM/Advisor/Reviewer continuity status, Worker state, validation run and not run, changed and do-not-touch files, commit/push authorization state, pending messages, conflicts, and successor verification requirements remain explicit
 
 ### Requirement: Bulky evidence is indexed before archival
 The skill SHALL direct Leaders to summarize and index bulky evidence before moving it out of active state when safe local evidence storage exists.

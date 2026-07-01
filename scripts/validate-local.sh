@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.5"
+VERSION="v0.4.6"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
+  "copyable-role-templates"
   "leader-state-compaction"
   "local-validation-tool"
   "role-boundary-stabilization"
 )
-COPYABLE_TEMPLATES_SPEC="copyable-role-templates"
-COPYABLE_TEMPLATES_CHANGE="openspec/changes/add-copyable-role-templates/specs/copyable-role-templates/spec.md"
+ROLLOVER_SPEC="leader-rollover-protocol"
+ROLLOVER_CHANGE="openspec/changes/add-leader-rollover-protocol/specs/leader-rollover-protocol/spec.md"
 REQUIRED_TEMPLATES=(
   "templates/README.md"
   "templates/advisor-review.md"
@@ -20,6 +21,7 @@ REQUIRED_TEMPLATES=(
   "templates/git-gate.md"
   "templates/pm-review.md"
   "templates/reviewer-report.md"
+  "templates/successor-startup-packet.md"
   "templates/worker-assignment.md"
   "templates/worker-return.md"
 )
@@ -142,28 +144,28 @@ else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Copyable Role Templates"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Leader Rollover Protocol"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` copyable role templates are complete"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Leader Rollover Protocol is complete"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Copyable Role Template Checks"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Leader Rollover Protocol Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
 fi
 
-if [[ -f "SKILL.md" ]] && contains "SKILL.md" "$VERSION adds copyable templates"; then
-  pass "SKILL.md current template marker"
+if [[ -f "SKILL.md" ]] && contains "SKILL.md" "For v0.4.6 and later, rollover handling means automatic detection"; then
+  pass "SKILL.md current rollover marker"
 else
-  fail "SKILL.md current template marker"
+  fail "SKILL.md current rollover marker"
 fi
 
 for spec in "${REQUIRED_ACCEPTED_SPECS[@]}"; do
@@ -174,12 +176,12 @@ for spec in "${REQUIRED_ACCEPTED_SPECS[@]}"; do
   fi
 done
 
-if [[ -f "openspec/specs/$COPYABLE_TEMPLATES_SPEC/spec.md" ]]; then
-  pass "accepted spec exists: $COPYABLE_TEMPLATES_SPEC"
-elif [[ "$require_no_active_changes" -eq 0 && -f "$COPYABLE_TEMPLATES_CHANGE" ]]; then
-  pass "active spec delta exists: $COPYABLE_TEMPLATES_SPEC"
+if [[ -f "openspec/specs/$ROLLOVER_SPEC/spec.md" ]]; then
+  pass "accepted spec exists: $ROLLOVER_SPEC"
+elif [[ "$require_no_active_changes" -eq 0 && -f "$ROLLOVER_CHANGE" ]]; then
+  pass "active spec delta exists: $ROLLOVER_SPEC"
 else
-  fail "accepted spec exists: $COPYABLE_TEMPLATES_SPEC"
+  fail "accepted spec exists: $ROLLOVER_SPEC"
 fi
 
 for template in "${REQUIRED_TEMPLATES[@]}"; do
@@ -197,6 +199,8 @@ for template in "${REQUIRED_TEMPLATES[@]}"; do
 done
 
 template_contains "templates/README.md" "A filled template is evidence, not authority." "templates README states evidence not authority"
+template_contains "templates/README.md" "successor startup packet != automatic thread creation" "templates README blocks automatic thread creation"
+template_contains "templates/README.md" "one active current-state card" "templates README keeps single active state card"
 template_contains "templates/README.md" "Do not bulk-rewrite old v0.3 or earlier handoffs" "templates README preserves legacy documents"
 template_contains "templates/README.md" "stale until re-verified" "templates README uses stale freshness label"
 template_contains "templates/README.md" "historical only" "templates README uses historical freshness label"
@@ -213,8 +217,25 @@ template_contains "templates/reviewer-report.md" "block; Reviewer must not revie
 template_contains "templates/blocked-report.md" "Do not bypass PM/Advisor/Reviewer, validation, secret-scan, CI/status, or git gates." "Blocked template blocks gate bypass"
 template_contains "templates/compact-handoff.md" "current | stale until re-verified | historical only" "Compact handoff uses freshness labels"
 template_contains "templates/compact-handoff.md" "verified | inferred | unverified" "Compact handoff uses verification labels"
+template_contains "templates/compact-handoff.md" "Observed compression/summary count:" "Compact handoff includes compression count"
+template_contains "templates/compact-handoff.md" "Rollover Strongly Recommended" "Compact handoff includes strong recommendation state"
+template_contains "templates/compact-handoff.md" "Frozen active current-state card:" "Compact handoff keeps single active state card"
+template_contains "templates/compact-handoff.md" "Task status dashboard:" "Compact handoff includes task status dashboard"
+template_contains "templates/compact-handoff.md" "Pending messages, conflicts, and overlaps:" "Compact handoff includes pending messages and conflicts"
+template_contains "templates/successor-startup-packet.md" "successor startup packet != automatic thread creation" "Successor packet blocks automatic thread creation"
+template_contains "templates/successor-startup-packet.md" "Successor Verification Checklist" "Successor packet includes verification checklist"
+template_contains "templates/successor-startup-packet.md" "Commit/push/CI/archive authorization state is not inherited" "Successor packet blocks inherited authorization"
+template_contains "templates/successor-startup-packet.md" "Lightweight Handoff Dashboard" "Successor packet includes dashboard"
+template_contains "templates/successor-startup-packet.md" "Pending messages:" "Successor packet includes pending messages"
+template_contains "templates/successor-startup-packet.md" "Conflicts and overlaps:" "Successor packet includes conflicts and overlaps"
 template_contains "templates/git-gate.md" "Secret/credential scan:" "Git gate template includes secret scan"
 template_contains "templates/git-gate.md" "CI/status:" "Git gate template includes CI status"
+
+template_contains "docs/VALIDATION.md" "successor packet != automatic thread creation" "Validation blocks successor thread automation creep"
+template_contains "docs/VALIDATION.md" "0-1, 2, 3-4, 5-6, 7, 8+" "Validation checks rollover thresholds"
+template_contains "SKILL.md" "6 or more observed compressions/summaries plus a next action of Worker" "SKILL.md defines gate rollover threshold"
+template_contains "SKILL.md" "3-4 observed compressions/summaries" "SKILL.md replaces ambiguous multiple compression wording"
+template_contains "SKILL.md" "5-7 observed compressions/summaries" "SKILL.md replaces ambiguous many compression wording"
 
 if command -v openspec >/dev/null 2>&1; then
   if openspec_list="$(openspec list --json 2>&1)"; then

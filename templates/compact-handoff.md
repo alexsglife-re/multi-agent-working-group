@@ -1,6 +1,6 @@
 # Compact Handoff Template
 
-Version: v0.4.5 recommended template.
+Version: v0.4.6 recommended template.
 
 ## Current State Card
 
@@ -22,6 +22,29 @@ Archive requirement:
 
 Gate state:
   <validation, PM/Advisor, Reviewer, commit, push, CI/status>
+
+Context budget:
+  State:
+    Normal | Soft Warning | ContextBudget Watch | Rollover Recommended |
+    Rollover Strongly Recommended | Rollover Required
+  Observed compression/summary count:
+  Count confidence:
+    known | inferred | unknown
+  Last context-budget check:
+  Trigger category:
+    threshold | state-unreliable | owner-quality-concern | stale-ledger-before-gate | other
+  Reason:
+  Next safe rollover boundary:
+  Rollover action:
+
+Sealed-ready state:
+  not entered | entered
+  Frozen active current-state card:
+    <path/title of the single active state card>
+  Frozen scope:
+    <what must not continue until takeover verification>
+  Unconsumed Worker returns:
+    none | ...
 
 Scope:
   In scope:
@@ -66,11 +89,45 @@ Legacy or bloated source handling:
 Next action:
   <single next safe action>
 
+Task status dashboard:
+  Pending:
+    - ...
+  In progress:
+    - ...
+  Completed:
+    - ...
+  Blocked:
+    - ...
+
+Pending messages, conflicts, and overlaps:
+  Pending messages:
+    - ...
+  Conflicts:
+    - ...
+  Overlaps:
+    - ...
+
 Commit/push authorization state:
   <not entered | commit gate passed | push gate passed | blocked>
 
 Stop conditions:
   - ...
+```
+
+## Successor Verification Checklist
+
+```text
+Before continuing, successor Leader must verify:
+  - Project instructions, memory, and skill rules.
+  - Current owner instruction.
+  - git branch, commit, and dirty state.
+  - OpenSpec active changes and C-stage.
+  - Validation freshness.
+  - PM/Advisor/Reviewer continuity.
+  - Worker state and unconsumed returns.
+  - Unresolved P0/P1 and owner-decision needs.
+  - Commit/push/CI/archive authorization state.
+  - Next safe action.
 ```
 
 ## Evidence Index

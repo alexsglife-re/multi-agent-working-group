@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, and `v0.4.5` copyable role templates are complete.
+`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, and `v0.4.6` Leader Rollover Protocol is complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -35,6 +35,7 @@ Goal: make the workflow easier to apply consistently.
 - Add a short guide for restarting continuity after a context rollover or new conversation.
 - Add an example for OpenSpec C0-C4 workstreams, including CLI workspace trust, PM/Advisor model separation, goal completion, and archive closure.
 - Add a compact handoff example for current state cards, evidence indexes, and historical archive notes.
+- Add successor startup packet guidance for context-budget rollover without automatic conversation creation.
 
 Exit criteria:
 
@@ -47,6 +48,7 @@ Exit criteria:
 - Leader state compaction rules are documented as a v0.4.3 follow-up without adding automation.
 - Lightweight local validation tooling is documented as a completed v0.4.4 follow-up without adding CI, release automation, or automatic repair.
 - Copyable role templates are documented as a completed v0.4.5 follow-up without rewriting legacy handoff history.
+- Leader Rollover Protocol is documented as a completed v0.4.6 follow-up without automatic thread creation or gate bypass.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -96,4 +98,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Decide the next version target after `v0.4.5`: likely candidates are packaging/install guidance or more lightweight validation hardening. Keep heavier automation out of scope until the templates and local command remain stable across more real tasks.
+Decide the next version target after `v0.4.6`: likely candidates are packaging/install guidance or more lightweight validation hardening. Keep heavier automation out of scope until rollover protocol, templates, and the local command remain stable across more real tasks.

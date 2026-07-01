@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.5` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, and `v0.4.5` copyable role templates are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.6` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, and `v0.4.6` Leader Rollover Protocol are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -17,8 +17,9 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Making commit and push gates explicit.
 - Preserving continuity across long-running or spec-bound work.
 - Keeping Leader handoff and continuity state compact with current state cards, evidence indexes, and historical archive notes.
+- Detecting when Leader context should roll over and preparing successor startup packets without automatically creating new conversations.
 - Running a lightweight local validation command before commit or push.
-- Copying recommended role and gate templates for C0, PM, Advisor, Worker, Reviewer, blocked, handoff, and git gate outputs.
+- Copying recommended role and gate templates for C0, PM, Advisor, Worker, Reviewer, blocked, handoff, successor startup, and git gate outputs.
 - Recording enough evidence for a future agent or conversation to safely resume.
 
 ## What This Skill Does Not Do
@@ -27,6 +28,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - It does not weaken project-specific rules, security gates, spec workflows, or owner instructions.
 - It does not make advisor output authoritative. The Leader must still verify claims against current evidence.
 - It does not replace project tests, CI, secret scanning, or code review.
+- It does not automatically create a successor conversation when rollover is recommended or required.
 - It does not require Owner approval for every normal non-high-risk commit or push when the applicable PM plus Advisor gate and required evidence pass.
 
 ## Repository Layout
@@ -64,11 +66,13 @@ When this skill is used with OpenSpec, each workstream starts with C0 goal/task 
 
 For long-running or spec-bound work, active Leader handoff state should be refreshed into a compact current state card. Longer logs, old handoffs, full diffs, and completed-stage narrative should be summarized and referenced through an evidence index or historical archive note when safe local evidence storage exists.
 
+When context pressure is visible, the v0.4.6 Leader Rollover Protocol records context-budget state, observed compression or summary count, count confidence, rollover reason, next safe rollover boundary, and rollover action. `Rollover Required` means the Leader enters sealed-ready behavior and prepares a successor startup packet before Worker dispatch, commit, push, CI, archive, or high-risk gates. It does not mean Codex silently creates a new conversation.
+
 ## Copyable Templates
 
-Use the templates in `templates/` when a workstream needs a consistent fill-in shape for C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, or commit/push gate evidence.
+Use the templates in `templates/` when a workstream needs a consistent fill-in shape for C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, successor startup packet, or commit/push gate evidence.
 
-The v0.4.5 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates.
+The v0.4.6 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates.
 
 When older v0.3 or earlier handoff documents have already grown large, preserve them as historical evidence. Create a new `templates/compact-handoff.md` current state card, copy only verified current facts into it, and reference the old document through the evidence index instead of appending or rewriting the old text.
 
@@ -111,6 +115,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete; `v0.4.6` Leader Rollover Protocol is complete.
 
-`v0.4.5` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.6` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

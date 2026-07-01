@@ -27,6 +27,22 @@ Archive requirement:
 Gate state:
   C2 validation gate in progress; commit/push gates not entered.
 
+Context budget:
+  State: ContextBudget Watch.
+  Observed compression/summary count: 3.
+  Count confidence: inferred.
+  Last context-budget check: 2026-07-01 15:20 America/Los_Angeles.
+  Trigger category: threshold.
+  Reason: long C2 workstream with repeated summarized evidence.
+  Next safe rollover boundary: after C2 validation and review.
+  Rollover action: organize evidence index; no proactive rollover yet.
+
+Sealed-ready state:
+  not entered.
+  Frozen active current-state card: this compact handoff.
+  Frozen scope: none.
+  Unconsumed Worker returns: none.
+
 Scope:
   SKILL.md, docs/VALIDATION.md, README.md, CHANGELOG.md, docs/TODO.md,
   docs/ROADMAP.md, examples/compact-handoff.md, and the OpenSpec change.
@@ -55,6 +71,25 @@ Changed and do-not-touch files:
 
 Next action:
   Finish documentation edits, run validation, complete PM/Advisor review.
+
+Task status dashboard:
+  Pending:
+    - Full validation.
+    - PM/Advisor review.
+  In progress:
+    - Documentation edits.
+  Completed:
+    - Proposal and design drafting.
+  Blocked:
+    - none.
+
+Pending messages, conflicts, and overlaps:
+  Pending messages:
+    - none.
+  Conflicts:
+    - none.
+  Overlaps:
+    - none.
 
 Commit/push authorization state:
   No commit or push yet. Normal gate may be evaluated only after review and validation.
@@ -152,3 +187,10 @@ Full Advisor transcript...
 ```
 
 That pattern makes takeover harder. Keep the current state short, preserve the evidence pointer, and require the next Leader to re-verify current git, OpenSpec, validation, and role state.
+
+## Successor Packet Reminder
+
+If this workstream reaches `Rollover Required`, create a single active
+successor startup packet instead of appending another long handoff. The packet
+is evidence for a future Leader, not automatic successor thread creation and
+not authorization for commit, push, CI, archive, or external effects.
