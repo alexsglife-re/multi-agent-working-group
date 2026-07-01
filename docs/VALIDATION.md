@@ -28,7 +28,7 @@ Use this checklist before accepting changes to this repository. It is intentiona
 - Each stage has a practical goal and exit criteria.
 - Public release, license, CI, and packaging choices remain framed as decisions until accepted.
 - Stage 1 is described as mostly complete, not as a published release.
-- Stage 2 is described as the current `v0.4.0` stabilization focus.
+- Stage 2 describes `v0.4.0` local stabilization as complete before `v0.4.1` follow-up work.
 
 ## v0.4.0 Role-Boundary Checks
 
@@ -48,6 +48,19 @@ Run these checks for the `v0.4.0` stabilization set: `README.md`, `CHANGELOG.md`
 - Project docs remain English-only.
 - Reference-source influence from ClawTeam/OpenClaw remains rule-level only: stage names, task states, blocked reports, gate vocabulary, and role-scoped recovery are allowed; runtime code, CLI behavior, automatic spawning, subprocess orchestration, worktree automation, board UI, automatic approval, CI automation, packaging automation, and release automation are rejected unless a future explicit approval changes scope.
 
+## v0.4.1 Advisor Model-Diversity Checks
+
+Run these checks for the `v0.4.1` Advisor model-diversity set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, and the OpenSpec change.
+
+- Advisor defaults to a different AI model when model selection is available.
+- Owner explicit instruction takes precedence over the different-model default.
+- Same-model Advisor use is recorded as an explicit Owner override and is not described as satisfying model diversity.
+- If no Advisor model/provider record exists for the project, session, continuity file, or handoff, Leader asks the Owner to specify one at startup.
+- Single-model environments are recorded as model-diversity degradation rather than silently ignored.
+- Different-provider or different-model Advisor review does not expand Advisor context beyond minimum necessary task evidence.
+- Trusted Advisor context still excludes secrets, credentials, unrelated projects, broad context dumps, and irrelevant data unless explicitly authorized.
+- Model diversity is not described as a correctness guarantee, automatic approval, gate bypass, or replacement for PM/Advisor independence, Leader verification, Reviewer requirements, validation, or unresolved P0/P1 stop conditions.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -59,6 +72,8 @@ Run these checks whenever `SKILL.md` changes.
 - Advisor permissions remain read-only and minimum necessary by default.
 - Advisor output remains unverified until the Leader checks current evidence.
 - PM and Advisor independence requirements remain clear.
+- Advisor model/provider and diversity status are recorded when relevant.
+- Same-model Advisor overrides and model-diversity degradation are explicit when they occur.
 - Worker scope remains narrow and explicitly bounded.
 - Reviewer does not review their own implementation.
 - Leader direct execution remains narrow, explicitly labeled, and does not become hidden Worker execution.
@@ -83,6 +98,7 @@ Run these checks whenever `agents/openai.yaml` changes.
 
 - No secrets, credentials, tokens, private keys, or local machine-specific private paths were added.
 - Documentation does not authorize broader advisor access than `SKILL.md`.
+- Documentation does not imply that Advisor model diversity expands context sharing, authorizes secrets, or proves correctness.
 - Documentation does not imply that CI, tests, secret scanning, or reviewer gates can be skipped.
 - Documentation does not imply that Reviewer is required for small low-risk tasks.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.

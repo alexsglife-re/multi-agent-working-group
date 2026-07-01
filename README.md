@@ -4,12 +4,13 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current stabilization target: `v0.4.0` in local documentation. This is a planned documentation-first milestone, not a release, tag, push, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current planned upgrade: `v0.4.1` in local documentation. `v0.4.0` local stabilization is complete, and the next documentation-first upgrade focuses on Advisor model diversity. This is not a release, tag, push, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
 - Coordinating PM, Advisor, Worker, and Reviewer roles during development.
 - Keeping independent review separate from implementation.
+- Defaulting Advisor to a different AI model when model selection is available, unless the Owner explicitly requests same-model Advisor use.
 - Making commit and push gates explicit.
 - Preserving continuity across long-running or spec-bound work.
 - Recording enough evidence for a future agent or conversation to safely resume.
@@ -44,6 +45,8 @@ Use the multi-agent-working-group skill for this task.
 
 For small read-only or low-risk documentation tasks, the Leader may complete the work directly when the skill's Small Task Mode conditions are met. Small Task Mode does not use PM, Worker, or Reviewer; commit and push gates still require the checks described in `SKILL.md`.
 
+When Advisor model/provider has not been recorded for the current project, session, continuity file, or handoff, the Leader asks the Owner to specify the Advisor model/provider at workstream startup. A different Advisor model is the default when available; same-model Advisor use must be explicit and recorded.
+
 ## Development Principles
 
 - Keep the skill readable before making it comprehensive.
@@ -66,6 +69,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete, and Stage 2 is the current `v0.4.0` focus: role-boundary clarification, operating examples, validation alignment, and release metadata.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; the active planned upgrade is `v0.4.1` Advisor model diversity.
 
-`v0.4.0` remains a current/planned local stabilization target, not a release, tag, push, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.1` remains a planned local documentation upgrade, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

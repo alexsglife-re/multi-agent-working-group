@@ -6,7 +6,7 @@ This roadmap keeps development incremental. The goal is to make the skill useful
 
 Goal: make the repository understandable and safe to change.
 
-Status: mostly complete. The foundation docs now exist and are being aligned as part of the local `v0.4.0` stabilization target; this status does not imply a release, tag, push, deployment, or public publication.
+Status: mostly complete. The foundation docs exist and were aligned during the local `v0.4.0` stabilization target; this status does not imply a release, tag, push, deployment, or public publication.
 
 - Add README, roadmap, and validation checklist.
 - Define the expected repository layout.
@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-Current `v0.4.0` focus.
+`v0.4.0` local stabilization complete; `v0.4.1` is the current planned follow-up for Advisor model diversity.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -39,6 +39,7 @@ Exit criteria:
 - The examples demonstrate both normal flow and blocked/degraded flow.
 - Commit and push examples clearly separate normal non-high-risk PM plus Advisor gates from explicit Owner approval gates for high-risk and default-exclusion actions.
 - Validation docs confirm Small Task Mode, Leader direct execution, Reviewer independence, English-only docs, and reference-source automation boundaries.
+- Advisor model-diversity rules are documented as a v0.4.1 follow-up without adding automation.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -86,4 +87,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Complete the `v0.4.0` Stage 2 alignment pass: keep role-boundary examples, validation checks, README status, and TODO wording consistent with the normal non-high-risk PM plus Advisor git gate and the explicit Owner approval gate for high-risk/default-exclusion actions.
+Complete the `v0.4.1` Advisor model-diversity pass: keep `SKILL.md`, README, changelog, TODO, roadmap, validation, and OpenSpec wording consistent around different-model Advisor defaults, explicit same-model Owner overrides, bounded trusted-Advisor context, and recorded degradation when a different model is unavailable.

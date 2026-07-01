@@ -85,6 +85,25 @@ Code implementation task: PM + Advisor + Reviewer
 Security/permission/API/database/architecture/high-risk task: PM + Advisor + Reviewer
 ```
 
+Advisor model diversity:
+
+```text
+Default:
+  Advisor defaults to a different AI model than Leader, PM, Worker, or Reviewer when model selection is available.
+  Prefer a different provider or model family when practical; at minimum, record the concrete Advisor model/provider used.
+  Explicit Owner instruction overrides this default. If the Owner requests same-model Advisor use, record it as an explicit same-model override and do not claim model diversity was satisfied.
+  If a different Advisor model is unavailable, record model-diversity degradation and follow the existing Advisor-unavailable or degradation rules for the task risk and gate.
+
+Startup:
+  At workstream or session startup, if no project, session, continuity, or handoff record identifies the Advisor model/provider, ask the Owner to specify the Advisor model/provider before treating Advisor model selection as settled.
+  Record Advisor model/provider, diversity status, same-model override if any, and degradation reason if any.
+
+Trust and bounds:
+  When the Owner explicitly assigns Claude or another model/tool as Advisor, treat that Advisor as a trusted Advisor role for necessary bounded project/task context, not as an ordinary third-party disclosure.
+  This does not authorize secrets, credentials, unrelated projects, broad context dumps, or irrelevant data unless the Owner explicitly names that scope.
+  Model diversity reinforces critique diversity only; it does not replace no-peek independence, PM/Advisor consensus, Leader verification, Reviewer requirements, validation, or unresolved P0/P1 stop conditions.
+```
+
 Agent lifecycle:
 
 ```text
@@ -100,6 +119,9 @@ Continuity is not the same as repeated review. For a scoped multi-agent workstre
 ```text
 PM identity / role instance
 Advisor identity / role instance
+Advisor model/provider
+Advisor model diversity status: different-model, same-model override, degraded, or unavailable
+Reason for same-model override or degradation, if any
 Lifecycle start point
 Current stage or C-stage
 Continuity memory or handoff file used, if any
@@ -242,6 +264,7 @@ Owner authorization state, default no commit/push
 Spec-workflow state
 Git branch / commit / dirty state, if relevant
 Risk tier and risk notes
+Advisor model/provider and model diversity status, if relevant
 Applicable skills or checklist requirement
 Evidence provided and evidence hierarchy
 Readable context
@@ -462,6 +485,7 @@ PM/Advisor consensus, if any
 Unresolved disagreements
 Spec-workflow state
 Git branch / commit / dirty state
+Advisor model/provider and model diversity status
 Changed and do-not-touch files
 Validation run and not run
 Risk level

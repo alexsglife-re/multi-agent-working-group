@@ -51,6 +51,30 @@ Goal: stabilize the documentation-first workflow around role boundaries, Leader 
 - [x] Keep lightweight validation tooling, CI, packaging, and automation out of scope unless explicitly approved.
 - [x] Run a final manual review before entering the applicable commit gate.
 
+## v0.4.1: Advisor Model Diversity
+
+Goal: make Advisor independence stronger by defaulting Advisor to a different AI model when available, while preserving bounded context, explicit Owner overrides, and existing review gates.
+
+### OpenSpec
+
+- [x] Create `add-advisor-model-diversity` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Validate the OpenSpec change.
+
+### Skill Rules
+
+- [x] Add Advisor model-diversity defaults to `SKILL.md`.
+- [x] Require Leader to ask for Advisor model/provider when no project, session, continuity, or handoff record exists.
+- [x] Record Advisor model/provider, diversity status, same-model override, and degradation reason in startup/handoff context.
+- [x] Preserve minimum-necessary Advisor context, no-peek independence, Leader verification, and existing failure rules.
+
+### Documentation And Validation
+
+- [x] Update README, changelog, roadmap, and validation docs for v0.4.1.
+- [x] Confirm same-model Advisor use is allowed only by explicit Owner request and is recorded as an override.
+- [x] Confirm single-model environments are recorded as degradation rather than silently treated as model diversity.
+- [x] Confirm model diversity is not described as a correctness guarantee or gate bypass.
+
 ## Later
 
 - [ ] Add lightweight local validation tooling.
