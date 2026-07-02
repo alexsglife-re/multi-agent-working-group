@@ -190,6 +190,28 @@ Run these checks for the `v0.4.8` rollover opportunity set: `README.md`, `CHANGE
 - Leader delegation discipline discourages hidden Worker execution for Medium, Complex, High-risk, or substantive Worker-suitable work while preserving small low-risk, orchestration, synthesis, verification, owner communication, narrow documentation sync, and tiny connective edits for Leader direct work.
 - Reference-source influence from ClawTeam/OpenClaw remains rule-level only: task states, explicit approval vocabulary, scoped context, and board-style summaries are allowed; runtime code, automatic spawning, subprocess orchestration, board UI, cost dashboard automation, and thread automation remain out of scope.
 
+## v0.4.9 Provider Separation, Agent Patience, And Migration Guidance Checks
+
+Run these checks for the `v0.4.9` provider separation and model source verification set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, `templates/`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- Advisor diversity defaults to provider-level separation when provider-level separation is available.
+- PM/Advisor separation defaults to provider-level separation when provider-level separation is available.
+- Provider-level separation means different AI service providers; same-provider model names, versions, families, or capability tiers are not described as full separation.
+- Separation statuses include `provider-separated`, `model-family-separated`, `same-provider-variant`, `same-model-owner-override`, `degraded`, and `blocked`.
+- `model-family-separated` and `same-provider-variant` are recorded as degraded or partial unless they also satisfy provider-level separation.
+- Owner-approved same-model pairing is recorded as `same-model-owner-override` and is degraded for separation evidence.
+- Global memory, project memory, handoff, and startup-packet model preferences are treated as hints to verify for the current workstream, not stale authority.
+- A current verified model record applies only to the exact current project, workstream, role, task stage, and available tool environment.
+- C0, compact handoff, and successor startup packet templates record provider/model per role, model source, source freshness/current verification, separation status, and override or degradation reason.
+- The skill remains model-agnostic and does not hard-code concrete model names or provider-specific defaults.
+- PM and Advisor short silence during substantive review, OpenSpec stages, commit/push/CI/archive gates, high-risk gates, or large handoff packets is not described as task failure.
+- Complex, implementation-heavy, validation-heavy, or otherwise substantive bounded Worker slices use the same evidence-based patience principle.
+- Agent closure or restart requires a concrete lifecycle reason such as completion, blocked state, tool/session failure, exceeded patience window without progress evidence, stale evidence, role drift, context overload, rollover boundary, or Owner instruction.
+- C0, PM, Advisor, Worker, compact handoff, successor startup, and blocked templates record expected wait/recheck behavior, progress evidence, patience state, or closure/restart reason where relevant.
+- Documentation does not add automatic timers, polling loops, process supervision, or runtime session registry.
+- Installation and migration guidance covers local checkout use, optional global skill sync, migration to another machine, adoption in another project, validation commands, and non-transferable state.
+- Installation and migration guidance does not imply packaging automation, release publication, automatic global overwrite, secret migration, or transfer of commit/push/CI/archive authorization.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -203,6 +225,10 @@ Run these checks whenever `SKILL.md` changes.
 - PM and Advisor independence requirements remain clear.
 - Advisor model/provider and diversity status are recorded when relevant.
 - PM model/provider and PM/Advisor model separation status are recorded when relevant.
+- Provider-level separation is distinguished from same-provider model or version variants.
+- Current verified model records distinguish current routing authority from stale memory or handoff evidence.
+- PM, Advisor, and substantive Worker lifecycle patience rules distinguish short silence from concrete failure.
+- Installation and migration guidance preserves authorization and validation freshness boundaries.
 - CLI agent workspace-trust status, authorization source, target project root, setup state, and probe result are recorded when relevant.
 - Owner-recorded CLI role assignment for the current project and workstream authorizes exact current-project workspace trust setup without a repeated Owner prompt.
 - Stale, historical-only, superseded, or mismatched CLI role records do not authorize workspace trust setup.

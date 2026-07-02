@@ -90,14 +90,28 @@ Advisor model diversity:
 
 ```text
 Default:
-  Advisor defaults to a different AI model than Leader, PM, Worker, or Reviewer when model selection is available.
-  Prefer a different provider or model family when practical; at minimum, record the concrete Advisor model/provider used.
+  Advisor defaults to a different AI provider than Leader, PM, Worker, or Reviewer when provider-level separation is available.
+  If provider-level separation is unavailable, prefer a different model family only as a degraded fallback; at minimum, record the concrete Advisor provider/model used.
   Explicit Owner instruction overrides this default. If the Owner requests same-model Advisor use, record it as an explicit same-model override and do not claim model diversity was satisfied.
-  If a different Advisor model is unavailable, record model-diversity degradation and follow the existing Advisor-unavailable or degradation rules for the task risk and gate.
+  If a different Advisor provider is unavailable, record model-diversity degradation and follow the existing Advisor-unavailable or degradation rules for the task risk and gate.
 
 Startup:
-  At workstream or session startup, if no project, session, continuity, or handoff record identifies the Advisor model/provider, ask the Owner to specify the Advisor model/provider before treating Advisor model selection as settled.
-  Record Advisor model/provider, diversity status, same-model override if any, and degradation reason if any.
+  At workstream or session startup, if no current Owner instruction, current project rule, current project memory, continuity, handoff, startup packet, or current verified record identifies the Advisor provider/model, ask the Owner to specify the Advisor provider/model before treating Advisor model selection as settled.
+  Treat global memory, project memory, handoff, startup-packet, or prior continuity preferences as hints to verify against the current workstream, not as stale authority.
+  Record Advisor provider/model, source, source freshness or current verification, diversity status, same-model override if any, and degradation reason if any.
+
+Current verified model record:
+  A current verified model record applies to the exact current project, workstream, role, task stage, and available tool environment.
+  It records provider/model per role, source of the routing decision, verification time or stage, separation status, and any override or degradation.
+  Historical, superseded, mismatched-project, mismatched-workstream, unavailable-tool, or stage-inapplicable records are evidence only and must be re-verified before use.
+
+Separation status vocabulary:
+  provider-separated: full separation; PM and Advisor use different AI service providers.
+  model-family-separated: degraded or partial separation unless it also satisfies provider-separated; use provider-separated when different providers apply.
+  same-provider-variant: degraded or partial separation; same provider with different model name, version, family, or capability tier.
+  same-model-owner-override: degraded separation explicitly approved by the Owner for the current workstream.
+  degraded: generic degraded separation when the precise tier is unclear.
+  blocked: no valid separation, unavailable required Advisor/PM evidence, or missing required Owner override at a gate that fails closed.
 
 Trust and bounds:
   When the Owner explicitly assigns Claude or another model/tool as Advisor, treat that Advisor as a trusted Advisor role for necessary bounded project/task context, not as an ordinary third-party disclosure.
@@ -110,15 +124,16 @@ PM/Advisor model separation:
 
 ```text
 Default:
-  PM and Advisor default to different AI models when model selection is available.
-  Prefer different provider or model family separation when practical.
-  The Leader must record PM model/provider, Advisor model/provider, separation status, and any override or degradation reason when the workstream uses both roles.
+  PM and Advisor default to different AI providers when provider-level separation is available.
+  Provider-level separation means different service providers, for example OpenAI plus Claude/Anthropic. Different model names, versions, or capability tiers inside the same provider do not satisfy full separation.
+  Same-provider variants may be useful evidence, but record them as `same-provider-variant` degraded or partial separation rather than `provider-separated`.
+  The Leader must record PM provider/model, Advisor provider/model, source, source freshness or current verification, separation status, and any override or degradation reason when the workstream uses both roles.
 
 Same-model pairing:
   The Leader must not automatically degrade PM and Advisor to the same AI model.
   Same-model PM/Advisor pairing requires explicit Owner approval and must be recorded as a same-model PM/Advisor override.
-  If PM/Advisor model separation is unavailable and the Owner has not approved same-model pairing, commit/push-bound, OpenSpec-backed, small, medium, complex, high-risk, code, permission/API/database/architecture, or security work fails closed.
-  Do not claim PM/Advisor independence was strengthened by model diversity when same-model pairing was used.
+  If PM/Advisor model separation is unavailable and the Owner has not approved same-model pairing, work that uses both PM and Advisor fails closed when it is commit/push-bound, OpenSpec-backed, medium, complex, high-risk, code, permission/API/database/architecture, or security work, or when a small task has entered a PM/Advisor gate.
+  Do not claim PM/Advisor independence was strengthened by model diversity when same-model pairing, same-provider variants, stale routing records, or unverified routing hints were used.
 ```
 
 CLI agent workspace trust:
@@ -170,6 +185,16 @@ Spec-workflow lifecycle default: keep the same PM and Advisor from proposal/open
 For spec-bound workstreams, "complete stage goal" usually means the whole spec lifecycle through C4/archive, not merely artifact drafting, validation, commit, push, or CI.
 Close or restart agents at a stage boundary, long owner pause, context overload, role/risk change, or suspected drift.
 When restarting, provide a compact evidence packet; do not treat the prior agent's memory as authority.
+
+Patience:
+  PM and Advisor often receive large evidence packets. Do not treat short silence or a brief lack of visible output as task failure, role unavailability, or a reason to close the PM/Advisor session.
+  For substantive PM/Advisor review, OpenSpec stages, commit/push/CI/archive gates, high-risk gates, or large handoff packets, use a longer role- and scope-appropriate patience window before declaring the role failed.
+  Concrete wait durations may come from Owner instruction, project rules, tooling constraints, or the current assignment. If no duration is specified, record the expected wait/recheck behavior in words instead of inventing a universal timeout.
+  A progress check is preferred before closing a quiet PM/Advisor when the tool still appears reachable and the stage is not blocked.
+
+Evidence-based closure:
+  Close, restart, or replace PM/Advisor only when there is a recorded lifecycle reason: completion, explicit blocked state, tool/session exit, tool error, unreachable agent, exceeded recorded patience window without progress evidence, stale evidence, role/risk drift, context overload, rollover boundary, Owner instruction, or another concrete blocker.
+  Record last contact, progress evidence, patience window, whether the patience window was exceeded, closure/restart reason, and evidence packet supplied to any restarted role.
 ```
 
 Continuity is not the same as repeated review. For a scoped multi-agent workstream, especially a spec-bound lifecycle, the Leader must maintain PM and Advisor continuity as explicit state:
@@ -178,7 +203,8 @@ Continuity is not the same as repeated review. For a scoped multi-agent workstre
 PM identity / role instance
 Advisor identity / role instance
 Advisor model/provider
-Advisor model diversity status: different-model, same-model override, degraded, or unavailable
+Advisor model source and current verification
+Advisor model diversity status: provider-separated, model-family-separated degraded, same-provider-variant degraded, same-model owner override degraded, degraded, or blocked
 Reason for same-model override or degradation, if any
 Lifecycle start point
 Current stage or C-stage
@@ -485,6 +511,9 @@ Worker Agent:
 - Own exactly one slice with a one-sentence acceptance target and explicit file/module scope.
 - Do not combine requirement interpretation, architecture judgment, implementation, and review in one assignment.
 - Do not expand scope, self-approve, commit, or push.
+- For complex, implementation-heavy, validation-heavy, or otherwise substantive bounded slices, Worker lifecycle uses the same evidence-based patience principle as PM/Advisor: short silence is not failure.
+- Worker assignments should state whether the slice is quick or substantive and record expected wait/recheck behavior when substantive.
+- Close, restart, or replace a substantive Worker only with a recorded lifecycle reason such as completion, blocked return, tool/session failure, exceeded patience window without progress evidence, role drift, stale evidence, context overload, rollover boundary, or Owner instruction.
 
 Leader delegation discipline:
 

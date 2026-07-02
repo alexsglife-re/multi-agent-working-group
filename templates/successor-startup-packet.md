@@ -1,6 +1,6 @@
 # Successor Startup Packet Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 Use this when a Leader recommends or requires rollover to a new conversation.
 This packet is continuity evidence only. It is not automatic thread creation,
@@ -74,8 +74,39 @@ Gate state:
 PM/Advisor/Reviewer continuity:
   PM:
   Advisor:
+  Provider/model per role:
+    PM:
+    Advisor:
+  Model source per role:
+    PM:
+    Advisor:
+  Source freshness/current verification:
+  Separation/diversity status:
+    provider-separated | model-family-separated degraded |
+    same-provider-variant degraded | same-model owner override degraded |
+    degraded | blocked
+  Override or degradation reason:
+  Current verified model record:
+  Lifecycle patience:
+    Expected work size:
+      quick | substantive | large gate review | unknown
+    Expected wait/recheck behavior:
+    Last contact or progress evidence:
+    Patience state:
+      active | waiting | progress-check-needed | exceeded | blocked | complete
+    Closure/restart reason, if any:
   Reviewer:
   Continuity:
+
+Worker lifecycle patience:
+  Substantive Worker active:
+    yes | no
+  Worker identity/slice:
+  Expected wait/recheck behavior:
+  Last contact or progress evidence:
+  Patience state:
+    active | waiting | progress-check-needed | exceeded | blocked | complete
+  Closure/restart reason, if any:
 
 Unresolved P0/P1:
   none | ...

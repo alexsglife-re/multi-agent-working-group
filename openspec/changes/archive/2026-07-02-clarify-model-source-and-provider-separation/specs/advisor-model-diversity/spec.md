@@ -1,8 +1,5 @@
-# advisor-model-diversity Specification
+## MODIFIED Requirements
 
-## Purpose
-Define the v0.4.1 Advisor model-diversity requirements for default model selection, explicit same-model overrides, recorded degradation, bounded trusted Advisor context, and continued Leader verification.
-## Requirements
 ### Requirement: Advisor defaults to a different model
 The skill SHALL state that Advisor defaults to a different provider from Leader, PM, Worker, or Reviewer when provider-level separation is available, unless the Owner explicitly requests same-provider or same-model Advisor use. The skill SHALL treat provider-level separation as full model diversity and SHALL treat same-provider variants as degraded or partial separation rather than full separation.
 
@@ -19,11 +16,15 @@ The skill SHALL state that Advisor defaults to a different provider from Leader,
 - **THEN** Leader records the explicit override and does not claim full provider separation was satisfied
 
 ### Requirement: Advisor model preference is requested when unspecified
-The skill SHALL require Leader to ask the Owner for Advisor provider/model preference at workstream or session startup when no current Owner instruction, current project rule, current project memory, continuity record, handoff, startup packet, or current verified record identifies the Advisor provider/model. Installation and migration guidance SHALL describe the model-source mechanism without hard-coding concrete model names.
+The skill SHALL require Leader to ask the Owner for Advisor model/provider preference at workstream or session startup when no current verified project, session, continuity, or handoff record identifies the Advisor provider/model.
 
-#### Scenario: Skill is installed on a new machine
-- **WHEN** the skill is installed or migrated and no current verified model record exists for the new workstream
-- **THEN** the Leader asks the Owner or verifies an applicable current model-source record instead of assuming a concrete model from the skill text
+#### Scenario: No current verified Advisor model record exists
+- **WHEN** Leader starts a local workstream and cannot find a current verified Advisor provider/model record for the project or session
+- **THEN** Leader asks the Owner to specify the Advisor provider/model before treating the Advisor model selection as settled
+
+#### Scenario: Advisor model record exists
+- **WHEN** a project, session, continuity, or handoff record identifies the Advisor provider/model
+- **THEN** Leader may use that record as startup evidence only after verifying it matches the current Owner instruction, current project and task, and available tooling
 
 ### Requirement: Model diversity has explicit precedence and degradation
 The skill SHALL define model-routing source precedence as current Owner instruction, then current verified workstream/startup/handoff record, then accepted skill default provider-separation behavior, then explicit recorded degradation or Owner decision when unresolved. Global and project memory MAY surface prior preferences, but they SHALL be treated as hints to verify, not authority that settles routing by itself.
@@ -35,20 +36,6 @@ The skill SHALL define model-routing source precedence as current Owner instruct
 #### Scenario: Different provider unavailable
 - **WHEN** a different Advisor provider is unavailable in the current environment
 - **THEN** Leader records model-diversity degradation and follows the existing Advisor-unavailable or degradation rules for the task risk and git gate
-
-### Requirement: Trusted Advisor context remains bounded
-The skill SHALL treat Owner-assigned Advisor models/tools as trusted Advisor roles for necessary bounded project/task context while preserving minimum-necessary context, secret restrictions, and independent Leader verification.
-
-#### Scenario: Advisor is explicitly assigned
-- **WHEN** the Owner explicitly assigns Claude or another model/tool as Advisor
-- **THEN** Leader may send necessary bounded context for the Advisor role without treating the Advisor as an ordinary third-party disclosure, but does not send secrets or irrelevant broad context unless explicitly authorized
-
-### Requirement: Model diversity does not replace independence or verification
-The skill SHALL state that different-model Advisor review reinforces critique diversity but does not replace PM/Advisor independence, no-peek first-pass rules, Leader verification, Reviewer requirements, validation, or unresolved P0/P1 stop conditions.
-
-#### Scenario: Different-model Advisor agrees
-- **WHEN** a different-model Advisor agrees with PM or Leader
-- **THEN** Leader still verifies the claim against current evidence before acting or reporting completion
 
 ### Requirement: PM and Advisor models remain separated by default
 The skill SHALL require PM and Advisor to use different providers by default when both roles are active and provider-level separation is available. Same-provider model variants SHALL NOT satisfy full PM/Advisor separation.
@@ -64,6 +51,8 @@ The skill SHALL require PM and Advisor to use different providers by default whe
 #### Scenario: Owner approves same-model PM and Advisor
 - **WHEN** the Owner explicitly approves same-model PM/Advisor pairing for the current workstream
 - **THEN** the Leader MUST record the same-model PM/Advisor override as degraded with Owner override and MUST NOT claim PM/Advisor model separation was satisfied
+
+## ADDED Requirements
 
 ### Requirement: Separation status is recorded in current state
 The skill SHALL require state-carrying startup, handoff, and successor records to include provider/model-per-role, PM/Advisor separation status, model source, and freshness/applicability verification when PM and Advisor are active.

@@ -252,6 +252,36 @@ Goal: prepare rollover earlier at clean boundaries before context reliability de
 - [x] Run local validation and OpenSpec validation.
 - [x] Sync the updated `SKILL.md` to the global installed skill.
 
+## v0.4.9: Provider Separation, Agent Patience, And Migration Guidance
+
+Goal: make Advisor diversity and PM/Advisor model separation mean provider-level separation by default, and make memory-driven model preferences current verified evidence rather than stale authority.
+
+### OpenSpec
+
+- [x] Create `clarify-model-source-and-provider-separation` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [ ] Archive the OpenSpec change after implementation and validation.
+
+### Skill Rules
+
+- [x] Clarify that full Advisor diversity and PM/Advisor separation require different AI service providers when provider-level separation is available.
+- [x] Define same-provider model, version, family, or capability variants as degraded or partial separation rather than full separation.
+- [x] Add separation status vocabulary for provider-separated, model-family-separated, same-provider-variant, same-model-owner-override, degraded, and blocked.
+- [x] Treat global memory, project memory, handoff, and startup-packet model preferences as hints to verify against the current workstream.
+- [x] Define current verified model records for provider/model per role, source, current verification, separation status, and override or degradation evidence.
+- [x] Clarify PM/Advisor lifecycle patience so short silence during substantive review is not treated as role failure.
+- [x] Extend lifecycle patience to complex, implementation-heavy, validation-heavy, or otherwise substantive bounded Worker slices.
+- [x] Add installation and migration guidance without packaging automation, release publication, or authorization transfer.
+
+### Templates And Validation
+
+- [x] Update C0, compact handoff, successor startup packet, and template README fields for provider/model source and separation status.
+- [x] Update PM, Advisor, Worker, compact handoff, successor startup, and blocked templates with patience/lifecycle fields.
+- [x] Add `docs/INSTALLATION.md` and link it from README and roadmap.
+- [x] Update README, changelog, roadmap, validation docs, and local validation checks for v0.4.9.
+- [ ] Run local validation and OpenSpec validation.
+- [ ] Sync the updated `SKILL.md` to the global installed skill.
+
 ## Later
 
 - [ ] Add installation and packaging guidance.

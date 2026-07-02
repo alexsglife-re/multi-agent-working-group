@@ -1,6 +1,6 @@
 # PM Review Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 ```text
 Role:
@@ -26,6 +26,20 @@ Risk classification:
   Reason:
   Default exclusions touched:
     yes | no
+
+Model routing, if relevant:
+  Provider/model:
+  Model source:
+  Source freshness/current verification:
+
+Lifecycle patience:
+  Work size:
+    quick | substantive | large gate review | unknown
+  Expected wait/recheck behavior:
+  Last contact or progress evidence:
+  Patience state:
+    active | waiting | progress-check-needed | exceeded | blocked | complete
+  Closure/restart reason, if any:
 
 CLI workspace trust, if relevant:
   Owner-recorded role authorization source:

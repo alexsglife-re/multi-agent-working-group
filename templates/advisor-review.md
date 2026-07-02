@@ -1,6 +1,6 @@
 # Advisor Review Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 ```text
 Role:
@@ -12,8 +12,22 @@ Review type:
 Independence state:
   Reviewed before PM conclusions:
     yes | no | not applicable
-  Model/provider:
-  Model diversity:
+  Provider/model:
+  Model source:
+  Source freshness/current verification:
+  Model diversity/separation status:
+    provider-separated | model-family-separated degraded |
+    same-provider-variant degraded | same-model owner override degraded |
+    degraded | blocked
+
+Lifecycle patience:
+  Work size:
+    quick | substantive | large gate review | unknown
+  Expected wait/recheck behavior:
+  Last contact or progress evidence:
+  Patience state:
+    active | waiting | progress-check-needed | exceeded | blocked | complete
+  Closure/restart reason, if any:
 
 Claims challenged:
   - ...

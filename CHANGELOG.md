@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.9: Provider Separation, Agent Patience, And Migration Guidance
+
+- Clarify that Advisor diversity and PM/Advisor model separation default to provider-level separation, not same-provider model or version variants.
+- Add separation status vocabulary: `provider-separated`, `model-family-separated`, `same-provider-variant`, `same-model-owner-override`, `degraded`, and `blocked`.
+- Treat global memory, project memory, handoff, and startup-packet model preferences as hints to verify for the current workstream rather than stale authority.
+- Update C0, compact handoff, and successor startup templates to carry provider/model per role, model source, current verification, and separation status.
+- Clarify PM/Advisor and substantive Worker patience rules so short silence is not treated as failure without a concrete lifecycle reason.
+- Add `docs/INSTALLATION.md` for local checkout use, global skill sync, machine migration, and project adoption boundaries.
+- Extend local validation checks for provider-level separation and current verified model records.
+
 ### Completed local upgrade for v0.4.8
 
 - Add `Rollover Opportunity` as an early preparation state before context reliability degrades.

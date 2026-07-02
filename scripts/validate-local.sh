@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.8"
+VERSION="v0.4.9"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
@@ -120,6 +120,7 @@ fi
 version_files=(
   "README.md"
   "CHANGELOG.md"
+  "docs/INSTALLATION.md"
   "docs/TODO.md"
   "docs/ROADMAP.md"
   "docs/VALIDATION.md"
@@ -144,28 +145,28 @@ else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Leader Rollover Opportunity Protocol"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Provider Separation, Agent Patience, And Migration Guidance"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Leader Rollover Opportunity Protocol"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Provider Separation, Agent Patience, And Migration Guidance"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Leader Rollover Opportunity Protocol Checks"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Provider Separation, Agent Patience, And Migration Guidance Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
 fi
 
-if [[ -f "SKILL.md" ]] && contains "SKILL.md" "Rollover Opportunity"; then
-  pass "SKILL.md current rollover opportunity marker"
+if [[ -f "SKILL.md" ]] && contains "SKILL.md" "provider-level separation"; then
+  pass "SKILL.md current provider separation marker"
 else
-  fail "SKILL.md current rollover opportunity marker"
+  fail "SKILL.md current provider separation marker"
 fi
 
 for spec in "${REQUIRED_ACCEPTED_SPECS[@]}"; do
@@ -205,27 +206,51 @@ template_contains "templates/README.md" "Do not bulk-rewrite old v0.3 or earlier
 template_contains "templates/README.md" "stale until re-verified" "templates README uses stale freshness label"
 template_contains "templates/README.md" "historical only" "templates README uses historical freshness label"
 template_contains "templates/README.md" "Do not use it as authorization for commit, push, scope expansion, gate bypass, or external effects." "templates README blocks legacy authorization"
+template_contains "templates/README.md" "model preferences as hints to verify" "templates README treats model preferences as hints"
+template_contains "templates/README.md" "provider-separated" "templates README records provider-separated status"
+template_contains "templates/README.md" "same-provider model/version variants are degraded or partial separation" "templates README degrades same-provider variants"
+template_contains "templates/README.md" "Do not treat short silence as failure" "templates README preserves lifecycle patience"
 template_contains "templates/pm-review.md" "P0:" "PM template preserves P0"
 template_contains "templates/pm-review.md" "P1:" "PM template preserves P1"
 template_contains "templates/pm-review.md" "Owner-recorded role authorization source:" "PM template records trust authorization source"
 template_contains "templates/pm-review.md" "owner-recorded-role-authorized" "PM template records trust state vocabulary"
 template_contains "templates/pm-review.md" "owner-confirmation-needed" "PM template records owner confirmation trust state"
+template_contains "templates/pm-review.md" "Provider/model:" "PM template records provider/model"
+template_contains "templates/pm-review.md" "Model source:" "PM template records model source"
+template_contains "templates/pm-review.md" "Lifecycle patience:" "PM template records lifecycle patience"
+template_contains "templates/pm-review.md" "Expected wait/recheck behavior:" "PM template records wait behavior"
 template_contains "templates/advisor-review.md" "Reviewed before PM conclusions" "Advisor template records independence"
 template_contains "templates/advisor-review.md" "P0:" "Advisor template preserves P0"
 template_contains "templates/advisor-review.md" "P1:" "Advisor template preserves P1"
+template_contains "templates/advisor-review.md" "Provider/model:" "Advisor template records provider/model"
+template_contains "templates/advisor-review.md" "Model diversity/separation status:" "Advisor template records separation status"
+template_contains "templates/advisor-review.md" "same-provider-variant degraded" "Advisor template degrades same-provider variants"
+template_contains "templates/advisor-review.md" "Lifecycle patience:" "Advisor template records lifecycle patience"
+template_contains "templates/advisor-review.md" "Expected wait/recheck behavior:" "Advisor template records wait behavior"
 template_contains "templates/advisor-review.md" "Read-only probe passed before relying on CLI output:" "Advisor template records trust probe challenge"
 template_contains "templates/advisor-review.md" "dangerous permission bypass" "Advisor template checks dangerous permission bypass"
 template_contains "templates/advisor-review.md" "owner-confirmation-needed" "Advisor template records owner confirmation trust state"
 template_contains "templates/worker-assignment.md" "Do not expand scope." "Worker assignment blocks scope expansion"
 template_contains "templates/worker-assignment.md" "Do not self-approve." "Worker assignment blocks self approval"
 template_contains "templates/worker-assignment.md" "Do not commit or push." "Worker assignment blocks git actions"
+template_contains "templates/worker-assignment.md" "Do not treat short silence as failure" "Worker assignment preserves lifecycle patience"
+template_contains "templates/worker-assignment.md" "Expected wait/recheck behavior:" "Worker assignment records wait behavior"
+template_contains "templates/worker-return.md" "Lifecycle patience:" "Worker return records lifecycle patience"
 template_contains "templates/reviewer-report.md" "block; Reviewer must not review their own implementation" "Reviewer template blocks self review"
 template_contains "templates/blocked-report.md" "Do not bypass PM/Advisor/Reviewer, validation, secret-scan, CI/status, or git gates." "Blocked template blocks gate bypass"
 template_contains "templates/blocked-report.md" "owner-confirmation-needed" "Blocked template records owner confirmation need"
 template_contains "templates/blocked-report.md" "trusted-verified | owner-confirmation-needed | blocked" "Blocked template records owner confirmation trust state"
 template_contains "templates/blocked-report.md" "Why current authorization is insufficient:" "Blocked template records insufficient authorization reason"
+template_contains "templates/blocked-report.md" "Lifecycle patience blocker" "Blocked template records lifecycle patience blocker"
 template_contains "templates/c0-goal-analysis.md" "Owner-recorded role authorization source:" "C0 template records trust authorization source"
 template_contains "templates/c0-goal-analysis.md" "Post-setup read-only probe:" "C0 template records trust probe"
+template_contains "templates/c0-goal-analysis.md" "Provider/model:" "C0 template records provider/model"
+template_contains "templates/c0-goal-analysis.md" "Model source:" "C0 template records model source"
+template_contains "templates/c0-goal-analysis.md" "Source freshness/current verification:" "C0 template records model source freshness"
+template_contains "templates/c0-goal-analysis.md" "same-provider-variant degraded" "C0 template degrades same-provider variants"
+template_contains "templates/c0-goal-analysis.md" "Current verified model record:" "C0 template records current verified model record"
+template_contains "templates/c0-goal-analysis.md" "PM/Advisor lifecycle patience:" "C0 template records PM Advisor lifecycle patience"
+template_contains "templates/c0-goal-analysis.md" "do not close for short silence" "C0 template blocks short-silence closure"
 template_contains "templates/compact-handoff.md" "current | stale until re-verified | historical only" "Compact handoff uses freshness labels"
 template_contains "templates/compact-handoff.md" "verified | inferred | unverified" "Compact handoff uses verification labels"
 template_contains "templates/compact-handoff.md" "Rollover Opportunity" "Compact handoff includes rollover opportunity state"
@@ -238,6 +263,13 @@ template_contains "templates/compact-handoff.md" "Rollover Strongly Recommended"
 template_contains "templates/compact-handoff.md" "Frozen active current-state card:" "Compact handoff keeps single active state card"
 template_contains "templates/compact-handoff.md" "Task status dashboard:" "Compact handoff includes task status dashboard"
 template_contains "templates/compact-handoff.md" "Pending messages, conflicts, and overlaps:" "Compact handoff includes pending messages and conflicts"
+template_contains "templates/compact-handoff.md" "Provider/model per role:" "Compact handoff records provider/model per role"
+template_contains "templates/compact-handoff.md" "Model source per role:" "Compact handoff records model source per role"
+template_contains "templates/compact-handoff.md" "Source freshness/current verification:" "Compact handoff records source freshness"
+template_contains "templates/compact-handoff.md" "same-provider-variant degraded" "Compact handoff degrades same-provider variants"
+template_contains "templates/compact-handoff.md" "Current verified model record:" "Compact handoff records current verified model record"
+template_contains "templates/compact-handoff.md" "Lifecycle patience:" "Compact handoff records PM Advisor lifecycle patience"
+template_contains "templates/compact-handoff.md" "Worker lifecycle patience:" "Compact handoff records Worker lifecycle patience"
 template_contains "templates/successor-startup-packet.md" "successor startup packet != automatic thread creation" "Successor packet blocks automatic thread creation"
 template_contains "templates/successor-startup-packet.md" "Rollover Opportunity" "Successor packet includes rollover opportunity state"
 template_contains "templates/successor-startup-packet.md" "Compression count value:" "Successor packet includes compression count value"
@@ -248,8 +280,17 @@ template_contains "templates/successor-startup-packet.md" "Commit/push/CI/archiv
 template_contains "templates/successor-startup-packet.md" "Lightweight Handoff Dashboard" "Successor packet includes dashboard"
 template_contains "templates/successor-startup-packet.md" "Pending messages:" "Successor packet includes pending messages"
 template_contains "templates/successor-startup-packet.md" "Conflicts and overlaps:" "Successor packet includes conflicts and overlaps"
+template_contains "templates/successor-startup-packet.md" "Provider/model per role:" "Successor packet records provider/model per role"
+template_contains "templates/successor-startup-packet.md" "Model source per role:" "Successor packet records model source per role"
+template_contains "templates/successor-startup-packet.md" "Source freshness/current verification:" "Successor packet records source freshness"
+template_contains "templates/successor-startup-packet.md" "same-provider-variant degraded" "Successor packet degrades same-provider variants"
+template_contains "templates/successor-startup-packet.md" "Current verified model record:" "Successor packet records current verified model record"
+template_contains "templates/successor-startup-packet.md" "Lifecycle patience:" "Successor packet records PM Advisor lifecycle patience"
+template_contains "templates/successor-startup-packet.md" "Worker lifecycle patience:" "Successor packet records Worker lifecycle patience"
 template_contains "templates/git-gate.md" "Secret/credential scan:" "Git gate template includes secret scan"
 template_contains "templates/git-gate.md" "CI/status:" "Git gate template includes CI status"
+template_contains "templates/git-gate.md" "Provider/model:" "Git gate template records provider/model"
+template_contains "templates/git-gate.md" "Separation/diversity status:" "Git gate template records separation status"
 
 template_contains "docs/VALIDATION.md" "successor packet != automatic thread creation" "Validation blocks successor thread automation creep"
 template_contains "docs/VALIDATION.md" "Rollover Opportunity" "Validation checks rollover opportunity"
@@ -260,6 +301,16 @@ template_contains "docs/VALIDATION.md" "Same-workstream PM plus Advisor gate aut
 template_contains "docs/VALIDATION.md" "Historical gate state is recorded as evidence only" "Validation blocks successor authorization inheritance"
 template_contains "docs/VALIDATION.md" "Dashboard fields remain evidence inputs" "Validation blocks dashboard state machine"
 template_contains "docs/VALIDATION.md" "hidden Worker execution" "Validation checks Leader delegation discipline"
+template_contains "docs/VALIDATION.md" "Provider Separation, Agent Patience, And Migration Guidance Checks" "Validation checks v0.4.9 provider separation section"
+template_contains "docs/VALIDATION.md" "provider-level separation" "Validation checks provider-level separation"
+template_contains "docs/VALIDATION.md" "same-provider model names, versions, families, or capability tiers" "Validation degrades same-provider variants"
+template_contains "docs/VALIDATION.md" "current verified model record" "Validation checks current verified model record"
+template_contains "docs/VALIDATION.md" "does not hard-code concrete model names" "Validation keeps skill model-agnostic"
+template_contains "docs/VALIDATION.md" "short silence during substantive review" "Validation preserves PM Advisor patience"
+template_contains "docs/VALIDATION.md" "substantive bounded Worker slices use the same evidence-based patience principle" "Validation preserves Worker patience"
+template_contains "docs/VALIDATION.md" "automatic timers, polling loops" "Validation blocks patience automation creep"
+template_contains "docs/VALIDATION.md" "Installation and migration guidance covers local checkout use" "Validation checks installation guide coverage"
+template_contains "docs/VALIDATION.md" "does not imply packaging automation" "Validation blocks migration automation creep"
 template_contains "docs/VALIDATION.md" "0-1, 2, 3-4, 5-6, 7, 8+" "Validation checks rollover thresholds"
 template_contains "docs/VALIDATION.md" "Owner-recorded CLI role assignment is described as current-project workspace trust setup authorization" "Validation checks owner-recorded trust authorization"
 template_contains "docs/VALIDATION.md" "Stale, historical-only, superseded, or mismatched role records do not authorize trust setup." "Validation blocks stale trust authorization"
@@ -292,6 +343,22 @@ template_contains "SKILL.md" "For Medium, Complex, High-risk, implementation-hea
 template_contains "SKILL.md" "6 or more observed compressions/summaries plus a next action of Worker" "SKILL.md defines gate rollover threshold"
 template_contains "SKILL.md" "3-4 observed compressions/summaries" "SKILL.md replaces ambiguous multiple compression wording"
 template_contains "SKILL.md" "5-6 observed compressions/summaries" "SKILL.md defines recommended threshold"
+template_contains "SKILL.md" "Provider-level separation means different service providers" "SKILL.md defines provider-level separation"
+template_contains "SKILL.md" "same-provider-variant" "SKILL.md defines same-provider variant status"
+template_contains "SKILL.md" "hints to verify against the current workstream" "SKILL.md treats model records as hints to verify"
+template_contains "SKILL.md" "A current verified model record applies to the exact current project" "SKILL.md defines current verified model record"
+template_contains "SKILL.md" "Do not claim PM/Advisor independence was strengthened" "SKILL.md blocks same-provider diversity overclaim"
+template_contains "SKILL.md" "Do not treat short silence or a brief lack of visible output as task failure" "SKILL.md preserves PM Advisor patience"
+template_contains "SKILL.md" "Worker lifecycle uses the same evidence-based patience principle" "SKILL.md preserves Worker patience"
+template_contains "SKILL.md" "Close, restart, or replace PM/Advisor only when there is a recorded lifecycle reason" "SKILL.md requires lifecycle closure reason"
+template_contains "README.md" "docs/INSTALLATION.md" "README links installation guide"
+template_contains "docs/INSTALLATION.md" "Optional Global Skill Sync" "Installation guide covers global skill sync"
+template_contains "docs/INSTALLATION.md" "Migrate To Another Machine" "Installation guide covers machine migration"
+template_contains "docs/INSTALLATION.md" "Adopt In Another Project" "Installation guide covers project adoption"
+template_contains "docs/INSTALLATION.md" "What Does Not Transfer" "Installation guide documents non-transferable state"
+template_contains "docs/INSTALLATION.md" "Do not hard-code a concrete" "Installation guide keeps model selection generic"
+template_contains "docs/INSTALLATION.md" "Migration does not transfer" "Installation guide blocks authorization transfer"
+template_contains "docs/INSTALLATION.md" "./scripts/validate-local.sh" "Installation guide includes validation command"
 
 if command -v openspec >/dev/null 2>&1; then
   if openspec_list="$(openspec list --json 2>&1)"; then

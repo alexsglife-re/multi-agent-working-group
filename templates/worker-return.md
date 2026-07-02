@@ -1,6 +1,6 @@
 # Worker Return Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 ```text
 Role:
@@ -8,6 +8,14 @@ Role:
 
 Status:
   completed | partial | blocked
+
+Lifecycle patience:
+  Work size:
+    quick | substantive | complex | implementation-heavy | validation-heavy
+  Last contact or progress evidence:
+  Patience window exceeded:
+    yes | no | not applicable
+  Closure/restart reason, if any:
 
 Assigned target:
   <original one-sentence target>

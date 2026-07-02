@@ -2,7 +2,7 @@
 
 These templates are reusable shapes for common Multi-Agent Working Group outputs. They are meant to be copied, filled in, and kept short.
 
-Version: v0.4.8 recommended templates.
+Version: v0.4.9 recommended templates.
 
 ## Use Rules
 
@@ -18,6 +18,10 @@ Version: v0.4.8 recommended templates.
 - Treat `Rollover Opportunity` as early preparation, not immediate handoff and not inherited authorization.
 - Use compression count value/source/confidence; do not claim platform-visible summaries are actual total compactions.
 - Task dashboards are evidence inputs to canonical state selection, not a separate state machine or runtime dashboard.
+- Treat global memory, project memory, handoff, and startup-packet model preferences as hints to verify for the current workstream.
+- Record provider/model per role, model source, source freshness/current verification, and PM/Advisor separation status.
+- Use `provider-separated` only for different AI service providers; same-provider model/version variants are degraded or partial separation.
+- Do not treat short silence as failure for PM, Advisor, or substantive Worker work; record expected wait/recheck behavior and concrete closure or restart reasons.
 
 ## Template Index
 
@@ -70,7 +74,7 @@ Handling:
   Preserved as historical evidence. Not edited in place.
 
 Current-state extraction:
-  Only verified current facts were copied into the v0.4.8 compact handoff.
+  Only verified current facts were copied into the v0.4.9 compact handoff.
 
 Not carried forward:
   Superseded plans, old validation output, old agent transcripts, stale git state,

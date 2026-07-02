@@ -1,6 +1,6 @@
 # Compact Handoff Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 ## Current State Card
 
@@ -65,8 +65,38 @@ Scope:
 PM/Advisor continuity:
   PM:
   Advisor:
-  Separation/diversity:
+  Provider/model per role:
+    PM:
+    Advisor:
+  Model source per role:
+    PM:
+    Advisor:
+  Source freshness/current verification:
+  Separation/diversity status:
+    provider-separated | model-family-separated degraded |
+    same-provider-variant degraded | same-model owner override degraded |
+    degraded | blocked
+  Override or degradation reason:
+  Current verified model record:
+  Lifecycle patience:
+    Expected work size:
+      quick | substantive | large gate review | unknown
+    Expected wait/recheck behavior:
+    Last contact or progress evidence:
+    Patience state:
+      active | waiting | progress-check-needed | exceeded | blocked | complete
+    Closure/restart reason, if any:
   Continuity:
+
+Worker lifecycle patience:
+  Substantive Worker active:
+    yes | no
+  Worker identity/slice:
+  Expected wait/recheck behavior:
+  Last contact or progress evidence:
+  Patience state:
+    active | waiting | progress-check-needed | exceeded | blocked | complete
+  Closure/restart reason, if any:
 
 Reviewer continuity:
   not required | required | complete | blocked

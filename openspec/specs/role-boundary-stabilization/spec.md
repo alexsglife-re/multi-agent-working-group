@@ -2,7 +2,6 @@
 
 ## Purpose
 Define the stable role-boundary, example, validation, and normal git-gate requirements introduced by the v0.4.0 documentation-first stabilization pass.
-
 ## Requirements
 ### Requirement: Version metadata documents v0.4.0
 The project SHALL document v0.4.0 as the role-boundary and operating-examples stabilization target without implying release, tag, push, deployment, or public publication by itself.
@@ -67,3 +66,10 @@ The validation checklist SHALL include v0.4.0 checks for role-boundary consisten
 #### Scenario: Reviewer validates v0.4.0 docs
 - **WHEN** a reviewer checks the v0.4.0-ready documentation set
 - **THEN** the checklist catches small-task Reviewer misuse, medium hidden Leader execution, high-risk git gate weakening, and examples that imply unauthorized commit or push
+
+### Requirement: Installation and migration guidance preserves authorization boundaries
+The project SHALL document how to install, sync, and migrate the skill without implying transfer of workstream authorization, git authorization, validation freshness, role continuity, or external-effect permission.
+
+#### Scenario: Skill is migrated to another machine or project
+- **WHEN** a reader follows the installation or migration guide
+- **THEN** the guide states that files and stable rules may be copied, but commit/push/CI/archive authorization, PM/Advisor agreement, Worker results, and stale handoff facts must be re-verified for the new machine, project, or workstream

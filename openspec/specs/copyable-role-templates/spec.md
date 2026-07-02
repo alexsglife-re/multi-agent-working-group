@@ -4,15 +4,11 @@
 Define copyable templates for common Multi-Agent Working Group role outputs, gate evidence, blocked reports, compact handoff recovery, and successor startup packets, including safe handling for legacy or bloated documents.
 ## Requirements
 ### Requirement: Repository provides copyable role templates
-The project SHALL provide copyable templates for common multi-agent workstream outputs, including C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, successor startup packet, and git gate evidence.
+The project SHALL provide copyable templates for PM, Advisor, Worker assignment, Worker return, Reviewer report, blocked report, C0 analysis, compact handoff, successor startup, and git gate capture. Templates for PM, Advisor, Worker, C0, compact handoff, successor startup, and blocked reports SHALL record lifecycle patience state when substantive role work is expected, in progress, blocked, or restarted.
 
-#### Scenario: Leader starts a new workstream
-- **WHEN** a Leader needs a reusable output shape for a common role or gate
-- **THEN** the Leader can copy a template that preserves scope, risk, evidence, validation, unresolved P0/P1, and authorization state
-
-#### Scenario: Leader prepares rollover handoff
-- **WHEN** a Leader needs to prepare a successor after context pressure, rollover opportunity, rollover recommendation, or required rollover
-- **THEN** the repository provides a successor startup packet template that captures current state, canonical context-budget evidence, compression count value/source/confidence, task status dashboard, pending messages, conflicts, evidence index, successor verification checklist, and authorization state
+#### Scenario: Future agent captures long-running role state
+- **WHEN** a PM, Advisor, or substantive Worker is still working or has been restarted
+- **THEN** the relevant template provides fields for expected wait window, last contact, progress evidence, patience state, and closure or restart reason
 
 ### Requirement: Templates are structure only
 The templates SHALL state or imply that they provide structure and evidence capture only, not authorization, approval, validation success, or gate bypass.
@@ -39,3 +35,18 @@ The project SHALL define how v0.3 or older handoffs, ledgers, and role outputs a
 #### Scenario: Old handoff is long
 - **WHEN** an old handoff or ledger is long or append-only
 - **THEN** the Leader MUST NOT paste it verbatim into the new active handoff and MUST instead summarize current verified state plus evidence pointers
+
+### Requirement: State templates record provider separation
+The template set SHALL include provider/model-per-role, model source, PM/Advisor separation status, and freshness/applicability verification fields in templates that carry workstream state.
+
+#### Scenario: C0 template records model source
+- **WHEN** a Leader fills the C0 goal analysis template for a workstream using PM and Advisor
+- **THEN** the template includes fields for PM provider/model, Advisor provider/model, model source, PM/Advisor separation status, and current verification status
+
+#### Scenario: Handoff templates record model source
+- **WHEN** a Leader fills compact handoff or successor startup templates for a workstream with PM/Advisor state
+- **THEN** the templates include provider/model-per-role, separation status, model source, freshness, and applicability verification fields
+
+#### Scenario: Same provider variant is recorded
+- **WHEN** PM and Advisor use different variants from the same provider
+- **THEN** the templates provide a status that records the state as degraded or partial rather than full provider separation

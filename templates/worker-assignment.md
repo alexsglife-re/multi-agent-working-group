@@ -1,6 +1,6 @@
 # Worker Assignment Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 ```text
 Role:
@@ -8,6 +8,18 @@ Role:
 
 Task target:
   <one sentence acceptance target>
+
+Work size:
+  quick | substantive | complex | implementation-heavy | validation-heavy
+
+Expected wait/recheck behavior:
+  <how long or under what condition Leader should wait before progress check>
+
+Lifecycle patience:
+  Do not treat short silence as failure for substantive bounded work.
+  Close/restart only for completion, blocked return, tool/session failure,
+  exceeded patience window without progress evidence, stale evidence,
+  role drift, context overload, rollover boundary, or Owner instruction.
 
 Allowed files or modules:
   - ...
@@ -36,6 +48,11 @@ Expected return:
     - ...
   Validation performed:
     - ...
+  Lifecycle patience:
+    Last contact or progress evidence:
+    Patience window exceeded:
+      yes | no | not applicable
+    Closure/restart reason, if any:
   Findings:
     P0:
     P1:

@@ -1,6 +1,6 @@
 # Blocked Report Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 ```text
 Status:
@@ -22,6 +22,15 @@ CLI workspace trust blocker, if relevant:
   Post-setup read-only probe:
   Why current authorization is insufficient:
     none | stale source | mismatched project/workstream | outside project root | dangerous permission bypass | secret access | global policy change | git/CI/deploy/release/external effect | other
+
+Lifecycle patience blocker, if relevant:
+  Role:
+    PM | Advisor | Worker | Reviewer | other
+  Expected wait/recheck behavior:
+  Last contact or progress evidence:
+  Patience window exceeded:
+    yes | no | not applicable
+  Closure/restart reason:
 
 Plain-language explanation:
   <what happened and why continuing would be unsafe or misleading>

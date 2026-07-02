@@ -1,6 +1,6 @@
 # Git Gate Template
 
-Version: v0.4.8 recommended template.
+Version: v0.4.9 recommended template.
 
 ```text
 Gate:
@@ -29,13 +29,18 @@ Validation evidence:
     Freshness:
 
 PM review:
-  Model/provider:
+  Provider/model:
+  Model source:
+  Source freshness/current verification:
   P0:
   P1:
   Conclusion:
 
 Advisor review:
-  Model/provider:
+  Provider/model:
+  Model source:
+  Source freshness/current verification:
+  Separation/diversity status:
   P0:
   P1:
   Conclusion:
