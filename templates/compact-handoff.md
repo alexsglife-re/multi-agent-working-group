@@ -1,6 +1,6 @@
 # Compact Handoff Template
 
-Version: v0.4.6 recommended template.
+Version: v0.4.7 recommended template.
 
 ## Current State Card
 

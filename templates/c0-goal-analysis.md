@@ -1,6 +1,6 @@
 # C0 Goal Analysis Template
 
-Version: v0.4.6 recommended template.
+Version: v0.4.7 recommended template.
 
 ```text
 Owner goal:
@@ -37,6 +37,12 @@ PM/Advisor separation:
 CLI workspace trust:
   Needed:
   Status:
+  Owner-recorded role authorization source:
+  Source applicability:
+  Assigned CLI role:
+  Target project root:
+  Trust setup action:
+  Post-setup read-only probe:
   Evidence:
 
 Git state:

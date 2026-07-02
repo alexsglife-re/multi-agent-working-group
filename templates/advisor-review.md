@@ -1,6 +1,6 @@
 # Advisor Review Template
 
-Version: v0.4.6 recommended template.
+Version: v0.4.7 recommended template.
 
 ```text
 Role:
@@ -27,6 +27,19 @@ Risk check:
     - none | ...
   Default exclusions touched:
     yes | no
+
+CLI workspace trust challenge, if relevant:
+  Owner-recorded role authorization source inspected:
+  Source applies to current project/workstream:
+    yes | no | not applicable
+  Trust state:
+    not-needed | preflight-needed | owner-recorded-role-authorized | trust-setup-attempted | trusted-verified | owner-confirmation-needed | blocked
+  Target project root is exact current project root:
+    yes | no | not applicable
+  Read-only probe passed before relying on CLI output:
+    yes | no | not applicable
+  Scope expansion concerns:
+    none | parent/home/all-repo trust | dangerous permission bypass | secrets | global policy | git/CI/deploy/release/external effect | other
 
 Findings:
   P0:

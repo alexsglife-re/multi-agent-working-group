@@ -83,7 +83,7 @@ Run these checks for the `v0.4.2` CLI trust and OpenSpec lifecycle set: `README.
 
 - CLI-based PM, Advisor, Worker, or Reviewer roles require current-project workspace-trust preflight before their output is relied on.
 - Workspace trust is scoped to the exact current project workspace and does not authorize unrelated directories, secrets, global policy changes, or broader file access.
-- A workspace-trust failure is recorded as `workspace-trust-blocked` and does not silently become role unavailability, same-model degradation, stale-output reuse, or model switching.
+- A workspace-trust failure first checks whether applicable Owner-recorded role authorization permits current-project trust setup; if no applicable authorization exists, record `workspace-trust-blocked` and do not silently convert it into role unavailability, same-model degradation, stale-output reuse, or model switching.
 - An Owner-specified Advisor is treated as a trusted bounded collaboration role for the current workstream, not as an ordinary third-party service.
 - Trusted Advisor context still excludes secrets, credentials, unrelated projects, broad context dumps, and irrelevant data unless explicitly authorized.
 - PM and Advisor default to different AI models when model selection is available.
@@ -153,6 +153,24 @@ Run these checks for the `v0.4.6` rollover set: `README.md`, `CHANGELOG.md`, `do
 - Legacy v0.3 or bloated handoffs remain historical evidence and are not pasted verbatim into active rollover packets.
 - Reference-source influence from ClawTeam/OpenClaw remains rule-level only: task states, explicit approval vocabulary, scoped context, and board-style summaries are allowed; runtime code, automatic spawning, subprocess orchestration, board UI, cost dashboard automation, and thread automation remain out of scope.
 
+## v0.4.7 CLI Workspace Trust Setup Protocol Checks
+
+Run these checks for the `v0.4.7` CLI workspace trust setup set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, `templates/`, `examples/`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- Owner-recorded CLI role assignment is described as current-project workspace trust setup authorization for Claude CLI, Codex CLI, or similar CLI agents assigned as PM, Advisor, Worker, Reviewer, or another role.
+- Allowed authorization sources include current Owner instruction, global memory, project rules, project memory, handoff, startup packet, continuity record, ledger, template, and verified OpenSpec evidence.
+- The Leader must verify that the source applies to the exact current project and workstream before using it as authorization.
+- Stale, historical-only, superseded, or mismatched role records do not authorize trust setup.
+- Trust setup remains scoped to the exact current project root and assigned CLI role.
+- Trust setup does not authorize parent-directory trust, home-directory trust, all-repository trust, unrelated project access, dangerous permission bypass, broad file access, secrets, credentials, browser data, global policy changes, git actions, CI, deployment, release, publication, or other external effects.
+- Trust states include `not-needed`, `preflight-needed`, `owner-recorded-role-authorized`, `trust-setup-attempted`, `trusted-verified`, and `blocked`.
+- Trust-state template fields also include `owner-confirmation-needed` where a CLI trust record can represent a needed Owner confirmation.
+- `owner-confirmation-needed` is reserved for missing/stale authorization, trust outside the current project root, dangerous permission bypass, secret access, unrelated directory access, global policy changes, git actions, CI, deployment, release, publication, or external effects.
+- `trusted-verified` is recorded only after a post-setup minimal read-only probe succeeds.
+- Blocked trust setup does not silently become role unavailability, model switching, same-model fallback, or stale-output reuse.
+- Examples do not teach the old behavior of treating an untrusted CLI workspace as immediately blocked before checking applicable Owner-recorded role authorization.
+- Reference-source influence from ClawTeam/OpenClaw remains rule-level only: prompt-detection ideas and setup/verify/troubleshooting structure are allowed; copied runtime code, silent prompt confirmation, subprocess orchestration, worktree automation, dangerous permission bypass, and global allowlist automation remain out of scope.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -166,7 +184,10 @@ Run these checks whenever `SKILL.md` changes.
 - PM and Advisor independence requirements remain clear.
 - Advisor model/provider and diversity status are recorded when relevant.
 - PM model/provider and PM/Advisor model separation status are recorded when relevant.
-- CLI agent workspace-trust status is recorded when relevant.
+- CLI agent workspace-trust status, authorization source, target project root, setup state, and probe result are recorded when relevant.
+- Owner-recorded CLI role assignment for the current project and workstream authorizes exact current-project workspace trust setup without a repeated Owner prompt.
+- Stale, historical-only, superseded, or mismatched CLI role records do not authorize workspace trust setup.
+- `trusted-verified` is used only after a minimal read-only probe succeeds.
 - OpenSpec C-stage and C0 analysis are recorded when relevant.
 - Leader state compaction preserves active current-state cards, evidence indexes, and archived history boundaries when long handoff or continuity state is involved.
 - Local validation command output is recorded when it is relevant to commit, push, or closeout gates.
@@ -201,6 +222,8 @@ Run these checks whenever `agents/openai.yaml` changes.
 - Documentation does not imply that Advisor model diversity expands context sharing, authorizes secrets, or proves correctness.
 - Documentation does not imply that trusted Advisor context authorizes secrets, unrelated projects, broad dumps, or irrelevant data.
 - Documentation does not imply that CLI workspace trust can be applied globally or to unrelated directories by default.
+- Documentation does not imply that Owner-recorded CLI role assignment authorizes parent-directory trust, home-directory trust, all-repository trust, dangerous permission bypass, broad file access, secrets, credentials, browser data, global policy changes, git actions, CI, deployment, release, publication, or external effects.
+- Documentation does not imply that stale handoffs, historical-only records, superseded records, or mismatched project memories authorize current workspace trust setup.
 - Documentation does not imply that PM/Advisor same-model pairing can happen silently.
 - Documentation does not imply that an OpenSpec-backed goal is complete before archive when archive applies.
 - Documentation does not imply that compacting handoff state permits dropping unresolved P0/P1, validation freshness, PM/Advisor findings, owner-decision needs, or git authorization state.

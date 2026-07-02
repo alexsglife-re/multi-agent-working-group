@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.7
+
+- Add CLI workspace trust setup protocol for Owner-recorded Claude CLI, Codex CLI, and similar CLI role assignments.
+- Treat applicable Owner-recorded role assignment from current instruction, memory, project rules, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence as authorization for exact current-project trust setup.
+- Add trust setup state vocabulary: `not-needed`, `preflight-needed`, `owner-recorded-role-authorized`, `trust-setup-attempted`, `trusted-verified`, and `blocked`.
+- Require source applicability verification and a post-setup minimal read-only probe before relying on CLI role output.
+- Preserve boundaries against dangerous permission bypass, broad directory trust, secrets, global policy expansion, git actions, CI, deployment, release, publication, or external effects.
+- Update templates and local validation to check v0.4.7 trust setup markers.
+
 ### Completed local upgrade for v0.4.6
 
 - Add Leader Rollover Protocol for explicit context-budget records, observed compression/summary thresholds, and rollover-safe actions.

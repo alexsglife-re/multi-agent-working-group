@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.6` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, and `v0.4.6` Leader Rollover Protocol are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.7` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, and `v0.4.7` CLI workspace trust setup protocol are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -12,7 +12,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Keeping independent review separate from implementation.
 - Defaulting Advisor to a different AI model when model selection is available, unless the Owner explicitly requests same-model Advisor use.
 - Keeping PM and Advisor on different AI models by default, without silent same-model degradation.
-- Handling CLI agent workspace trust as a current-project preflight before relying on CLI-based PM, Advisor, Worker, or Reviewer output.
+- Handling CLI agent workspace trust as a current-project preflight and Owner-recorded current-project setup protocol before relying on CLI-based PM, Advisor, Worker, or Reviewer output.
 - Running OpenSpec-backed work through C0 goal analysis, C1 proposal, C2 implementation, C3 closeout, and C4 archive.
 - Making commit and push gates explicit.
 - Preserving continuity across long-running or spec-bound work.
@@ -60,7 +60,7 @@ For small read-only or low-risk documentation tasks, the Leader may complete the
 
 When Advisor model/provider has not been recorded for the current project, session, continuity file, or handoff, the Leader asks the Owner to specify the Advisor model/provider at workstream startup. A different Advisor model is the default when available; same-model Advisor use must be explicit and recorded.
 
-When a CLI-based agent such as Claude CLI or Codex CLI is assigned to a role, the Leader confirms the exact current project workspace is trusted before relying on that agent. If workspace trust is blocked, the Leader reports the blocker instead of silently switching roles or downgrading model separation.
+When a CLI-based agent such as Claude CLI or Codex CLI is assigned to a role, the Leader confirms the exact current project workspace is trusted before relying on that agent. If the Owner-recorded role assignment exists in the current conversation, global memory, project rules, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence, the Leader may complete trust setup for the exact current project root without asking again. Trust setup still requires source applicability verification, current-project scoping, and a minimal read-only probe before relying on the CLI output. If workspace trust is blocked, the Leader reports the blocker instead of silently switching roles or downgrading model separation.
 
 When this skill is used with OpenSpec, each workstream starts with C0 goal/task analysis before C1 proposal work, and completion includes C4 archive when archive applies to the goal.
 
@@ -72,7 +72,7 @@ When context pressure is visible, the v0.4.6 Leader Rollover Protocol records co
 
 Use the templates in `templates/` when a workstream needs a consistent fill-in shape for C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, successor startup packet, or commit/push gate evidence.
 
-The v0.4.6 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates.
+The v0.4.7 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates.
 
 When older v0.3 or earlier handoff documents have already grown large, preserve them as historical evidence. Create a new `templates/compact-handoff.md` current state card, copy only verified current facts into it, and reference the old document through the evidence index instead of appending or rewriting the old text.
 
@@ -115,6 +115,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete; `v0.4.6` Leader Rollover Protocol is complete.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete; `v0.4.6` Leader Rollover Protocol is complete; `v0.4.7` CLI workspace trust setup protocol is complete.
 
-`v0.4.6` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.7` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

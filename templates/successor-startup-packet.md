@@ -1,6 +1,6 @@
 # Successor Startup Packet Template
 
-Version: v0.4.6 recommended template.
+Version: v0.4.7 recommended template.
 
 Use this when a Leader recommends or requires rollover to a new conversation.
 This packet is continuity evidence only. It is not automatic thread creation,

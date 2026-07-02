@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.6"
+VERSION="v0.4.7"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
@@ -144,28 +144,28 @@ else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Leader Rollover Protocol"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: CLI Workspace Trust Setup Protocol"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Leader Rollover Protocol is complete"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` CLI workspace trust setup protocol"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Leader Rollover Protocol Checks"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION CLI Workspace Trust Setup Protocol Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
 fi
 
-if [[ -f "SKILL.md" ]] && contains "SKILL.md" "For v0.4.6 and later, rollover handling means automatic detection"; then
-  pass "SKILL.md current rollover marker"
+if [[ -f "SKILL.md" ]] && contains "SKILL.md" "Owner-recorded role authorization:"; then
+  pass "SKILL.md current trust setup marker"
 else
-  fail "SKILL.md current rollover marker"
+  fail "SKILL.md current trust setup marker"
 fi
 
 for spec in "${REQUIRED_ACCEPTED_SPECS[@]}"; do
@@ -207,14 +207,25 @@ template_contains "templates/README.md" "historical only" "templates README uses
 template_contains "templates/README.md" "Do not use it as authorization for commit, push, scope expansion, gate bypass, or external effects." "templates README blocks legacy authorization"
 template_contains "templates/pm-review.md" "P0:" "PM template preserves P0"
 template_contains "templates/pm-review.md" "P1:" "PM template preserves P1"
+template_contains "templates/pm-review.md" "Owner-recorded role authorization source:" "PM template records trust authorization source"
+template_contains "templates/pm-review.md" "owner-recorded-role-authorized" "PM template records trust state vocabulary"
+template_contains "templates/pm-review.md" "owner-confirmation-needed" "PM template records owner confirmation trust state"
 template_contains "templates/advisor-review.md" "Reviewed before PM conclusions" "Advisor template records independence"
 template_contains "templates/advisor-review.md" "P0:" "Advisor template preserves P0"
 template_contains "templates/advisor-review.md" "P1:" "Advisor template preserves P1"
+template_contains "templates/advisor-review.md" "Read-only probe passed before relying on CLI output:" "Advisor template records trust probe challenge"
+template_contains "templates/advisor-review.md" "dangerous permission bypass" "Advisor template checks dangerous permission bypass"
+template_contains "templates/advisor-review.md" "owner-confirmation-needed" "Advisor template records owner confirmation trust state"
 template_contains "templates/worker-assignment.md" "Do not expand scope." "Worker assignment blocks scope expansion"
 template_contains "templates/worker-assignment.md" "Do not self-approve." "Worker assignment blocks self approval"
 template_contains "templates/worker-assignment.md" "Do not commit or push." "Worker assignment blocks git actions"
 template_contains "templates/reviewer-report.md" "block; Reviewer must not review their own implementation" "Reviewer template blocks self review"
 template_contains "templates/blocked-report.md" "Do not bypass PM/Advisor/Reviewer, validation, secret-scan, CI/status, or git gates." "Blocked template blocks gate bypass"
+template_contains "templates/blocked-report.md" "owner-confirmation-needed" "Blocked template records owner confirmation need"
+template_contains "templates/blocked-report.md" "trusted-verified | owner-confirmation-needed | blocked" "Blocked template records owner confirmation trust state"
+template_contains "templates/blocked-report.md" "Why current authorization is insufficient:" "Blocked template records insufficient authorization reason"
+template_contains "templates/c0-goal-analysis.md" "Owner-recorded role authorization source:" "C0 template records trust authorization source"
+template_contains "templates/c0-goal-analysis.md" "Post-setup read-only probe:" "C0 template records trust probe"
 template_contains "templates/compact-handoff.md" "current | stale until re-verified | historical only" "Compact handoff uses freshness labels"
 template_contains "templates/compact-handoff.md" "verified | inferred | unverified" "Compact handoff uses verification labels"
 template_contains "templates/compact-handoff.md" "Observed compression/summary count:" "Compact handoff includes compression count"
@@ -233,6 +244,19 @@ template_contains "templates/git-gate.md" "CI/status:" "Git gate template includ
 
 template_contains "docs/VALIDATION.md" "successor packet != automatic thread creation" "Validation blocks successor thread automation creep"
 template_contains "docs/VALIDATION.md" "0-1, 2, 3-4, 5-6, 7, 8+" "Validation checks rollover thresholds"
+template_contains "docs/VALIDATION.md" "Owner-recorded CLI role assignment is described as current-project workspace trust setup authorization" "Validation checks owner-recorded trust authorization"
+template_contains "docs/VALIDATION.md" "Stale, historical-only, superseded, or mismatched role records do not authorize trust setup." "Validation blocks stale trust authorization"
+template_contains "docs/VALIDATION.md" "A workspace-trust failure first checks whether applicable Owner-recorded role authorization permits current-project trust setup" "Validation blocks old direct trust-blocked wording"
+template_contains "docs/VALIDATION.md" "Trust-state template fields also include \`owner-confirmation-needed\`" "Validation checks owner confirmation trust state templates"
+template_contains "docs/VALIDATION.md" "Examples do not teach the old behavior" "Validation checks examples for stale trust flow"
+template_contains "examples/openspec-c0-c4-task.md" "first check whether an Owner-recorded role assignment applies" "Example checks Owner-recorded trust before blocking"
+template_contains "examples/openspec-c0-c4-task.md" "Blocked by:" "Example uses blocked report structure"
+template_contains "examples/openspec-c0-c4-task.md" "Trust state:" "Example records trust state"
+template_contains "examples/openspec-c0-c4-task.md" "owner-recorded-role-authorized" "Example includes authorized trust setup state"
+template_contains "SKILL.md" "current Owner instruction, global memory, project rule, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence" "SKILL.md defines trust authorization sources"
+template_contains "SKILL.md" "owner-recorded-role-authorized" "SKILL.md defines trust setup state"
+template_contains "SKILL.md" "post-setup read-only probe succeeds" "SKILL.md requires trust probe before verified state"
+template_contains "SKILL.md" "Do not use dangerous permission-bypass flags" "SKILL.md blocks dangerous permission bypass"
 template_contains "SKILL.md" "6 or more observed compressions/summaries plus a next action of Worker" "SKILL.md defines gate rollover threshold"
 template_contains "SKILL.md" "3-4 observed compressions/summaries" "SKILL.md replaces ambiguous multiple compression wording"
 template_contains "SKILL.md" "5-7 observed compressions/summaries" "SKILL.md replaces ambiguous many compression wording"

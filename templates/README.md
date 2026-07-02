@@ -2,7 +2,7 @@
 
 These templates are reusable shapes for common Multi-Agent Working Group outputs. They are meant to be copied, filled in, and kept short.
 
-Version: v0.4.6 recommended templates.
+Version: v0.4.7 recommended templates.
 
 ## Use Rules
 
@@ -13,6 +13,8 @@ Version: v0.4.6 recommended templates.
 - Move bulky detail into evidence references when safe local storage exists.
 - Preserve unresolved P0/P1, owner-decision needs, validation freshness, stop conditions, and git authorization state.
 - Treat rollover templates as continuity evidence only; successor startup packet != automatic thread creation.
+- Treat Owner-recorded CLI role assignment as current-project trust setup authorization only after verifying the source applies to the current project and workstream.
+- CLI trust setup fields do not authorize parent-directory trust, home-directory trust, all-repository trust, dangerous permission bypass, secrets, global policy changes, git actions, CI, deployment, release, publication, or external effects.
 
 ## Template Index
 
@@ -65,7 +67,7 @@ Handling:
   Preserved as historical evidence. Not edited in place.
 
 Current-state extraction:
-  Only verified current facts were copied into the v0.4.6 compact handoff.
+  Only verified current facts were copied into the v0.4.7 compact handoff.
 
 Not carried forward:
   Superseded plans, old validation output, old agent transcripts, stale git state,

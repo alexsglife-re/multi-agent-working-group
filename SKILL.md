@@ -129,14 +129,33 @@ Applies when Claude CLI, Codex CLI, or another CLI-based agent is assigned as PM
 Preflight:
   Before relying on a CLI agent, confirm it can read the exact current project workspace under the intended role.
   A minimal read-only probe is enough when available, such as asking the CLI agent to identify the project path or inspect a non-sensitive project file.
-  If the CLI reports an untrusted workspace, blocked project, or similar trust prompt, record `workspace-trust-blocked`.
+  If the CLI reports an untrusted workspace, blocked project, or similar trust prompt, check whether an Owner-recorded CLI role assignment authorizes current-project trust setup before recording a blocker.
+
+Owner-recorded role authorization:
+  If a current Owner instruction, global memory, project rule, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence records that the Owner assigned Claude CLI, Codex CLI, or another CLI-based agent to a PM, Advisor, Worker, Reviewer, or other role for the current project and workstream, the Leader may treat current-project workspace trust setup as Owner-authorized for that assigned CLI role.
+  The Leader must verify that the authorization source applies to the exact current project and workstream before relying on it.
+  Stale, historical-only, superseded, or mismatched role records do not authorize workspace trust setup.
+  The Leader should not ask the Owner again merely because the assignment was recorded in memory, project rules, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence instead of the current message.
 
 Trust setup:
-  For an Owner-assigned CLI agent in the current project, trusting the exact current project workspace is a normal setup step for that role.
-  The Leader must confirm or report the trust step rather than silently running trust commands or bypassing the CLI's trust prompt.
+  For an Owner-recorded CLI role assignment in the current project, trusting the exact current project workspace is a normal setup step for that role.
+  The Leader may perform or confirm workspace trust setup for the exact current project root without asking the Owner again when the Owner-recorded role authorization applies.
+  The Leader must record the authorization source, assigned role, target project root, trust setup action, and probe result.
   Keep trust scoped to the current project workspace only.
-  Do not trust unrelated directories, broaden file access, expose secrets, or change global tool policy unless the Owner explicitly approves that wider action.
+  Do not trust parent directories, home directories, all repositories, unrelated directories, or unrelated projects unless the Owner explicitly approves that wider action.
+  Do not use dangerous permission-bypass flags, broaden file access, expose secrets, read credentials, read browser data, change global tool policy, perform git actions, run CI, deploy, release, publish, or create external effects unless the Owner explicitly approves that separate action.
   After trust setup, rerun a minimal read-only probe before using the CLI agent's output as evidence.
+
+Trust states:
+  Use this compact state vocabulary when recording CLI workspace trust:
+    not-needed
+    preflight-needed
+    owner-recorded-role-authorized
+    trust-setup-attempted
+    trusted-verified
+    blocked
+  Use `owner-confirmation-needed` only when the trust target is outside the current project root, the authorization source is stale or missing, the tool requires dangerous permission bypass, secret access, unrelated directory access, global policy changes, git actions, CI, deployment, release, publication, or another external effect.
+  Record `trusted-verified` only after the post-setup read-only probe succeeds.
 
 Failure:
   Do not mark the role unavailable, silently switch models, reuse stale Advisor output, or degrade PM/Advisor separation merely because workspace trust is blocked.
@@ -622,6 +641,9 @@ C0 analysis, PM review, Advisor review, Worker assignment, Worker return,
 Reviewer report, blocked reports, compact handoffs, and git gates.
 v0.4.6 adds Leader Rollover Protocol fields plus
 `templates/successor-startup-packet.md` for rollover handoff.
+v0.4.7 adds CLI workspace trust setup fields for Owner-recorded role
+authorization source, target project root, trust state, and post-setup
+read-only probe evidence.
 
 Use templates as fill-in structure and evidence capture only. A filled template
 does not authorize commit, push, archive, release, deployment, external

@@ -1,6 +1,6 @@
 # PM Review Template
 
-Version: v0.4.6 recommended template.
+Version: v0.4.7 recommended template.
 
 ```text
 Role:
@@ -26,6 +26,18 @@ Risk classification:
   Reason:
   Default exclusions touched:
     yes | no
+
+CLI workspace trust, if relevant:
+  Owner-recorded role authorization source:
+  Source applies to current project/workstream:
+    yes | no | not applicable
+  Trust state:
+    not-needed | preflight-needed | owner-recorded-role-authorized | trust-setup-attempted | trusted-verified | owner-confirmation-needed | blocked
+  Target project root:
+  Post-setup read-only probe:
+    passed | failed | not run | not applicable
+  Scope boundary concerns:
+    none | ...
 
 Recommended next action:
   <proceed, revise, block, ask owner, dispatch worker, archive, etc.>

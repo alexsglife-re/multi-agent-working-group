@@ -34,7 +34,10 @@ PM/Advisor model routing:
 CLI workspace trust:
   Claude CLI is assigned as Advisor.
   Leader must confirm Claude CLI can read the exact current project workspace before relying on it.
-  If Claude CLI reports an untrusted workspace, stop as workspace-trust-blocked and report the trust setup needed.
+  If Claude CLI reports an untrusted workspace, first check whether an Owner-recorded role assignment applies to this project and workstream.
+  When the assignment applies, trust setup for the exact current project root is authorized for the assigned role.
+  After setup, rerun a minimal read-only probe before relying on Claude CLI output.
+  If no applicable assignment exists, stop as workspace-trust-blocked and report the trust setup needed.
 
 Advisor context:
   Owner specified Claude CLI as Advisor, so it is a trusted bounded collaboration role for this workstream.
@@ -142,9 +145,25 @@ Goal: complete.
 Workspace trust blocked:
 
 ```text
-Status: workspace-trust-blocked
+Status:
+  blocked
+Blocked by:
+  workspace-trust-blocked
+Trust state:
+  blocked
 Plain-language report:
-  Claude CLI is assigned as Advisor, but it cannot read this project until this workspace is trusted. I cannot rely on it or silently switch PM and Advisor onto the same model. Recommended next step: trust only this project workspace for Claude CLI, then rerun a read-only probe.
+  Claude CLI is assigned as Advisor, but I found no current Owner-recorded role assignment that applies to this project and workstream. I cannot rely on it or silently switch PM and Advisor onto the same model. Recommended next step: approve trust setup only for this project workspace, then rerun a read-only probe.
+```
+
+Current-project trust setup authorized:
+
+```text
+Status:
+  ready for current-project trust setup
+Trust state:
+  owner-recorded-role-authorized
+Plain-language report:
+  Claude CLI is assigned as Advisor by an applicable Owner-recorded source for this project and workstream. I can complete trust setup only for this project root, then I must rerun a read-only probe before using Claude CLI output as evidence.
 ```
 
 Same-model PM/Advisor blocked:

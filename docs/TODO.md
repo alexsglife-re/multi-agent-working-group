@@ -201,6 +201,31 @@ Goal: make Leader context rollover explicit enough to trigger in real long-runni
 - [x] Run OpenSpec validation and documentation checks.
 - [x] Complete PM plus different-model Advisor review before archive and git closeout.
 
+## v0.4.7: CLI Workspace Trust Setup Protocol
+
+Goal: let Owner-recorded Claude CLI, Codex CLI, and similar CLI role assignments authorize exact current-project workspace trust setup without asking again, while keeping dangerous permission bypass, broad trust, secrets, and external effects out of scope.
+
+### OpenSpec
+
+- [x] Create `add-cli-workspace-trust-setup-protocol` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Archive the OpenSpec change after implementation and validation.
+
+### Skill Rules
+
+- [x] Treat applicable Owner-recorded CLI role assignment as authorization for exact current-project trust setup.
+- [x] Allow authorization sources from current instruction, global memory, project rules, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence.
+- [x] Require source applicability verification before using a recorded assignment as authorization.
+- [x] Add trust setup states and require `trusted-verified` only after a minimal read-only probe succeeds.
+- [x] Preserve boundaries against parent-directory trust, home-directory trust, all-repo trust, unrelated project access, dangerous permission bypass, secrets, global policy changes, git actions, CI, deployment, release, publication, and external effects.
+
+### Templates And Validation
+
+- [x] Update C0, PM, Advisor, and blocked templates for trust authorization source, setup state, target root, and probe evidence.
+- [x] Update README, changelog, roadmap, validation docs, and local validation checks for v0.4.7.
+- [x] Run local validation and OpenSpec validation.
+- [x] Sync the updated `SKILL.md` to the global installed skill.
+
 ## Later
 
 - [ ] Add installation and packaging guidance.
