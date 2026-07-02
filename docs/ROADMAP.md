@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, and `v0.4.7` CLI workspace trust setup protocol are complete.
+`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, and `v0.4.8` Leader Rollover Opportunity Protocol are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -37,6 +37,7 @@ Goal: make the workflow easier to apply consistently.
 - Add a compact handoff example for current state cards, evidence indexes, and historical archive notes.
 - Add successor startup packet guidance for context-budget rollover without automatic conversation creation.
 - Add CLI workspace trust setup protocol for Owner-recorded Claude CLI, Codex CLI, and similar CLI role assignments without dangerous permission bypass or broad directory trust.
+- Add Leader Rollover Opportunity Protocol so Leaders prepare rollover at clean boundaries before context reliability degrades.
 
 Exit criteria:
 
@@ -51,6 +52,7 @@ Exit criteria:
 - Copyable role templates are documented as a completed v0.4.5 follow-up without rewriting legacy handoff history.
 - Leader Rollover Protocol is documented as a completed v0.4.6 follow-up without automatic thread creation or gate bypass.
 - CLI workspace trust setup protocol is documented as a completed v0.4.7 follow-up without dangerous permission bypass, global trust, or external-effect authorization.
+- Leader Rollover Opportunity Protocol is documented as a completed v0.4.8 follow-up without automatic thread creation, automatic agent spawning, inherited authorization, or dashboard runtime.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -100,4 +102,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Decide the next version target after `v0.4.7`: likely candidates are packaging/install guidance or more lightweight validation hardening. Keep heavier automation out of scope until rollover protocol, trust setup protocol, templates, and the local command remain stable across more real tasks.
+Decide the next version target after `v0.4.8`: likely candidates are packaging/install guidance or more lightweight validation hardening. Keep heavier automation out of scope until rollover opportunity protocol, trust setup protocol, templates, and the local command remain stable across more real tasks.

@@ -1,6 +1,6 @@
 # Successor Startup Packet Template
 
-Version: v0.4.7 recommended template.
+Version: v0.4.8 recommended template.
 
 Use this when a Leader recommends or requires rollover to a new conversation.
 This packet is continuity evidence only. It is not automatic thread creation,
@@ -31,15 +31,27 @@ Scope:
 
 Context budget:
   State:
-  Observed compression/summary count:
-  Count confidence:
-    known | inferred | unknown
+    Normal | Soft Warning | Rollover Opportunity | ContextBudget Watch |
+    Rollover Recommended | Rollover Strongly Recommended | Rollover Required
+  Compression count value:
+  Compression count source:
+    platform-visible | owner-reported | inferred | unknown
+  Compression count confidence:
+    high | medium | low | unknown
+  Additional compression count evidence:
+    - <source/value/confidence; optional>
   Last context-budget check:
   Trigger category:
-    threshold | state-unreliable | owner-quality-concern | stale-ledger-before-gate | other
+    threshold | rollover-opportunity | state-unreliable |
+    owner-quality-concern | stale-ledger-before-gate | other
   Reason:
+  Canonical state rule:
+    exactly one state; highest applicable state wins
   Next safe rollover boundary:
   Rollover action:
+  Opportunity action:
+    current-state card and evidence index refreshed; complete packet only for
+    Recommended+ or explicit Owner handoff request
 
 Sealed-ready state:
   not entered | entered
@@ -89,8 +101,13 @@ Validation:
   Freshness:
     - ...
 
-Commit/push authorization state:
-  default no | not entered | blocked | one-time owner exception | gate passed
+Authorization state:
+  Current actionable authorization:
+    default no | not entered | blocked | current verified gate passed
+  Historical gate evidence:
+    none | prior commit/push/CI/archive gate evidence; evidence only
+  Successor inheritance:
+    not inherited; successor must re-verify before acting
 
 Next safe action:
   <one action only>
@@ -131,6 +148,8 @@ Conflicts and overlaps:
     - ...
   Authorization conflicts:
     - ...
+  Dashboard use:
+    evidence input to canonical state selection, not a separate state machine
 ```
 
 ## Evidence Index

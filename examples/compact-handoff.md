@@ -29,8 +29,10 @@ Gate state:
 
 Context budget:
   State: ContextBudget Watch.
-  Observed compression/summary count: 3.
-  Count confidence: inferred.
+  Compression count value: 3.
+  Compression count source: inferred.
+  Compression count confidence: medium.
+  Additional compression count evidence: none.
   Last context-budget check: 2026-07-01 15:20 America/Los_Angeles.
   Trigger category: threshold.
   Reason: long C2 workstream with repeated summarized evidence.

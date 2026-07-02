@@ -1,8 +1,5 @@
-# copyable-role-templates Specification
+## MODIFIED Requirements
 
-## Purpose
-Define copyable templates for common Multi-Agent Working Group role outputs, gate evidence, blocked reports, compact handoff recovery, and successor startup packets, including safe handling for legacy or bloated documents.
-## Requirements
 ### Requirement: Repository provides copyable role templates
 The project SHALL provide copyable templates for common multi-agent workstream outputs, including C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, successor startup packet, and git gate evidence.
 
@@ -28,14 +25,3 @@ The templates SHALL state or imply that they provide structure and evidence capt
 #### Scenario: Dashboard fields are filled
 - **WHEN** a compact handoff or successor packet records task status, pending messages, conflicts, overlaps, role continuity, gate state, or evidence index fields
 - **THEN** those fields remain evidence inputs to canonical state selection and MUST NOT create a separate board state machine or dashboard runtime
-
-### Requirement: Legacy documents remain historical evidence
-The project SHALL define how v0.3 or older handoffs, ledgers, and role outputs are handled when v0.4.5 templates are adopted.
-
-#### Scenario: Workstream resumes from an old handoff
-- **WHEN** a Leader resumes from a v0.3 or older handoff document
-- **THEN** the Leader preserves the old document as historical evidence, creates a new current state using the v0.4.5 template, copies only verified current facts into the active state, and references old material through the evidence index with freshness and verification status
-
-#### Scenario: Old handoff is long
-- **WHEN** an old handoff or ledger is long or append-only
-- **THEN** the Leader MUST NOT paste it verbatim into the new active handoff and MUST instead summarize current verified state plus evidence pointers

@@ -1,6 +1,6 @@
 # C0 Goal Analysis Template
 
-Version: v0.4.7 recommended template.
+Version: v0.4.8 recommended template.
 
 ```text
 Owner goal:

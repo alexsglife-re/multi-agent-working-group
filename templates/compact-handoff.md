@@ -1,6 +1,6 @@
 # Compact Handoff Template
 
-Version: v0.4.7 recommended template.
+Version: v0.4.8 recommended template.
 
 ## Current State Card
 
@@ -25,17 +25,27 @@ Gate state:
 
 Context budget:
   State:
-    Normal | Soft Warning | ContextBudget Watch | Rollover Recommended |
-    Rollover Strongly Recommended | Rollover Required
-  Observed compression/summary count:
-  Count confidence:
-    known | inferred | unknown
+    Normal | Soft Warning | Rollover Opportunity | ContextBudget Watch |
+    Rollover Recommended | Rollover Strongly Recommended | Rollover Required
+  Compression count value:
+  Compression count source:
+    platform-visible | owner-reported | inferred | unknown
+  Compression count confidence:
+    high | medium | low | unknown
+  Additional compression count evidence:
+    - <source/value/confidence; optional>
   Last context-budget check:
   Trigger category:
-    threshold | state-unreliable | owner-quality-concern | stale-ledger-before-gate | other
+    threshold | rollover-opportunity | state-unreliable |
+    owner-quality-concern | stale-ledger-before-gate | other
   Reason:
+  Canonical state rule:
+    exactly one state; highest applicable state wins
   Next safe rollover boundary:
   Rollover action:
+  Opportunity action:
+    refresh current-state card and evidence index; lightweight successor
+    packet skeleton only unless Recommended+ or Owner requests handoff
 
 Sealed-ready state:
   not entered | entered
@@ -106,9 +116,16 @@ Pending messages, conflicts, and overlaps:
     - ...
   Overlaps:
     - ...
+  Dashboard use:
+    evidence input to canonical state selection, not a separate state machine
 
 Commit/push authorization state:
-  <not entered | commit gate passed | push gate passed | blocked>
+  Current actionable authorization:
+    <default no | not entered | blocked | current verified gate passed>
+  Historical gate evidence:
+    <none | prior commit/push/CI/archive gate evidence; not inherited>
+  Successor inheritance:
+    not inherited; successor must re-verify before acting
 
 Stop conditions:
   - ...

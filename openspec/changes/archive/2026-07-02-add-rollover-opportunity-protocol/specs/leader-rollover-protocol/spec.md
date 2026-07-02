@@ -1,8 +1,5 @@
-# leader-rollover-protocol Specification
+## MODIFIED Requirements
 
-## Purpose
-Define how a Leader detects context rollover conditions, records context-budget evidence, prepares successor handoff packets, and restricts unsafe continuation when rollover is required.
-## Requirements
 ### Requirement: Leader records context-budget state
 The skill SHALL require long-running, spec-bound, or cross-conversation work to record exactly one canonical context-budget state when context pressure or rollover opportunity signals are visible.
 
@@ -125,6 +122,8 @@ The skill SHALL keep rollover states and successor packets as evidence-control m
 #### Scenario: Legacy handoff exists
 - **WHEN** an old v0.3-era or bloated handoff, ledger, or role output is used during rollover
 - **THEN** the Leader preserves it as historical evidence, copies only current verified facts into the active state, references old material through the evidence index, and MUST NOT append the old material verbatim into the active handoff
+
+## ADDED Requirements
 
 ### Requirement: Leader avoids hidden Worker execution
 The skill SHALL require the Leader to avoid doing Worker-suitable work directly when the work is Medium, Complex, High-risk, implementation-heavy, or substantively benefits from independent ownership.

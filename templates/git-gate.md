@@ -1,6 +1,6 @@
 # Git Gate Template
 
-Version: v0.4.7 recommended template.
+Version: v0.4.8 recommended template.
 
 ```text
 Gate:

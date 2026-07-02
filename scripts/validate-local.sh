@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.7"
+VERSION="v0.4.8"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
@@ -11,7 +11,7 @@ REQUIRED_ACCEPTED_SPECS=(
   "role-boundary-stabilization"
 )
 ROLLOVER_SPEC="leader-rollover-protocol"
-ROLLOVER_CHANGE="openspec/changes/add-leader-rollover-protocol/specs/leader-rollover-protocol/spec.md"
+ROLLOVER_CHANGE="openspec/changes/add-rollover-opportunity-protocol/specs/leader-rollover-protocol/spec.md"
 REQUIRED_TEMPLATES=(
   "templates/README.md"
   "templates/advisor-review.md"
@@ -144,28 +144,28 @@ else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: CLI Workspace Trust Setup Protocol"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Leader Rollover Opportunity Protocol"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` CLI workspace trust setup protocol"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Leader Rollover Opportunity Protocol"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION CLI Workspace Trust Setup Protocol Checks"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Leader Rollover Opportunity Protocol Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
 fi
 
-if [[ -f "SKILL.md" ]] && contains "SKILL.md" "Owner-recorded role authorization:"; then
-  pass "SKILL.md current trust setup marker"
+if [[ -f "SKILL.md" ]] && contains "SKILL.md" "Rollover Opportunity"; then
+  pass "SKILL.md current rollover opportunity marker"
 else
-  fail "SKILL.md current trust setup marker"
+  fail "SKILL.md current rollover opportunity marker"
 fi
 
 for spec in "${REQUIRED_ACCEPTED_SPECS[@]}"; do
@@ -228,12 +228,21 @@ template_contains "templates/c0-goal-analysis.md" "Owner-recorded role authoriza
 template_contains "templates/c0-goal-analysis.md" "Post-setup read-only probe:" "C0 template records trust probe"
 template_contains "templates/compact-handoff.md" "current | stale until re-verified | historical only" "Compact handoff uses freshness labels"
 template_contains "templates/compact-handoff.md" "verified | inferred | unverified" "Compact handoff uses verification labels"
-template_contains "templates/compact-handoff.md" "Observed compression/summary count:" "Compact handoff includes compression count"
+template_contains "templates/compact-handoff.md" "Rollover Opportunity" "Compact handoff includes rollover opportunity state"
+template_contains "templates/compact-handoff.md" "Compression count value:" "Compact handoff includes compression count value"
+template_contains "templates/compact-handoff.md" "Compression count source:" "Compact handoff includes compression count source"
+template_contains "templates/compact-handoff.md" "Compression count confidence:" "Compact handoff includes compression count confidence"
+template_contains "templates/compact-handoff.md" "exactly one state; highest applicable state wins" "Compact handoff includes canonical state rule"
+template_contains "templates/compact-handoff.md" "not a separate state machine" "Compact handoff blocks dashboard state machine"
 template_contains "templates/compact-handoff.md" "Rollover Strongly Recommended" "Compact handoff includes strong recommendation state"
 template_contains "templates/compact-handoff.md" "Frozen active current-state card:" "Compact handoff keeps single active state card"
 template_contains "templates/compact-handoff.md" "Task status dashboard:" "Compact handoff includes task status dashboard"
 template_contains "templates/compact-handoff.md" "Pending messages, conflicts, and overlaps:" "Compact handoff includes pending messages and conflicts"
 template_contains "templates/successor-startup-packet.md" "successor startup packet != automatic thread creation" "Successor packet blocks automatic thread creation"
+template_contains "templates/successor-startup-packet.md" "Rollover Opportunity" "Successor packet includes rollover opportunity state"
+template_contains "templates/successor-startup-packet.md" "Compression count value:" "Successor packet includes compression count value"
+template_contains "templates/successor-startup-packet.md" "Compression count source:" "Successor packet includes compression count source"
+template_contains "templates/successor-startup-packet.md" "not inherited; successor must re-verify before acting" "Successor packet blocks inherited authorization action"
 template_contains "templates/successor-startup-packet.md" "Successor Verification Checklist" "Successor packet includes verification checklist"
 template_contains "templates/successor-startup-packet.md" "Commit/push/CI/archive authorization state is not inherited" "Successor packet blocks inherited authorization"
 template_contains "templates/successor-startup-packet.md" "Lightweight Handoff Dashboard" "Successor packet includes dashboard"
@@ -243,6 +252,14 @@ template_contains "templates/git-gate.md" "Secret/credential scan:" "Git gate te
 template_contains "templates/git-gate.md" "CI/status:" "Git gate template includes CI status"
 
 template_contains "docs/VALIDATION.md" "successor packet != automatic thread creation" "Validation blocks successor thread automation creep"
+template_contains "docs/VALIDATION.md" "Rollover Opportunity" "Validation checks rollover opportunity"
+template_contains "docs/VALIDATION.md" "exactly one canonical ContextBudget state" "Validation checks canonical state rule"
+template_contains "docs/VALIDATION.md" "Platform-visible summaries are not described as actual total compaction counts" "Validation blocks visible-summary actual count claim"
+template_contains "docs/VALIDATION.md" "clean boundary plus a heavier next step" "Validation checks opportunity combination trigger"
+template_contains "docs/VALIDATION.md" "Same-workstream PM plus Advisor gate automation" "Validation preserves PM Advisor gate automation"
+template_contains "docs/VALIDATION.md" "Historical gate state is recorded as evidence only" "Validation blocks successor authorization inheritance"
+template_contains "docs/VALIDATION.md" "Dashboard fields remain evidence inputs" "Validation blocks dashboard state machine"
+template_contains "docs/VALIDATION.md" "hidden Worker execution" "Validation checks Leader delegation discipline"
 template_contains "docs/VALIDATION.md" "0-1, 2, 3-4, 5-6, 7, 8+" "Validation checks rollover thresholds"
 template_contains "docs/VALIDATION.md" "Owner-recorded CLI role assignment is described as current-project workspace trust setup authorization" "Validation checks owner-recorded trust authorization"
 template_contains "docs/VALIDATION.md" "Stale, historical-only, superseded, or mismatched role records do not authorize trust setup." "Validation blocks stale trust authorization"
@@ -253,13 +270,28 @@ template_contains "examples/openspec-c0-c4-task.md" "first check whether an Owne
 template_contains "examples/openspec-c0-c4-task.md" "Blocked by:" "Example uses blocked report structure"
 template_contains "examples/openspec-c0-c4-task.md" "Trust state:" "Example records trust state"
 template_contains "examples/openspec-c0-c4-task.md" "owner-recorded-role-authorized" "Example includes authorized trust setup state"
+template_contains "examples/rollover-opportunity.md" "Owner-reported actual compression count:" "Rollover opportunity example includes owner-reported undercount"
+template_contains "examples/rollover-opportunity.md" "state is Rollover Required, not Rollover Opportunity" "Rollover opportunity example escalates threshold conflict"
+template_contains "examples/rollover-opportunity.md" "Platform-visible summary count: 1" "Rollover opportunity example includes platform-visible count"
+template_contains "examples/rollover-opportunity.md" "exactly one state; highest applicable state wins" "Rollover opportunity example includes canonical state rule"
+template_contains "examples/rollover-opportunity.md" "not a separate state machine" "Rollover opportunity example blocks dashboard state machine"
+template_contains "examples/rollover-opportunity.md" "no commit/push/CI/archive authorization is inherited" "Rollover opportunity example blocks inherited authorization"
+template_contains "examples/compact-handoff.md" "Compression count value:" "Compact handoff example uses compression count value"
+template_contains "examples/compact-handoff.md" "Compression count source:" "Compact handoff example uses compression count source"
 template_contains "SKILL.md" "current Owner instruction, global memory, project rule, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence" "SKILL.md defines trust authorization sources"
 template_contains "SKILL.md" "owner-recorded-role-authorized" "SKILL.md defines trust setup state"
 template_contains "SKILL.md" "post-setup read-only probe succeeds" "SKILL.md requires trust probe before verified state"
 template_contains "SKILL.md" "Do not use dangerous permission-bypass flags" "SKILL.md blocks dangerous permission bypass"
+template_contains "SKILL.md" "Every context-budget check must record exactly one canonical ContextBudget state" "SKILL.md defines canonical state rule"
+template_contains "SKILL.md" "Platform-visible summaries are evidence of what the Leader can see" "SKILL.md blocks visible summary actual count claim"
+template_contains "SKILL.md" "Owner-reported threshold evidence" "SKILL.md treats owner-reported concrete counts as threshold evidence"
+template_contains "SKILL.md" "Clean boundary plus heavier next step" "SKILL.md defines opportunity combination trigger"
+template_contains "SKILL.md" "normal non-high-risk commit, push, CI/status, and archive progression may continue" "SKILL.md preserves PM Advisor gate automation"
+template_contains "SKILL.md" "Rollover or successor packets do not carry that authorization into a successor context" "SKILL.md blocks successor authorization inheritance"
+template_contains "SKILL.md" "For Medium, Complex, High-risk, implementation-heavy, or substantively" "SKILL.md defines Leader delegation discipline"
 template_contains "SKILL.md" "6 or more observed compressions/summaries plus a next action of Worker" "SKILL.md defines gate rollover threshold"
 template_contains "SKILL.md" "3-4 observed compressions/summaries" "SKILL.md replaces ambiguous multiple compression wording"
-template_contains "SKILL.md" "5-7 observed compressions/summaries" "SKILL.md replaces ambiguous many compression wording"
+template_contains "SKILL.md" "5-6 observed compressions/summaries" "SKILL.md defines recommended threshold"
 
 if command -v openspec >/dev/null 2>&1; then
   if openspec_list="$(openspec list --json 2>&1)"; then

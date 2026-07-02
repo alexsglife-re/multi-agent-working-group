@@ -226,6 +226,32 @@ Goal: let Owner-recorded Claude CLI, Codex CLI, and similar CLI role assignments
 - [x] Run local validation and OpenSpec validation.
 - [x] Sync the updated `SKILL.md` to the global installed skill.
 
+## v0.4.8: Leader Rollover Opportunity Protocol
+
+Goal: prepare rollover earlier at clean boundaries before context reliability degrades, without relying on platform-visible compression counts as actual totals and without inheriting authorization across successor contexts.
+
+### OpenSpec
+
+- [x] Create `add-rollover-opportunity-protocol` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Archive the OpenSpec change after implementation and validation.
+
+### Skill Rules
+
+- [x] Add `Rollover Opportunity` as an early preparation state.
+- [x] Require exactly one canonical ContextBudget state per check with highest applicable state winning.
+- [x] Replace compression count confidence-only recording with count value, source, and confidence.
+- [x] Preserve same-workstream PM plus Advisor gate automation while preventing successor authorization inheritance.
+- [x] Add Leader delegation discipline for Medium, Complex, High-risk, or substantive Worker-suitable work.
+
+### Templates And Validation
+
+- [x] Update compact handoff and successor packet templates for v0.4.8 context-budget fields.
+- [x] Add example coverage for Owner-reported compression undercount and early rollover opportunity preparation.
+- [x] Update README, changelog, roadmap, validation docs, and local validation checks for v0.4.8.
+- [x] Run local validation and OpenSpec validation.
+- [x] Sync the updated `SKILL.md` to the global installed skill.
+
 ## Later
 
 - [ ] Add installation and packaging guidance.

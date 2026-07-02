@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.8
+
+- Add `Rollover Opportunity` as an early preparation state before context reliability degrades.
+- Require exactly one canonical ContextBudget state per check, with the highest applicable state winning.
+- Replace compression count confidence-only recording with compression count value, source, and confidence.
+- Prohibit treating platform-visible summaries as actual total compaction counts unless independently verified or Owner-reported.
+- Clarify that dashboards, conflicts, overlaps, gate state, and role continuity are evidence inputs, not a separate state machine or runtime dashboard.
+- Preserve same-workstream PM plus Advisor gate automation for normal non-high-risk commit, push, CI/status, and archive progression while keeping successor authorization non-inheritable.
+- Add Leader delegation discipline for Medium, Complex, High-risk, or substantive Worker-suitable work.
+
 ### Completed local upgrade for v0.4.7
 
 - Add CLI workspace trust setup protocol for Owner-recorded Claude CLI, Codex CLI, and similar CLI role assignments.

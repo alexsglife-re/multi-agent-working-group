@@ -2,7 +2,7 @@
 
 These templates are reusable shapes for common Multi-Agent Working Group outputs. They are meant to be copied, filled in, and kept short.
 
-Version: v0.4.7 recommended templates.
+Version: v0.4.8 recommended templates.
 
 ## Use Rules
 
@@ -15,6 +15,9 @@ Version: v0.4.7 recommended templates.
 - Treat rollover templates as continuity evidence only; successor startup packet != automatic thread creation.
 - Treat Owner-recorded CLI role assignment as current-project trust setup authorization only after verifying the source applies to the current project and workstream.
 - CLI trust setup fields do not authorize parent-directory trust, home-directory trust, all-repository trust, dangerous permission bypass, secrets, global policy changes, git actions, CI, deployment, release, publication, or external effects.
+- Treat `Rollover Opportunity` as early preparation, not immediate handoff and not inherited authorization.
+- Use compression count value/source/confidence; do not claim platform-visible summaries are actual total compactions.
+- Task dashboards are evidence inputs to canonical state selection, not a separate state machine or runtime dashboard.
 
 ## Template Index
 
@@ -67,7 +70,7 @@ Handling:
   Preserved as historical evidence. Not edited in place.
 
 Current-state extraction:
-  Only verified current facts were copied into the v0.4.7 compact handoff.
+  Only verified current facts were copied into the v0.4.8 compact handoff.
 
 Not carried forward:
   Superseded plans, old validation output, old agent transcripts, stale git state,

@@ -171,6 +171,25 @@ Run these checks for the `v0.4.7` CLI workspace trust setup set: `README.md`, `C
 - Examples do not teach the old behavior of treating an untrusted CLI workspace as immediately blocked before checking applicable Owner-recorded role authorization.
 - Reference-source influence from ClawTeam/OpenClaw remains rule-level only: prompt-detection ideas and setup/verify/troubleshooting structure are allowed; copied runtime code, silent prompt confirmation, subprocess orchestration, worktree automation, dangerous permission bypass, and global allowlist automation remain out of scope.
 
+## v0.4.8 Leader Rollover Opportunity Protocol Checks
+
+Run these checks for the `v0.4.8` rollover opportunity set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `SKILL.md`, `templates/`, `examples/`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- `Rollover Opportunity` is documented as an early preparation state, not an immediate handoff requirement and not a successor authorization source.
+- Each context-budget check records exactly one canonical ContextBudget state, and the highest applicable state wins.
+- Compression count fields include value, source, and confidence.
+- Compression count source includes `platform-visible`, `owner-reported`, `inferred`, and `unknown`.
+- Platform-visible summaries are not described as actual total compaction counts unless independently verified or Owner-reported.
+- Owner-reported compression undercount is recorded distinctly from platform-visible evidence.
+- `Rollover Opportunity` requires a clean boundary plus a heavier next step, not a boundary alone.
+- Opportunity scenarios include C-stage boundary plus new or long stage, validated slice plus Worker dispatch, refreshed evidence plus commit/push/CI/archive or new OpenSpec change, and Owner-reported compression undercount plus heavier next step.
+- Same-workstream PM plus Advisor gate automation for normal non-high-risk commit, push, CI/status, and archive progression remains allowed when existing gates pass.
+- Rollover and successor packets do not automatically create new conversations, spawn agents, or inherit commit/push/CI/archive authorization.
+- Historical gate state is recorded as evidence only; successor execution requires fresh verification.
+- Dashboard fields remain evidence inputs to canonical state selection and do not create a separate state machine or runtime dashboard.
+- Leader delegation discipline discourages hidden Worker execution for Medium, Complex, High-risk, or substantive Worker-suitable work while preserving small low-risk, orchestration, synthesis, verification, owner communication, narrow documentation sync, and tiny connective edits for Leader direct work.
+- Reference-source influence from ClawTeam/OpenClaw remains rule-level only: task states, explicit approval vocabulary, scoped context, and board-style summaries are allowed; runtime code, automatic spawning, subprocess orchestration, board UI, cost dashboard automation, and thread automation remain out of scope.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.

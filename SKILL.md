@@ -291,13 +291,16 @@ Generic ContextBudget states:
 ```text
 Normal
 Soft Warning
+Rollover Opportunity
 ContextBudget Watch
 Rollover Recommended
 Rollover Strongly Recommended
 Rollover Required
 ```
 
-When multiple triggers apply, use the highest applicable state. ContextBudget states are continuity and safety signals only. They never authorize commit, push, CI, deployment, release, external publication, secret or credential access, destructive commands, schema/security/authentication/permission changes, force-push, history rewrite, automatic successor thread creation, role-session registry changes, delivery-queue changes, or product runtime behavior changes.
+Every context-budget check must record exactly one canonical ContextBudget state. When multiple triggers apply, use the highest applicable state. ContextBudget states are continuity and safety signals only. They never authorize deployment, release, external publication, secret or credential access, destructive commands, schema/security/authentication/permission changes, force-push, history rewrite, automatic successor thread creation, automatic agent spawning, role-session registry changes, delivery-queue changes, or product runtime behavior changes.
+
+Within the same verified workstream, normal non-high-risk commit, push, CI/status, and archive progression may continue when PM and Advisor agree, no unresolved P0/P1 remains, required Reviewer approval has passed when applicable, validation is fresh, target scope is clear, and existing git, CI, archive, and secret-scan gates pass. Rollover or successor packets do not carry that authorization into a successor context without fresh verification.
 
 Use context-budget triggers as evidence-control signals:
 
@@ -310,10 +313,19 @@ ContextBudget Watch:
   3-4 observed compressions/summaries, repeated old-context lookup,
   accumulated long returns, or active ledger nearing its budget.
 
+Rollover Opportunity:
+  A clean boundary plus a heavier next step. Examples include an OpenSpec
+  C-stage completing before a new or longer C-stage; a validated implementation
+  slice before dispatching a new Worker; refreshed current-state card and
+  evidence index before commit, push, CI, archive, or a new OpenSpec change;
+  Owner-reported compression undercount plus a heavier next stage; or dashboard
+  growth that remains reconcilable but should be summarized before continuing.
+
 Rollover Recommended:
-  5-7 observed compressions/summaries, multiple large stage steps,
-  owner context-length concern, new Worker dispatch from long context,
-  or ledger still too large after refresh.
+  5-6 observed compressions/summaries, 7 observed compressions/summaries with
+  a stronger action note, multiple large stage steps, owner context-length
+  concern, new Worker dispatch from long context, or ledger still too large
+  after refresh.
 
 Rollover Required:
   Leader cannot reliably verify current git/spec/validation/PM/Advisor/
@@ -323,7 +335,7 @@ Rollover Required:
   context length is affecting quality.
 ```
 
-Compression or summary counts are soft hints. The hard trigger is loss of reliable current-state verification, unsafe continuation signs, owner instruction, or stale ledger before a high-risk gate.
+Compression or summary counts are weak signals. Platform-visible summaries are evidence of what the Leader can see, not proof of actual total compactions. The Leader must not claim an actual compression count from visible summaries alone. If the Owner reports a higher actual compression count, record it as Owner-reported evidence and lower confidence in platform-visible counts. If the Owner reports a concrete compression or summary count, treat that number as Owner-reported threshold evidence for canonical state selection; do not downgrade a numeric Owner-reported threshold to `Rollover Opportunity` when a higher threshold state applies. The hard trigger is loss of reliable current-state verification, unsafe continuation signs, owner instruction, or stale ledger before a high-risk gate.
 
 Leader Rollover Protocol:
 
@@ -344,17 +356,17 @@ state in the current state card, compact handoff, ledger, or successor packet
 when context pressure is visible:
 
 Context budget state:
-Observed compression/summary count:
-Compression count confidence: known | inferred | unknown
+Compression count value:
+Compression count source: platform-visible | owner-reported | inferred | unknown
+Compression count confidence: high | medium | low | unknown
+Additional compression count evidence:
 Last context-budget check:
 Reason for current state:
 Next safe rollover boundary:
 Rollover action:
 ```
 
-If the compression or summary count is unknown, record `unknown` instead of
-inventing a number. Unknown count plus unreliable current-state verification is
-`Rollover Required`.
+If the compression or summary count is unknown, record `unknown` instead of inventing a number. Unknown count plus unreliable current-state verification is `Rollover Required`.
 
 Observed compression/summary thresholds:
 
@@ -368,6 +380,12 @@ Observed compression/summary thresholds:
   State: Soft Warning.
   Action: record observed count; do not recommend rollover from count alone.
 
+Clean boundary plus heavier next step:
+  State: at least Rollover Opportunity.
+  Action: refresh current-state card and evidence index; update a lightweight
+  successor packet skeleton when useful; report the next safe rollover
+  boundary. Do not treat this as an immediate recommendation by itself.
+
 3-4 observed compressions/summaries:
   State: ContextBudget Watch.
   Action: record context budget and organize the evidence index; do not
@@ -378,9 +396,9 @@ Observed compression/summary thresholds:
   Action: recommend switching at the next safe boundary.
 
 7 observed compressions/summaries:
-  State: strong Rollover Recommended.
-  Action: finish only a near-complete small step when safe; otherwise prepare
-  a successor packet.
+  State: Rollover Recommended.
+  Action: treat as a strong recommendation; finish only a near-complete small
+  step when safe; otherwise prepare a successor packet.
 
 8 or more observed compressions/summaries:
   State: Rollover Strongly Recommended.
@@ -418,6 +436,8 @@ Avoid:
 ```
 
 When `Rollover Required` applies, the current Leader should enter `sealed-ready` behavior for the affected workstream: update ledger or handoff state, keep one active current-state card, list takeover verification requirements, generate a successor startup packet, and report the safe next step. If a newer successor packet replaces an older one, the older packet becomes historical evidence. The Leader should not dispatch new Workers, accept new Worker results for the handed-off workstream, enter commit/push/CI/archive gates, or execute external-effect actions until reliable takeover verification is restored. This is a development-workflow self-restriction only; it does not create or modify product runtime role sessions, delivery queues, handoff readiness, or successor conversations.
+
+When `Rollover Recommended`, `Rollover Strongly Recommended`, or `Rollover Required` applies, prepare a complete successor packet unless a very small current step can safely finish first. `Rollover Opportunity` by itself requires a current-state and evidence refresh; it only requires a complete successor packet when the Owner requests handoff or another higher state also applies.
 
 ## Risk and Severity
 
@@ -465,6 +485,24 @@ Worker Agent:
 - Own exactly one slice with a one-sentence acceptance target and explicit file/module scope.
 - Do not combine requirement interpretation, architecture judgment, implementation, and review in one assignment.
 - Do not expand scope, self-approve, commit, or push.
+
+Leader delegation discipline:
+
+```text
+For Medium, Complex, High-risk, implementation-heavy, or substantively
+Worker-suitable work, the Leader should dispatch bounded Worker slices instead
+of performing hidden Worker execution when practical.
+
+Leader direct work remains appropriate for small low-risk tasks, orchestration,
+synthesis, verification, owner communication, narrow documentation
+synchronization, tiny connective edits, cases where dispatch overhead clearly
+exceeds the work, or when a tool, gate, or Owner instruction makes Worker
+dispatch unsuitable.
+
+If the next action is dispatching a new Worker and context is long, degraded,
+or at `Rollover Opportunity` or higher, refresh the current-state card and
+successor packet skeleton before dispatch when practical.
+```
 
 Reviewer Agent:
 
@@ -644,6 +682,8 @@ v0.4.6 adds Leader Rollover Protocol fields plus
 v0.4.7 adds CLI workspace trust setup fields for Owner-recorded role
 authorization source, target project root, trust state, and post-setup
 read-only probe evidence.
+v0.4.8 adds Rollover Opportunity, compression count value/source/confidence,
+canonical single-state selection, and Leader delegation discipline.
 
 Use templates as fill-in structure and evidence capture only. A filled template
 does not authorize commit, push, archive, release, deployment, external
@@ -755,8 +795,10 @@ Current goal
 Scope and non-goals
 Completed and incomplete work
 Context budget state
-Observed compression/summary count
+Compression count value
+Compression count source
 Compression count confidence
+Additional compression count evidence, if any
 Rollover reason and action, if any
 Next safe rollover boundary, if any
 PM/Advisor consensus, if any
