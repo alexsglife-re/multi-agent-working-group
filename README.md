@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.9` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, and `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.10` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance, and `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -26,6 +26,8 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Running a lightweight local validation command before commit or push.
 - Copying recommended role and gate templates for C0, PM, Advisor, Worker, Reviewer, blocked, handoff, successor startup, and git gate outputs.
 - Recording enough evidence for a future agent or conversation to safely resume.
+- Selecting this workflow when task traits show that multi-agent coordination, OpenSpec lifecycle, guarded git exits, handoff, rollover, or complex verification are needed.
+- Closing completed work with a plain-language summary of what changed, what was verified, what remains uncertain, and recommended next goals.
 
 ## What This Skill Does Not Do
 
@@ -64,6 +66,10 @@ Use the multi-agent-working-group skill for this task.
 
 For small read-only or low-risk documentation tasks, the Leader may complete the work directly when the skill's Small Task Mode conditions are met. Small Task Mode does not use PM, Worker, or Reviewer; commit and push gates still require the checks described in `SKILL.md`.
 
+Future agents should automatically select or explicitly consider this skill when a task includes PM, Advisor, Worker, or Reviewer coordination; external Advisor review; OpenSpec proposal, implementation, closeout, or archive work; medium or higher risk; delegated implementation; guarded commit, push, CI/status, or archive gates; context rollover; handoff; or complex verification.
+
+This automatic selection is only workflow/checklist reasoning. It never creates external effects or transfers authority. For example, it does not silently spawn agents, call an external Advisor, trust a workspace, commit, push, run CI, archive, deploy, release, publish, read secrets, bypass Owner-only gates, or start a recommended next goal.
+
 When Advisor provider/model has not been recorded for the current project, session, continuity file, handoff, startup packet, or current verified model record, the Leader asks the Owner to specify the Advisor provider/model at workstream startup. Different-provider Advisor use is the default when available; same-provider variants and same-model Advisor use must be explicit or degraded and recorded.
 
 When a CLI-based agent such as Claude CLI or Codex CLI is assigned to a role, the Leader confirms the exact current project workspace is trusted before relying on that agent. If the Owner-recorded role assignment exists in the current conversation, global memory, project rules, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence, the Leader may complete trust setup for the exact current project root without asking again. Trust setup still requires source applicability verification, current-project scoping, and a minimal read-only probe before relying on the CLI output. If workspace trust is blocked, the Leader reports the blocker instead of silently switching roles or downgrading model separation.
@@ -82,7 +88,7 @@ For installation, global skill sync, and migration between machines or projects,
 
 Use the templates in `templates/` when a workstream needs a consistent fill-in shape for C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, successor startup packet, or commit/push gate evidence.
 
-The v0.4.9 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates.
+The v0.4.10 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates. Completion summaries and next-goal recommendations are reporting aids only; they do not authorize starting new work unless the Owner has already given explicit current-session authorization.
 
 When older v0.3 or earlier handoff documents have already grown large, preserve them as historical evidence. Create a new `templates/compact-handoff.md` current state card, copy only verified current facts into it, and reference the old document through the evidence index instead of appending or rewriting the old text.
 
@@ -125,6 +131,6 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete; `v0.4.6` Leader Rollover Protocol is complete; `v0.4.7` CLI workspace trust setup protocol is complete; `v0.4.8` Leader Rollover Opportunity Protocol is complete; `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance is complete.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete; `v0.4.6` Leader Rollover Protocol is complete; `v0.4.7` CLI workspace trust setup protocol is complete; `v0.4.8` Leader Rollover Opportunity Protocol is complete; `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance is complete; `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance is complete.
 
-`v0.4.9` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.10` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.

@@ -41,6 +41,31 @@ If an Advisor cannot read the minimum local evidence, record Advisor as blocked 
 
 ## Startup Checklist
 
+## When To Use This Skill
+
+Use or explicitly consider `multi-agent-working-group` when the current task has one or more of these traits:
+
+```text
+Explicit Owner request to use this skill, PM, Advisor, Worker, Reviewer, or multi-agent review.
+External Advisor review, such as Claude CLI or another non-Leader AI role.
+OpenSpec-backed proposal, implementation, closeout, or archive work.
+Medium, complex, high-risk, implementation-heavy, or substantive Worker-suitable work.
+Guarded commit, push, CI/status, archive, or other gate review.
+Cross-conversation handoff, context rollover, successor startup, or continuity recovery.
+Complex verification where independent critique or evidence capture matters.
+```
+
+Automatic invocation means applying this workflow and checklist to the task. It
+never creates external effects or transfers authority. Non-exhaustive examples:
+it does not silently spawn agents, call an external Advisor, trust a workspace,
+commit, push, run CI, archive, deploy, release, publish, read secrets, bypass
+Owner-only gates, or start a recommended next goal.
+
+Scale the workflow to the task size. A narrow small low-risk task may use Small
+Task Mode when every Small Task Mode condition below is met. When task traits
+point to medium or higher risk, spec workflow, external Advisor review, guarded
+git exits, or substantive Worker ownership, use the stricter workflow.
+
 Before dispatching agents:
 
 1. Read project instructions and memory required by the current repo.
@@ -877,4 +902,19 @@ Prior consensus or unresolved findings carried forward
 Whether this output continues the same lifecycle or is a restarted review
 ```
 
-Leader final outputs should include what was verified, what remains uncertain, whether any degradation occurred, and whether commit/push is unauthorized, one-time authorized, or covered by a controlled preauthorization window. When asking the owner to decide, use plain language and include what was done, what the decision affects, and why the decision is needed; for commit/push decisions, summarize what the stage completed without extra impact explanation unless requested.
+Leader final outputs should be understandable to a non-specialist Owner. For completed work or a safe stopping point, include a concise plain-language closeout:
+
+```text
+What changed:
+  <ordinary-language summary>
+What was verified:
+  <commands, checks, review gates, or evidence actually run or observed>
+What remains uncertain or was not checked:
+  <mandatory; write none and why if nothing remains>
+Recommended next goal:
+  <advice only; do not start it unless the Owner has already given explicit current-session authorization>
+Authorization state:
+  <commit/push unauthorized, not entered, one-time authorized, current verified gate passed, or blocked>
+```
+
+Separate verified evidence from claims. Do not present a recommendation, old handoff, stale memory, or prior-session instruction as current authorization. When asking the owner to decide, use plain language and include what was done, what the decision affects, and why the decision is needed; for commit/push decisions, summarize what the stage completed without extra impact explanation unless requested. Explain necessary technical terms briefly in practical language when they appear.

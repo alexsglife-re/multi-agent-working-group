@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.10: Invocation, Migration, And Plain-Language Closeout Guidance
+
+- Add task-trait guidance for when agents should select or explicitly consider `multi-agent-working-group`.
+- Clarify that automatic skill invocation means workflow/checklist reasoning only and never creates external effects or transfers authority.
+- Strengthen migration and adoption guidance without transferring authorization, role continuity, validation freshness, workspace trust, secrets, or stale handoff authority.
+- Require completed work and safe stopping points to include a plain-language closeout: what changed, what was verified, what remains uncertain or was not checked, and recommended next goals.
+- Clarify that next-goal recommendations are advice only unless the Owner has already given explicit current-session authorization.
+- Update templates and local validation checks for v0.4.10 invocation, migration, and closeout markers.
+
 ### Completed local upgrade for v0.4.9: Provider Separation, Agent Patience, And Migration Guidance
 
 - Clarify that Advisor diversity and PM/Advisor model separation default to provider-level separation, not same-provider model or version variants.

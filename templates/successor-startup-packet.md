@@ -1,6 +1,6 @@
 # Successor Startup Packet Template
 
-Version: v0.4.9 recommended template.
+Version: v0.4.10 recommended template.
 
 Use this when a Leader recommends or requires rollover to a new conversation.
 This packet is continuity evidence only. It is not automatic thread creation,
@@ -142,6 +142,16 @@ Authorization state:
 
 Next safe action:
   <one action only>
+
+Plain-language closeout or handoff summary:
+  What changed:
+    <ordinary-language summary>
+  What was verified:
+    <commands, checks, review gates, or evidence actually run or observed>
+  What remains uncertain or was not checked:
+    <mandatory; write none and why if nothing remains>
+  Recommended next goal:
+    <advice only; successor must verify current Owner authorization before starting it>
 
 Stop conditions:
   - ...

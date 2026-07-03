@@ -2,7 +2,7 @@
 
 These templates are reusable shapes for common Multi-Agent Working Group outputs. They are meant to be copied, filled in, and kept short.
 
-Version: v0.4.9 recommended templates.
+Version: v0.4.10 recommended templates.
 
 ## Use Rules
 
@@ -22,6 +22,9 @@ Version: v0.4.9 recommended templates.
 - Record provider/model per role, model source, source freshness/current verification, and PM/Advisor separation status.
 - Use `provider-separated` only for different AI service providers; same-provider model/version variants are degraded or partial separation.
 - Do not treat short silence as failure for PM, Advisor, or substantive Worker work; record expected wait/recheck behavior and concrete closure or restart reasons.
+- When a work round completes or reaches a safe stopping point, include a plain-language closeout: what changed, what was actually verified, what remains uncertain or was not checked, and recommended next goals.
+- Recommended next goals are advice only. Do not start them unless the Owner has already given explicit current-session authorization.
+- Skill invocation means applying workflow/checklist reasoning only. It never creates external effects or transfers authority; examples include agent spawning, external Advisor calls, workspace trust, commit, push, archive, CI, deployment, publication, secret access, or next-goal execution.
 
 ## Template Index
 
@@ -74,7 +77,7 @@ Handling:
   Preserved as historical evidence. Not edited in place.
 
 Current-state extraction:
-  Only verified current facts were copied into the v0.4.9 compact handoff.
+  Only verified current facts were copied into the v0.4.10 compact handoff.
 
 Not carried forward:
   Superseded plans, old validation output, old agent transcripts, stale git state,

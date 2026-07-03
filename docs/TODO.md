@@ -260,7 +260,7 @@ Goal: make Advisor diversity and PM/Advisor model separation mean provider-level
 
 - [x] Create `clarify-model-source-and-provider-separation` OpenSpec change.
 - [x] Add proposal, design, spec, and tasks artifacts.
-- [ ] Archive the OpenSpec change after implementation and validation.
+- [x] Archive the OpenSpec change after implementation and validation.
 
 ### Skill Rules
 
@@ -279,11 +279,36 @@ Goal: make Advisor diversity and PM/Advisor model separation mean provider-level
 - [x] Update PM, Advisor, Worker, compact handoff, successor startup, and blocked templates with patience/lifecycle fields.
 - [x] Add `docs/INSTALLATION.md` and link it from README and roadmap.
 - [x] Update README, changelog, roadmap, validation docs, and local validation checks for v0.4.9.
-- [ ] Run local validation and OpenSpec validation.
-- [ ] Sync the updated `SKILL.md` to the global installed skill.
+- [x] Run local validation and OpenSpec validation.
+- [x] Sync the updated `SKILL.md` to the global installed skill.
+
+## v0.4.10: Invocation, Migration, And Plain-Language Closeout Guidance
+
+Goal: make future agents automatically select this workflow when task traits fit, help people migrate or adopt the skill safely, and make completed work summaries easy for non-specialist Owners to read.
+
+### OpenSpec
+
+- [x] Create `add-v0410-invocation-migration-closeout-guidance` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Archive the OpenSpec change after implementation and validation.
+
+### Skill Rules
+
+- [x] Add task-trait guidance for when agents should use or explicitly consider `multi-agent-working-group`.
+- [x] Clarify that automatic skill invocation means workflow/checklist reasoning only, not automatic spawning, external Advisor calls, workspace trust, commit, push, archive, CI, or next-goal execution.
+- [x] Require plain-language closeout summaries that separate what changed, what was actually verified, what remains uncertain or was not checked, and recommended next goals.
+- [x] Clarify that next-goal recommendations are advice only unless the Owner has already given explicit current-session authorization.
+
+### Templates And Validation
+
+- [x] Update state-carrying templates with closeout and next-goal fields.
+- [x] Add or update installation/adoption guidance and invocation examples.
+- [x] Update README, changelog, roadmap, validation docs, and local validation checks for v0.4.10.
+- [x] Run local validation and OpenSpec validation.
+- [x] Sync the updated `SKILL.md` to the global installed skill.
 
 ## Later
 
-- [ ] Add installation and packaging guidance.
+- [ ] Decide whether installation guidance should later become packaging automation.
 - [ ] Add license and public reuse decision if this becomes a reusable public skill package.
 - [ ] Consider CI only after the manual workflow is stable.

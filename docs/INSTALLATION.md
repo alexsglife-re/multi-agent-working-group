@@ -2,7 +2,13 @@
 
 This guide explains how to use this skill from a local checkout, sync it into a global Codex skill directory, and migrate it to another machine or project.
 
-It is documentation-only. It does not create a release, install a package, publish the skill, grant git authorization, or migrate active workstream approval.
+It is documentation-only. It does not create a release, install a package, publish the skill, grant git authorization, or carry active workstream authority into a new place.
+
+For v0.4.10, the main adoption rule is simple:
+
+- copying or calling the skill gives you the workflow/checklist;
+- it does not give you permission, fresh approval, or trusted continuity;
+- every new machine, project, session, or handoff still has to verify its own current state.
 
 ## Prerequisites
 
@@ -21,6 +27,8 @@ openspec validate --all
 
 Use `--skip-global-skill` only while developing local changes before the global installed skill has been synced.
 
+Automatically using or calling this skill means applying its workflow and checklist reasoning only. It never creates external effects by itself, and it never transfers authority from a prior machine, project, thread, handoff, or role instance.
+
 ## Optional Global Skill Sync
 
 The installed global skill is normally:
@@ -36,6 +44,8 @@ After local changes are reviewed and ready to become the installed skill, copy t
 ```
 
 The validation command compares the repository skill with the global installed skill when the global file exists.
+
+Global sync is a file-sync step, not an authority-sync step. Matching `SKILL.md` files do not prove that commit permission, push permission, review freshness, validation freshness, trusted workspace state, or handoff authority is still valid.
 
 ## Migrate To Another Machine
 
@@ -56,6 +66,8 @@ If the skill should be installed globally on that machine, sync `SKILL.md` into 
 
 Do not migrate secrets, credentials, API keys, browser data, unrelated project files, or local machine-specific trust state.
 
+In plain language: moving the skill to another machine is like copying a checklist to another desk. The checklist moves. The permission to act does not.
+
 ## Adopt In Another Project
 
 When another project uses this skill:
@@ -65,21 +77,33 @@ When another project uses this skill:
 3. Run the project's own validation in addition to this repository's validation.
 4. Start each OpenSpec-backed workstream with C0 analysis.
 5. Record current provider/model routing from Owner instruction, project rules, project memory, handoff, startup packet, or a current verified model record.
+6. Re-check current git state, validation state, trust state, and role continuity inside that project instead of assuming they carried over.
 
 Do not hard-code a concrete PM, Advisor, Worker, or Reviewer model in this skill. Concrete provider/model selection belongs in Owner instructions, global memory, project memory, project rules, handoff, startup packets, or current verified records.
+
+Using the skill automatically in another project means "follow this workflow unless the project has stricter rules." It does not mean "this project is now trusted" or "the old workstream is still in force."
 
 ## What Does Not Transfer
 
 Migration does not transfer:
 
-- commit or push authorization;
-- CI/status or archive authorization;
-- release, deployment, publication, or external-effect permission;
+- authorization of any kind, including commit, push, archive, CI/status, release, deployment, publication, or other external-effect permission;
+- role continuity for PM, Advisor, Worker, Reviewer, or Leader;
+- validation freshness or proof that old validation still applies;
+- workspace trust for CLI tools or proof that a new workspace is safe to trust;
+- stale handoff authority, stale summary authority, or any "the old thread already approved this" assumption;
+- secrets, credentials, API keys, browser data, or any right to read them;
+- permission to perform external effects just because the skill was copied, installed, or invoked;
+- assumptions from a prior session, another current session, another machine, another project, or another role instance;
 - PM/Advisor agreement from another machine, project, or stale workstream;
-- Worker results that have not been re-verified in the target workstream;
-- validation freshness;
-- role continuity;
-- workspace trust for CLI tools;
-- current-state authority from old handoffs or summaries.
+- Worker results that have not been re-verified in the target workstream.
 
 Old handoffs, summaries, and archived notes are evidence only. Re-verify current git state, OpenSpec state, validation, role continuity, unresolved P0/P1, model-source records, and authorization before acting.
+
+Examples of what this means in practice are intentionally non-exhaustive:
+
+- A copied handoff can explain what happened before, but it cannot approve the next commit.
+- A globally installed skill can standardize the checklist, but it cannot make a new workspace trusted.
+- A prior Advisor opinion can inform the new review, but it cannot stand in for a fresh review when the current gate requires one.
+
+For a plain-language example of when to use the full workflow versus Small Task Mode, see [examples/skill-invocation.md](../examples/skill-invocation.md).

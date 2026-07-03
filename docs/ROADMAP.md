@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, and `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance are complete.
+`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance, and `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -41,6 +41,8 @@ Goal: make the workflow easier to apply consistently.
 - Clarify provider-level PM/Advisor separation and current verified model-source records without hard-coding concrete models.
 - Clarify PM/Advisor and substantive Worker lifecycle patience so short silence is not treated as failure.
 - Add installation and migration guidance for local checkout use, global skill sync, machine migration, and project adoption.
+- Add task-trait guidance for when future agents should select this skill automatically.
+- Add a plain-language closeout summary requirement so completed work reports what changed, what was verified, what remains uncertain, and recommended next goals.
 
 Exit criteria:
 
@@ -59,6 +61,8 @@ Exit criteria:
 - Provider Separation, Agent Patience, And Migration Guidance is documented as a completed v0.4.9 follow-up without hard-coding concrete models, treating stale memory as authority, adding timer automation, or transferring authorization.
 - Agent patience and lifecycle continuity rules are documented as part of v0.4.9 without adding automatic timers, polling, or session supervision.
 - Installation and migration guidance is documented as part of v0.4.9 without adding packaging automation, release publication, or authorization transfer.
+- Invocation, migration, and plain-language closeout guidance is documented as a completed v0.4.10 follow-up without adding automatic agent spawning, external Advisor calls, workspace trust, git exits, CI/archive automation, or next-goal execution.
+- Completion summaries distinguish verified evidence from claims, include mandatory uncertainty/skipped-check reporting, and treat recommended next goals as advice only unless the Owner has already given explicit current-session authorization.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -108,4 +112,4 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Decide the next version target after `v0.4.9`: likely candidates are agent patience/lifecycle timing, packaging/install guidance, or more lightweight validation hardening. Keep heavier automation out of scope until rollover opportunity protocol, trust setup protocol, templates, model-source verification, and the local command remain stable across more real tasks.
+Decide the next version target after `v0.4.10`: likely candidates are more examples for real adoption flows, lightweight markdown/link validation, or a packaging/public-reuse decision. Keep heavier automation out of scope until invocation guidance, rollover opportunity protocol, trust setup protocol, templates, model-source verification, and the local command remain stable across more real tasks.

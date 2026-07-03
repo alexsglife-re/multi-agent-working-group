@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.9"
+VERSION="v0.4.10"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
@@ -145,19 +145,19 @@ else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Provider Separation, Agent Patience, And Migration Guidance"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Invocation, Migration, And Plain-Language Closeout Guidance"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Provider Separation, Agent Patience, And Migration Guidance"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Invocation, Migration, And Plain-Language Closeout Guidance"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Provider Separation, Agent Patience, And Migration Guidance Checks"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Invocation, Migration, And Plain-Language Closeout Guidance Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
@@ -311,6 +311,11 @@ template_contains "docs/VALIDATION.md" "substantive bounded Worker slices use th
 template_contains "docs/VALIDATION.md" "automatic timers, polling loops" "Validation blocks patience automation creep"
 template_contains "docs/VALIDATION.md" "Installation and migration guidance covers local checkout use" "Validation checks installation guide coverage"
 template_contains "docs/VALIDATION.md" "does not imply packaging automation" "Validation blocks migration automation creep"
+template_contains "docs/VALIDATION.md" "Invocation, Migration, And Plain-Language Closeout Guidance Checks" "Validation checks v0.4.10 invocation section"
+template_contains "docs/VALIDATION.md" "Automatic invocation is described as workflow/checklist reasoning only." "Validation checks automatic invocation boundary"
+template_contains "docs/VALIDATION.md" "never creates external effects or transfers authority" "Validation blocks invocation authority transfer"
+template_contains "docs/VALIDATION.md" "Remaining uncertainty or skipped checks are mandatory closeout fields" "Validation checks mandatory skipped-check closeout"
+template_contains "docs/VALIDATION.md" "explicit current-session authorization" "Validation checks current-session next-goal authorization"
 template_contains "docs/VALIDATION.md" "0-1, 2, 3-4, 5-6, 7, 8+" "Validation checks rollover thresholds"
 template_contains "docs/VALIDATION.md" "Owner-recorded CLI role assignment is described as current-project workspace trust setup authorization" "Validation checks owner-recorded trust authorization"
 template_contains "docs/VALIDATION.md" "Stale, historical-only, superseded, or mismatched role records do not authorize trust setup." "Validation blocks stale trust authorization"
@@ -351,14 +356,34 @@ template_contains "SKILL.md" "Do not claim PM/Advisor independence was strengthe
 template_contains "SKILL.md" "Do not treat short silence or a brief lack of visible output as task failure" "SKILL.md preserves PM Advisor patience"
 template_contains "SKILL.md" "Worker lifecycle uses the same evidence-based patience principle" "SKILL.md preserves Worker patience"
 template_contains "SKILL.md" "Close, restart, or replace PM/Advisor only when there is a recorded lifecycle reason" "SKILL.md requires lifecycle closure reason"
+template_contains "SKILL.md" "Use or explicitly consider \`multi-agent-working-group\`" "SKILL.md defines invocation triggers"
+template_contains "SKILL.md" "Automatic invocation means applying this workflow and checklist" "SKILL.md defines automatic invocation as checklist"
+template_contains "SKILL.md" "never creates external effects or transfers authority" "SKILL.md blocks invocation authority transfer"
+template_contains "SKILL.md" "Scale the workflow to the task size" "SKILL.md scales workflow to task size"
+template_contains "SKILL.md" "What remains uncertain or was not checked:" "SKILL.md requires uncertainty closeout"
+template_contains "SKILL.md" "explicit current-session authorization" "SKILL.md requires current-session next-goal authorization"
 template_contains "README.md" "docs/INSTALLATION.md" "README links installation guide"
+template_contains "README.md" "automatic selection is only workflow/checklist reasoning" "README defines automatic invocation boundary"
+template_contains "README.md" "Completion summaries and next-goal recommendations are reporting aids only" "README blocks closeout authorization"
 template_contains "docs/INSTALLATION.md" "Optional Global Skill Sync" "Installation guide covers global skill sync"
 template_contains "docs/INSTALLATION.md" "Migrate To Another Machine" "Installation guide covers machine migration"
 template_contains "docs/INSTALLATION.md" "Adopt In Another Project" "Installation guide covers project adoption"
 template_contains "docs/INSTALLATION.md" "What Does Not Transfer" "Installation guide documents non-transferable state"
 template_contains "docs/INSTALLATION.md" "Do not hard-code a concrete" "Installation guide keeps model selection generic"
 template_contains "docs/INSTALLATION.md" "Migration does not transfer" "Installation guide blocks authorization transfer"
+template_contains "docs/INSTALLATION.md" "workflow/checklist" "Installation guide frames invocation as checklist"
+template_contains "docs/INSTALLATION.md" "Global sync is a file-sync step, not an authority-sync step." "Installation guide blocks global sync authority"
+template_contains "docs/INSTALLATION.md" "stale handoff authority" "Installation guide blocks stale handoff authority"
+template_contains "docs/INSTALLATION.md" "prior session, another current session" "Installation guide blocks session assumption transfer"
 template_contains "docs/INSTALLATION.md" "./scripts/validate-local.sh" "Installation guide includes validation command"
+template_contains "templates/README.md" "plain-language closeout" "Templates README requires closeout summary"
+template_contains "templates/README.md" "Recommended next goals are advice only" "Templates README blocks next-goal authorization"
+template_contains "templates/compact-handoff.md" "Plain-language closeout" "Compact handoff includes closeout fields"
+template_contains "templates/compact-handoff.md" "What remains uncertain or was not checked:" "Compact handoff requires uncertainty closeout"
+template_contains "templates/successor-startup-packet.md" "Plain-language closeout or handoff summary:" "Successor packet includes closeout summary"
+template_contains "templates/blocked-report.md" "Plain-language closeout:" "Blocked report includes closeout summary"
+template_contains "examples/skill-invocation.md" "Calling the skill automatically means" "Skill invocation example defines automatic invocation"
+template_contains "examples/skill-invocation.md" "What Does Not Happen Automatically" "Skill invocation example blocks automatic authority transfer"
 
 if command -v openspec >/dev/null 2>&1; then
   if openspec_list="$(openspec list --json 2>&1)"; then

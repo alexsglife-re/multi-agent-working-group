@@ -1,6 +1,6 @@
 # Compact Handoff Template
 
-Version: v0.4.9 recommended template.
+Version: v0.4.10 recommended template.
 
 ## Current State Card
 
@@ -128,6 +128,16 @@ Legacy or bloated source handling:
 
 Next action:
   <single next safe action>
+
+Plain-language closeout, if this card closes or hands off work:
+  What changed:
+    <ordinary-language summary>
+  What was verified:
+    <commands, checks, review gates, or evidence actually run or observed>
+  What remains uncertain or was not checked:
+    <mandatory; write none and why if nothing remains>
+  Recommended next goal:
+    <advice only; do not start unless Owner gave explicit current-session authorization>
 
 Task status dashboard:
   Pending:

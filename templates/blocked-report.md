@@ -1,6 +1,6 @@
 # Blocked Report Template
 
-Version: v0.4.9 recommended template.
+Version: v0.4.10 recommended template.
 
 ```text
 Status:
@@ -54,6 +54,16 @@ Needed from owner or leader:
 
 Recommended next action:
   - ...
+
+Plain-language closeout:
+  What changed:
+    <ordinary-language summary, if anything changed>
+  What was verified:
+    <commands, checks, review gates, or evidence actually run or observed>
+  What remains uncertain or was not checked:
+    <mandatory; write none and why if nothing remains>
+  Recommended next goal:
+    <advice only; do not start unless Owner gave explicit current-session authorization>
 
 What must not happen:
   - Do not assume permission.

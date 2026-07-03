@@ -212,6 +212,24 @@ Run these checks for the `v0.4.9` provider separation and model source verificat
 - Installation and migration guidance covers local checkout use, optional global skill sync, migration to another machine, adoption in another project, validation commands, and non-transferable state.
 - Installation and migration guidance does not imply packaging automation, release publication, automatic global overwrite, secret migration, or transfer of commit/push/CI/archive authorization.
 
+## v0.4.10 Invocation, Migration, And Plain-Language Closeout Guidance Checks
+
+Run these checks for the `v0.4.10` invocation, migration, and closeout set: `README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`, `docs/VALIDATION.md`, `docs/INSTALLATION.md`, `SKILL.md`, `templates/`, `examples/`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- Skill invocation is based on task traits such as explicit Owner request, PM/Advisor/Worker/Reviewer coordination, external Advisor review, OpenSpec lifecycle work, medium or higher risk, delegated implementation, guarded git exits, handoff, rollover, or complex verification.
+- Automatic invocation is described as workflow/checklist reasoning only.
+- Automatic invocation never creates external effects or transfers authority. Examples are non-exhaustive and include automatic agent spawning, external Advisor calls, workspace trust, commit, push, archive, CI, deployment, release, publication, secret access, Owner-only gate bypass, and next-goal execution.
+- The workflow scales to task size, so narrow small low-risk work can still use Small Task Mode when every Small Task Mode condition is met.
+- Installation and migration guidance explains that copying, syncing, installing, or invoking the skill transfers the checklist only, not permission or trusted continuity.
+- Migration guidance gives concrete non-transfer examples: authorization, role continuity, validation freshness, workspace trust, stale handoff authority, secrets, external-effect permission, and prior/current-session assumptions.
+- Completion summaries include what changed, what was actually verified, what remains uncertain or was not checked, recommended next goals, and authorization state.
+- Remaining uncertainty or skipped checks are mandatory closeout fields; if none remain, the output says `none` and explains why.
+- Verification evidence is separated from claims, recommendations, stale memory, old handoffs, or prior-session instructions.
+- Recommended next goals are advice only unless the Owner has already given explicit current-session authorization.
+- Plain-language final reporting avoids unexplained jargon or briefly explains necessary technical terms in practical terms.
+- v0.4.10 does not weaken v0.4.9 provider separation, model-source verification, PM/Advisor patience, substantive Worker patience, installation boundaries, or non-transferable authorization rules.
+- Documentation does not add automatic timers, polling loops, process supervision, runtime session registries, packaging automation, release publication, CI automation, or automatic repair.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -229,6 +247,9 @@ Run these checks whenever `SKILL.md` changes.
 - Current verified model records distinguish current routing authority from stale memory or handoff evidence.
 - PM, Advisor, and substantive Worker lifecycle patience rules distinguish short silence from concrete failure.
 - Installation and migration guidance preserves authorization and validation freshness boundaries.
+- Skill invocation triggers are documented without implying automatic subagent spawning, external Advisor calls, workspace trust, git exits, CI/archive automation, or next-goal execution.
+- Final Leader outputs include a plain-language closeout with what changed, actual verification evidence, mandatory uncertainty/skipped-check reporting, recommended next goals, and authorization state.
+- Recommended next goals are advice only unless the Owner has already given explicit current-session authorization.
 - CLI agent workspace-trust status, authorization source, target project root, setup state, and probe result are recorded when relevant.
 - Owner-recorded CLI role assignment for the current project and workstream authorizes exact current-project workspace trust setup without a repeated Owner prompt.
 - Stale, historical-only, superseded, or mismatched CLI role records do not authorize workspace trust setup.
