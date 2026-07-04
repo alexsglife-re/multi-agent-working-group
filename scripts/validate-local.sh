@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.11"
+VERSION="v0.4.12"
 TEMPLATE_VERSION="v0.4.10"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
@@ -9,7 +9,16 @@ REQUIRED_ACCEPTED_SPECS=(
   "copyable-role-templates"
   "leader-state-compaction"
   "local-validation-tool"
+  "platform-adapter-guidance"
   "role-boundary-stabilization"
+)
+REQUIRED_REFERENCES=(
+  "references/TRACEABILITY.md"
+  "references/cli-trust.md"
+  "references/context-rollover.md"
+  "references/git-exit-rules.md"
+  "references/openspec-lifecycle.md"
+  "references/role-templates-and-output.md"
 )
 ROLLOVER_SPEC="leader-rollover-protocol"
 ROLLOVER_CHANGE="openspec/changes/add-rollover-opportunity-protocol/specs/leader-rollover-protocol/spec.md"
@@ -150,6 +159,8 @@ if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Invocation, 
   pass "docs/TODO.md current version section"
 elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Platform-Neutral Protocol Positioning"; then
   pass "docs/TODO.md current version section"
+elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Progressive Skill References"; then
+  pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
@@ -158,6 +169,8 @@ if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Invoca
   pass "docs/ROADMAP.md current version marker"
 elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Platform-Neutral Protocol Positioning"; then
   pass "docs/ROADMAP.md current version marker"
+elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Progressive Skill References"; then
+  pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
@@ -165,6 +178,8 @@ fi
 if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Invocation, Migration, And Plain-Language Closeout Guidance Checks"; then
   pass "docs/VALIDATION.md current validation section"
 elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Platform-Neutral Protocol Positioning Checks"; then
+  pass "docs/VALIDATION.md current validation section"
+elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Progressive Skill References Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
@@ -203,6 +218,14 @@ for template in "${REQUIRED_TEMPLATES[@]}"; do
     pass "template exists with version marker: $template"
   else
     fail "template exists with version marker: $template"
+  fi
+done
+
+for reference in "${REQUIRED_REFERENCES[@]}"; do
+  if [[ -f "$reference" ]]; then
+    pass "reference exists: $reference"
+  else
+    fail "reference exists: $reference"
   fi
 done
 
@@ -374,6 +397,28 @@ template_contains "SKILL.md" "never creates external effects or transfers author
 template_contains "SKILL.md" "Scale the workflow to the task size" "SKILL.md scales workflow to task size"
 template_contains "SKILL.md" "What remains uncertain or was not checked:" "SKILL.md requires uncertainty closeout"
 template_contains "SKILL.md" "explicit current-session authorization" "SKILL.md requires current-session next-goal authorization"
+template_contains "SKILL.md" "independent first-pass / no-peek review" "SKILL.md preserves PM Advisor no-peek independence"
+template_contains "SKILL.md" "Missing required PM or Advisor evidence fails closed" "SKILL.md preserves missing PM Advisor fail-closed behavior"
+template_contains "SKILL.md" "Advisor output is unverified evidence rather than authority" "SKILL.md preserves Advisor evidence boundary"
+template_contains "SKILL.md" "old handoff, successor packet, template, memory, or previous consensus is evidence for Leader verification, not authorization by itself" "SKILL.md preserves handoff evidence boundary"
+template_contains "SKILL.md" "MUST read \`references/git-exit-rules.md\` before commit, push, tag, release" "SKILL.md routes git and release reference"
+template_contains "SKILL.md" "MUST read \`references/openspec-lifecycle.md\` before OpenSpec proposal" "SKILL.md routes OpenSpec reference"
+template_contains "SKILL.md" "MUST read \`references/cli-trust.md\` before relying on Claude CLI" "SKILL.md routes CLI trust reference"
+template_contains "SKILL.md" "MUST read \`references/context-rollover.md\` before context rollover" "SKILL.md routes rollover reference"
+template_contains "SKILL.md" "MUST read \`references/role-templates-and-output.md\` before dispatching PM" "SKILL.md routes role output reference"
+template_contains "SKILL.md" "Reference files extend this file; they cannot weaken it" "SKILL.md blocks reference authority weakening"
+template_contains "SKILL.md" "If a required reference is missing or unread for an affected domain, stop before acting in that domain." "SKILL.md fails closed when reference missing"
+template_contains "references/TRACEABILITY.md" "All current \`template_contains \"SKILL.md\"\` hard-boundary anchor phrases remain in \`SKILL.md\`" "Traceability preserves SKILL anchors"
+template_contains "references/TRACEABILITY.md" "PM and Advisor expected output is independent first-pass / no-peek review before consensus." "Traceability records PM Advisor independence anchor"
+template_contains "references/TRACEABILITY.md" "Advisor output is unverified evidence rather than authority." "Traceability records Advisor evidence anchor"
+template_contains "references/TRACEABILITY.md" "Handoff or prior agent output is evidence rather than authorization." "Traceability records handoff evidence anchor"
+template_contains "references/git-exit-rules.md" "Default exclusions unless owner explicitly names the exception" "Git reference preserves default exclusions"
+template_contains "references/git-exit-rules.md" "Normal non-high-risk push may proceed after PM + Advisor consensus" "Git reference preserves push gate"
+template_contains "references/openspec-lifecycle.md" "Use this sequence whenever this skill and OpenSpec are both active" "OpenSpec reference preserves C0-C4 lifecycle"
+template_contains "references/cli-trust.md" "Do not use dangerous permission-bypass flags" "CLI trust reference preserves dangerous flag ban"
+template_contains "references/context-rollover.md" "Rollover or successor packets do not carry that authorization into a successor context" "Rollover reference preserves non-inherited authorization"
+template_contains "references/role-templates-and-output.md" "Advisor Agent:" "Role reference preserves Advisor role"
+template_contains "references/role-templates-and-output.md" "Expected output must preserve complete reasoning" "Role reference preserves output requirements"
 template_contains "README.md" "docs/INSTALLATION.md" "README links installation guide"
 template_contains "README.md" "portable multi-agent workflow protocol" "README states portable protocol positioning"
 template_contains "README.md" "Codex as the reference packaged adapter" "README states Codex reference adapter"
@@ -436,7 +481,8 @@ else
   fail "openspec CLI is available"
 fi
 
-global_skill="${HOME}/.codex/skills/multi-agent-working-group/SKILL.md"
+global_skill_dir="${HOME}/.codex/skills/multi-agent-working-group"
+global_skill="${global_skill_dir}/SKILL.md"
 if [[ "$skip_global_skill" -eq 1 ]]; then
   warn "global SKILL.md comparison skipped"
 elif [[ -f "$global_skill" ]]; then
@@ -445,6 +491,15 @@ elif [[ -f "$global_skill" ]]; then
   else
     fail "global SKILL.md matches repo SKILL.md"
   fi
+
+  for reference in "${REQUIRED_REFERENCES[@]}"; do
+    global_reference="${global_skill_dir}/${reference}"
+    if [[ -f "$global_reference" ]] && cmp -s "$reference" "$global_reference"; then
+      pass "global reference matches repo: $reference"
+    else
+      fail "global reference matches repo: $reference"
+    fi
+  done
 else
   warn "global SKILL.md not found at $global_skill"
 fi

@@ -51,7 +51,9 @@ Install the Codex reference adapter into the default Codex skill directory:
 
 ```sh
 mkdir -p ~/.codex/skills/multi-agent-working-group
+mkdir -p ~/.codex/skills/multi-agent-working-group/references
 cp SKILL.md ~/.codex/skills/multi-agent-working-group/SKILL.md
+cp -R references/. ~/.codex/skills/multi-agent-working-group/references/
 ```
 
 Then restart Codex or refresh the environment that loads skills.
@@ -89,19 +91,21 @@ The installed Codex global skill is normally:
 
 ```text
 ~/.codex/skills/multi-agent-working-group/SKILL.md
+~/.codex/skills/multi-agent-working-group/references/
 ```
 
 After local changes are reviewed and ready to become the installed Codex
-reference adapter, copy the repository `SKILL.md` to that path using the
-machine's normal file-copy method, then run:
+reference adapter, copy the repository `SKILL.md` and `references/` to those
+paths using the machine's normal file-copy method, then run:
 
 ```sh
 ./scripts/validate-local.sh
 ```
 
-The validation command compares the repository skill with the global installed Codex skill when the global file exists.
+The validation command compares the repository skill and required references
+with the global installed Codex skill when the global file exists.
 
-Global sync is a file-sync step, not an authority-sync step. Matching `SKILL.md` files do not prove that commit permission, push permission, review freshness, validation freshness, trusted workspace state, or handoff authority is still valid.
+Global sync is a file-sync step, not an authority-sync step. Matching `SKILL.md` and reference files do not prove that commit permission, push permission, review freshness, validation freshness, trusted workspace state, or handoff authority is still valid.
 
 ## Public Release Checklist
 
@@ -144,7 +148,8 @@ openspec validate --all
 ```
 
 If the Codex reference adapter should be installed globally on that machine,
-sync `SKILL.md` into that machine's global Codex skill directory and rerun:
+sync `SKILL.md` and `references/` into that machine's global Codex skill
+directory and rerun:
 
 ```sh
 ./scripts/validate-local.sh

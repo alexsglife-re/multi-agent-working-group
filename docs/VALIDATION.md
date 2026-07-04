@@ -280,6 +280,34 @@ Run these checks for the `v0.4.11` platform-neutral positioning set:
   packaging automation, release automation, or copied runtime implementation
   details.
 
+## v0.4.12 Progressive Skill References Checks
+
+Run these checks for the `v0.4.12` progressive references set: `SKILL.md`,
+`references/`, `README.md`, `CHANGELOG.md`, `docs/TODO.md`,
+`docs/ROADMAP.md`, `docs/VALIDATION.md`, `scripts/validate-local.sh`, and the
+OpenSpec change.
+
+- `SKILL.md` remains the always-loaded router and fail-closed hard-boundary
+  summary, not only a directory.
+- Reference files extend `SKILL.md`; they do not weaken it, override it, or
+  grant authorization by themselves.
+- Every current `template_contains "SKILL.md"` hard-boundary phrase remains
+  individually checked against `SKILL.md`.
+- PM/Advisor independent first-pass and no-peek review remain in `SKILL.md`.
+- Advisor output remains unverified evidence rather than authority.
+- Handoff, successor packet, template, memory, prior consensus, and other agent
+  output remain evidence rather than authorization.
+- `SKILL.md` has mandatory reference routing for git/default exclusions,
+  OpenSpec, CLI trust, rollover/handoff, and role-output domains.
+- Missing or unread required references fail closed before the affected domain
+  action continues.
+- Validation checks the reference files, traceability map, routing statements,
+  and representative scenarios for commit/push, tag/release/default exclusions,
+  OpenSpec-backed work, Small Task Mode at git gates, handoff/rollover, CLI
+  trust, and missing PM/Advisor fail-closed behavior.
+- Line-count reduction is advisory only; capability and constraint preservation
+  take precedence.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.

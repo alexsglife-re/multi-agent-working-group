@@ -13,7 +13,7 @@ until their adapters are validated in real use.
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.11`. `v0.4.11` Platform-Neutral Protocol Positioning is complete locally on top of the public `v0.4.10` initial release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.12`. `v0.4.12` Progressive Skill References is complete on top of the public `v0.4.11` platform-neutral release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Protocol Helps With
 
@@ -53,7 +53,8 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 
 | Path | Purpose |
 | --- | --- |
-| `SKILL.md` | Codex reference-adapter entry point and operational protocol text. |
+| `SKILL.md` | Codex reference-adapter entry point, hard-boundary summary, and progressive-reference router. |
+| `references/` | Progressive reference files that expand `SKILL.md` without weakening its constraints. |
 | `agents/openai.yaml` | Agent-facing metadata used by the Codex adapter bundle. |
 | `LICENSE` | MIT license for public reuse. |
 | `CONTRIBUTING.md` | Issue, pull request, and validation guidance for contributors. |
@@ -91,7 +92,9 @@ Codex reference-adapter minimal install:
 ```sh
 git clone https://github.com/alexsglife-re/multi-agent-working-group.git
 mkdir -p ~/.codex/skills/multi-agent-working-group
+mkdir -p ~/.codex/skills/multi-agent-working-group/references
 cp multi-agent-working-group/SKILL.md ~/.codex/skills/multi-agent-working-group/SKILL.md
+cp -R multi-agent-working-group/references/. ~/.codex/skills/multi-agent-working-group/references/
 ```
 
 For full checkout use, examples, validation, and migration notes, see
@@ -150,7 +153,7 @@ After an OpenSpec-backed change is archived, use closeout mode:
 ./scripts/validate-local.sh --require-no-active-changes
 ```
 
-The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, and the installed global skill copy when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, or git gate requirements.
+The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, and the installed global skill plus required references when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, or git gate requirements.
 
 ## Development Principles
 
@@ -191,11 +194,11 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.11` stabilization and public-release preparation work is complete. `v0.4.11` repositions the project as a platform-neutral workflow protocol with Codex as the reference adapter and non-Codex runtimes documented through explicit adapter maturity labels.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.12` stabilization and public-release preparation work is complete. `v0.4.12` splits long skill details into progressive references while keeping `SKILL.md` as the fail-closed hard-boundary summary and mandatory router.
 
-`v0.4.11` is the current documented version. A public release should be created
+`v0.4.12` is the current documented version. A public release should be created
 only after the release-preparation diff is reviewed, validation passes, and a
-tag such as `v0.4.11` points at the reviewed commit. Normal non-high-risk
+tag such as `v0.4.12` points at the reviewed commit. Normal non-high-risk
 commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required
 evidence; high-risk and default-exclusion actions still require explicit Owner
 approval.

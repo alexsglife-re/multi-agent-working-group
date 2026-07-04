@@ -333,6 +333,32 @@ labels.
 - [x] Run local validation and OpenSpec validation.
 - [x] Complete PM plus Advisor review before archive and git closeout.
 
+## v0.4.12: Progressive Skill References
+
+Goal: reduce ordinary skill-read burden by moving long-form detail into
+progressive references while keeping `SKILL.md` as the always-loaded
+fail-closed hard-boundary summary.
+
+### OpenSpec
+
+- [x] Create `split-skill-into-progressive-references` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Complete PM plus Advisor proposal review emphasizing no capability or constraint reduction.
+- [x] Validate and archive the OpenSpec change after implementation and review.
+
+### Implementation
+
+- [x] Add progressive reference files and traceability map.
+- [x] Refactor `SKILL.md` into a router plus hard-boundary summary.
+- [x] Preserve existing `SKILL.md` validation anchors and add evidence-boundary anchors.
+- [x] Update local validation checks for references and routing.
+- [x] Update README, changelog, TODO, roadmap, and validation docs for v0.4.12.
+
+### Validation
+
+- [x] Run local validation, OpenSpec validation, and diff whitespace checks.
+- [x] Complete PM plus Advisor review that confirms no skill capability or constraint was reduced.
+
 ## Later
 
 - [ ] Decide whether installation guidance should later become packaging automation.

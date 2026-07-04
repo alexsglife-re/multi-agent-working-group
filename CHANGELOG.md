@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.12: Progressive Skill References
+
+- Split long-form skill details into progressive `references/` files while
+  keeping `SKILL.md` as the fail-closed router and hard-boundary summary.
+- Preserve the existing `SKILL.md` validation anchor set and add dedicated
+  anchors for PM/Advisor no-peek independence, Advisor evidence-not-authority,
+  and handoff evidence-not-authorization.
+- Add mandatory reference routing for git/default exclusions, OpenSpec, CLI
+  trust, rollover/handoff, and role output domains.
+- Add `references/TRACEABILITY.md` so reviewers can verify that hard boundaries
+  remain in `SKILL.md` and detailed rules remain reachable.
+- Extend local validation checks for references, routing, and representative
+  no-constraint-reduction scenarios.
+
 ### Completed local upgrade for v0.4.11: Platform-Neutral Protocol Positioning
 
 - Reposition Multi-Agent Working Group as a portable multi-agent workflow

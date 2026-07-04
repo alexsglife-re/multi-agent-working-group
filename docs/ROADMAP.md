@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.11` Platform-Neutral Protocol Positioning are complete.
+`v0.4.0` local stabilization through `v0.4.12` Progressive Skill References are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -44,6 +44,7 @@ Goal: make the workflow easier to apply consistently.
 - Add task-trait guidance for when future agents should select this skill automatically.
 - Add a plain-language closeout summary requirement so completed work reports what changed, what was verified, what remains uncertain, and recommended next goals.
 - Reposition the project as a platform-neutral protocol with Codex as the reference adapter and explicit adapter maturity labels.
+- Split long skill details into progressive references without reducing `SKILL.md` hard-boundary summaries or gate strength.
 
 Exit criteria:
 
@@ -65,6 +66,7 @@ Exit criteria:
 - Invocation, migration, and plain-language closeout guidance is documented as a completed v0.4.10 follow-up without adding automatic agent spawning, external Advisor calls, workspace trust, git exits, CI/archive automation, or next-goal execution.
 - Completion summaries distinguish verified evidence from claims, include mandatory uncertainty/skipped-check reporting, and treat recommended next goals as advice only unless the Owner has already given explicit current-session authorization.
 - Platform-neutral protocol positioning is documented as a v0.4.11 follow-up without claiming Claude, OpenClaw, Hermes Agent, or other runtimes are fully supported before validation.
+- Progressive skill references are documented as a v0.4.12 follow-up without lowering skill capability, constraints, default exclusions, PM/Advisor independence, OpenSpec lifecycle, or git gates.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -123,6 +125,6 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Publish the reviewed `v0.4.11` release tag after commit, push, and post-push
-status checks. Keep heavier runtime adapter packaging out of scope until Codex
-reference usage and the adapter guidance stay stable across more real tasks.
+Decide whether to tag and publish a `v0.4.12` public release. Release tags and
+GitHub Releases are Owner-only publication actions; the local documentation
+version does not imply external publication.
