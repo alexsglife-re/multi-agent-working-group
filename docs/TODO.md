@@ -307,8 +307,34 @@ Goal: make future agents automatically select this workflow when task traits fit
 - [x] Run local validation and OpenSpec validation.
 - [x] Sync the updated `SKILL.md` to the global installed skill.
 
+## v0.4.11: Platform-Neutral Protocol Positioning
+
+Goal: present Multi-Agent Working Group as a portable multi-agent workflow
+protocol with Codex as the reference packaged adapter, while documenting Claude,
+OpenClaw, Hermes Agent, and other runtimes through explicit adapter maturity
+labels.
+
+### OpenSpec
+
+- [x] Create `add-platform-neutral-protocol-positioning` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Validate and archive the OpenSpec change after implementation and review.
+
+### Documentation
+
+- [x] Update README first-screen positioning, layout, usage, validation, and current status for v0.4.11.
+- [x] Add `docs/ADAPTERS.md` with maturity labels and runtime mapping checklist.
+- [x] Update installation guidance to separate generic protocol adoption from Codex reference-adapter installation.
+- [x] Update roadmap, changelog, TODO, and validation docs for v0.4.11.
+
+### Validation
+
+- [x] Update local validation checks for platform-neutral positioning markers.
+- [x] Run local validation and OpenSpec validation.
+- [x] Complete PM plus Advisor review before archive and git closeout.
+
 ## Later
 
 - [ ] Decide whether installation guidance should later become packaging automation.
-- [ ] Add license and public reuse decision if this becomes a reusable public skill package.
+- [ ] Add per-runtime adapter guides for Claude, OpenClaw, and Hermes Agent after real validation.
 - [ ] Consider CI only after the manual workflow is stable.

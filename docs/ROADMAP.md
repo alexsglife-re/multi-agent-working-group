@@ -1,6 +1,6 @@
 # Roadmap
 
-This roadmap keeps development incremental. The goal is to make the skill useful, reviewable, and safe before adding heavier automation.
+This roadmap keeps development incremental. The goal is to make the protocol useful, reviewable, and safe before adding heavier automation.
 
 ## Stage 1: Project Foundation
 
@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance, and `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance are complete.
+`v0.4.0` local stabilization through `v0.4.11` Platform-Neutral Protocol Positioning are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -43,6 +43,7 @@ Goal: make the workflow easier to apply consistently.
 - Add installation and migration guidance for local checkout use, global skill sync, machine migration, and project adoption.
 - Add task-trait guidance for when future agents should select this skill automatically.
 - Add a plain-language closeout summary requirement so completed work reports what changed, what was verified, what remains uncertain, and recommended next goals.
+- Reposition the project as a platform-neutral protocol with Codex as the reference adapter and explicit adapter maturity labels.
 
 Exit criteria:
 
@@ -63,6 +64,7 @@ Exit criteria:
 - Installation and migration guidance is documented as part of v0.4.9 without adding packaging automation, release publication, or authorization transfer.
 - Invocation, migration, and plain-language closeout guidance is documented as a completed v0.4.10 follow-up without adding automatic agent spawning, external Advisor calls, workspace trust, git exits, CI/archive automation, or next-goal execution.
 - Completion summaries distinguish verified evidence from claims, include mandatory uncertainty/skipped-check reporting, and treat recommended next goals as advice only unless the Owner has already given explicit current-session authorization.
+- Platform-neutral protocol positioning is documented as a v0.4.11 follow-up without claiming Claude, OpenClaw, Hermes Agent, or other runtimes are fully supported before validation.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -89,11 +91,14 @@ Exit criteria:
 Goal: make the skill easier to reuse outside the local checkout.
 
 Status: in progress. MIT licensing, public contribution guidance, security
-guidance, and release-preparation documentation are accepted for public reuse.
-CI, packaging automation, remote publication, and GitHub Release creation remain
-separate decisions.
+guidance, public release, and platform-neutral positioning are accepted for
+public reuse. CI, packaging automation, and runtime-specific adapter packaging
+remain separate decisions.
 
 - Publish as a public reusable skill while keeping the core protocol model-agnostic.
+- Present the project as a portable protocol, not only a Codex skill.
+- Keep Codex as the reference adapter while adding adapter guidance for Claude,
+  OpenClaw, Hermes Agent, and other runtimes.
 - Add license information for public reuse.
 - Add contribution, security, and conduct guidance.
 - Add changelog once versioned releases begin.
@@ -106,6 +111,7 @@ Exit criteria:
 - The intended audience and reuse model are explicit.
 - Releases have a predictable checklist.
 - Public-facing metadata is consistent with the repository purpose.
+- Adapter docs distinguish validated support from planned guidance or compatible patterns.
 
 ## Later Ideas
 
@@ -117,9 +123,6 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Finish the `v0.4.10` public-release preparation pass: validate the checkout,
-review the public-content scan, commit the release-preparation files, then tag
-the reviewed commit as `v0.4.10` if publication is still intended. Keep heavier
-automation out of scope until invocation guidance, rollover opportunity
-protocol, trust setup protocol, templates, model-source verification, and the
-local command remain stable across more real tasks.
+Publish the reviewed `v0.4.11` release tag after commit, push, and post-push
+status checks. Keep heavier runtime adapter packaging out of scope until Codex
+reference usage and the adapter guidance stay stable across more real tasks.

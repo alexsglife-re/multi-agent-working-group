@@ -1,13 +1,14 @@
 # Installation And Migration
 
-This guide explains how to use this skill from a local checkout, sync it into a
-global Codex skill directory, and migrate it to another machine or project.
+This guide explains how to use Multi-Agent Working Group as a portable workflow
+protocol, how to install the Codex reference adapter, and how to migrate it to
+another machine or project.
 
 It is documentation-only. It does not create a release, install a package, publish the skill, grant git authorization, or carry active workstream authority into a new place.
 
-For v0.4.10, the main adoption rule is simple:
+For v0.4.11, the main adoption rule is simple:
 
-- copying or calling the skill gives you the workflow/checklist;
+- copying or calling the protocol gives you the workflow/checklist;
 - it does not give you permission, fresh approval, or trusted continuity;
 - every new machine, project, session, or handoff still has to verify its own current state.
 
@@ -15,13 +16,14 @@ For v0.4.10, the main adoption rule is simple:
 
 - A local checkout of this repository.
 - OpenSpec CLI available on the machine where full validation will run.
-- Codex configured to read either this repository's `.codex/skills` entries or the global skill directory.
+- For Codex use: Codex configured to read either this repository's `.codex/skills` entries or the global skill directory.
+- For other runtimes: a runtime-specific adapter plan that maps the protocol roles and gates. See `docs/ADAPTERS.md`.
 
-If OpenSpec is not installed, the skill can still be read and used as a
+If OpenSpec is not installed, the protocol can still be read and used as a
 workflow protocol. OpenSpec-specific validation commands will not run until
 OpenSpec is available.
 
-## Install From GitHub
+## Adopt The Protocol
 
 Clone the public repository:
 
@@ -30,7 +32,22 @@ git clone https://github.com/alexsglife-re/multi-agent-working-group.git
 cd multi-agent-working-group
 ```
 
-Install the skill into the default Codex skill directory:
+Read the protocol and adapter guidance:
+
+```text
+README.md
+SKILL.md
+docs/ADAPTERS.md
+docs/VALIDATION.md
+```
+
+For non-Codex runtimes, do not copy the Codex install command blindly. First
+map the runtime using `docs/ADAPTERS.md`, including readable scope, writable
+scope, workspace trust, validation, git gates, handoff, and unsupported actions.
+
+## Install The Codex Reference Adapter
+
+Install the Codex reference adapter into the default Codex skill directory:
 
 ```sh
 mkdir -p ~/.codex/skills/multi-agent-working-group
@@ -46,8 +63,8 @@ openspec validate --all
 ./scripts/validate-local.sh
 ```
 
-If you only want to validate the checkout without comparing against the global
-installed copy:
+If you only want to validate the checkout without comparing against the Codex
+global installed copy:
 
 ```sh
 ./scripts/validate-local.sh --skip-global-skill
@@ -64,23 +81,25 @@ openspec validate --all
 
 Use `--skip-global-skill` only while developing local changes before the global installed skill has been synced.
 
-Automatically using or calling this skill means applying its workflow and checklist reasoning only. It never creates external effects by itself, and it never transfers authority from a prior machine, project, thread, handoff, or role instance.
+Automatically using or calling this protocol means applying its workflow and checklist reasoning only. It never creates external effects by itself, and it never transfers authority from a prior machine, project, thread, handoff, or role instance.
 
-## Optional Global Skill Sync
+## Optional Codex Global Skill Sync
 
-The installed global skill is normally:
+The installed Codex global skill is normally:
 
 ```text
 ~/.codex/skills/multi-agent-working-group/SKILL.md
 ```
 
-After local changes are reviewed and ready to become the installed skill, copy the repository `SKILL.md` to that path using the machine's normal file-copy method, then run:
+After local changes are reviewed and ready to become the installed Codex
+reference adapter, copy the repository `SKILL.md` to that path using the
+machine's normal file-copy method, then run:
 
 ```sh
 ./scripts/validate-local.sh
 ```
 
-The validation command compares the repository skill with the global installed skill when the global file exists.
+The validation command compares the repository skill with the global installed Codex skill when the global file exists.
 
 Global sync is a file-sync step, not an authority-sync step. Matching `SKILL.md` files do not prove that commit permission, push permission, review freshness, validation freshness, trusted workspace state, or handoff authority is still valid.
 
@@ -99,17 +118,18 @@ Review every match from the content scan. Matches inside safety instructions
 are usually expected. Real credentials, personal paths, private project names,
 private logs, or local-only model-routing preferences are not safe for release.
 
-Create the tag only after the release-preparation changes are committed:
+Create the tag only after the release-preparation changes are committed. Replace
+`<version>` with the reviewed release version:
 
 ```sh
-git tag v0.4.10
+git tag <version>
 ```
 
 Publish the tag and create the GitHub Release only when the maintainer intends
-to perform the external publication step. A suggested first release title is:
+to perform the external publication step. A suggested release title format is:
 
 ```text
-v0.4.10 - Initial public release
+<version> - <short release title>
 ```
 
 ## Migrate To Another Machine
@@ -123,7 +143,8 @@ openspec validate --all
 ./scripts/validate-local.sh --skip-global-skill
 ```
 
-If the skill should be installed globally on that machine, sync `SKILL.md` into that machine's global Codex skill directory and rerun:
+If the Codex reference adapter should be installed globally on that machine,
+sync `SKILL.md` into that machine's global Codex skill directory and rerun:
 
 ```sh
 ./scripts/validate-local.sh
@@ -131,22 +152,30 @@ If the skill should be installed globally on that machine, sync `SKILL.md` into 
 
 Do not migrate secrets, credentials, API keys, browser data, unrelated project files, or local machine-specific trust state.
 
-In plain language: moving the skill to another machine is like copying a checklist to another desk. The checklist moves. The permission to act does not.
+In plain language: moving the protocol or Codex skill adapter to another
+machine is like copying a checklist to another desk. The checklist moves. The
+permission to act does not.
 
 ## Adopt In Another Project
 
-When another project uses this skill:
+When another project uses this protocol:
 
 1. Read that project's local instructions first.
-2. Treat this skill as a workflow protocol that project rules may tighten.
+2. Treat this project as a workflow protocol that project rules may tighten.
 3. Run the project's own validation in addition to this repository's validation.
 4. Start each OpenSpec-backed workstream with C0 analysis.
 5. Record current provider/model routing from Owner instruction, project rules, project memory, handoff, startup packet, or a current verified model record.
 6. Re-check current git state, validation state, trust state, and role continuity inside that project instead of assuming they carried over.
 
-Do not hard-code a concrete PM, Advisor, Worker, or Reviewer model in this skill. Concrete provider/model selection belongs in Owner instructions, global memory, project memory, project rules, handoff, startup packets, or current verified records.
+Do not hard-code a concrete PM, Advisor, Worker, or Reviewer model in this
+protocol or adapter docs unless the runtime guide is explicitly documenting a
+runtime-specific example. Concrete provider/model selection belongs in Owner
+instructions, global memory, project memory, project rules, handoff, startup
+packets, or current verified records.
 
-Using the skill automatically in another project means "follow this workflow unless the project has stricter rules." It does not mean "this project is now trusted" or "the old workstream is still in force."
+Using the protocol automatically in another project means "follow this workflow
+unless the project has stricter rules." It does not mean "this project is now
+trusted" or "the old workstream is still in force."
 
 ## What Does Not Transfer
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.10"
+VERSION="v0.4.11"
+TEMPLATE_VERSION="v0.4.10"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
@@ -147,17 +148,23 @@ fi
 
 if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Invocation, Migration, And Plain-Language Closeout Guidance"; then
   pass "docs/TODO.md current version section"
+elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Platform-Neutral Protocol Positioning"; then
+  pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
 if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Invocation, Migration, And Plain-Language Closeout Guidance"; then
   pass "docs/ROADMAP.md current version marker"
+elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Platform-Neutral Protocol Positioning"; then
+  pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
 if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Invocation, Migration, And Plain-Language Closeout Guidance Checks"; then
+  pass "docs/VALIDATION.md current validation section"
+elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Platform-Neutral Protocol Positioning Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
@@ -187,9 +194,9 @@ fi
 
 for template in "${REQUIRED_TEMPLATES[@]}"; do
   if [[ "$template" == "templates/README.md" ]]; then
-    version_marker="Version: $VERSION recommended templates."
+    version_marker="Version: $TEMPLATE_VERSION recommended templates."
   else
-    version_marker="Version: $VERSION recommended template."
+    version_marker="Version: $TEMPLATE_VERSION recommended template."
   fi
 
   if [[ -f "$template" ]] && contains "$template" "$version_marker"; then
@@ -316,6 +323,11 @@ template_contains "docs/VALIDATION.md" "Automatic invocation is described as wor
 template_contains "docs/VALIDATION.md" "never creates external effects or transfers authority" "Validation blocks invocation authority transfer"
 template_contains "docs/VALIDATION.md" "Remaining uncertainty or skipped checks are mandatory closeout fields" "Validation checks mandatory skipped-check closeout"
 template_contains "docs/VALIDATION.md" "explicit current-session authorization" "Validation checks current-session next-goal authorization"
+template_contains "docs/VALIDATION.md" "Platform-Neutral Protocol Positioning Checks" "Validation checks v0.4.11 platform-neutral section"
+template_contains "docs/VALIDATION.md" "portable multi-agent workflow protocol" "Validation checks protocol positioning"
+template_contains "docs/VALIDATION.md" "reference packaged adapter" "Validation checks reference adapter wording"
+template_contains "docs/VALIDATION.md" "planned adapter guidance or compatible patterns until validated" "Validation blocks unvalidated adapter support claims"
+template_contains "docs/VALIDATION.md" "Adapter maturity labels distinguish" "Validation checks adapter maturity labels"
 template_contains "docs/VALIDATION.md" "0-1, 2, 3-4, 5-6, 7, 8+" "Validation checks rollover thresholds"
 template_contains "docs/VALIDATION.md" "Owner-recorded CLI role assignment is described as current-project workspace trust setup authorization" "Validation checks owner-recorded trust authorization"
 template_contains "docs/VALIDATION.md" "Stale, historical-only, superseded, or mismatched role records do not authorize trust setup." "Validation blocks stale trust authorization"
@@ -363,9 +375,16 @@ template_contains "SKILL.md" "Scale the workflow to the task size" "SKILL.md sca
 template_contains "SKILL.md" "What remains uncertain or was not checked:" "SKILL.md requires uncertainty closeout"
 template_contains "SKILL.md" "explicit current-session authorization" "SKILL.md requires current-session next-goal authorization"
 template_contains "README.md" "docs/INSTALLATION.md" "README links installation guide"
+template_contains "README.md" "portable multi-agent workflow protocol" "README states portable protocol positioning"
+template_contains "README.md" "Codex as the reference packaged adapter" "README states Codex reference adapter"
+template_contains "README.md" "adapter guidance or compatible patterns" "README avoids overclaiming non-Codex support"
+template_contains "README.md" "docs/ADAPTERS.md" "README links adapter guide"
 template_contains "README.md" "automatic selection is only workflow/checklist reasoning" "README defines automatic invocation boundary"
 template_contains "README.md" "Completion summaries and next-goal recommendations are reporting aids only" "README blocks closeout authorization"
-template_contains "docs/INSTALLATION.md" "Optional Global Skill Sync" "Installation guide covers global skill sync"
+template_contains "docs/INSTALLATION.md" "Optional Codex Global Skill Sync" "Installation guide covers global skill sync"
+template_contains "docs/INSTALLATION.md" "Adopt The Protocol" "Installation guide covers generic protocol adoption"
+template_contains "docs/INSTALLATION.md" "Install The Codex Reference Adapter" "Installation guide covers Codex reference adapter"
+template_contains "docs/INSTALLATION.md" "docs/ADAPTERS.md" "Installation guide links adapter guidance"
 template_contains "docs/INSTALLATION.md" "Migrate To Another Machine" "Installation guide covers machine migration"
 template_contains "docs/INSTALLATION.md" "Adopt In Another Project" "Installation guide covers project adoption"
 template_contains "docs/INSTALLATION.md" "What Does Not Transfer" "Installation guide documents non-transferable state"
@@ -376,6 +395,14 @@ template_contains "docs/INSTALLATION.md" "Global sync is a file-sync step, not a
 template_contains "docs/INSTALLATION.md" "stale handoff authority" "Installation guide blocks stale handoff authority"
 template_contains "docs/INSTALLATION.md" "prior session, another current session" "Installation guide blocks session assumption transfer"
 template_contains "docs/INSTALLATION.md" "./scripts/validate-local.sh" "Installation guide includes validation command"
+template_contains "docs/ADAPTERS.md" "reference adapter" "Adapter guide defines reference adapter"
+template_contains "docs/ADAPTERS.md" "adapter guide planned" "Adapter guide defines planned adapter"
+template_contains "docs/ADAPTERS.md" "compatible pattern" "Adapter guide defines compatible pattern"
+template_contains "docs/ADAPTERS.md" "Claude / Claude Code" "Adapter guide lists Claude status"
+template_contains "docs/ADAPTERS.md" "OpenClaw" "Adapter guide lists OpenClaw status"
+template_contains "docs/ADAPTERS.md" "Hermes Agent" "Adapter guide lists Hermes status"
+template_contains "docs/ADAPTERS.md" "Adapter Mapping Checklist" "Adapter guide includes mapping checklist"
+template_contains "docs/ADAPTERS.md" "Non-Transferable State" "Adapter guide preserves non-transferable state"
 template_contains "templates/README.md" "plain-language closeout" "Templates README requires closeout summary"
 template_contains "templates/README.md" "Recommended next goals are advice only" "Templates README blocks next-goal authorization"
 template_contains "templates/compact-handoff.md" "Plain-language closeout" "Compact handoff includes closeout fields"

@@ -47,15 +47,17 @@ rg -n "(token|api[_-]?key|secret|password|private key|/Users/|gmail|Keychain|GIT
 - Public docs keep the skill model-agnostic and do not hard-code personal provider or model defaults.
 - Public docs do not include private machine paths, private project details, credentials, or local-only memory rules.
 - `openspec/changes/archive/` is described as design history, not required reading for ordinary users.
-- A release tag such as `v0.4.10` points at the reviewed release commit, not at an older pre-release-preparation commit.
-- GitHub Release notes, when created, describe `v0.4.10` as the initial public release and do not claim deployment, CI, or automation that does not exist.
+- A release tag such as `v0.4.11` points at the reviewed release commit, not at an older pre-release-preparation commit.
+- GitHub Release notes, when created, describe the reviewed version and do not claim deployment, CI, or automation that does not exist.
 
 ## README Checks
 
 - The README explains what the skill is for.
+- The README presents Multi-Agent Working Group as a portable protocol with Codex as the reference adapter.
 - The README explains what the skill does not authorize.
 - The repository layout matches the actual files.
 - Usage guidance does not imply automatic permission to commit, push, deploy, release, or perform destructive actions.
+- Runtime guidance does not describe planned or compatible adapters as fully supported before validation.
 - Links to roadmap and validation docs remain accurate.
 
 ## Roadmap Checks
@@ -251,6 +253,33 @@ Run these checks for the `v0.4.10` invocation, migration, and closeout set: `REA
 - v0.4.10 does not weaken v0.4.9 provider separation, model-source verification, PM/Advisor patience, substantive Worker patience, installation boundaries, or non-transferable authorization rules.
 - Documentation does not add automatic timers, polling loops, process supervision, runtime session registries, packaging automation, release publication, CI automation, or automatic repair.
 
+## v0.4.11 Platform-Neutral Protocol Positioning Checks
+
+Run these checks for the `v0.4.11` platform-neutral positioning set:
+`README.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`,
+`docs/VALIDATION.md`, `docs/INSTALLATION.md`, `docs/ADAPTERS.md`,
+`scripts/validate-local.sh`, and the OpenSpec change.
+
+- Public documentation describes Multi-Agent Working Group as a portable
+  multi-agent workflow protocol.
+- Public documentation uses the phrase `portable multi-agent workflow protocol`
+  for the project positioning.
+- Codex is described as the reference packaged adapter, not the only intended
+  runtime.
+- Claude, OpenClaw, Hermes Agent, and other non-Codex runtimes are labeled as
+  planned adapter guidance or compatible patterns until validated.
+- Adapter maturity labels distinguish `reference adapter`, `adapter guide
+  planned`, `compatible pattern`, and `unsupported`.
+- Adapter guidance lists required mappings for Leader, PM, Advisor, Worker,
+  Reviewer, readable scope, writable scope, workspace trust, validation, git
+  gates, handoff, and unsupported actions.
+- Adapter guidance preserves non-transferable authorization, workspace trust,
+  validation freshness, role continuity, secret access, and external-effect
+  boundaries.
+- Documentation does not add runtime automation, subprocess orchestration, CI,
+  packaging automation, release automation, or copied runtime implementation
+  details.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -306,6 +335,7 @@ Run these checks whenever `agents/openai.yaml` changes.
 
 - No secrets, credentials, tokens, private keys, or local machine-specific private paths were added.
 - Public-facing documentation does not include local-only model-routing rules or personal memory defaults.
+- Platform-facing documentation does not claim full support for unvalidated runtimes.
 - Documentation does not authorize broader advisor access than `SKILL.md`.
 - Documentation does not imply that Advisor model diversity expands context sharing, authorizes secrets, or proves correctness.
 - Documentation does not imply that trusted Advisor context authorizes secrets, unrelated projects, broad dumps, or irrelevant data.

@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.11: Platform-Neutral Protocol Positioning
+
+- Reposition Multi-Agent Working Group as a portable multi-agent workflow
+  protocol with Codex as the reference packaged adapter.
+- Add `docs/ADAPTERS.md` with adapter maturity labels and required runtime
+  mapping fields.
+- Document Claude, OpenClaw, and Hermes Agent as planned adapter guidance rather
+  than fully supported integrations.
+- Update installation guidance to separate generic protocol adoption from Codex
+  reference-adapter installation.
+- Extend local validation checks for platform-neutral positioning markers.
+
 ### Public release preparation for v0.4.10
 
 - Add MIT licensing for public reuse.

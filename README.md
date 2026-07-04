@@ -1,12 +1,21 @@
 # Multi-Agent Working Group
 
-Multi-Agent Working Group is a Codex skill for running guarded development workflows with explicit Leader, PM, Advisor, Worker, and Reviewer roles. It is designed for tasks where independent critique, scoped delegation, controlled git exits, or cross-conversation handoff matter more than speed alone.
+Multi-Agent Working Group is a portable multi-agent workflow protocol for
+guarded AI-agent development. It defines Leader, PM, Advisor, Worker, and
+Reviewer roles, plus handoff, validation, commit, push, and release gates for
+tasks where independent critique and controlled exits matter more than speed
+alone.
+
+This repository ships Codex as the reference packaged adapter. The protocol is
+designed to be adapted to Claude, OpenClaw, Hermes Agent, and other agent
+runtimes, but non-Codex runtimes are adapter guidance or compatible patterns
+until their adapters are validated in real use.
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.10`. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance, and `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance are complete. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.11`. `v0.4.11` Platform-Neutral Protocol Positioning is complete locally on top of the public `v0.4.10` initial release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
 
-## What This Skill Helps With
+## What This Protocol Helps With
 
 - Coordinating PM, Advisor, Worker, and Reviewer roles during development.
 - Keeping independent review separate from implementation.
@@ -29,7 +38,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Selecting this workflow when task traits show that multi-agent coordination, OpenSpec lifecycle, guarded git exits, handoff, rollover, or complex verification are needed.
 - Closing completed work with a plain-language summary of what changed, what was verified, what remains uncertain, and recommended next goals.
 
-## What This Skill Does Not Do
+## What This Protocol Does Not Do
 
 - It does not authorize commits, pushes, releases, deployments, force-pushes, or destructive operations by itself.
 - It does not weaken project-specific rules, security gates, spec workflows, or owner instructions.
@@ -37,13 +46,15 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - It does not replace project tests, CI, secret scanning, or code review.
 - It does not automatically create a successor conversation when rollover is recommended or required.
 - It does not require Owner approval for every normal non-high-risk commit or push when the applicable PM plus Advisor gate and required evidence pass.
+- It does not make every named runtime fully supported. Runtime adapters must
+  be validated before the project describes them as supported.
 
 ## Repository Layout
 
 | Path | Purpose |
 | --- | --- |
-| `SKILL.md` | The Codex skill definition and operational protocol. |
-| `agents/openai.yaml` | Agent-facing metadata used by the skill bundle. |
+| `SKILL.md` | Codex reference-adapter entry point and operational protocol text. |
+| `agents/openai.yaml` | Agent-facing metadata used by the Codex adapter bundle. |
 | `LICENSE` | MIT license for public reuse. |
 | `CONTRIBUTING.md` | Issue, pull request, and validation guidance for contributors. |
 | `SECURITY.md` | Sensitive-content and vulnerability-reporting guidance. |
@@ -51,6 +62,7 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 | `CHANGELOG.md` | Local version and stabilization notes. |
 | `docs/ROADMAP.md` | Development priorities and staged project direction. |
 | `docs/INSTALLATION.md` | Local installation, global skill sync, migration, and adoption guidance. |
+| `docs/ADAPTERS.md` | Platform adapter status, maturity labels, and runtime mapping checklist. |
 | `docs/ROLE_BOUNDARIES.md` | Working notes for Leader direct execution and role separation. |
 | `docs/VALIDATION.md` | Checklist for reviewing changes before publication. |
 | `examples/` | Copyable workflow examples, including blocked, git-gate, and OpenSpec C0-C4 scenarios. |
@@ -66,11 +78,15 @@ the archived changes before installing or using the skill.
 
 This project is released under the MIT License. See `LICENSE`.
 
-## Using The Skill
+## Using The Protocol
 
-Install or expose this repository as a Codex skill source, then invoke the skill when a task involves multi-agent coordination, independent advisor review, delegated implementation, guarded commit or push flow, or cross-conversation handoff.
+Use the protocol when a task involves multi-agent coordination, independent
+advisor review, delegated implementation, guarded commit or push flow, or
+cross-conversation handoff. With Codex, install or expose this repository as a
+Codex skill source. With other runtimes, map the protocol through an adapter as
+described in `docs/ADAPTERS.md`.
 
-Minimal local install:
+Codex reference-adapter minimal install:
 
 ```sh
 git clone https://github.com/alexsglife-re/multi-agent-working-group.git
@@ -79,7 +95,7 @@ cp multi-agent-working-group/SKILL.md ~/.codex/skills/multi-agent-working-group/
 ```
 
 For full checkout use, examples, validation, and migration notes, see
-`docs/INSTALLATION.md`.
+`docs/INSTALLATION.md`. For runtime mapping guidance, see `docs/ADAPTERS.md`.
 
 Typical prompt:
 
@@ -96,6 +112,11 @@ This automatic selection is only workflow/checklist reasoning. It never creates 
 When Advisor provider/model has not been recorded for the current project, session, continuity file, handoff, startup packet, or current verified model record, the Leader asks the Owner to specify the Advisor provider/model at workstream startup. Different-provider Advisor use is the default when available; same-provider variants and same-model Advisor use must be explicit or degraded and recorded.
 
 When a CLI-based agent such as Claude CLI or Codex CLI is assigned to a role, the Leader confirms the exact current project workspace is trusted before relying on that agent. If the Owner-recorded role assignment exists in the current conversation, global memory, project rules, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence, the Leader may complete trust setup for the exact current project root without asking again. Trust setup still requires source applicability verification, current-project scoping, and a minimal read-only probe before relying on the CLI output. If workspace trust is blocked, the Leader reports the blocker instead of silently switching roles or downgrading model separation.
+
+Codex support is the reference adapter. Other agent runtimes can implement the
+same protocol using their own prompt, tool, plugin, or workflow format, but
+runtime-specific docs must label unvalidated adapters as planned guidance or
+compatible patterns rather than fully supported integrations.
 
 When this skill is used with OpenSpec, each workstream starts with C0 goal/task analysis before C1 proposal work, and completion includes C4 archive when archive applies to the goal.
 
@@ -153,6 +174,8 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 - New instructions do not conflict with existing project or owner rules.
 - Public-facing docs do not include private machine paths, credentials, or
   personal model-routing defaults.
+- Platform-facing docs do not claim full runtime support before an adapter is
+  validated.
 
 Before a public release, also run:
 
@@ -168,11 +191,11 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete; `v0.4.6` Leader Rollover Protocol is complete; `v0.4.7` CLI workspace trust setup protocol is complete; `v0.4.8` Leader Rollover Opportunity Protocol is complete; `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance is complete; `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance is complete.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.11` stabilization and public-release preparation work is complete. `v0.4.11` repositions the project as a platform-neutral workflow protocol with Codex as the reference adapter and non-Codex runtimes documented through explicit adapter maturity labels.
 
-`v0.4.10` is the current documented version. A public release should be created
+`v0.4.11` is the current documented version. A public release should be created
 only after the release-preparation diff is reviewed, validation passes, and a
-tag such as `v0.4.10` points at the reviewed commit. Normal non-high-risk
+tag such as `v0.4.11` points at the reviewed commit. Normal non-high-risk
 commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required
 evidence; high-risk and default-exclusion actions still require explicit Owner
 approval.
