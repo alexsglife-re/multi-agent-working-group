@@ -40,4 +40,4 @@
 - [x] Run `./scripts/validate-local.sh --require-no-active-changes`.
 - [x] Run `openspec validate --all`.
 - [x] Sync installed global skill files when ready.
-- [ ] Complete commit/push gates if the Owner requests publication of the implementation.
+- [x] Complete commit/push gates if the Owner requests publication of the implementation.
