@@ -1,10 +1,11 @@
 # Multi-Agent Working Group
 
-Multi-Agent Working Group is a portable multi-agent workflow protocol for
-guarded AI-agent development. It defines Leader, PM, Advisor, Worker, and
-Reviewer roles, plus handoff, validation, commit, push, and release gates for
-tasks where independent critique and controlled exits matter more than speed
-alone.
+Multi-Agent Working Group is a portable workflow protocol for AI-assisted work
+where independent review, clear role boundaries, durable evidence, and
+controlled exits matter more than raw speed. It defines Leader, PM, Advisor,
+Worker, and Reviewer roles, plus handoff, validation, commit, push, and release
+gates for tasks that need careful coordination across one or more agent
+runtimes.
 
 This repository ships Codex as the reference packaged adapter. The protocol is
 designed to be adapted to Claude, OpenClaw, Hermes Agent, and other agent
@@ -95,11 +96,16 @@ This project is released under the MIT License. See `LICENSE`.
 
 ## Using The Protocol
 
-Use the protocol when a task involves multi-agent coordination, independent
-advisor review, delegated implementation, guarded commit or push flow, or
-cross-conversation handoff. With Codex, install or expose this repository as a
-Codex skill source. With other runtimes, map the protocol through an adapter as
-described in `docs/ADAPTERS.md`.
+Use the protocol when a task benefits from independent critique, delegated work,
+controlled commit or release gates, cross-conversation continuity, or a clear
+record of what was checked before moving forward. It is useful for software
+development, documentation, release preparation, long-running project work, and
+other AI-assisted tasks where correctness, traceability, and safe stopping
+points matter more than simply finishing fast.
+
+With Codex, install or expose this repository as a Codex skill source. With
+Claude, OpenClaw, Hermes Agent, or other runtimes, map the protocol through an
+adapter as described in `docs/ADAPTERS.md`.
 
 Codex reference-adapter minimal install:
 

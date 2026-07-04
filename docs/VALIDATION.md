@@ -261,9 +261,9 @@ Run these checks for the `v0.4.11` platform-neutral positioning set:
 `scripts/validate-local.sh`, and the OpenSpec change.
 
 - Public documentation describes Multi-Agent Working Group as a portable
-  multi-agent workflow protocol.
-- Public documentation uses the phrase `portable multi-agent workflow protocol`
-  for the project positioning.
+  workflow protocol for AI-assisted work.
+- Public documentation uses the phrase `portable workflow protocol for
+  AI-assisted work` for the project positioning.
 - Codex is described as the reference packaged adapter, not the only intended
   runtime.
 - Claude, OpenClaw, Hermes Agent, and other non-Codex runtimes are labeled as
