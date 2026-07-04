@@ -1,6 +1,6 @@
 # Compact Handoff Template
 
-Version: v0.4.10 recommended template.
+Version: v0.4.13 recommended template.
 
 ## Current State Card
 
@@ -138,6 +138,18 @@ Plain-language closeout, if this card closes or hands off work:
     <mandatory; write none and why if nothing remains>
   Recommended next goal:
     <advice only; do not start unless Owner gave explicit current-session authorization>
+  Role cleanup status:
+    not needed | pending | attempted | skipped | degraded | failed
+  Cleanup result by role:
+    Worker:
+    Reviewer:
+    PM:
+    Advisor:
+  Delivery-evidence impact:
+    none | affected | unknown
+  If non-blocking cleanup failure:
+    task, git, validation, CI/status, secret-safety, authorization, and
+    required role evidence are confirmed from evidence in hand because:
 
 Task status dashboard:
   Pending:

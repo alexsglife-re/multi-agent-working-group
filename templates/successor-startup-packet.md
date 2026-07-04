@@ -1,6 +1,6 @@
 # Successor Startup Packet Template
 
-Version: v0.4.10 recommended template.
+Version: v0.4.13 recommended template.
 
 Use this when a Leader recommends or requires rollover to a new conversation.
 This packet is continuity evidence only. It is not automatic thread creation,
@@ -152,6 +152,18 @@ Plain-language closeout or handoff summary:
     <mandatory; write none and why if nothing remains>
   Recommended next goal:
     <advice only; successor must verify current Owner authorization before starting it>
+  Role cleanup status:
+    not needed | pending | attempted | skipped | degraded | failed
+  Cleanup result by role:
+    Worker:
+    Reviewer:
+    PM:
+    Advisor:
+  Delivery-evidence impact:
+    none | affected | unknown
+  If non-blocking cleanup failure:
+    task, git, validation, CI/status, secret-safety, authorization, and
+    required role evidence are confirmed from evidence in hand because:
 
 Stop conditions:
   - ...

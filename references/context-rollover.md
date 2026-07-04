@@ -39,6 +39,27 @@ Active handoff or ledger updates should be refreshed around the current state ca
 
 Compaction must not remove unresolved P0/P1, owner-decision needs, PM/Advisor/Reviewer findings, validation freshness, changed and do-not-touch files, stop conditions, or git authorization state. It also must not convert old handoffs, archive notes, summaries, or evidence indexes into authority for commit, push, scope expansion, gate bypass, or external effects.
 
+Worker-first context control:
+
+```text
+For Medium, Complex, OpenSpec-backed, multi-file, implementation-heavy, or
+context-heavy work, dispatch bounded Worker slices earlier when a coherent
+slice can be owned by a Worker and doing so would reduce Leader context growth.
+Use this before Leader context grows toward rollover pressure.
+
+Worker-first context control does not require Worker dispatch for narrow
+low-risk edits or gate commands. If Leader direct execution is safer, record the
+exception and why Worker dispatch would add more risk or overhead than it
+removes.
+```
+
+When Worker returns include long logs, large diffs, long analysis, or repeated
+command output, the Leader summarizes Worker returns and references evidence
+instead of copying raw bulk into the active Leader context when safe local
+evidence storage exists. Preserve blockers, unresolved P0/P1, validation
+failures, findings, and key error details in the current state or evidence
+index.
+
 Generic ContextBudget states:
 
 ```text

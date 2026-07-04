@@ -2,7 +2,7 @@
 
 These templates are reusable shapes for common Multi-Agent Working Group outputs. They are meant to be copied, filled in, and kept short.
 
-Version: v0.4.10 recommended templates.
+Version: v0.4.13 recommended templates.
 
 ## Use Rules
 
@@ -25,6 +25,13 @@ Version: v0.4.10 recommended templates.
 - When a work round completes or reaches a safe stopping point, include a plain-language closeout: what changed, what was actually verified, what remains uncertain or was not checked, and recommended next goals.
 - Recommended next goals are advice only. Do not start them unless the Owner has already given explicit current-session authorization.
 - Skill invocation means applying workflow/checklist reasoning only. It never creates external effects or transfers authority; examples include agent spawning, external Advisor calls, workspace trust, commit, push, archive, CI, deployment, publication, secret access, or next-goal execution.
+- Role-agent cleanup status fields are evidence only. They do not authorize
+  cleanup, commit, push, release, deployment, publication, gate bypass, or
+  treating failed validation/review/git/secret/authorization evidence as
+  non-blocking cleanup.
+- Use Worker-first context control fields to explain why a bounded Worker slice
+  was dispatched, or why Leader direct execution was safer for a narrow
+  exception.
 
 ## Template Index
 

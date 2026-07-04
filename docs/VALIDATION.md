@@ -308,6 +308,50 @@ OpenSpec change.
 - Line-count reduction is advisory only; capability and constraint preservation
   take precedence.
 
+## v0.4.13 Leader Delegation And Cleanup Discipline Checks
+
+Run these checks for the `v0.4.13` delegation and cleanup set: `SKILL.md`,
+`references/`, `templates/`, `README.md`, `CHANGELOG.md`, `docs/TODO.md`,
+`docs/ROADMAP.md`, `docs/VALIDATION.md`, `scripts/validate-local.sh`, and the
+OpenSpec change.
+
+- Role-agent cleanup or close actions are sequential and never parallel.
+- Normal cleanup order is Worker, Reviewer, PM, then Advisor, while any role
+  still needed for a required gate, cleanup-impact judgment, unresolved P0/P1
+  review, post-action review, or Owner decision remains open.
+- Cleanup/close means role-agent teardown or lifecycle hygiene only.
+- Cleanup failure is non-blocking only when delivery evidence is already
+  confirmed from evidence in hand and task, git, validation, CI/status,
+  secret-safety, authorization, and required role evidence are unaffected.
+- Cleanup failure cannot weaken validation, PM/Advisor/Reviewer, git,
+  CI/status, secret-scan, release, or authorization gates.
+- Cleanup failure escalates to blocking severity when it prevents confirming
+  task state, git state, validation state, CI/status state, secret safety,
+  authorization state, or required role evidence.
+- Final closeout and handoff templates record role cleanup status, cleanup
+  result by role, delivery-evidence impact, and the reason a non-blocking
+  cleanup failure does not affect delivery evidence.
+- Leader direct execution beyond small connective edits is treated as an
+  exception for Medium, Complex, OpenSpec-backed, multi-file,
+  implementation-heavy, or context-heavy work.
+- More than 2 files or roughly 80 diff lines is a self-check trigger rather
+  than an automatic correctness failure.
+- When the Leader work-budget self-check trigger is reached, the Leader
+  dispatches a bounded Worker or records a concrete exception explaining why
+  direct Leader execution is safer.
+- Worker-first context control dispatches bounded Worker slices before Leader
+  context grows toward rollover pressure when practical.
+- Worker-first context control does not require Worker dispatch for narrow
+  low-risk edits or gate commands.
+- Worker assignment and return templates preserve bounded scope, required
+  evidence, stop conditions, cleanup or handoff expectations, and summarized
+  raw-output handling.
+- Validation checks anchor presence and template consistency, not runtime
+  compliance with cleanup or delegation behavior.
+- Documentation does not add automatic cleanup, automatic spawning, automatic
+  diff-size measurement, automatic repair, CI automation, release automation,
+  git authorization, release authorization, or gate bypass.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.
@@ -341,6 +385,18 @@ Run these checks whenever `SKILL.md` changes.
 - Worker scope remains narrow and explicitly bounded.
 - Reviewer does not review their own implementation.
 - Leader direct execution remains narrow, explicitly labeled, and does not become hidden Worker execution.
+- Leader work-budget guidance remains a self-check trigger rather than an
+  automatic correctness failure.
+- Worker-first context control dispatches bounded Worker slices before Leader
+  context grows when practical, without requiring Worker dispatch for narrow
+  low-risk edits or gate commands.
+- Role-agent cleanup or close actions run sequentially and not in parallel.
+- Cleanup/close remains role-agent teardown or lifecycle hygiene only.
+- Cleanup failure is non-blocking only when delivery evidence is already
+  confirmed from evidence in hand and required gates are unaffected.
+- Cleanup failure is blocking when it prevents confirming task, git,
+  validation, CI/status, secret-safety, authorization, or required role
+  evidence.
 - Small Task Mode remains a narrow exception, not a default bypass.
 - Small Task Mode does not require PM, Worker, or Reviewer.
 - Commit and push are still separate gates.

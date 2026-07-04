@@ -86,6 +86,9 @@ Worker additions:
 
 ```text
 One-sentence task target
+Delegation trigger:
+  Worker-first context control | Leader work-budget self-check |
+  normal bounded slice
 Allowed files / modules
 Forbidden files / modules
 Allowed commands
@@ -96,6 +99,17 @@ Required evidence on return
 Return must preserve complete result, done/not-done status, changed files, validation, findings, blockers, next action, and key error details
 Key error details include command/tool, exit code or exception type, key stdout/stderr, failing file/test/check/step, and retry safety when available
 No scope expansion, self-approval, commit, or push
+```
+
+Leader direct-work budget:
+
+```text
+For Medium, Complex, OpenSpec-backed, multi-file, implementation-heavy, or
+context-heavy work, Leader direct execution beyond small connective edits is an
+exception. More than 2 files or roughly 80 diff lines is a self-check trigger
+rather than an automatic correctness failure. When that trigger is reached,
+dispatch a bounded Worker or record a concrete exception explaining why Leader
+direct execution is safer.
 ```
 
 Bulky raw material should be summarized and referenced instead of pasted into the Leader conversation when safe local evidence storage exists:
@@ -113,6 +127,26 @@ Full agent outputs that are no longer active blockers
 ```
 
 This evidence limiting must not remove PM/Advisor reasoning, Worker results, findings, recommendations, objections, or key error details.
+
+Role-agent cleanup:
+
+```text
+Role-agent cleanup or close actions run sequentially, never in parallel.
+Record each close result before starting the next cleanup action.
+Normal cleanup order is Worker, Reviewer, PM, then Advisor.
+The Leader must not close any role that is still needed for a required gate,
+cleanup-impact judgment, unresolved P0/P1 review, post-action review, or Owner
+decision.
+```
+
+Cleanup/close means role-agent teardown or lifecycle hygiene only. Cleanup
+failure may be reported as degraded cleanup evidence rather than delivery
+failure only when delivery evidence is already confirmed from evidence in hand
+and delivery evidence remains confirmable for task state, git state, validation
+state, CI/status state, secret safety, authorization state, and required role
+evidence. Validation, PM/Advisor/Reviewer, git, CI/status, secret-scan,
+release/tag, or authorization failures must not be reclassified as non-blocking
+cleanup.
 
 Reviewer additions:
 
@@ -232,6 +266,18 @@ What remains uncertain or was not checked:
   <mandatory; write none and why if nothing remains>
 Recommended next goal:
   <advice only; do not start it unless the Owner has already given explicit current-session authorization>
+Role cleanup status:
+  not needed | pending | attempted | skipped | degraded | failed
+Cleanup result by role:
+  Worker:
+  Reviewer:
+  PM:
+  Advisor:
+Delivery-evidence impact:
+  none | affected | unknown
+If non-blocking cleanup failure:
+  task, git, validation, CI/status, secret-safety, authorization, and required
+  role evidence remain confirmed from evidence in hand because:
 Authorization state:
   <commit/push unauthorized, not entered, one-time authorized, current verified gate passed, or blocked>
 ```

@@ -1,6 +1,6 @@
 # Worker Return Template
 
-Version: v0.4.10 recommended template.
+Version: v0.4.13 recommended template.
 
 ```text
 Role:
@@ -47,6 +47,12 @@ Scope compliance:
 
 Blocked or incomplete work:
   none | ...
+
+Cleanup or handoff issues remaining:
+  none | ...
+
+Raw output summarized and evidence referenced:
+  yes | no | not applicable
 
 Evidence for Leader:
   - ...

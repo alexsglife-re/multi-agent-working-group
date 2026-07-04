@@ -359,6 +359,38 @@ fail-closed hard-boundary summary.
 - [x] Run local validation, OpenSpec validation, and diff whitespace checks.
 - [x] Complete PM plus Advisor review that confirms no skill capability or constraint was reduced.
 
+## v0.4.13: Leader Delegation And Cleanup Discipline
+
+Goal: keep long multi-agent work from growing the Leader context unnecessarily
+and make end-of-task role-agent cleanup orderly without weakening delivery
+gates.
+
+### OpenSpec
+
+- [x] Create `add-leader-delegation-and-cleanup-discipline` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Complete PM plus Advisor proposal review emphasizing no capability or
+  constraint reduction.
+- [x] Validate and archive the OpenSpec change after implementation and review.
+
+### Implementation
+
+- [x] Add sequential role-agent cleanup rules and cleanup failure boundaries to
+  `SKILL.md` and references.
+- [x] Add Leader work-budget self-check guidance and Worker-first context
+  control.
+- [x] Update compact handoff, successor startup, Worker assignment, and Worker
+  return templates with cleanup/delegation fields.
+- [x] Update local validation checks for cleanup and delegation anchors.
+- [x] Update README, changelog, TODO, roadmap, and validation docs for v0.4.13.
+
+### Validation
+
+- [x] Run local validation, OpenSpec validation, representative anchor checks,
+  and diff whitespace checks.
+- [x] Complete PM plus Advisor review that confirms fail-closed gates were not
+  weakened.
+
 ## Later
 
 - [ ] Decide whether installation guidance should later become packaging automation.

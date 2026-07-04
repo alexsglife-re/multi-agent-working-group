@@ -22,7 +22,7 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.12` Progressive Skill References are complete.
+`v0.4.0` local stabilization through `v0.4.13` Leader Delegation And Cleanup Discipline are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -45,6 +45,9 @@ Goal: make the workflow easier to apply consistently.
 - Add a plain-language closeout summary requirement so completed work reports what changed, what was verified, what remains uncertain, and recommended next goals.
 - Reposition the project as a platform-neutral protocol with Codex as the reference adapter and explicit adapter maturity labels.
 - Split long skill details into progressive references without reducing `SKILL.md` hard-boundary summaries or gate strength.
+- Add Leader Delegation And Cleanup Discipline so bounded Worker slices are
+  dispatched before Leader context grows when practical, and role-agent cleanup
+  is sequential without weakening delivery gates.
 
 Exit criteria:
 
@@ -67,6 +70,9 @@ Exit criteria:
 - Completion summaries distinguish verified evidence from claims, include mandatory uncertainty/skipped-check reporting, and treat recommended next goals as advice only unless the Owner has already given explicit current-session authorization.
 - Platform-neutral protocol positioning is documented as a v0.4.11 follow-up without claiming Claude, OpenClaw, Hermes Agent, or other runtimes are fully supported before validation.
 - Progressive skill references are documented as a v0.4.12 follow-up without lowering skill capability, constraints, default exclusions, PM/Advisor independence, OpenSpec lifecycle, or git gates.
+- Leader Delegation And Cleanup Discipline is documented as a v0.4.13 follow-up
+  without adding automatic Worker spawning, automatic diff-size enforcement,
+  parallel cleanup, release authorization, or cleanup-based gate bypass.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -93,9 +99,10 @@ Exit criteria:
 Goal: make the skill easier to reuse outside the local checkout.
 
 Status: in progress. MIT licensing, public contribution guidance, security
-guidance, public release, and platform-neutral positioning are accepted for
-public reuse. CI, packaging automation, and runtime-specific adapter packaging
-remain separate decisions.
+guidance, public release, platform-neutral positioning, progressive references,
+and Leader cleanup/delegation discipline are accepted for public reuse. CI,
+packaging automation, and runtime-specific adapter packaging remain separate
+decisions.
 
 - Publish as a public reusable skill while keeping the core protocol model-agnostic.
 - Present the project as a portable protocol, not only a Codex skill.
@@ -125,6 +132,6 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Decide whether to tag and publish a `v0.4.12` public release. Release tags and
-GitHub Releases are Owner-only publication actions; the local documentation
-version does not imply external publication.
+Use `v0.4.13` as the current local documentation baseline. A future `v0.4.13`
+tag or GitHub Release remains an Owner-only publication action; the local
+documentation version does not imply external publication.

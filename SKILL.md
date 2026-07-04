@@ -158,6 +158,14 @@ Do not treat short silence or a brief lack of visible output as task failure for
 
 For Medium, Complex, High-risk, implementation-heavy, or substantively Worker-suitable work, the Leader should dispatch bounded Worker slices instead of performing hidden Worker execution when practical.
 
+For Medium, Complex, OpenSpec-backed, multi-file, implementation-heavy, or context-heavy work, direct Leader execution beyond small connective edits is an exception. More than 2 files or roughly 80 diff lines is a self-check trigger rather than an automatic correctness failure: dispatch a bounded Worker or record a concrete exception explaining why Leader direct execution is safer.
+
+Worker-first context control means dispatching bounded Worker slices before Leader context grows toward rollover pressure when a coherent slice can be owned by a Worker. It does not require Worker dispatch for narrow low-risk edits or gate-required commands.
+
+Role-agent cleanup or close actions run sequentially, never in parallel. Record each close result before starting the next cleanup action. Normal cleanup order is Worker, Reviewer, PM, then Advisor, but do not close any role still needed for a required gate, cleanup-impact judgment, unresolved P0/P1 review, post-action review, or Owner decision.
+
+Cleanup/close means role-agent teardown or lifecycle hygiene only. Cleanup failure may be reported as degraded cleanup evidence rather than delivery failure only when delivery evidence is already confirmed from evidence in hand and task, git, validation, CI/status, secret-safety, authorization, and required role evidence remain unaffected. Do not classify validation, PM/Advisor/Reviewer, git, CI/status, secret-scan, release/tag, or authorization failure as non-blocking cleanup. Cleanup failure is blocking when it prevents confirming task state, git state, validation state, CI/status state, secret safety, authorization state, or required role evidence.
+
 ## Validation And Verification
 
 Before dispatch, acceptance, repair, commit, push, archive, tag, or release, the Leader must:

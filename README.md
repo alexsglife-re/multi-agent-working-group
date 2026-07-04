@@ -13,7 +13,7 @@ until their adapters are validated in real use.
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.12`. `v0.4.12` Progressive Skill References is complete on top of the public `v0.4.11` platform-neutral release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.13`. `v0.4.13` Leader Delegation And Cleanup Discipline is complete on top of the public `v0.4.12` Progressive Skill References release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Protocol Helps With
 
@@ -32,6 +32,18 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - Identifying early `Rollover Opportunity` moments before context reliability degrades.
 - Recording compression count value, source, and confidence without treating visible summaries as actual total compactions.
 - Keeping Medium, Complex, High-risk, or substantive Worker-suitable work out of hidden Leader execution when bounded Worker dispatch is practical.
+- Treating Medium, Complex, OpenSpec-backed, multi-file, implementation-heavy,
+  or context-heavy Leader direct execution beyond small connective edits as an
+  exception, with more than 2 files or roughly 80 diff lines as a self-check
+  trigger rather than an automatic failure.
+- Dispatching bounded Worker slices before Leader context grows toward rollover
+  pressure when Worker-first context control is practical.
+- Closing multi-agent role agents sequentially instead of in parallel, while
+  keeping gate-bearing roles open until their gate or cleanup-impact judgment is
+  complete.
+- Reporting cleanup failures as cleanup issues only when delivery evidence is
+  already confirmed from evidence in hand and validation, PM/Advisor/Reviewer,
+  git, CI/status, secret-safety, release, and authorization gates are unaffected.
 - Running a lightweight local validation command before commit or push.
 - Copying recommended role and gate templates for C0, PM, Advisor, Worker, Reviewer, blocked, handoff, successor startup, and git gate outputs.
 - Recording enough evidence for a future agent or conversation to safely resume.
@@ -45,6 +57,8 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 - It does not make advisor output authoritative. The Leader must still verify claims against current evidence.
 - It does not replace project tests, CI, secret scanning, or code review.
 - It does not automatically create a successor conversation when rollover is recommended or required.
+- It does not automatically spawn Workers, measure diff size, close agents, or
+  repair cleanup failures.
 - It does not require Owner approval for every normal non-high-risk commit or push when the applicable PM plus Advisor gate and required evidence pass.
 - It does not make every named runtime fully supported. Runtime adapters must
   be validated before the project describes them as supported.
@@ -127,7 +141,22 @@ PM and Advisor reviews can take time when they receive large evidence packets, O
 
 For long-running or spec-bound work, active Leader handoff state should be refreshed into a compact current state card. Longer logs, old handoffs, full diffs, and completed-stage narrative should be summarized and referenced through an evidence index or historical archive note when safe local evidence storage exists.
 
+For Medium, Complex, OpenSpec-backed, multi-file, implementation-heavy, or
+context-heavy work, the Leader uses Worker-first context control when practical:
+dispatch a bounded Worker slice before the Leader context grows toward rollover
+pressure. More than 2 files or roughly 80 diff lines is a self-check trigger,
+not an automatic correctness failure; the Leader either dispatches a bounded
+Worker or records why direct Leader execution is safer.
+
 When context pressure is visible, the Leader Rollover Protocol records one canonical context-budget state plus compression count value, source, confidence, rollover reason, next safe rollover boundary, and rollover action. `Rollover Opportunity` means the Leader has a clean boundary plus a heavier next step and should refresh current state and evidence before continuing; it does not require immediate handoff. `Rollover Required` means the Leader enters sealed-ready behavior and prepares a successor startup packet before Worker dispatch, commit, push, CI, archive, or high-risk gates. Rollover states do not mean Codex silently creates a new conversation or inherits authorization.
+
+At the end of multi-agent work, role-agent cleanup or close actions run
+sequentially, never in parallel. Cleanup/close means role-agent teardown or
+lifecycle hygiene only; validation, PM/Advisor/Reviewer review, git, CI/status,
+secret-safety, release, and authorization failures cannot be relabeled as
+non-blocking cleanup. Cleanup failures become blocking when they prevent
+confirming task state, git state, validation state, CI/status state, secret
+safety, authorization state, or required role evidence.
 
 For installation, global skill sync, and migration between machines or projects, see `docs/INSTALLATION.md`. Migration copies files and stable rules only; it does not transfer commit/push authorization, PM/Advisor agreement, Worker results, validation freshness, role continuity, CI/archive permission, secrets, or stale handoff authority.
 
@@ -135,7 +164,7 @@ For installation, global skill sync, and migration between machines or projects,
 
 Use the templates in `templates/` when a workstream needs a consistent fill-in shape for C0 analysis, PM review, Advisor review, Worker assignment, Worker return, Reviewer report, blocked report, compact handoff, successor startup packet, or commit/push gate evidence.
 
-The v0.4.10 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, or push gates. Completion summaries and next-goal recommendations are reporting aids only; they do not authorize starting new work unless the Owner has already given explicit current-session authorization.
+The v0.4.13 templates are structure only. A filled template is evidence, not authorization. It does not replace PM, Advisor, Reviewer, validation, secret scanning, OpenSpec archive, CI/status, commit gates, push gates, release approval, cleanup-impact judgment, or Owner-only default-exclusion approval. Completion summaries and next-goal recommendations are reporting aids only; they do not authorize starting new work unless the Owner has already given explicit current-session authorization.
 
 When older v0.3 or earlier handoff documents have already grown large, preserve them as historical evidence. Create a new `templates/compact-handoff.md` current state card, copy only verified current facts into it, and reference the old document through the evidence index instead of appending or rewriting the old text.
 
@@ -153,7 +182,7 @@ After an OpenSpec-backed change is archived, use closeout mode:
 ./scripts/validate-local.sh --require-no-active-changes
 ```
 
-The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, and the installed global skill plus required references when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, or git gate requirements.
+The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, template and reference anchors, and the installed global skill plus required references when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, git gate requirements, or runtime compliance with cleanup/delegation behavior.
 
 ## Development Principles
 
@@ -194,11 +223,11 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.12` stabilization and public-release preparation work is complete. `v0.4.12` splits long skill details into progressive references while keeping `SKILL.md` as the fail-closed hard-boundary summary and mandatory router.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.13` stabilization and public-release preparation work is complete. `v0.4.13` tightens Leader delegation and role-agent cleanup discipline while preserving `SKILL.md` as the fail-closed hard-boundary summary and mandatory router.
 
-`v0.4.12` is the current documented version. A public release should be created
+`v0.4.13` is the current documented version. A public release should be created
 only after the release-preparation diff is reviewed, validation passes, and a
-tag such as `v0.4.12` points at the reviewed commit. Normal non-high-risk
+tag such as `v0.4.13` points at the reviewed commit. Normal non-high-risk
 commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required
 evidence; high-risk and default-exclusion actions still require explicit Owner
 approval.

@@ -1,5 +1,10 @@
-## ADDED Requirements
+# agent-cleanup-discipline Specification
 
+## Purpose
+Define role-agent cleanup order, cleanup failure boundaries, and final cleanup
+status reporting without weakening delivery, validation, review, git, CI/status,
+secret-safety, release, or authorization gates.
+## Requirements
 ### Requirement: Role-agent cleanup is sequential
 The protocol SHALL require multi-agent role cleanup or close actions to run
 sequentially rather than in parallel. The Leader MUST record the result of each
@@ -35,7 +40,7 @@ Reviewer gate failure, commit/push/CI/status failure, secret/credential scan
 failure, release/tag failure, or authorization-state failure.
 
 #### Scenario: Cleanup fails after delivery evidence is complete
-- **WHEN** the primary goal, required validation, required reviews, git or release checks, CI/status checks, secret-safety checks, and authorization state are already confirmable
+- **WHEN** the primary goal, required validation, required reviews, git or release checks, CI/status checks, secret-safety checks, and authorization state are already confirmed from evidence in hand
 - **AND** a role-agent cleanup or close action fails
 - **THEN** the Leader may still produce final closeout
 - **AND** reports the cleanup failure as degraded cleanup evidence rather than as delivery failure

@@ -1,6 +1,6 @@
 # Worker Assignment Template
 
-Version: v0.4.10 recommended template.
+Version: v0.4.13 recommended template.
 
 ```text
 Role:
@@ -11,6 +11,10 @@ Task target:
 
 Work size:
   quick | substantive | complex | implementation-heavy | validation-heavy
+
+Delegation trigger:
+  Worker-first context control | Leader work-budget self-check |
+  normal bounded slice
 
 Expected wait/recheck behavior:
   <how long or under what condition Leader should wait before progress check>
@@ -39,6 +43,12 @@ Implementation constraints:
 Required validation:
   - ...
 
+Stop conditions:
+  - ...
+
+Cleanup or handoff expectations:
+  - ...
+
 Expected return:
   Status:
     completed | blocked | partial
@@ -59,6 +69,10 @@ Expected return:
     P2:
   Blockers:
     - none | ...
+  Cleanup or handoff issues remaining:
+    none | ...
+  Raw output summarized and evidence referenced:
+    yes | no | not applicable
   Next action recommendation:
     - ...
 ```

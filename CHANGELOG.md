@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.13: Leader Delegation And Cleanup Discipline
+
+- Add role-agent cleanup discipline: cleanup/close actions run sequentially,
+  never in parallel, and gate-bearing roles stay open until their gate or
+  cleanup-impact judgment is complete.
+- Define cleanup/close narrowly as role-agent teardown or lifecycle hygiene,
+  not validation, PM/Advisor/Reviewer, git, CI/status, secret-scan, release, or
+  authorization failure.
+- Allow cleanup failure to be reported as degraded cleanup evidence only when
+  delivery evidence is already confirmed from evidence in hand and required
+  gates are unaffected; escalate cleanup failure when it blocks evidence.
+- Add Leader work-budget self-check guidance for Medium, Complex,
+  OpenSpec-backed, multi-file, implementation-heavy, or context-heavy work.
+- Add Worker-first context-control guidance so bounded Worker slices are
+  dispatched before Leader context grows toward rollover pressure when
+  practical.
+- Update templates and local validation anchors for cleanup status, bounded
+  Worker dispatch, and validation-anchor limits.
+
 ### Completed local upgrade for v0.4.12: Progressive Skill References
 
 - Split long-form skill details into progressive `references/` files while

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.12"
-TEMPLATE_VERSION="v0.4.10"
+VERSION="v0.4.13"
+TEMPLATE_VERSION="v0.4.13"
 REQUIRED_ACCEPTED_SPECS=(
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
@@ -22,6 +22,8 @@ REQUIRED_REFERENCES=(
 )
 ROLLOVER_SPEC="leader-rollover-protocol"
 ROLLOVER_CHANGE="openspec/changes/add-rollover-opportunity-protocol/specs/leader-rollover-protocol/spec.md"
+AGENT_CLEANUP_SPEC="agent-cleanup-discipline"
+AGENT_CLEANUP_CHANGE="openspec/changes/add-leader-delegation-and-cleanup-discipline/specs/agent-cleanup-discipline/spec.md"
 REQUIRED_TEMPLATES=(
   "templates/README.md"
   "templates/advisor-review.md"
@@ -161,6 +163,8 @@ elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Platform-N
   pass "docs/TODO.md current version section"
 elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Progressive Skill References"; then
   pass "docs/TODO.md current version section"
+elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Leader Delegation And Cleanup Discipline"; then
+  pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
@@ -171,6 +175,8 @@ elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Plat
   pass "docs/ROADMAP.md current version marker"
 elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Progressive Skill References"; then
   pass "docs/ROADMAP.md current version marker"
+elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Leader Delegation And Cleanup Discipline"; then
+  pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
@@ -180,6 +186,8 @@ if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION I
 elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Platform-Neutral Protocol Positioning Checks"; then
   pass "docs/VALIDATION.md current validation section"
 elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Progressive Skill References Checks"; then
+  pass "docs/VALIDATION.md current validation section"
+elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Leader Delegation And Cleanup Discipline Checks"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
@@ -205,6 +213,14 @@ elif [[ "$require_no_active_changes" -eq 0 && -f "$ROLLOVER_CHANGE" ]]; then
   pass "active spec delta exists: $ROLLOVER_SPEC"
 else
   fail "accepted spec exists: $ROLLOVER_SPEC"
+fi
+
+if [[ -f "openspec/specs/$AGENT_CLEANUP_SPEC/spec.md" ]]; then
+  pass "accepted spec exists: $AGENT_CLEANUP_SPEC"
+elif [[ "$require_no_active_changes" -eq 0 && -f "$AGENT_CLEANUP_CHANGE" ]]; then
+  pass "active spec delta exists: $AGENT_CLEANUP_SPEC"
+else
+  fail "accepted spec exists: $AGENT_CLEANUP_SPEC"
 fi
 
 for template in "${REQUIRED_TEMPLATES[@]}"; do
@@ -240,6 +256,8 @@ template_contains "templates/README.md" "model preferences as hints to verify" "
 template_contains "templates/README.md" "provider-separated" "templates README records provider-separated status"
 template_contains "templates/README.md" "same-provider model/version variants are degraded or partial separation" "templates README degrades same-provider variants"
 template_contains "templates/README.md" "Do not treat short silence as failure" "templates README preserves lifecycle patience"
+template_contains "templates/README.md" "Role-agent cleanup status fields are evidence only." "templates README treats cleanup status as evidence"
+template_contains "templates/README.md" "Worker-first context control fields" "templates README documents Worker-first fields"
 template_contains "templates/pm-review.md" "P0:" "PM template preserves P0"
 template_contains "templates/pm-review.md" "P1:" "PM template preserves P1"
 template_contains "templates/pm-review.md" "Owner-recorded role authorization source:" "PM template records trust authorization source"
@@ -265,7 +283,14 @@ template_contains "templates/worker-assignment.md" "Do not self-approve." "Worke
 template_contains "templates/worker-assignment.md" "Do not commit or push." "Worker assignment blocks git actions"
 template_contains "templates/worker-assignment.md" "Do not treat short silence as failure" "Worker assignment preserves lifecycle patience"
 template_contains "templates/worker-assignment.md" "Expected wait/recheck behavior:" "Worker assignment records wait behavior"
+template_contains "templates/worker-assignment.md" "Delegation trigger:" "Worker assignment records delegation trigger"
+template_contains "templates/worker-assignment.md" "Worker-first context control | Leader work-budget self-check" "Worker assignment records budget-triggered Worker dispatch"
+template_contains "templates/worker-assignment.md" "Stop conditions:" "Worker assignment records stop conditions"
+template_contains "templates/worker-assignment.md" "Cleanup or handoff expectations:" "Worker assignment records cleanup or handoff expectations"
+template_contains "templates/worker-assignment.md" "Raw output summarized and evidence referenced:" "Worker assignment records raw-output summary state"
 template_contains "templates/worker-return.md" "Lifecycle patience:" "Worker return records lifecycle patience"
+template_contains "templates/worker-return.md" "Cleanup or handoff issues remaining:" "Worker return records cleanup or handoff issues"
+template_contains "templates/worker-return.md" "Raw output summarized and evidence referenced:" "Worker return records raw-output summary state"
 template_contains "templates/reviewer-report.md" "block; Reviewer must not review their own implementation" "Reviewer template blocks self review"
 template_contains "templates/blocked-report.md" "Do not bypass PM/Advisor/Reviewer, validation, secret-scan, CI/status, or git gates." "Blocked template blocks gate bypass"
 template_contains "templates/blocked-report.md" "owner-confirmation-needed" "Blocked template records owner confirmation need"
@@ -300,6 +325,10 @@ template_contains "templates/compact-handoff.md" "same-provider-variant degraded
 template_contains "templates/compact-handoff.md" "Current verified model record:" "Compact handoff records current verified model record"
 template_contains "templates/compact-handoff.md" "Lifecycle patience:" "Compact handoff records PM Advisor lifecycle patience"
 template_contains "templates/compact-handoff.md" "Worker lifecycle patience:" "Compact handoff records Worker lifecycle patience"
+template_contains "templates/compact-handoff.md" "Role cleanup status:" "Compact handoff records cleanup status"
+template_contains "templates/compact-handoff.md" "Cleanup result by role:" "Compact handoff records cleanup result by role"
+template_contains "templates/compact-handoff.md" "Delivery-evidence impact:" "Compact handoff records cleanup delivery impact"
+template_contains "templates/compact-handoff.md" "If non-blocking cleanup failure:" "Compact handoff records non-blocking cleanup rationale"
 template_contains "templates/successor-startup-packet.md" "successor startup packet != automatic thread creation" "Successor packet blocks automatic thread creation"
 template_contains "templates/successor-startup-packet.md" "Rollover Opportunity" "Successor packet includes rollover opportunity state"
 template_contains "templates/successor-startup-packet.md" "Compression count value:" "Successor packet includes compression count value"
@@ -317,6 +346,10 @@ template_contains "templates/successor-startup-packet.md" "same-provider-variant
 template_contains "templates/successor-startup-packet.md" "Current verified model record:" "Successor packet records current verified model record"
 template_contains "templates/successor-startup-packet.md" "Lifecycle patience:" "Successor packet records PM Advisor lifecycle patience"
 template_contains "templates/successor-startup-packet.md" "Worker lifecycle patience:" "Successor packet records Worker lifecycle patience"
+template_contains "templates/successor-startup-packet.md" "Role cleanup status:" "Successor packet records cleanup status"
+template_contains "templates/successor-startup-packet.md" "Cleanup result by role:" "Successor packet records cleanup result by role"
+template_contains "templates/successor-startup-packet.md" "Delivery-evidence impact:" "Successor packet records cleanup delivery impact"
+template_contains "templates/successor-startup-packet.md" "If non-blocking cleanup failure:" "Successor packet records non-blocking cleanup rationale"
 template_contains "templates/git-gate.md" "Secret/credential scan:" "Git gate template includes secret scan"
 template_contains "templates/git-gate.md" "CI/status:" "Git gate template includes CI status"
 template_contains "templates/git-gate.md" "Provider/model:" "Git gate template records provider/model"
@@ -391,6 +424,14 @@ template_contains "SKILL.md" "Do not claim PM/Advisor independence was strengthe
 template_contains "SKILL.md" "Do not treat short silence or a brief lack of visible output as task failure" "SKILL.md preserves PM Advisor patience"
 template_contains "SKILL.md" "Worker lifecycle uses the same evidence-based patience principle" "SKILL.md preserves Worker patience"
 template_contains "SKILL.md" "Close, restart, or replace PM/Advisor only when there is a recorded lifecycle reason" "SKILL.md requires lifecycle closure reason"
+template_contains "SKILL.md" "Role-agent cleanup or close actions run sequentially" "SKILL.md requires sequential role-agent cleanup"
+template_contains "SKILL.md" "Cleanup/close means role-agent teardown or lifecycle hygiene only" "SKILL.md defines cleanup narrowly"
+template_contains "SKILL.md" "delivery evidence is already confirmed from evidence in hand" "SKILL.md requires cleanup evidence already in hand"
+template_contains "SKILL.md" "Do not classify validation, PM/Advisor/Reviewer, git, CI/status, secret-scan, release/tag, or authorization failure as non-blocking cleanup." "SKILL.md blocks cleanup gate mislabel"
+template_contains "SKILL.md" "Cleanup failure is blocking when it prevents confirming task state, git state, validation state, CI/status state, secret safety, authorization state, or required role evidence." "SKILL.md escalates cleanup evidence blockers"
+template_contains "SKILL.md" "More than 2 files or roughly 80 diff lines is a self-check trigger rather than an automatic correctness failure" "SKILL.md defines Leader budget as self-check"
+template_contains "SKILL.md" "dispatch a bounded Worker or record a concrete exception" "SKILL.md requires Worker dispatch or exception"
+template_contains "SKILL.md" "Worker-first context control" "SKILL.md defines Worker-first context control"
 template_contains "SKILL.md" "Use or explicitly consider \`multi-agent-working-group\`" "SKILL.md defines invocation triggers"
 template_contains "SKILL.md" "Automatic invocation means applying this workflow and checklist" "SKILL.md defines automatic invocation as checklist"
 template_contains "SKILL.md" "never creates external effects or transfers authority" "SKILL.md blocks invocation authority transfer"
@@ -412,13 +453,25 @@ template_contains "references/TRACEABILITY.md" "All current \`template_contains 
 template_contains "references/TRACEABILITY.md" "PM and Advisor expected output is independent first-pass / no-peek review before consensus." "Traceability records PM Advisor independence anchor"
 template_contains "references/TRACEABILITY.md" "Advisor output is unverified evidence rather than authority." "Traceability records Advisor evidence anchor"
 template_contains "references/TRACEABILITY.md" "Handoff or prior agent output is evidence rather than authorization." "Traceability records handoff evidence anchor"
+template_contains "references/TRACEABILITY.md" "Role-agent cleanup or close actions run sequentially, never in parallel." "Traceability records sequential cleanup anchor"
+template_contains "references/TRACEABILITY.md" "More than 2 files or roughly 80 diff lines is a self-check trigger" "Traceability records Leader work-budget anchor"
+template_contains "references/TRACEABILITY.md" "Local validation checks anchor presence and template consistency, not runtime" "Traceability records validation anchor limits"
 template_contains "references/git-exit-rules.md" "Default exclusions unless owner explicitly names the exception" "Git reference preserves default exclusions"
 template_contains "references/git-exit-rules.md" "Normal non-high-risk push may proceed after PM + Advisor consensus" "Git reference preserves push gate"
 template_contains "references/openspec-lifecycle.md" "Use this sequence whenever this skill and OpenSpec are both active" "OpenSpec reference preserves C0-C4 lifecycle"
 template_contains "references/cli-trust.md" "Do not use dangerous permission-bypass flags" "CLI trust reference preserves dangerous flag ban"
 template_contains "references/context-rollover.md" "Rollover or successor packets do not carry that authorization into a successor context" "Rollover reference preserves non-inherited authorization"
+template_contains "references/context-rollover.md" "dispatch bounded Worker slices earlier" "Rollover reference adds Worker-first context control"
+template_contains "references/context-rollover.md" "before Leader context grows toward rollover pressure" "Rollover reference prevents Leader context growth"
+template_contains "references/context-rollover.md" "Worker-first context control does not require Worker dispatch for narrow" "Rollover reference preserves narrow direct work"
+template_contains "references/context-rollover.md" "summarizes Worker returns and references evidence" "Rollover reference summarizes Worker output"
 template_contains "references/role-templates-and-output.md" "Advisor Agent:" "Role reference preserves Advisor role"
 template_contains "references/role-templates-and-output.md" "Expected output must preserve complete reasoning" "Role reference preserves output requirements"
+template_contains "references/role-templates-and-output.md" "Normal cleanup order is Worker, Reviewer, PM, then Advisor" "Role reference records cleanup order"
+template_contains "references/role-templates-and-output.md" "must not close any role that is still needed for a required gate" "Role reference keeps gate-bearing roles open"
+template_contains "references/role-templates-and-output.md" "degraded cleanup evidence rather than delivery" "Role reference records degraded cleanup evidence"
+template_contains "references/role-templates-and-output.md" "delivery evidence remains confirmable" "Role reference records delivery evidence confirmation"
+template_contains "references/role-templates-and-output.md" "More than 2 files or roughly 80 diff lines is a self-check trigger" "Role reference records Leader budget trigger"
 template_contains "README.md" "docs/INSTALLATION.md" "README links installation guide"
 template_contains "README.md" "portable multi-agent workflow protocol" "README states portable protocol positioning"
 template_contains "README.md" "Codex as the reference packaged adapter" "README states Codex reference adapter"
@@ -426,6 +479,14 @@ template_contains "README.md" "adapter guidance or compatible patterns" "README 
 template_contains "README.md" "docs/ADAPTERS.md" "README links adapter guide"
 template_contains "README.md" "automatic selection is only workflow/checklist reasoning" "README defines automatic invocation boundary"
 template_contains "README.md" "Completion summaries and next-goal recommendations are reporting aids only" "README blocks closeout authorization"
+template_contains "README.md" "Closing multi-agent role agents sequentially instead of in parallel" "README describes sequential cleanup"
+template_contains "README.md" "more than 2 files or roughly 80 diff lines as a self-check" "README describes Leader budget self-check"
+template_contains "README.md" "does not automatically spawn Workers, measure diff size, close agents" "README blocks automation creep"
+template_contains "docs/VALIDATION.md" "## v0.4.13 Leader Delegation And Cleanup Discipline Checks" "Validation checks v0.4.13 delegation cleanup section"
+template_contains "docs/VALIDATION.md" "Validation checks anchor presence and template consistency, not runtime" "Validation documents anchor limits"
+template_contains "docs/VALIDATION.md" "Cleanup failure cannot weaken validation, PM/Advisor/Reviewer, git" "Validation blocks cleanup gate weakening"
+template_contains "docs/VALIDATION.md" "More than 2 files or roughly 80 diff lines is a self-check trigger" "Validation checks Leader budget trigger"
+template_contains "docs/VALIDATION.md" "Documentation does not add automatic cleanup, automatic spawning" "Validation blocks cleanup automation creep"
 template_contains "docs/INSTALLATION.md" "Optional Codex Global Skill Sync" "Installation guide covers global skill sync"
 template_contains "docs/INSTALLATION.md" "Adopt The Protocol" "Installation guide covers generic protocol adoption"
 template_contains "docs/INSTALLATION.md" "Install The Codex Reference Adapter" "Installation guide covers Codex reference adapter"

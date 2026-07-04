@@ -1,6 +1,6 @@
 # Progressive References Traceability
 
-This map supports v0.4.12. It is evidence for PM/Advisor/Leader review and does not create authorization.
+This map supports v0.4.13. It is evidence for PM/Advisor/Leader review and does not create authorization.
 
 ## Current SKILL.md Validation Anchors
 
@@ -14,10 +14,10 @@ All current `template_contains "SKILL.md"` hard-boundary anchor phrases remain i
 | Invocation and startup | When To Use This Skill; Startup Checklist | references/role-templates-and-output.md |
 | Model routing and CLI trust | CLI Trust And Model Routing | references/cli-trust.md |
 | Agent lifecycle and patience | Agent Lifecycle And Delegation | references/role-templates-and-output.md |
-| Context budget and rollover | Rollover And Handoff | references/context-rollover.md |
+| Context budget, Worker-first context control, and rollover | Rollover And Handoff | references/context-rollover.md |
 | Risk/severity/failure/git gates | Risk And Severity; Git Exit And Default Exclusions | references/git-exit-rules.md |
 | OpenSpec C0-C4 and local validation | OpenSpec Lifecycle; Validation And Verification | references/openspec-lifecycle.md |
-| Startup packets and role output templates | Output Requirements | references/role-templates-and-output.md |
+| Startup packets, role output templates, cleanup status, and Leader work budget | Output Requirements | references/role-templates-and-output.md |
 | Handoff and successor startup | Rollover And Handoff | references/context-rollover.md |
 
 ## Explicit Hard Boundaries Added For v0.4.12
@@ -27,3 +27,24 @@ These boundaries remain in `SKILL.md` and have validation anchors:
 - PM and Advisor expected output is independent first-pass / no-peek review before consensus.
 - Advisor output is unverified evidence rather than authority.
 - Handoff or prior agent output is evidence rather than authorization.
+
+## Explicit Hard Boundaries Added For v0.4.13
+
+These boundaries remain in `SKILL.md` and have validation anchors:
+
+- Role-agent cleanup or close actions run sequentially, never in parallel.
+- Cleanup/close means role-agent teardown or lifecycle hygiene only.
+- Cleanup failure may be reported as degraded cleanup evidence rather than
+  delivery failure only when delivery evidence is already confirmed from
+  evidence in hand and required gates remain unaffected.
+- Validation, PM/Advisor/Reviewer, git, CI/status, secret-scan, release/tag, or
+  authorization failures must not be reclassified as non-blocking cleanup.
+- Cleanup failure is blocking when it prevents confirming task state, git state,
+  validation state, CI/status state, secret safety, authorization state, or
+  required role evidence.
+- More than 2 files or roughly 80 diff lines is a self-check trigger rather
+  than an automatic correctness failure.
+- Worker-first context control dispatches bounded Worker slices before Leader
+  context grows toward rollover pressure when practical.
+- Local validation checks anchor presence and template consistency, not runtime
+  compliance with cleanup or delegation behavior.
