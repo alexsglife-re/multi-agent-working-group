@@ -4,7 +4,7 @@ Multi-Agent Working Group is a Codex skill for running guarded development workf
 
 The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
 
-> Current local version: `v0.4.10` in local documentation. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance, and `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance are complete. This is not a release, tag, deployment, or public publication claim. For now, version tracking lives in `README.md` and `CHANGELOG.md`, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.10`. `v0.4.0` local stabilization, `v0.4.1` Advisor model diversity, `v0.4.2` CLI agent workspace trust plus OpenSpec C0-C4 lifecycle closure, `v0.4.3` Leader state compaction, `v0.4.4` lightweight local validation tooling, `v0.4.5` copyable role templates, `v0.4.6` Leader Rollover Protocol, `v0.4.7` CLI workspace trust setup protocol, `v0.4.8` Leader Rollover Opportunity Protocol, `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance, and `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance are complete. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## What This Skill Helps With
 
@@ -44,6 +44,10 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 | --- | --- |
 | `SKILL.md` | The Codex skill definition and operational protocol. |
 | `agents/openai.yaml` | Agent-facing metadata used by the skill bundle. |
+| `LICENSE` | MIT license for public reuse. |
+| `CONTRIBUTING.md` | Issue, pull request, and validation guidance for contributors. |
+| `SECURITY.md` | Sensitive-content and vulnerability-reporting guidance. |
+| `CODE_OF_CONDUCT.md` | Basic community participation expectations. |
 | `CHANGELOG.md` | Local version and stabilization notes. |
 | `docs/ROADMAP.md` | Development priorities and staged project direction. |
 | `docs/INSTALLATION.md` | Local installation, global skill sync, migration, and adoption guidance. |
@@ -54,9 +58,28 @@ The skill is intentionally conservative. It keeps the Leader responsible for orc
 | `openspec/` | OpenSpec changes, archived changes, and accepted specs. |
 | `scripts/validate-local.sh` | Lightweight read-only local validation command for repo docs, OpenSpec, and installed skill sync. |
 
+The `openspec/changes/archive/` directory is design history. It is useful when
+you want to understand why a rule exists, but ordinary users do not need to read
+the archived changes before installing or using the skill.
+
+## License
+
+This project is released under the MIT License. See `LICENSE`.
+
 ## Using The Skill
 
 Install or expose this repository as a Codex skill source, then invoke the skill when a task involves multi-agent coordination, independent advisor review, delegated implementation, guarded commit or push flow, or cross-conversation handoff.
+
+Minimal local install:
+
+```sh
+git clone https://github.com/alexsglife-re/multi-agent-working-group.git
+mkdir -p ~/.codex/skills/multi-agent-working-group
+cp multi-agent-working-group/SKILL.md ~/.codex/skills/multi-agent-working-group/SKILL.md
+```
+
+For full checkout use, examples, validation, and migration notes, see
+`docs/INSTALLATION.md`.
 
 Typical prompt:
 
@@ -128,9 +151,28 @@ Before changing `SKILL.md`, review `docs/VALIDATION.md`. At minimum, confirm tha
 - Advisor permissions stay bounded.
 - Commit and push authorization rules are not weakened accidentally.
 - New instructions do not conflict with existing project or owner rules.
+- Public-facing docs do not include private machine paths, credentials, or
+  personal model-routing defaults.
+
+Before a public release, also run:
+
+```sh
+openspec validate --all
+./scripts/validate-local.sh --skip-global-skill
+rg -n "(token|api[_-]?key|secret|password|private key|/Users/|gmail|Keychain|GITHUB_PAT)" .
+```
+
+The content scan is broad by design. Safety-instruction matches are expected;
+real secrets, credentials, private project details, and local machine-specific
+paths must be removed before publication.
 
 ## Current Status
 
 This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` local stabilization pass for role boundaries, examples, validation alignment, and release metadata is complete; `v0.4.1` Advisor model diversity is complete; `v0.4.2` CLI agent workspace trust and OpenSpec C0-C4 lifecycle closure is complete; `v0.4.3` Leader state compaction is complete; `v0.4.4` lightweight local validation tooling is complete; `v0.4.5` copyable role templates are complete; `v0.4.6` Leader Rollover Protocol is complete; `v0.4.7` CLI workspace trust setup protocol is complete; `v0.4.8` Leader Rollover Opportunity Protocol is complete; `v0.4.9` Provider Separation, Agent Patience, And Migration Guidance is complete; `v0.4.10` Invocation, Migration, And Plain-Language Closeout Guidance is complete.
 
-`v0.4.10` is a completed local documentation version, not a release, tag, deployment, or public publication. Normal non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required evidence; high-risk and default-exclusion actions still require explicit Owner approval.
+`v0.4.10` is the current documented version. A public release should be created
+only after the release-preparation diff is reviewed, validation passes, and a
+tag such as `v0.4.10` points at the reviewed commit. Normal non-high-risk
+commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required
+evidence; high-risk and default-exclusion actions still require explicit Owner
+approval.

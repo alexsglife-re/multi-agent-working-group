@@ -29,6 +29,27 @@ The command is read-only and no-network. It does not replace PM, Advisor, Review
   - `git diff --stat`
   - `git diff -- README.md docs/ROADMAP.md docs/VALIDATION.md SKILL.md agents/openai.yaml`
 
+## Public Release Checks
+
+Run these checks before a public tag, GitHub Release, or other publication:
+
+```sh
+git status --short --branch -uall
+openspec validate --all
+./scripts/validate-local.sh --skip-global-skill
+rg -n "(token|api[_-]?key|secret|password|private key|/Users/|gmail|Keychain|GITHUB_PAT)" .
+```
+
+- `LICENSE` exists and matches the intended public reuse model.
+- `CONTRIBUTING.md` explains how to open issues, change `SKILL.md`, and run validation.
+- `SECURITY.md` tells contributors not to post secrets, credentials, or private project context.
+- `CODE_OF_CONDUCT.md` exists if the repository accepts outside contribution.
+- Public docs keep the skill model-agnostic and do not hard-code personal provider or model defaults.
+- Public docs do not include private machine paths, private project details, credentials, or local-only memory rules.
+- `openspec/changes/archive/` is described as design history, not required reading for ordinary users.
+- A release tag such as `v0.4.10` points at the reviewed release commit, not at an older pre-release-preparation commit.
+- GitHub Release notes, when created, describe `v0.4.10` as the initial public release and do not claim deployment, CI, or automation that does not exist.
+
 ## README Checks
 
 - The README explains what the skill is for.
@@ -42,7 +63,7 @@ The command is read-only and no-network. It does not replace PM, Advisor, Review
 - The roadmap stays incremental.
 - Later-stage automation is not described as already available.
 - Each stage has a practical goal and exit criteria.
-- Public release, license, CI, and packaging choices remain framed as decisions until accepted.
+- Public release, license, CI, and packaging choices remain framed as decisions until accepted, or as accepted release-preparation work once the repository is explicitly prepared for public reuse.
 - Stage 1 is described as mostly complete, not as a published release.
 - Stage 2 describes `v0.4.0` local stabilization as complete before `v0.4.1` follow-up work.
 
@@ -284,6 +305,7 @@ Run these checks whenever `agents/openai.yaml` changes.
 ## Safety Checks Before Commit
 
 - No secrets, credentials, tokens, private keys, or local machine-specific private paths were added.
+- Public-facing documentation does not include local-only model-routing rules or personal memory defaults.
 - Documentation does not authorize broader advisor access than `SKILL.md`.
 - Documentation does not imply that Advisor model diversity expands context sharing, authorizes secrets, or proves correctness.
 - Documentation does not imply that trusted Advisor context authorizes secrets, unrelated projects, broad dumps, or irrelevant data.

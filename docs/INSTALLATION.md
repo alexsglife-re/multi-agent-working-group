@@ -1,6 +1,7 @@
 # Installation And Migration
 
-This guide explains how to use this skill from a local checkout, sync it into a global Codex skill directory, and migrate it to another machine or project.
+This guide explains how to use this skill from a local checkout, sync it into a
+global Codex skill directory, and migrate it to another machine or project.
 
 It is documentation-only. It does not create a release, install a package, publish the skill, grant git authorization, or carry active workstream authority into a new place.
 
@@ -13,8 +14,44 @@ For v0.4.10, the main adoption rule is simple:
 ## Prerequisites
 
 - A local checkout of this repository.
-- OpenSpec CLI available on the machine where validation will run.
+- OpenSpec CLI available on the machine where full validation will run.
 - Codex configured to read either this repository's `.codex/skills` entries or the global skill directory.
+
+If OpenSpec is not installed, the skill can still be read and used as a
+workflow protocol. OpenSpec-specific validation commands will not run until
+OpenSpec is available.
+
+## Install From GitHub
+
+Clone the public repository:
+
+```sh
+git clone https://github.com/alexsglife-re/multi-agent-working-group.git
+cd multi-agent-working-group
+```
+
+Install the skill into the default Codex skill directory:
+
+```sh
+mkdir -p ~/.codex/skills/multi-agent-working-group
+cp SKILL.md ~/.codex/skills/multi-agent-working-group/SKILL.md
+```
+
+Then restart Codex or refresh the environment that loads skills.
+
+Verify the installed copy when OpenSpec is available:
+
+```sh
+openspec validate --all
+./scripts/validate-local.sh
+```
+
+If you only want to validate the checkout without comparing against the global
+installed copy:
+
+```sh
+./scripts/validate-local.sh --skip-global-skill
+```
 
 ## Use From This Checkout
 
@@ -46,6 +83,34 @@ After local changes are reviewed and ready to become the installed skill, copy t
 The validation command compares the repository skill with the global installed skill when the global file exists.
 
 Global sync is a file-sync step, not an authority-sync step. Matching `SKILL.md` files do not prove that commit permission, push permission, review freshness, validation freshness, trusted workspace state, or handoff authority is still valid.
+
+## Public Release Checklist
+
+Before creating a public tag or GitHub Release:
+
+```sh
+git status --short --branch -uall
+openspec validate --all
+./scripts/validate-local.sh --skip-global-skill
+rg -n "(token|api[_-]?key|secret|password|private key|/Users/|gmail|Keychain|GITHUB_PAT)" .
+```
+
+Review every match from the content scan. Matches inside safety instructions
+are usually expected. Real credentials, personal paths, private project names,
+private logs, or local-only model-routing preferences are not safe for release.
+
+Create the tag only after the release-preparation changes are committed:
+
+```sh
+git tag v0.4.10
+```
+
+Publish the tag and create the GitHub Release only when the maintainer intends
+to perform the external publication step. A suggested first release title is:
+
+```text
+v0.4.10 - Initial public release
+```
 
 ## Migrate To Another Machine
 

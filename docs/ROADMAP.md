@@ -88,18 +88,23 @@ Exit criteria:
 
 Goal: make the skill easier to reuse outside the local checkout.
 
-Status: future decision. Packaging, release tags, public publication, and CI remain out of scope until explicitly approved.
+Status: in progress. MIT licensing, public contribution guidance, security
+guidance, and release-preparation documentation are accepted for public reuse.
+CI, packaging automation, remote publication, and GitHub Release creation remain
+separate decisions.
 
-- Decide whether this remains a personal skill package or becomes a public reusable skill.
-- Add license information if public reuse is intended.
+- Publish as a public reusable skill while keeping the core protocol model-agnostic.
+- Add license information for public reuse.
+- Add contribution, security, and conduct guidance.
 - Add changelog once versioned releases begin.
 - Decide whether installation guidance should become packaging automation or remain documentation-only.
 - Decide whether CI should run markdown and skill validation checks.
+- Create release tags only after the corresponding release-preparation commit is reviewed.
 
 Exit criteria:
 
 - The intended audience and reuse model are explicit.
-- Releases, if used, have a predictable checklist.
+- Releases have a predictable checklist.
 - Public-facing metadata is consistent with the repository purpose.
 
 ## Later Ideas
@@ -112,4 +117,9 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Decide the next version target after `v0.4.10`: likely candidates are more examples for real adoption flows, lightweight markdown/link validation, or a packaging/public-reuse decision. Keep heavier automation out of scope until invocation guidance, rollover opportunity protocol, trust setup protocol, templates, model-source verification, and the local command remain stable across more real tasks.
+Finish the `v0.4.10` public-release preparation pass: validate the checkout,
+review the public-content scan, commit the release-preparation files, then tag
+the reviewed commit as `v0.4.10` if publication is still intended. Keep heavier
+automation out of scope until invocation guidance, rollover opportunity
+protocol, trust setup protocol, templates, model-source verification, and the
+local command remain stable across more real tasks.

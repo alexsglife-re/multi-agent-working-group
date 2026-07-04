@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Public release preparation for v0.4.10
+
+- Add MIT licensing for public reuse.
+- Add contributor, security, and code-of-conduct guidance.
+- Document public release checks, sensitive-content scanning, and release tag order.
+- Clarify that archived OpenSpec changes are design history and not required reading for ordinary users.
+- Keep public rules model-agnostic and exclude local-only provider/model preferences from the reusable skill.
+
 ### Completed local upgrade for v0.4.10: Invocation, Migration, And Plain-Language Closeout Guidance
 
 - Add task-trait guidance for when agents should select or explicitly consider `multi-agent-working-group`.
