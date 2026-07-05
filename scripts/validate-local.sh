@@ -245,6 +245,23 @@ for reference in "${REQUIRED_REFERENCES[@]}"; do
   fi
 done
 
+if ! command -v perl >/dev/null 2>&1; then
+  fail "perl available for English-only docs check"
+else
+  pass "perl available for English-only docs check"
+  cjk_docs="$(
+    while IFS= read -r -d '' file; do
+      perl -CSD -ne 'print "$ARGV:$.:$_" if /[\x{3000}-\x{303F}\x{3040}-\x{30FF}\x{3400}-\x{4DBF}\x{4E00}-\x{9FFF}\x{AC00}-\x{D7AF}\x{F900}-\x{FAFF}]/' "$file"
+    done < <(git ls-files -z '*.md')
+  )"
+  if [[ -z "$cjk_docs" ]]; then
+    pass "tracked Markdown docs are English-only"
+  else
+    fail "tracked Markdown docs are English-only"
+    printf '%s\n' "$cjk_docs" >&2
+  fi
+fi
+
 template_contains "templates/README.md" "A filled template is evidence, not authority." "templates README states evidence not authority"
 template_contains "templates/README.md" "successor startup packet != automatic thread creation" "templates README blocks automatic thread creation"
 template_contains "templates/README.md" "one active current-state card" "templates README keeps single active state card"

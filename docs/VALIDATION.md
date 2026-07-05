@@ -18,6 +18,10 @@ After archiving an OpenSpec-backed change, run closeout mode:
 
 The command is read-only and no-network. It does not replace PM, Advisor, Reviewer, OpenSpec archive, secret scanning, or git gate requirements.
 
+The command also checks that tracked Markdown documentation is English-only.
+Ignored local reference checkouts under `references/external/` are not project
+publication docs and are not included in that check.
+
 ## Baseline Checks
 
 - Confirm the working tree state before editing:
@@ -59,6 +63,8 @@ rg -n "(token|api[_-]?key|secret|password|private key|/Users/|gmail|Keychain|GIT
 - Usage guidance does not imply automatic permission to commit, push, deploy, release, or perform destructive actions.
 - Runtime guidance does not describe planned or compatible adapters as fully supported before validation.
 - Links to roadmap and validation docs remain accurate.
+- Tracked Markdown documentation contains no CJK text unless a future accepted
+  change explicitly broadens the documentation language policy.
 
 ## Roadmap Checks
 
