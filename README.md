@@ -1,18 +1,47 @@
-# Multi-Agent Working Group
+<h1 align="center">Multi-Agent Working Group</h1>
 
-Multi-Agent Working Group is a portable workflow protocol for AI-assisted work
-where independent review, clear role boundaries, durable evidence, and
-controlled exits matter more than raw speed. It defines Leader, PM, Advisor,
-Worker, and Reviewer roles, plus handoff, validation, commit, push, and release
-gates for tasks that need careful coordination across one or more agent
-runtimes.
+<p align="center">
+  <img src="assets/social-preview.jpg" alt="Multi-Agent Working Group - Safer multi-agent workflows for AI coding" width="100%">
+</p>
+
+<p align="center">
+  <strong>Controlled multi-agent work for tasks where review, evidence, and safe exits matter more than speed.</strong>
+</p>
+
+<p align="center">
+  <a href="#using-the-protocol"><img src="https://img.shields.io/badge/Quick_Start-2_min-blue?style=for-the-badge" alt="Quick Start"></a>
+  <a href="docs/ADAPTERS.md"><img src="https://img.shields.io/badge/Adapters-Codex_reference-black?style=for-the-badge" alt="Codex reference adapter"></a>
+  <a href="docs/VALIDATION.md"><img src="https://img.shields.io/badge/Validation-local_checks-green?style=for-the-badge" alt="Local validation"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License"></a>
+</p>
+
+AI agents are fast, but fast work can blur who reviewed what, which evidence was
+checked, and whether a commit, push, release, or handoff was actually
+authorized.
+
+Multi-Agent Working Group is a portable workflow protocol for AI-assisted work.
+It gives careful tasks clear roles, independent review, durable evidence, and
+explicit gates for validation, handoff, git, and release decisions.
+
+Use it when you want agents to help with serious work without silently approving
+their own output, losing context across conversations, or turning "looks done"
+into "safe to ship."
 
 This repository ships Codex as the reference packaged adapter. The protocol is
 designed to be adapted to Claude, OpenClaw, Hermes Agent, and other agent
 runtimes, but non-Codex runtimes are adapter guidance or compatible patterns
 until their adapters are validated in real use.
 
-The skill is intentionally conservative. It keeps the Leader responsible for orchestration and verification, treats agent output as evidence rather than authority, and separates local completion, normal git gates, and Owner-only exclusions.
+| Without a working protocol | With Multi-Agent Working Group |
+| --- | --- |
+| Reviews, handoffs, and git exits depend on memory and chat history. | Leader, PM, Advisor, Worker, and Reviewer roles produce explicit evidence. |
+| Agent output can look authoritative before it is checked. | Agent output is treated as evidence until the Leader verifies it. |
+| Commit, push, release, and cleanup boundaries can blur together. | Local completion, normal git gates, and Owner-only exclusions stay separate. |
+
+The skill is intentionally conservative. It keeps the Leader responsible for
+orchestration and verification, treats agent output as evidence rather than
+authority, and separates local completion, normal git gates, and Owner-only
+exclusions.
 
 > Current local version: `v0.4.13`. `v0.4.13` Leader Delegation And Cleanup Discipline is complete on top of the public `v0.4.12` Progressive Skill References release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
 
