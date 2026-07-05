@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.13"
+VERSION="v0.4.14"
 TEMPLATE_VERSION="v0.4.13"
 REQUIRED_ACCEPTED_SPECS=(
+  "adoption-guidance"
   "advisor-model-diversity"
   "cli-trust-and-openspec-lifecycle"
   "copyable-role-templates"
@@ -24,6 +25,8 @@ ROLLOVER_SPEC="leader-rollover-protocol"
 ROLLOVER_CHANGE="openspec/changes/add-rollover-opportunity-protocol/specs/leader-rollover-protocol/spec.md"
 AGENT_CLEANUP_SPEC="agent-cleanup-discipline"
 AGENT_CLEANUP_CHANGE="openspec/changes/add-leader-delegation-and-cleanup-discipline/specs/agent-cleanup-discipline/spec.md"
+ADOPTION_GUIDANCE_SPEC="adoption-guidance"
+ADOPTION_GUIDANCE_CHANGE="openspec/changes/add-adoption-scenarios-and-adapter-guardrails/specs/adoption-guidance/spec.md"
 REQUIRED_TEMPLATES=(
   "templates/README.md"
   "templates/advisor-review.md"
@@ -157,7 +160,9 @@ else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Invocation, Migration, And Plain-Language Closeout Guidance"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Adoption Scenarios And Adapter Guardrails"; then
+  pass "docs/TODO.md current version section"
+elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Invocation, Migration, And Plain-Language Closeout Guidance"; then
   pass "docs/TODO.md current version section"
 elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Platform-Neutral Protocol Positioning"; then
   pass "docs/TODO.md current version section"
@@ -169,7 +174,9 @@ else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Invocation, Migration, And Plain-Language Closeout Guidance"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Adoption Scenarios And Adapter Guardrails"; then
+  pass "docs/ROADMAP.md current version marker"
+elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Invocation, Migration, And Plain-Language Closeout Guidance"; then
   pass "docs/ROADMAP.md current version marker"
 elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Platform-Neutral Protocol Positioning"; then
   pass "docs/ROADMAP.md current version marker"
@@ -181,7 +188,9 @@ else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Invocation, Migration, And Plain-Language Closeout Guidance Checks"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Adoption Scenarios And Adapter Guardrails Checks"; then
+  pass "docs/VALIDATION.md current validation section"
+elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Invocation, Migration, And Plain-Language Closeout Guidance Checks"; then
   pass "docs/VALIDATION.md current validation section"
 elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Platform-Neutral Protocol Positioning Checks"; then
   pass "docs/VALIDATION.md current validation section"
@@ -200,7 +209,9 @@ else
 fi
 
 for spec in "${REQUIRED_ACCEPTED_SPECS[@]}"; do
-  if [[ -f "openspec/specs/$spec/spec.md" ]]; then
+  if [[ "$spec" == "$ADOPTION_GUIDANCE_SPEC" && "$require_no_active_changes" -eq 0 && -f "$ADOPTION_GUIDANCE_CHANGE" ]]; then
+    pass "active spec delta exists: $spec"
+  elif [[ -f "openspec/specs/$spec/spec.md" ]]; then
     pass "accepted spec exists: $spec"
   else
     fail "accepted spec exists: $spec"
@@ -494,11 +505,34 @@ template_contains "README.md" "portable workflow protocol for AI-assisted work" 
 template_contains "README.md" "Codex as the reference packaged adapter" "README states Codex reference adapter"
 template_contains "README.md" "adapter guidance or compatible patterns" "README avoids overclaiming non-Codex support"
 template_contains "README.md" "docs/ADAPTERS.md" "README links adapter guide"
-template_contains "README.md" "automatic selection is only workflow/checklist reasoning" "README defines automatic invocation boundary"
+template_contains "SKILL.md" "Automatic invocation means applying this workflow and checklist" "SKILL.md defines automatic invocation boundary"
 template_contains "README.md" "Completion summaries and next-goal recommendations are reporting aids only" "README blocks closeout authorization"
-template_contains "README.md" "Closing multi-agent role agents sequentially instead of in parallel" "README describes sequential cleanup"
-template_contains "README.md" "more than 2 files or roughly 80 diff lines as a self-check" "README describes Leader budget self-check"
-template_contains "README.md" "does not automatically spawn Workers, measure diff size, close agents" "README blocks automation creep"
+template_contains "SKILL.md" "Role-agent cleanup or close actions run sequentially" "SKILL.md describes sequential cleanup"
+template_contains "SKILL.md" "More than 2 files or roughly 80 diff lines is a self-check" "SKILL.md describes Leader budget self-check"
+template_contains "README.md" "automatically create successor conversations, spawn Workers, measure diff" "README blocks automation creep"
+template_contains "README.md" "## Quick Start" "README includes Quick Start"
+template_contains "README.md" "## Use Cases" "README includes Use Cases"
+template_contains "README.md" "## Safety Boundaries" "README includes Safety Boundaries"
+template_contains "README.md" "docs/ADOPTION.md" "README links adoption guide"
+template_contains "docs/ADOPTION.md" "Documentation Tasks" "Adoption guide covers documentation tasks"
+template_contains "docs/ADOPTION.md" "Release Preparation" "Adoption guide covers release preparation"
+template_contains "docs/ADOPTION.md" "Long-Running Project Work" "Adoption guide covers long-running project work"
+template_contains "docs/ADOPTION.md" "Cross-Conversation Handoff" "Adoption guide covers handoff"
+template_contains "docs/ADOPTION.md" "Ordinary Small Tasks" "Adoption guide covers small tasks"
+template_contains "docs/ADOPTION.md" "transfers only the workflow/checklist structure" "Adoption guide blocks authority transfer"
+template_contains "docs/INSTALLATION.md" "Adopting the protocol means using its workflow rules" "Installation distinguishes protocol adoption"
+template_contains "docs/INSTALLATION.md" "Installing the Codex reference adapter means copying the Codex skill entry" "Installation distinguishes Codex adapter install"
+template_contains "docs/ADAPTERS.md" "Adapter Guide Template" "Adapter guide includes template"
+template_contains "docs/ADAPTERS.md" "Validation evidence:" "Adapter guide template records validation evidence"
+template_contains "docs/ADAPTERS.md" "Unsupported actions:" "Adapter guide template records unsupported actions"
+template_contains "docs/ADAPTERS.md" "Adapter Review Checklist" "Adapter guide includes review checklist"
+template_contains "docs/VALIDATION.md" "Adoption Scenarios And Adapter Guardrails Checks" "Validation checks v0.4.14 adoption section"
+template_contains "docs/VALIDATION.md" "README stays moderately concise" "Validation checks README length discipline"
+template_contains "docs/VALIDATION.md" "does not create runtime-specific Claude, OpenClaw, Hermes" "Validation blocks misleading runtime guide skeletons"
+template_contains "examples/release-prep-task.md" "Tag/release: not authorized." "Release prep example blocks tag release"
+template_contains "examples/release-prep-task.md" "External publication: not authorized." "Release prep example blocks publication"
+template_contains "examples/long-running-doc-workstream.md" "C0, then C1 proposal, C2 implementation" "Long-running doc example covers C stages"
+template_contains "examples/long-running-doc-workstream.md" "Default exclusions:" "Long-running doc example records default exclusions"
 template_contains "docs/VALIDATION.md" "## v0.4.13 Leader Delegation And Cleanup Discipline Checks" "Validation checks v0.4.13 delegation cleanup section"
 template_contains "docs/VALIDATION.md" "Validation checks anchor presence and template consistency, not runtime" "Validation documents anchor limits"
 template_contains "docs/VALIDATION.md" "Cleanup failure cannot weaken validation, PM/Advisor/Reviewer, git" "Validation blocks cleanup gate weakening"

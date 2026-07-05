@@ -6,11 +6,15 @@ another machine or project.
 
 It is documentation-only. It does not create a release, install a package, publish the skill, grant git authorization, or carry active workstream authority into a new place.
 
-For v0.4.11, the main adoption rule is simple:
+For v0.4.14, the main adoption rule is simple:
 
 - copying or calling the protocol gives you the workflow/checklist;
 - it does not give you permission, fresh approval, or trusted continuity;
 - every new machine, project, session, or handoff still has to verify its own current state.
+
+If you are deciding when to use the protocol, start with
+`docs/ADOPTION.md`. This installation guide explains where the files go and
+what does not transfer when the protocol is copied or installed.
 
 ## Prerequisites
 
@@ -25,6 +29,9 @@ OpenSpec is available.
 
 ## Adopt The Protocol
 
+Adopting the protocol means using its workflow rules in a project or runtime.
+It is different from installing the Codex reference adapter.
+
 Clone the public repository:
 
 ```sh
@@ -37,6 +44,7 @@ Read the protocol and adapter guidance:
 ```text
 README.md
 SKILL.md
+docs/ADOPTION.md
 docs/ADAPTERS.md
 docs/VALIDATION.md
 ```
@@ -46,6 +54,11 @@ map the runtime using `docs/ADAPTERS.md`, including readable scope, writable
 scope, workspace trust, validation, git gates, handoff, and unsupported actions.
 
 ## Install The Codex Reference Adapter
+
+Installing the Codex reference adapter means copying the Codex skill entry
+point and its progressive references to a Codex skill directory. It does not
+install adapter support for Claude, OpenClaw, Hermes Agent, or any other
+runtime.
 
 Install the Codex reference adapter into the default Codex skill directory:
 
@@ -167,10 +180,11 @@ When another project uses this protocol:
 
 1. Read that project's local instructions first.
 2. Treat this project as a workflow protocol that project rules may tighten.
-3. Run the project's own validation in addition to this repository's validation.
-4. Start each OpenSpec-backed workstream with C0 analysis.
-5. Record current provider/model routing from Owner instruction, project rules, project memory, handoff, startup packet, or a current verified model record.
-6. Re-check current git state, validation state, trust state, and role continuity inside that project instead of assuming they carried over.
+3. Choose the workflow level using `docs/ADOPTION.md`.
+4. Run the project's own validation in addition to this repository's validation.
+5. Start each OpenSpec-backed workstream with C0 analysis.
+6. Record current provider/model routing from Owner instruction, project rules, project memory, handoff, startup packet, or a current verified model record.
+7. Re-check current git state, validation state, trust state, and role continuity inside that project instead of assuming they carried over.
 
 Do not hard-code a concrete PM, Advisor, Worker, or Reviewer model in this
 protocol or adapter docs unless the runtime guide is explicitly documenting a

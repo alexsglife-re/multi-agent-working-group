@@ -22,7 +22,8 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.13` Leader Delegation And Cleanup Discipline are complete.
+`v0.4.0` local stabilization through `v0.4.14` Adoption Scenarios And Adapter
+Guardrails are complete.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -48,6 +49,9 @@ Goal: make the workflow easier to apply consistently.
 - Add Leader Delegation And Cleanup Discipline so bounded Worker slices are
   dispatched before Leader context grows when practical, and role-agent cleanup
   is sequential without weakening delivery gates.
+- Add scenario-based adoption guidance and adapter guide guardrails so readers
+  can decide when to use the workflow without overloading `README.md` or
+  `SKILL.md`.
 
 Exit criteria:
 
@@ -73,6 +77,9 @@ Exit criteria:
 - Leader Delegation And Cleanup Discipline is documented as a v0.4.13 follow-up
   without adding automatic Worker spawning, automatic diff-size enforcement,
   parallel cleanup, release authorization, or cleanup-based gate bypass.
+- `v0.4.14` Adoption Scenarios And Adapter Guardrails is documented without
+  adding runtime-specific support claims, automatic publication, GitHub metadata
+  mutation, CI, release automation, or heavier `SKILL.md` load.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -132,6 +139,6 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Use `v0.4.13` as the current local documentation baseline. A future `v0.4.13`
+Use `v0.4.14` as the current local documentation baseline. A future `v0.4.14`
 tag or GitHub Release remains an Owner-only publication action; the local
 documentation version does not imply external publication.

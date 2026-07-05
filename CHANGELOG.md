@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.14: Adoption Scenarios And Adapter Guardrails
+
+- Add `docs/ADOPTION.md` with scenario guidance for documentation tasks,
+  release preparation, long-running project work, cross-conversation handoff,
+  and ordinary small tasks.
+- Restructure the README around Quick Start, Use Cases, Safety Boundaries, and
+  deeper adoption links without turning the always-loaded `SKILL.md` into a
+  long scenario guide.
+- Clarify installation guidance so readers distinguish adopting the workflow
+  protocol from installing the Codex reference adapter.
+- Add adapter guide template and review checklist guidance while keeping
+  Claude, OpenClaw, Hermes Agent, and other non-Codex runtimes labeled as
+  planned guidance or compatible patterns until validated.
+- Add release-preparation and long-running documentation workstream examples.
+- Extend local validation anchors for adoption guidance and adapter guardrails
+  without adding CI, release automation, link checking, or semantic runtime
+  enforcement.
+
 ### Completed local upgrade for v0.4.13: Leader Delegation And Cleanup Discipline
 
 - Add role-agent cleanup discipline: cleanup/close actions run sequentially,

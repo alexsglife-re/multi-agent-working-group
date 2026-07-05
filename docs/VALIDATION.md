@@ -358,6 +358,38 @@ OpenSpec change.
   diff-size measurement, automatic repair, CI automation, release automation,
   git authorization, release authorization, or gate bypass.
 
+## v0.4.14 Adoption Scenarios And Adapter Guardrails Checks
+
+Run these checks for the `v0.4.14` adoption and adapter guardrail set:
+`README.md`, `docs/ADOPTION.md`, `docs/INSTALLATION.md`, `docs/ADAPTERS.md`,
+`examples/`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`,
+`docs/VALIDATION.md`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- README includes Quick Start, Use Cases, and Safety Boundaries near the top.
+- README stays moderately concise and links deeper scenario detail to
+  `docs/ADOPTION.md` rather than expanding `SKILL.md`.
+- `docs/ADOPTION.md` covers documentation tasks, release preparation,
+  long-running project work, cross-conversation handoff, and ordinary small
+  tasks.
+- Adoption guidance states that copying, installing, invoking, or adapting the
+  protocol transfers only workflow/checklist structure, not authorization,
+  validation freshness, workspace trust, role continuity, secret access, or
+  external-effect permission.
+- Installation guidance distinguishes adopting the workflow protocol from
+  installing the Codex reference adapter.
+- Adapter guidance includes an adapter guide template and review checklist.
+- Adapter guidance does not create runtime-specific Claude, OpenClaw, Hermes
+  Agent, or other runtime guide pages that look validated before real testing.
+- Runtime wording continues to label unvalidated non-Codex runtimes as planned
+  guidance or compatible patterns, not fully supported adapters.
+- Examples include release-preparation and long-running documentation
+  workstream scenarios without authorizing publication, tag, release, GitHub
+  metadata mutation, commit, or push outside the normal gates.
+- Documentation does not add CI, release automation, automatic publication,
+  automatic GitHub metadata mutation, automatic runtime adapter support,
+  automatic link checking, semantic validation enforcement, or heavier
+  `SKILL.md` load.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.

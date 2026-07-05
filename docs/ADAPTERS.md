@@ -49,6 +49,66 @@ Every runtime adapter guide should define:
 - Handoff: how current state, evidence indexes, unresolved findings, and authorization state are preserved.
 - Unsupported actions: what the runtime must never do automatically.
 
+## Adapter Guide Template
+
+Use this outline when drafting a future runtime guide. Keep the guide labeled
+`adapter guide planned` or `compatible pattern` until it has been validated
+with real read, review, validation, handoff, and git-gate workflows.
+
+```text
+# <Runtime> Adapter Guide
+
+Status:
+  reference adapter | adapter guide planned | compatible pattern | unsupported
+
+Validation evidence:
+  <date, project, workflow tested, commands, gaps>
+
+Role mapping:
+  Leader:
+  PM:
+  Advisor:
+  Worker:
+  Reviewer:
+
+Readable scope:
+  <files, specs, docs, logs, validation evidence>
+
+Writable scope:
+  <which roles can edit which files, if any>
+
+Workspace trust:
+  <how exact project trust is confirmed before relying on output>
+
+Validation:
+  <local commands, tests, OpenSpec checks, CI/status expectations>
+
+Git and external-effect gates:
+  <commit, push, tag, release, deployment, publication, metadata changes>
+
+Handoff:
+  <current state, evidence index, unresolved findings, authorization state>
+
+Unsupported actions:
+  <actions this runtime guide must never perform automatically>
+
+Non-transferable state:
+  <authorization, validation freshness, trust, continuity, secrets>
+```
+
+## Adapter Review Checklist
+
+- The guide status matches the validation evidence.
+- The guide does not call a planned or compatible runtime fully supported.
+- Role boundaries preserve Leader verification and no self-approval.
+- Advisor output remains evidence, not authority.
+- Workspace trust is scoped to the exact project.
+- Validation and git gates are explicit.
+- Tag, release, deployment, publication, destructive actions, secrets, auth,
+  permission changes, and GitHub metadata changes remain Owner-only unless
+  explicitly authorized for that action.
+- Non-transferable state is listed clearly.
+
 ## Non-Transferable State
 
 Adapting the protocol to another runtime transfers only the checklist and role

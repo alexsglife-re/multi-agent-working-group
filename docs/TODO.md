@@ -391,6 +391,35 @@ gates.
 - [x] Complete PM plus Advisor review that confirms fail-closed gates were not
   weakened.
 
+## v0.4.14: Adoption Scenarios And Adapter Guardrails
+
+Goal: make the protocol easier for first-time readers to adopt in concrete
+scenarios while preventing unvalidated runtime adapter guidance from looking
+like supported integration.
+
+### OpenSpec
+
+- [x] Create `add-adoption-scenarios-and-adapter-guardrails` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [ ] Validate and archive the OpenSpec change after implementation and review.
+
+### Documentation
+
+- [x] Add `docs/ADOPTION.md` with scenario guidance.
+- [x] Update README with Quick Start, Use Cases, Safety Boundaries, and concise
+  deeper-doc links.
+- [x] Update `docs/INSTALLATION.md` to distinguish protocol adoption from Codex
+  reference-adapter installation.
+- [x] Update `docs/ADAPTERS.md` with adapter guide template and review
+  checklist guardrails.
+- [x] Add release-preparation and long-running documentation examples.
+
+### Validation
+
+- [x] Update validation docs and local validation anchors for v0.4.14.
+- [ ] Run local validation, OpenSpec validation, whitespace checks, and
+  required PM plus Advisor review before git closeout.
+
 ## Later
 
 - [ ] Decide whether installation guidance should later become packaging automation.
