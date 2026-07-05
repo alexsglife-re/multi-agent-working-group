@@ -262,6 +262,7 @@ else
   pass "perl available for English-only docs check"
   cjk_docs="$(
     while IFS= read -r -d '' file; do
+      [[ -f "$file" ]] || continue
       perl -CSD -ne 'print "$ARGV:$.:$_" if /[\x{3000}-\x{303F}\x{3040}-\x{30FF}\x{3400}-\x{4DBF}\x{4E00}-\x{9FFF}\x{AC00}-\x{D7AF}\x{F900}-\x{FAFF}]/' "$file"
     done < <(git ls-files -z '*.md')
   )"
