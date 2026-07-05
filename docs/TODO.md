@@ -401,7 +401,7 @@ like supported integration.
 
 - [x] Create `add-adoption-scenarios-and-adapter-guardrails` OpenSpec change.
 - [x] Add proposal, design, spec, and tasks artifacts.
-- [ ] Validate and archive the OpenSpec change after implementation and review.
+- [x] Validate and archive the OpenSpec change after implementation and review.
 
 ### Documentation
 
@@ -417,8 +417,38 @@ like supported integration.
 ### Validation
 
 - [x] Update validation docs and local validation anchors for v0.4.14.
-- [ ] Run local validation, OpenSpec validation, whitespace checks, and
+- [x] Run local validation, OpenSpec validation, whitespace checks, and
   required PM plus Advisor review before git closeout.
+
+## v0.4.15: Fast Path And Anchor Guardrails
+
+Goal: make first-load reading order clearer without reducing the always-loaded
+`SKILL.md` safety surface.
+
+### OpenSpec
+
+- [x] Create `clarify-fast-path-without-anchor-demotion` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [ ] Validate and archive the OpenSpec change after implementation and review.
+
+### Skill Rules
+
+- [x] Add Fast Path and Slow Path reading-order guidance to `SKILL.md`.
+- [x] Clarify that Fast Path is not Small Task Mode and does not change role or
+  git-gate requirements.
+- [x] Clarify that Fast Path never skips a mandatory reference once a routed
+  domain is touched.
+- [x] Preserve all current `SKILL.md` hard-boundary anchors in `SKILL.md`.
+
+### Documentation And Validation
+
+- [x] Update traceability and validation docs for v0.4.15.
+- [x] Update local validation anchors for Fast Path and no silent anchor
+  demotion.
+- [x] Confirm the current `template_contains "SKILL.md"` check count did not
+  decrease from the v0.4.14 baseline.
+- [ ] Run local validation, OpenSpec validation, whitespace checks, and required
+  PM plus Advisor plus Reviewer review before git closeout.
 
 ## Later
 

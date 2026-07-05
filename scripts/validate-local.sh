@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.14"
+VERSION="v0.4.15"
+CURRENT_UPGRADE_TITLE="Fast Path And Anchor Guardrails"
+CURRENT_VALIDATION_TITLE="Fast Path And Anchor Guardrail Checks"
+SKILL_ANCHOR_BASELINE=55
 TEMPLATE_VERSION="v0.4.13"
 REQUIRED_ACCEPTED_SPECS=(
   "adoption-guidance"
@@ -160,43 +163,19 @@ else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Adoption Scenarios And Adapter Guardrails"; then
-  pass "docs/TODO.md current version section"
-elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Invocation, Migration, And Plain-Language Closeout Guidance"; then
-  pass "docs/TODO.md current version section"
-elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Platform-Neutral Protocol Positioning"; then
-  pass "docs/TODO.md current version section"
-elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Progressive Skill References"; then
-  pass "docs/TODO.md current version section"
-elif [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: Leader Delegation And Cleanup Discipline"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: $CURRENT_UPGRADE_TITLE"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Adoption Scenarios And Adapter Guardrails"; then
-  pass "docs/ROADMAP.md current version marker"
-elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Invocation, Migration, And Plain-Language Closeout Guidance"; then
-  pass "docs/ROADMAP.md current version marker"
-elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Platform-Neutral Protocol Positioning"; then
-  pass "docs/ROADMAP.md current version marker"
-elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Progressive Skill References"; then
-  pass "docs/ROADMAP.md current version marker"
-elif [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` Leader Delegation And Cleanup Discipline"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` $CURRENT_UPGRADE_TITLE"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Adoption Scenarios And Adapter Guardrails Checks"; then
-  pass "docs/VALIDATION.md current validation section"
-elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Invocation, Migration, And Plain-Language Closeout Guidance Checks"; then
-  pass "docs/VALIDATION.md current validation section"
-elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Platform-Neutral Protocol Positioning Checks"; then
-  pass "docs/VALIDATION.md current validation section"
-elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Progressive Skill References Checks"; then
-  pass "docs/VALIDATION.md current validation section"
-elif [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION Leader Delegation And Cleanup Discipline Checks"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION $CURRENT_VALIDATION_TITLE"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
@@ -511,6 +490,23 @@ template_contains "README.md" "Completion summaries and next-goal recommendation
 template_contains "SKILL.md" "Role-agent cleanup or close actions run sequentially" "SKILL.md describes sequential cleanup"
 template_contains "SKILL.md" "More than 2 files or roughly 80 diff lines is a self-check" "SKILL.md describes Leader budget self-check"
 template_contains "README.md" "automatically create successor conversations, spawn Workers, measure diff" "README blocks automation creep"
+skill_anchor_count="$(grep -cE '^[[:space:]]*template_contains "SKILL[.]md"' scripts/validate-local.sh)"
+if [[ "$skill_anchor_count" -ge "$SKILL_ANCHOR_BASELINE" ]]; then
+  pass "SKILL.md anchor check count not reduced"
+else
+  fail "SKILL.md anchor check count not reduced"
+fi
+template_contains "SKILL.md" "Fast Path is a reading-order shortcut only" "SKILL.md defines Fast Path as reading-order only"
+template_contains "SKILL.md" "Fast Path is not Small Task Mode" "SKILL.md separates Fast Path from Small Task Mode"
+template_contains "SKILL.md" "never skips a mandatory reference once a routed domain is touched" "SKILL.md blocks Fast Path reference bypass"
+template_contains "SKILL.md" "Slow Path applies as soon as the task reaches git exits, OpenSpec, CLI trust or model routing" "SKILL.md defines Slow Path routed domains"
+template_contains "SKILL.md" "secrets, auth, security, permission, schema, destructive, irreversible" "SKILL.md includes security routed domains"
+template_contains "references/TRACEABILITY.md" "v0.4.15 adds Fast Path / Slow Path reading-order guidance without demoting any" "Traceability records v0.4.15 no anchor demotion"
+template_contains "references/TRACEABILITY.md" "Anchor demotion is not a validation-maintenance shortcut" "Traceability blocks silent anchor demotion"
+template_contains "docs/VALIDATION.md" "Fast Path is documented as a reading-order shortcut only" "Validation checks Fast Path reading order"
+template_contains "docs/VALIDATION.md" "Fast Path is explicitly not Small Task Mode" "Validation checks Fast Path not Small Task Mode"
+template_contains "docs/VALIDATION.md" "Current \`SKILL.md\` hard-boundary anchors remain in \`SKILL.md\`" "Validation checks no SKILL anchor demotion"
+template_contains "docs/VALIDATION.md" "template_contains \"SKILL.md\" anchor count" "Validation records SKILL anchor count"
 template_contains "README.md" "## Quick Start" "README includes Quick Start"
 template_contains "README.md" "## Use Cases" "README includes Use Cases"
 template_contains "README.md" "## Safety Boundaries" "README includes Safety Boundaries"

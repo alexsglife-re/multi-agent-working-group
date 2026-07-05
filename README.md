@@ -43,7 +43,7 @@ orchestration and verification, treats agent output as evidence rather than
 authority, and separates local completion, normal git gates, and Owner-only
 exclusions.
 
-> Current local version: `v0.4.14`. `v0.4.14` Adoption Scenarios And Adapter Guardrails is complete on top of the public `v0.4.13` Leader Delegation And Cleanup Discipline tag. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.15`. `v0.4.15` Fast Path And Anchor Guardrails is in progress on top of the public `v0.4.14` Adoption Scenarios And Adapter Guardrails release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## Quick Start
 
@@ -220,11 +220,11 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.14` stabilization and public-release preparation work is complete. `v0.4.14` adds adoption scenarios and adapter guide guardrails while preserving `SKILL.md` as the fail-closed hard-boundary summary and mandatory router.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.14` stabilization and public-release preparation work is complete. `v0.4.15` clarifies Fast Path reading order and anchor guardrails while preserving `SKILL.md` as the fail-closed hard-boundary summary and mandatory router.
 
-`v0.4.14` is the current documented version. A public release should be created
-only after the release-preparation diff is reviewed, validation passes, and a
-tag such as `v0.4.14` points at the reviewed commit. Normal non-high-risk
+`v0.4.15` is the current documented version. A future public release should be
+created only after the release-preparation diff is reviewed, validation passes,
+and an explicitly authorized tag points at the reviewed commit. Normal non-high-risk
 commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required
 evidence; high-risk and default-exclusion actions still require explicit Owner
 approval.

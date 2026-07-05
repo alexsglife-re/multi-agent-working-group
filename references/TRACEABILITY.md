@@ -1,10 +1,20 @@
 # Progressive References Traceability
 
-This map supports v0.4.13. It is evidence for PM/Advisor/Leader review and does not create authorization.
+This map supports v0.4.15. It is evidence for PM/Advisor/Leader review and does not create authorization.
 
 ## Current SKILL.md Validation Anchors
 
 All current `template_contains "SKILL.md"` hard-boundary anchor phrases remain in `SKILL.md` and remain individually checked by `scripts/validate-local.sh`.
+
+v0.4.15 adds Fast Path / Slow Path reading-order guidance without demoting any
+current `SKILL.md` hard-boundary anchor. Fast Path is a reading-order shortcut
+only; it is not Small Task Mode, does not change role or git-gate requirements,
+and never skips a mandatory reference once a routed domain is touched.
+
+Anchor demotion is not a validation-maintenance shortcut. Moving any current
+`SKILL.md` hard-boundary anchor to a reference file would be an explicit
+boundary change requiring separate review, traceability, and Owner-visible
+authorization.
 
 ## Section Mapping
 
@@ -48,3 +58,17 @@ These boundaries remain in `SKILL.md` and have validation anchors:
   context grows toward rollover pressure when practical.
 - Local validation checks anchor presence and template consistency, not runtime
   compliance with cleanup or delegation behavior.
+
+## Explicit Guardrails Added For v0.4.15
+
+These guardrails remain in `SKILL.md` and have validation anchors:
+
+- Fast Path is a reading-order shortcut only.
+- Fast Path is not Small Task Mode.
+- Fast Path never skips a mandatory reference once a routed domain is touched.
+- Slow Path covers git exits, OpenSpec, CLI trust or model routing, role
+  dispatch or output, rollover or handoff, release or publication, secrets,
+  auth, security, permission, schema, destructive, irreversible, and other
+  default-exclusion work.
+- Current `SKILL.md` hard-boundary anchors remain in `SKILL.md`; anchor
+  demotion requires separate review and Owner-visible authorization.

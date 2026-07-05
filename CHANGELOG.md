@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.15: Fast Path And Anchor Guardrails
+
+- Add Fast Path and Slow Path reading-order guidance to `SKILL.md` without
+  removing current hard-boundary anchors.
+- Clarify that Fast Path is not Small Task Mode, does not change role or
+  git-gate requirements, and never skips a mandatory reference once a routed
+  domain is touched.
+- Add traceability and validation guardrails for no silent `SKILL.md` anchor
+  demotion.
+- Record the current `template_contains "SKILL.md"` anchor baseline of 55 and
+  require closeout evidence that the count did not decrease.
+- Keep v0.4.15 focused on safer reading order and validation guardrails, not
+  broad `SKILL.md` compression, automation, release authorization, or gate
+  reduction.
+
 ### Completed local upgrade for v0.4.14: Adoption Scenarios And Adapter Guardrails
 
 - Add `docs/ADOPTION.md` with scenario guidance for documentation tasks,

@@ -390,6 +390,35 @@ Run these checks for the `v0.4.14` adoption and adapter guardrail set:
   automatic link checking, semantic validation enforcement, or heavier
   `SKILL.md` load.
 
+## v0.4.15 Fast Path And Anchor Guardrail Checks
+
+Run these checks for the `v0.4.15` Fast Path and anchor guardrail set:
+`SKILL.md`, `references/TRACEABILITY.md`, `CHANGELOG.md`, `docs/TODO.md`,
+`docs/ROADMAP.md`, `docs/VALIDATION.md`, `scripts/validate-local.sh`, and the
+OpenSpec change.
+
+- Fast Path is documented as a reading-order shortcut only.
+- Fast Path is explicitly not Small Task Mode and does not remove
+  PM/Advisor/Reviewer, git-gate, or mandatory-reference requirements.
+- Fast Path never skips a mandatory reference once a routed domain is touched.
+- Slow Path covers git exits, OpenSpec, CLI trust or model routing, role
+  dispatch or output, rollover or handoff, release or publication, secrets,
+  auth, security, permission, schema, destructive, irreversible, and other
+  default-exclusion work.
+- Current `SKILL.md` hard-boundary anchors remain in `SKILL.md`; this change
+  does not demote any current `template_contains "SKILL.md"` anchor to a
+  reference file.
+- Anchor demotion is treated as a separate reviewed boundary change requiring
+  traceability and Owner-visible authorization, not as a validation-maintenance
+  shortcut.
+- Local validation records the current `template_contains "SKILL.md"` anchor
+  count of 55 and checks that it has not decreased.
+- Local validation records the current template_contains "SKILL.md" anchor count
+  of 55 as a deterministic no-anchor-loss guardrail.
+- Documentation does not add automation, runtime adapter support claims,
+  release authorization, tag authorization, git-gate reduction, OpenSpec
+  reduction, role-gate reduction, or cleanup-based gate bypass.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.

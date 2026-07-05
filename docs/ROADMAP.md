@@ -23,7 +23,8 @@ Exit criteria:
 ## Stage 2: Examples And Operating Patterns
 
 `v0.4.0` local stabilization through `v0.4.14` Adoption Scenarios And Adapter
-Guardrails are complete.
+Guardrails are complete. `v0.4.15` Fast Path And Anchor Guardrails is in
+progress.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -80,6 +81,9 @@ Exit criteria:
 - `v0.4.14` Adoption Scenarios And Adapter Guardrails is documented without
   adding runtime-specific support claims, automatic publication, GitHub metadata
   mutation, CI, release automation, or heavier `SKILL.md` load.
+- `v0.4.15` Fast Path And Anchor Guardrails is documented without demoting
+  current `SKILL.md` anchors, changing Small Task Mode, reducing role gates,
+  skipping mandatory references, or adding automation.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -139,6 +143,8 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Use `v0.4.14` as the current local documentation baseline. A future `v0.4.14`
-tag or GitHub Release remains an Owner-only publication action; the local
-documentation version does not imply external publication.
+Complete the `v0.4.15` Fast Path And Anchor Guardrails change, then archive it
+after validation, PM plus Advisor plus Reviewer review, and the normal git
+closeout gate. A future `v0.4.15` tag or GitHub Release remains an Owner-only
+publication action; the local documentation version does not imply external
+publication.

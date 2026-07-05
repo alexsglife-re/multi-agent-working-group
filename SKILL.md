@@ -49,6 +49,10 @@ Automatic invocation means applying this workflow and checklist to the task. It 
 
 Scale the workflow to the task size. A narrow small low-risk task may use Small Task Mode only when every Small Task Mode condition is met. Medium or higher work must not be performed by Leader as hidden Worker execution when independent Worker ownership is required.
 
+Fast Path is a reading-order shortcut only: for narrow low-risk or read-only work, start with this `SKILL.md`, project instructions, and only references for domains actually touched. Fast Path is not Small Task Mode, does not remove PM/Advisor/Reviewer or git-gate requirements, and never skips a mandatory reference once a routed domain is touched.
+
+Slow Path applies as soon as the task reaches git exits, OpenSpec, CLI trust or model routing, role dispatch or output, rollover or handoff, release or publication, secrets, auth, security, permission, schema, destructive, irreversible, or other default-exclusion work. In those domains, the action-triggered MUST-read routing above controls before acting.
+
 ## Startup Checklist
 
 Before dispatching agents or acting on a gate:
