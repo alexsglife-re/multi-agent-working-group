@@ -460,7 +460,7 @@ support labels evidence-based.
 - [x] Create `add-cross-runtime-installation-guidance` OpenSpec change.
 - [x] Add proposal, design, spec, and tasks artifacts.
 - [x] Complete C1 PM and Advisor review with no unresolved P0/P1.
-- [ ] Validate and archive the OpenSpec change after implementation and review.
+- [x] Validate and archive the OpenSpec change after implementation and review.
 
 ### Runtime Installation
 
@@ -481,7 +481,7 @@ support labels evidence-based.
   validation docs for v0.4.16.
 - [x] Update local validation anchors for runtime installation guidance and
   support-overclaim prevention.
-- [ ] Run local validation, OpenSpec validation, whitespace checks, and required
+- [x] Run local validation, OpenSpec validation, whitespace checks, and required
   PM plus Advisor plus Reviewer review before git closeout.
 
 ## Later
