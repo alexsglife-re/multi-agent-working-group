@@ -22,8 +22,8 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.14` Adoption Scenarios And Adapter
-Guardrails are complete. `v0.4.15` Fast Path And Anchor Guardrails is in
+`v0.4.0` local stabilization through `v0.4.15` Fast Path And Anchor Guardrails
+are complete. `v0.4.16` Cross-Runtime Installation And Adapter Guardrails is in
 progress.
 
 Goal: make the workflow easier to apply consistently.
@@ -84,6 +84,11 @@ Exit criteria:
 - `v0.4.15` Fast Path And Anchor Guardrails is documented without demoting
   current `SKILL.md` anchors, changing Small Task Mode, reducing role gates,
   skipping mandatory references, or adding automation.
+- `v0.4.16` Cross-Runtime Installation And Adapter Guardrails is documented
+  without claiming Claude Code, OpenClaw, Hermes Agent, or other runtimes are
+  fully supported before validation, without adding automatic installation,
+  plugin packaging, CI, GitHub metadata mutation, tag/release automation, or
+  `SKILL.md` behavior changes.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -143,8 +148,8 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Complete the `v0.4.15` Fast Path And Anchor Guardrails change, then archive it
-after validation, PM plus Advisor plus Reviewer review, and the normal git
-closeout gate. A future `v0.4.15` tag or GitHub Release remains an Owner-only
-publication action; the local documentation version does not imply external
-publication.
+Complete the `v0.4.16` Cross-Runtime Installation And Adapter Guardrails change,
+then archive it after validation, PM plus Advisor plus Reviewer review, and the
+normal git closeout gate. A future `v0.4.16` tag or GitHub Release remains an
+Owner-only publication action; the local documentation version does not imply
+external publication.

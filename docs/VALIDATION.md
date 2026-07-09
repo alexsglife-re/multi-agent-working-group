@@ -419,6 +419,39 @@ OpenSpec change.
   release authorization, tag authorization, git-gate reduction, OpenSpec
   reduction, role-gate reduction, or cleanup-based gate bypass.
 
+## v0.4.16 Cross-Runtime Installation And Adapter Guardrail Checks
+
+Run these checks for the `v0.4.16` runtime installation and adapter guardrail
+set: `README.md`, `docs/INSTALLATION.md`, `docs/RUNTIME_INSTALLATION.md`,
+`docs/ADAPTERS.md`, `CHANGELOG.md`, `docs/TODO.md`, `docs/ROADMAP.md`,
+`docs/VALIDATION.md`, `scripts/validate-local.sh`, and the OpenSpec change.
+
+- README links to runtime installation guidance without adding long install
+  command blocks.
+- `docs/RUNTIME_INSTALLATION.md` documents the bare skill folder shape:
+  `SKILL.md` plus `references/`.
+- `docs/RUNTIME_INSTALLATION.md` states that the repository is not a plugin
+  package and has no automatic installer.
+- Codex remains labeled as the `reference adapter`.
+- Claude Code remains labeled as `adapter guide planned` with install guidance
+  available and validation pending.
+- Claude Code personal and project skill paths are documented as
+  `~/.claude/skills/multi-agent-working-group/` and
+  `.claude/skills/multi-agent-working-group/`.
+- OpenClaw and Hermes Agent remain `adapter guide planned` until real runtime
+  validation exists.
+- Runtime installation commands are distinct from validated runtime adapter
+  guide skeletons; runtime adapter guide skeletons must not appear validated
+  before real runtime testing.
+- Runtime wording still blocks claims that non-Codex runtimes are fully
+  supported before validation evidence exists.
+- Runtime installation guidance repeats that copying the skill does not
+  transfer authorization, workspace trust, validation freshness, role
+  continuity, secret access, or prior-session approval.
+- Documentation does not add automatic installation, plugin packaging, CI,
+  GitHub metadata mutation, tag/release automation, deployment, publication, or
+  `SKILL.md` behavior changes.
+
 ## Skill Checks
 
 Run these checks whenever `SKILL.md` changes.

@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="#quick-start"><img src="https://img.shields.io/badge/Quick_Start-2_min-blue?style=for-the-badge" alt="Quick Start"></a>
-  <a href="docs/ADAPTERS.md"><img src="https://img.shields.io/badge/Adapters-Codex_reference-black?style=for-the-badge" alt="Codex reference adapter"></a>
+  <a href="docs/RUNTIME_INSTALLATION.md"><img src="https://img.shields.io/badge/Runtime_install-Codex%20%2B%20Claude_Code-black?style=for-the-badge" alt="Runtime installation"></a>
   <a href="docs/VALIDATION.md"><img src="https://img.shields.io/badge/Validation-local_checks-green?style=for-the-badge" alt="Local validation"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License"></a>
 </p>
@@ -27,10 +27,11 @@ Use it when you want agents to help with serious work without silently approving
 their own output, losing context across conversations, or turning "looks done"
 into "safe to ship."
 
-This repository ships Codex as the reference packaged adapter. The protocol is
-designed to be adapted to Claude, OpenClaw, Hermes Agent, and other agent
-runtimes, but non-Codex runtimes are adapter guidance or compatible patterns
-until their adapters are validated in real use.
+This repository ships Codex as the reference packaged adapter. Claude Code
+install guidance is available because it can consume a `SKILL.md` folder with
+supporting files. Claude Code, OpenClaw, Hermes Agent, and other non-Codex
+runtimes remain adapter guidance or compatible patterns until their adapters
+are validated in real use.
 
 | Without a working protocol | With Multi-Agent Working Group |
 | --- | --- |
@@ -43,7 +44,7 @@ orchestration and verification, treats agent output as evidence rather than
 authority, and separates local completion, normal git gates, and Owner-only
 exclusions.
 
-> Current local version: `v0.4.15`. `v0.4.15` Fast Path And Anchor Guardrails is in progress on top of the public `v0.4.14` Adoption Scenarios And Adapter Guardrails release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
+> Current local version: `v0.4.16`. `v0.4.16` Cross-Runtime Installation And Adapter Guardrails is in progress on top of the public `v0.4.15` Fast Path And Anchor Guardrails release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## Quick Start
 
@@ -68,7 +69,8 @@ Use the multi-agent-working-group skill for this task.
 ```
 
 For full checkout use, migration, validation, and scenario guidance, see
-`docs/INSTALLATION.md` and `docs/ADOPTION.md`.
+`docs/INSTALLATION.md`, `docs/RUNTIME_INSTALLATION.md`, and
+`docs/ADOPTION.md`.
 
 ## Use Cases
 
@@ -113,7 +115,7 @@ itself:
 
 | Path | Purpose |
 | --- | --- |
-| `SKILL.md` | Codex reference-adapter entry point, hard-boundary summary, and progressive-reference router. |
+| `SKILL.md` | Skill entry point, hard-boundary summary, and progressive-reference router used by the Codex reference adapter and compatible skill-folder runtimes. |
 | `references/` | Progressive reference files that expand `SKILL.md` without weakening its constraints. |
 | `agents/openai.yaml` | Agent-facing metadata used by the Codex adapter bundle. |
 | `LICENSE` | MIT license for public reuse. |
@@ -123,6 +125,7 @@ itself:
 | `CHANGELOG.md` | Local version and stabilization notes. |
 | `docs/ROADMAP.md` | Development priorities and staged project direction. |
 | `docs/INSTALLATION.md` | Local installation, global skill sync, migration, and adoption guidance. |
+| `docs/RUNTIME_INSTALLATION.md` | Copyable Codex and Claude Code install paths plus runtime support boundaries. |
 | `docs/ADAPTERS.md` | Platform adapter status, maturity labels, and runtime mapping checklist. |
 | `docs/ROLE_BOUNDARIES.md` | Working notes for Leader direct execution and role separation. |
 | `docs/VALIDATION.md` | Checklist for reviewing changes before publication. |
@@ -145,8 +148,10 @@ Start with these docs when you need more than the quick path above:
 
 - `docs/ADOPTION.md`: scenario guide for documentation, release preparation,
   long-running work, handoff, and ordinary small tasks.
-- `docs/INSTALLATION.md`: local checkout use, Codex reference-adapter install,
-  global skill sync, and migration boundaries.
+- `docs/INSTALLATION.md`: local checkout use, runtime install links, global
+  skill sync, and migration boundaries.
+- `docs/RUNTIME_INSTALLATION.md`: Codex and Claude Code install paths, plus
+  OpenClaw and Hermes Agent guardrails.
 - `docs/ADAPTERS.md`: adapter maturity labels, mapping checklist, and future
   runtime guide template.
 - `docs/VALIDATION.md`: validation checklist for docs, OpenSpec, release
@@ -220,9 +225,9 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.14` stabilization and public-release preparation work is complete. `v0.4.15` clarifies Fast Path reading order and anchor guardrails while preserving `SKILL.md` as the fail-closed hard-boundary summary and mandatory router.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.15` stabilization and public-release preparation work is complete. `v0.4.16` adds cross-runtime installation guidance while preserving Codex as the reference adapter and keeping non-Codex runtime support claims evidence-based.
 
-`v0.4.15` is the current documented version. A future public release should be
+`v0.4.16` is the current documented version. A future public release should be
 created only after the release-preparation diff is reviewed, validation passes,
 and an explicitly authorized tag points at the reviewed commit. Normal non-high-risk
 commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required

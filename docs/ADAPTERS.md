@@ -22,12 +22,16 @@ Use these labels when documenting runtime support:
 Do not describe a runtime as fully supported until a guide has been tested with
 real read, review, validation, handoff, and git-gate workflows.
 
+Runtime installation commands can exist before full adapter validation. When
+that happens, keep the maturity label conservative and record installation as a
+status note such as "install guidance available; validation pending."
+
 ## Current Adapter Status
 
 | Runtime | Status | Notes |
 | --- | --- | --- |
 | Codex | `reference adapter` | Current packaged form through `SKILL.md`, templates, examples, and local validation. |
-| Claude / Claude Code | `adapter guide planned` | The protocol can map to Claude roles, but a validated standalone adapter guide is not shipped yet. |
+| Claude / Claude Code | `adapter guide planned` | Install guidance is available for the `SKILL.md` plus `references/` folder shape; full adapter validation is still pending. |
 | OpenClaw | `adapter guide planned` | Existing reference notes inform rule-level ideas only; no runtime adapter is packaged. |
 | Hermes Agent | `adapter guide planned` | Target runtime for future adapter documentation. |
 | Other agent runtimes | `compatible pattern` | Use the mapping checklist below before claiming support. |

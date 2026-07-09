@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Completed local upgrade for v0.4.16: Cross-Runtime Installation And Adapter Guardrails
+
+- Add `docs/RUNTIME_INSTALLATION.md` with copyable Codex and Claude Code skill
+  folder install paths.
+- Keep Codex as the reference adapter while labeling Claude Code as
+  `adapter guide planned` with install guidance available and validation
+  pending.
+- Preserve OpenClaw and Hermes Agent as planned adapter guidance until real
+  runtime validation exists.
+- Clarify that the repository is a bare skill folder, not a plugin package.
+- Add validation anchors for runtime installation guidance, non-transferable
+  state, and runtime support overclaim prevention.
+- Keep v0.4.16 focused on documentation and lightweight validation, not
+  automatic installation, plugin packaging, CI, GitHub metadata mutation,
+  tag/release automation, or runtime-specific support claims.
+
 ### Completed local upgrade for v0.4.15: Fast Path And Anchor Guardrails
 
 - Add Fast Path and Slow Path reading-order guidance to `SKILL.md` without

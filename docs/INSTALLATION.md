@@ -1,8 +1,8 @@
 # Installation And Migration
 
 This guide explains how to use Multi-Agent Working Group as a portable workflow
-protocol, how to install the Codex reference adapter, and how to migrate it to
-another machine or project.
+protocol, where runtime-specific installation guidance lives, and how to
+migrate it to another machine or project.
 
 It is documentation-only. It does not create a release, install a package, publish the skill, grant git authorization, or carry active workstream authority into a new place.
 
@@ -21,6 +21,7 @@ what does not transfer when the protocol is copied or installed.
 - A local checkout of this repository.
 - OpenSpec CLI available on the machine where full validation will run.
 - For Codex use: Codex configured to read either this repository's `.codex/skills` entries or the global skill directory.
+- For Claude Code use: Claude Code configured to read a personal or project skill directory. See `docs/RUNTIME_INSTALLATION.md`.
 - For other runtimes: a runtime-specific adapter plan that maps the protocol roles and gates. See `docs/ADAPTERS.md`.
 
 If OpenSpec is not installed, the protocol can still be read and used as a
@@ -53,12 +54,28 @@ For non-Codex runtimes, do not copy the Codex install command blindly. First
 map the runtime using `docs/ADAPTERS.md`, including readable scope, writable
 scope, workspace trust, validation, git gates, handoff, and unsupported actions.
 
+## Runtime Installation
+
+Runtime installation commands live in `docs/RUNTIME_INSTALLATION.md`.
+
+That guide covers:
+
+- Codex global and project-level skill paths;
+- Claude Code personal and project-level skill paths;
+- the bare skill folder shape: `SKILL.md` plus `references/`;
+- why this repository is not a plugin package;
+- OpenClaw and Hermes Agent guardrails.
+
+Installing files into a runtime skill directory is a file-copy operation. It
+does not validate full runtime support and does not transfer authorization,
+workspace trust, validation freshness, role continuity, or secret access.
+
 ## Install The Codex Reference Adapter
 
 Installing the Codex reference adapter means copying the Codex skill entry
 point and its progressive references to a Codex skill directory. It does not
-install adapter support for Claude, OpenClaw, Hermes Agent, or any other
-runtime.
+install adapter support for Claude Code, OpenClaw, Hermes Agent, or any other
+runtime. For Claude Code install paths, use `docs/RUNTIME_INSTALLATION.md`.
 
 Install the Codex reference adapter into the default Codex skill directory:
 

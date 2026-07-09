@@ -429,7 +429,7 @@ Goal: make first-load reading order clearer without reducing the always-loaded
 
 - [x] Create `clarify-fast-path-without-anchor-demotion` OpenSpec change.
 - [x] Add proposal, design, spec, and tasks artifacts.
-- [ ] Validate and archive the OpenSpec change after implementation and review.
+- [x] Validate and archive the OpenSpec change after implementation and review.
 
 ### Skill Rules
 
@@ -447,6 +447,40 @@ Goal: make first-load reading order clearer without reducing the always-loaded
   demotion.
 - [x] Confirm the current `template_contains "SKILL.md"` check count did not
   decrease from the v0.4.14 baseline.
+- [x] Run local validation, OpenSpec validation, whitespace checks, and required
+  PM plus Advisor plus Reviewer review before git closeout.
+
+## v0.4.16: Cross-Runtime Installation And Adapter Guardrails
+
+Goal: document Codex and Claude Code installation paths while keeping runtime
+support labels evidence-based.
+
+### OpenSpec
+
+- [x] Create `add-cross-runtime-installation-guidance` OpenSpec change.
+- [x] Add proposal, design, spec, and tasks artifacts.
+- [x] Complete C1 PM and Advisor review with no unresolved P0/P1.
+- [ ] Validate and archive the OpenSpec change after implementation and review.
+
+### Runtime Installation
+
+- [x] Add `docs/RUNTIME_INSTALLATION.md` with Codex and Claude Code install
+  paths.
+- [x] Keep Claude Code under `adapter guide planned` with install guidance
+  available and validation pending.
+- [x] Keep OpenClaw and Hermes Agent as planned adapter guidance until
+  validation evidence exists.
+- [x] Clarify that the repository is a bare skill folder rather than a plugin
+  package.
+- [x] Preserve non-transferable authority, workspace trust, validation
+  freshness, role continuity, and secret-access boundaries.
+
+### Documentation And Validation
+
+- [x] Update README, installation, adapter, roadmap, TODO, changelog, and
+  validation docs for v0.4.16.
+- [x] Update local validation anchors for runtime installation guidance and
+  support-overclaim prevention.
 - [ ] Run local validation, OpenSpec validation, whitespace checks, and required
   PM plus Advisor plus Reviewer review before git closeout.
 
