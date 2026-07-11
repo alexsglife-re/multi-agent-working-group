@@ -22,9 +22,8 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.15` Fast Path And Anchor Guardrails
-are complete. `v0.4.16` Cross-Runtime Installation And Adapter Guardrails is in
-progress.
+`v0.4.0` local stabilization through `v0.4.16` Cross-Runtime Installation And
+Adapter Guardrails are complete and publicly released.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -148,8 +147,6 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Complete the `v0.4.16` Cross-Runtime Installation And Adapter Guardrails change,
-then archive it after validation, PM plus Advisor plus Reviewer review, and the
-normal git closeout gate. A future `v0.4.16` tag or GitHub Release remains an
-Owner-only publication action; the local documentation version does not imply
-external publication.
+Plan the next change after the published `v0.4.16` Cross-Runtime Installation
+And Adapter Guardrails release. Future tags, GitHub Releases, deployments, and
+publications remain Owner-only actions and require explicit authorization.

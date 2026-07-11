@@ -44,7 +44,7 @@ orchestration and verification, treats agent output as evidence rather than
 authority, and separates local completion, normal git gates, and Owner-only
 exclusions.
 
-> Current local version: `v0.4.16`. `v0.4.16` Cross-Runtime Installation And Adapter Guardrails is in progress on top of the public `v0.4.15` Fast Path And Anchor Guardrails release. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. For now, version tracking lives in `README.md`, `CHANGELOG.md`, and release tags when they are created, while `agents/openai.yaml` remains versionless interface metadata.
+> Current public version: `v0.4.16`. `v0.4.16` adds Cross-Runtime Installation And Adapter Guardrails. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## Quick Start
 
@@ -227,9 +227,7 @@ paths must be removed before publication.
 
 This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.15` stabilization and public-release preparation work is complete. `v0.4.16` adds cross-runtime installation guidance while preserving Codex as the reference adapter and keeping non-Codex runtime support claims evidence-based.
 
-`v0.4.16` is the current documented version. A future public release should be
-created only after the release-preparation diff is reviewed, validation passes,
-and an explicitly authorized tag points at the reviewed commit. Normal non-high-risk
-commits and pushes follow the PM plus Advisor gate in `SKILL.md` with required
-evidence; high-risk and default-exclusion actions still require explicit Owner
-approval.
+`v0.4.16` is the current public version, released on July 9, 2026. Normal
+non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md`
+with required evidence; future high-risk and default-exclusion actions,
+including later tags and releases, still require explicit Owner approval.

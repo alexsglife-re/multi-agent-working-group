@@ -152,13 +152,13 @@ for file in "${version_files[@]}"; do
   fi
 done
 
-if [[ -f "README.md" ]] && contains "README.md" "Current local version: \`$VERSION\`"; then
+if [[ -f "README.md" ]] && contains "README.md" "Current public version: \`$VERSION\`"; then
   pass "README.md current version marker"
 else
   fail "README.md current version marker"
 fi
 
-if [[ -f "CHANGELOG.md" ]] && contains "CHANGELOG.md" "Completed local upgrade for $VERSION"; then
+if [[ -f "CHANGELOG.md" ]] && contains "CHANGELOG.md" "Published $VERSION on July 9, 2026"; then
   pass "CHANGELOG.md current upgrade marker"
 else
   fail "CHANGELOG.md current upgrade marker"

@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Completed local upgrade for v0.4.16: Cross-Runtime Installation And Adapter Guardrails
+### Published v0.4.16 on July 9, 2026: Cross-Runtime Installation And Adapter Guardrails
 
 - Add `docs/RUNTIME_INSTALLATION.md` with copyable Codex and Claude Code skill
   folder install paths.
