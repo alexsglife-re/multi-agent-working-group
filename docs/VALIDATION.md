@@ -541,8 +541,8 @@ Run these checks whenever `agents/openai.yaml` changes.
 
 ## v0.4.17 Role Review Context Efficiency Checks
 
-- Public version is `v0.4.16`; development version is `v0.4.17`. A development marker is not release evidence.
-- Negative checks reject a README current-public marker for v0.4.17, a CHANGELOG `Published v0.4.17` heading, and a ROADMAP statement that v0.4.17 is the current public version while allowing explicit in-development wording.
+- Public version is `v0.4.17`, published on July 12, 2026; no next development version is declared.
+- Deterministic checks require matching v0.4.17 public-version, changelog publication, roadmap, and completed TODO markers.
 - `SKILL.md` routes context-efficient PM/Advisor work to `references/review-context-efficiency.md` and retains the fail-closed quality boundary.
 - Deterministic anchors cover fresh short-lived sessions, stable baseline plus incremental evidence, conclusion-free factual manifests, and separate no-peek PM/Advisor packets.
 - PM and Advisor packets use separate no-peek inputs derived from a conclusion-free manifest.

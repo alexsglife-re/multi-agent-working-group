@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PUBLIC_VERSION="v0.4.16"
-DEVELOPMENT_VERSION="v0.4.17"
-PUBLIC_UPGRADE_TITLE="Cross-Runtime Installation And Adapter Guardrails"
-DEVELOPMENT_UPGRADE_TITLE="Role Review Context Efficiency"
+PUBLIC_VERSION="v0.4.17"
+DEVELOPMENT_VERSION=""
+PUBLIC_UPGRADE_TITLE="Role Review Context Efficiency"
+DEVELOPMENT_UPGRADE_TITLE=""
+PUBLICATION_DATE="July 12, 2026"
 CURRENT_VALIDATION_TITLE="Role Review Context Efficiency Checks"
 SKILL_ANCHOR_BASELINE=57
 TEMPLATE_VERSION="v0.4.13"
@@ -166,25 +167,25 @@ else
   fail "README.md current version marker"
 fi
 
-if [[ -f "CHANGELOG.md" ]] && contains "CHANGELOG.md" "Published $PUBLIC_VERSION on July 9, 2026"; then
+if [[ -f "CHANGELOG.md" ]] && contains "CHANGELOG.md" "Published $PUBLIC_VERSION on $PUBLICATION_DATE: $PUBLIC_UPGRADE_TITLE"; then
   pass "CHANGELOG.md current upgrade marker"
 else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $DEVELOPMENT_VERSION: $DEVELOPMENT_UPGRADE_TITLE (In Development)"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $PUBLIC_VERSION: $PUBLIC_UPGRADE_TITLE (Published $PUBLICATION_DATE)"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$PUBLIC_VERSION\` $PUBLIC_UPGRADE_TITLE is the current public version"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $DEVELOPMENT_VERSION $CURRENT_VALIDATION_TITLE"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $PUBLIC_VERSION $CURRENT_VALIDATION_TITLE"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
@@ -549,21 +550,23 @@ template_contains "templates/advisor-review.md" "Owner-decision needs:" "Advisor
 template_contains "templates/advisor-review.md" "Recommended next action:" "Advisor template records next action"
 template_contains "templates/advisor-review.md" "Concise rationale:" "Advisor template records rationale"
 template_contains "templates/review-invocation-record.md" "Parent Attempt ID" "Invocation template links retries"
-template_contains "README.md" "Development target: \`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE" "README states development target separately"
-if contains "README.md" "Current public version: \`$DEVELOPMENT_VERSION\`"; then
-  fail "README does not falsely claim development version is public"
+template_contains "README.md" "Current public version: \`$PUBLIC_VERSION\`" "README states current public version"
+template_contains "README.md" "\`$PUBLIC_VERSION\` is the current public version, released on $PUBLICATION_DATE" "README states public release date"
+template_contains "CHANGELOG.md" "Published $PUBLIC_VERSION on $PUBLICATION_DATE: $PUBLIC_UPGRADE_TITLE" "CHANGELOG states current publication"
+template_contains "docs/ROADMAP.md" "\`$PUBLIC_VERSION\` $PUBLIC_UPGRADE_TITLE is the current public version" "ROADMAP states current public version"
+if [[ -n "$DEVELOPMENT_VERSION" ]]; then
+  template_contains "README.md" "Development target: \`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE" "README states development target separately"
 else
-  pass "README does not falsely claim development version is public"
-fi
-if contains "CHANGELOG.md" "Published $DEVELOPMENT_VERSION"; then
-  fail "CHANGELOG does not falsely claim development version is published"
-else
-  pass "CHANGELOG does not falsely claim development version is published"
-fi
-if contains "docs/ROADMAP.md" "\`$DEVELOPMENT_VERSION\` is the current public version"; then
-  fail "ROADMAP does not falsely claim development version is public"
-else
-  pass "ROADMAP does not falsely claim development version is public"
+  undeclared_development_marker=0
+  for version_file in README.md CHANGELOG.md docs/ROADMAP.md docs/TODO.md docs/VALIDATION.md; do
+    if grep -Eiq 'Development target:[[:space:]]*`?v[0-9]+\.[0-9]+\.[0-9]+|next development version([[:space:]]+is|:)[[:space:]]*`?v[0-9]+\.[0-9]+\.[0-9]+' "$version_file"; then
+      fail "$version_file does not declare an unconfigured development version"
+      undeclared_development_marker=1
+    fi
+  done
+  if [[ "$undeclared_development_marker" -eq 0 ]]; then
+    pass "No next development version declared"
+  fi
 fi
 template_contains "SKILL.md" "Fast Path is a reading-order shortcut only" "SKILL.md defines Fast Path as reading-order only"
 template_contains "SKILL.md" "Fast Path is not Small Task Mode" "SKILL.md separates Fast Path from Small Task Mode"

@@ -1,6 +1,6 @@
 # Runtime Adapters
 
-The v0.4.17 development target adds portable review-packet rules only. It does not upgrade an adapter maturity label or claim new runtime validation; the current public version remains v0.4.16.
+The v0.4.17 release adds portable review-packet rules only. It does not upgrade an adapter maturity label or claim new runtime validation.
 
 Multi-Agent Working Group is a portable workflow protocol. A runtime adapter is
 the concrete way a specific agent environment applies that protocol.

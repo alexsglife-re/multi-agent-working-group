@@ -1,6 +1,6 @@
 # Role Review Context Efficiency Draft
 
-Status: Adopted non-normative overview for the v0.4.17 development target. The authoritative implemented rule lives in `SKILL.md` and `references/review-context-efficiency.md`; this historical filename is retained for traceability. This overview never grants authorization.
+Status: Adopted non-normative overview for the published v0.4.17 release. The authoritative implemented rule lives in `SKILL.md` and `references/review-context-efficiency.md`; this historical filename is retained for traceability. This overview never grants authorization.
 
 ## Purpose
 

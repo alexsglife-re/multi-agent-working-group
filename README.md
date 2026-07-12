@@ -44,9 +44,7 @@ orchestration and verification, treats agent output as evidence rather than
 authority, and separates local completion, normal git gates, and Owner-only
 exclusions.
 
-> Current public version: `v0.4.16`. `v0.4.16` adds Cross-Runtime Installation And Adapter Guardrails. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
-
-Development target: `v0.4.17` Role Review Context Efficiency. This development marker does not claim a v0.4.17 tag, release, or publication.
+> Current public version: `v0.4.17`. `v0.4.17` adds Role Review Context Efficiency. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## Quick Start
 
@@ -188,7 +186,7 @@ After an OpenSpec-backed change is archived, use closeout mode:
 
 The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, template and reference anchors, and the installed global skill plus required references when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, git gate requirements, or runtime compliance with cleanup/delegation behavior.
 
-For v0.4.17 development, validation keeps public v0.4.16 separate from development v0.4.17. Context-efficiency checks prove markers and template structure, not runtime compliance, actual token savings, or review quality.
+For v0.4.17, context-efficiency checks prove markers and template structure, not runtime compliance, actual token savings, or review quality.
 
 ## Development Principles
 
@@ -229,9 +227,9 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.15` stabilization and public-release preparation work is complete. `v0.4.16` adds cross-runtime installation guidance while preserving Codex as the reference adapter and keeping non-Codex runtime support claims evidence-based.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. The `v0.4.0` through `v0.4.16` stabilization and public-release preparation work is complete. `v0.4.17` adds context-efficient PM and Advisor review packets while preserving review capability, independent no-peek review, and original-evidence access.
 
-`v0.4.16` is the current public version, released on July 9, 2026. Normal
+`v0.4.17` is the current public version, released on July 12, 2026. Normal
 non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md`
 with required evidence; future high-risk and default-exclusion actions,
 including later tags and releases, still require explicit Owner approval.

@@ -450,15 +450,15 @@ Goal: make first-load reading order clearer without reducing the always-loaded
 - [x] Run local validation, OpenSpec validation, whitespace checks, and required
   PM plus Advisor plus Reviewer review before git closeout.
 
-## v0.4.17: Role Review Context Efficiency (In Development)
+## v0.4.17: Role Review Context Efficiency (Published July 12, 2026)
 
 - [x] Add stable-baseline plus incremental PM and Advisor packet rules.
 - [x] Preserve no-peek first passes and original-evidence access.
 - [x] Add review identity, invocation states, and safe linked retry guidance.
-- [x] Keep public v0.4.16 separate from development v0.4.17.
-- [ ] Complete independent review, git closeout, OpenSpec archive, and archive validation.
+- [x] Keep public v0.4.16 separate during development, then promote v0.4.17 only after explicit Owner release authorization.
+- [x] Complete independent review, git closeout, OpenSpec archive, and archive validation.
 
-This development target is not tag, release, or publication authorization.
+The completed release does not authorize any future tag, release, deployment, or publication.
 
 ## v0.4.16: Cross-Runtime Installation And Adapter Guardrails
 

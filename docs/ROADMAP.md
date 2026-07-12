@@ -22,8 +22,8 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.16` Cross-Runtime Installation And
-Adapter Guardrails are complete and publicly released.
+`v0.4.0` local stabilization through `v0.4.17` Role Review Context Efficiency
+are complete and publicly released.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -88,6 +88,10 @@ Exit criteria:
   fully supported before validation, without adding automatic installation,
   plugin packaging, CI, GitHub metadata mutation, tag/release automation, or
   `SKILL.md` behavior changes.
+- `v0.4.17` Role Review Context Efficiency is documented with stable-baseline
+  plus incremental review packets, fresh short-lived sessions, no-peek input
+  separation, original-evidence access, and safe linked retry handling without
+  reducing PM/Advisor capability, review frequency, or existing gates.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -147,7 +151,8 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Develop `v0.4.17` Role Review Context Efficiency after the published `v0.4.16`
-release. The current public version remains v0.4.16; v0.4.17 is a development
-target only. Future tags, GitHub Releases, deployments, and publications remain
-Owner-only actions and require explicit authorization.
+`v0.4.17` Role Review Context Efficiency is the current public version, released
+on July 12, 2026. It adds context-efficient role review without reducing
+PM/Advisor capability, review scope, independent no-peek review, or access to
+task-relevant original evidence. Future tags, GitHub Releases, deployments, and
+publications remain Owner-only actions and require explicit authorization.
