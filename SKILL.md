@@ -22,6 +22,9 @@ Read the relevant reference before acting in these domains:
 - CLI trust/model routing: MUST read `references/cli-trust.md` before relying on Claude CLI, Codex CLI, another CLI-based role, workspace trust setup, or PM/Advisor model-separation state.
 - Rollover/handoff: MUST read `references/context-rollover.md` before context rollover, handoff, successor startup, continuity recovery, or relying on prior state.
 - Role output/templates: MUST read `references/role-templates-and-output.md` before dispatching PM, Advisor, Worker, Reviewer, accepting role output, creating startup packets, or producing final closeout summaries.
+- Context-efficient role review: MUST read `references/review-context-efficiency.md` before preparing, dispatching, retrying, or accepting a stable-baseline plus incremental PM or Advisor review packet.
+
+Context efficiency may remove repeated material only. It must not reduce PM/Advisor provider or model capability, required review frequency or scope, no-peek independence, task-relevant original-evidence access, gate coverage, lifecycle patience, or Leader verification.
 
 ## Advisor Minimum Permissions
 

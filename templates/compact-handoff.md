@@ -87,6 +87,15 @@ PM/Advisor continuity:
       active | waiting | progress-check-needed | exceeded | blocked | complete
     Closure/restart reason, if any:
   Continuity:
+  Context-efficient review identity:
+    Review ID:
+    PM Attempt ID / packet fingerprint / state:
+    Advisor Attempt ID / packet fingerprint / state:
+    Stable baseline and incremental target:
+    Result location:
+    Retry decision / parent Attempt ID:
+    If result-unknown, available evidence and unresolved gate:
+      <do not blindly retry>
 
 Worker lifecycle patience:
   Substantive Worker active:

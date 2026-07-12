@@ -450,6 +450,16 @@ Goal: make first-load reading order clearer without reducing the always-loaded
 - [x] Run local validation, OpenSpec validation, whitespace checks, and required
   PM plus Advisor plus Reviewer review before git closeout.
 
+## v0.4.17: Role Review Context Efficiency (In Development)
+
+- [x] Add stable-baseline plus incremental PM and Advisor packet rules.
+- [x] Preserve no-peek first passes and original-evidence access.
+- [x] Add review identity, invocation states, and safe linked retry guidance.
+- [x] Keep public v0.4.16 separate from development v0.4.17.
+- [ ] Complete independent review, git closeout, OpenSpec archive, and archive validation.
+
+This development target is not tag, release, or publication authorization.
+
 ## v0.4.16: Cross-Runtime Installation And Adapter Guardrails
 
 Goal: document Codex and Claude Code installation paths while keeping runtime

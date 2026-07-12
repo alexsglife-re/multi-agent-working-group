@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### In development for v0.4.17: Role Review Context Efficiency
+
+- Add stable-baseline plus incremental PM and Advisor packets, fresh short-lived sessions, original-evidence access, and no-peek isolation.
+- Add Review ID, Attempt ID, packet fingerprint, invocation states, and no-blind-retry rules.
+- Preserve capability, frequency, gates, lifecycle patience, provider separation, and Leader verification.
+- Keep `v0.4.16` as the current public version; this entry does not authorize or claim v0.4.17 publication.
+
 ### Published v0.4.16 on July 9, 2026: Cross-Runtime Installation And Adapter Guardrails
 
 - Add `docs/RUNTIME_INSTALLATION.md` with copyable Codex and Claude Code skill

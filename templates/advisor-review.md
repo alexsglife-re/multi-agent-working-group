@@ -9,6 +9,18 @@ Role:
 Review type:
   first-pass critique | scope challenge | pre-commit gate | post-commit review | pre-push gate | post-push review | closeout
 
+Context-efficient review identity:
+  Review ID:
+  Attempt ID:
+  Parent Attempt ID:
+  Packet fingerprint:
+  Invocation state:
+    prepared | running | completed | failed-confirmed | result-unknown | superseded
+  Stable baseline anchor:
+  Incremental evidence target:
+  Conclusions intentionally withheld:
+    PM conclusions | none
+
 Independence state:
   Reviewed before PM conclusions:
     yes | no | not applicable
@@ -81,5 +93,15 @@ Owner-decision needs:
   none | <plain-language decision needed>
 
 Advisor conclusion:
-  <no unresolved P0/P1 and next gate can proceed | blocked because ...>
+  GO | NO-GO | BLOCKED-EVIDENCE
+Evidence gaps:
+  - none | ...
+Required corrections:
+  - none | ...
+Recommended next action:
+  ...
+Concise rationale:
+  ...
 ```
+
+This packet is an index and starting point, not a restriction or substitute for original evidence. Inspect any task-relevant original evidence within the approved scope when needed.

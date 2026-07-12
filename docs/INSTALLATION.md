@@ -1,5 +1,7 @@
 # Installation And Migration
 
+Development note: v0.4.17 adds role-review context-efficiency documentation and templates without changing runtime installation paths or adapter maturity. The current public version remains v0.4.16 until separately authorized publication.
+
 This guide explains how to use Multi-Agent Working Group as a portable workflow
 protocol, where runtime-specific installation guidance lives, and how to
 migrate it to another machine or project.

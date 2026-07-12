@@ -10,6 +10,8 @@ Version: v0.4.13 recommended templates.
 - A filled template is evidence, not authority.
 - Do not treat a template as PM approval, Advisor approval, Reviewer approval, validation success, commit authorization, push authorization, release approval, deployment approval, or secret access approval.
 - Keep filled templates current and compact.
+- Use `review-factual-manifest.md` for shared conclusion-free facts and `review-invocation-record.md` for Review ID, Attempt ID, packet fingerprint, lifecycle state, and linked retry evidence.
+- PM and Advisor packets remain separate for independent no-peek first passes and remain indexes rather than restrictions on original evidence.
 - Move bulky detail into evidence references when safe local storage exists.
 - Preserve unresolved P0/P1, owner-decision needs, validation freshness, stop conditions, and git authorization state.
 - Treat rollover templates as continuity evidence only; successor startup packet != automatic thread creation.

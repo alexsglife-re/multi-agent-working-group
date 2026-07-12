@@ -11,6 +11,14 @@ Target:
   Remote:
   Commit or range:
 
+Context-efficient review identity:
+  Review ID:
+  PM Attempt ID / packet fingerprint / state:
+  Advisor Attempt ID / packet fingerprint / state:
+  Stable baseline and incremental target:
+  Any result-unknown attempt:
+    none | <identity, available evidence, unresolved gate; do not blindly retry>
+
 Owner authorization state:
   <owner-requested normal work | explicit owner approval | not authorized | high-risk owner approval required>
 
@@ -34,6 +42,8 @@ PM review:
   Source freshness/current verification:
   P0:
   P1:
+  P2:
+  Evidence gaps:
   Conclusion:
 
 Advisor review:
@@ -43,6 +53,8 @@ Advisor review:
   Separation/diversity status:
   P0:
   P1:
+  P2:
+  Evidence gaps:
   Conclusion:
 
 Reviewer status:

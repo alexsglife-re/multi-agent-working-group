@@ -1,5 +1,7 @@
 # Progressive References Traceability
 
+The v0.4.17 development target adds two always-loaded `SKILL.md` anchors: mandatory routing to `references/review-context-efficiency.md` and the fail-closed quality-preservation boundary. Detailed packet, evidence-access, identity, state, and retry rules live in that reference; templates and local validation retain the corresponding fields and checks. This wording does not claim that v0.4.17 is the current public release.
+
 This map supports v0.4.15. It is evidence for PM/Advisor/Leader review and does not create authorization.
 
 ## Current SKILL.md Validation Anchors

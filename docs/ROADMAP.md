@@ -147,6 +147,7 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-Plan the next change after the published `v0.4.16` Cross-Runtime Installation
-And Adapter Guardrails release. Future tags, GitHub Releases, deployments, and
-publications remain Owner-only actions and require explicit authorization.
+Develop `v0.4.17` Role Review Context Efficiency after the published `v0.4.16`
+release. The current public version remains v0.4.16; v0.4.17 is a development
+target only. Future tags, GitHub Releases, deployments, and publications remain
+Owner-only actions and require explicit authorization.

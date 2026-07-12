@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="v0.4.16"
-CURRENT_UPGRADE_TITLE="Cross-Runtime Installation And Adapter Guardrails"
-CURRENT_VALIDATION_TITLE="Cross-Runtime Installation And Adapter Guardrail Checks"
-SKILL_ANCHOR_BASELINE=55
+PUBLIC_VERSION="v0.4.16"
+DEVELOPMENT_VERSION="v0.4.17"
+PUBLIC_UPGRADE_TITLE="Cross-Runtime Installation And Adapter Guardrails"
+DEVELOPMENT_UPGRADE_TITLE="Role Review Context Efficiency"
+CURRENT_VALIDATION_TITLE="Role Review Context Efficiency Checks"
+SKILL_ANCHOR_BASELINE=57
 TEMPLATE_VERSION="v0.4.13"
 REQUIRED_ACCEPTED_SPECS=(
   "adoption-guidance"
@@ -15,6 +17,7 @@ REQUIRED_ACCEPTED_SPECS=(
   "local-validation-tool"
   "platform-adapter-guidance"
   "role-boundary-stabilization"
+  "role-review-context-efficiency"
 )
 REQUIRED_REFERENCES=(
   "references/TRACEABILITY.md"
@@ -23,11 +26,14 @@ REQUIRED_REFERENCES=(
   "references/git-exit-rules.md"
   "references/openspec-lifecycle.md"
   "references/role-templates-and-output.md"
+  "references/review-context-efficiency.md"
 )
 ROLLOVER_SPEC="leader-rollover-protocol"
 ROLLOVER_CHANGE="openspec/changes/add-rollover-opportunity-protocol/specs/leader-rollover-protocol/spec.md"
 AGENT_CLEANUP_SPEC="agent-cleanup-discipline"
 AGENT_CLEANUP_CHANGE="openspec/changes/add-leader-delegation-and-cleanup-discipline/specs/agent-cleanup-discipline/spec.md"
+ROLE_REVIEW_CONTEXT_SPEC="role-review-context-efficiency"
+ROLE_REVIEW_CONTEXT_CHANGE="openspec/changes/optimize-role-review-context-efficiency/specs/role-review-context-efficiency/spec.md"
 ADOPTION_GUIDANCE_SPEC="adoption-guidance"
 ADOPTION_GUIDANCE_CHANGE="openspec/changes/add-adoption-scenarios-and-adapter-guardrails/specs/adoption-guidance/spec.md"
 REQUIRED_TEMPLATES=(
@@ -39,6 +45,8 @@ REQUIRED_TEMPLATES=(
   "templates/git-gate.md"
   "templates/pm-review.md"
   "templates/reviewer-report.md"
+  "templates/review-factual-manifest.md"
+  "templates/review-invocation-record.md"
   "templates/successor-startup-packet.md"
   "templates/worker-assignment.md"
   "templates/worker-return.md"
@@ -152,31 +160,31 @@ for file in "${version_files[@]}"; do
   fi
 done
 
-if [[ -f "README.md" ]] && contains "README.md" "Current public version: \`$VERSION\`"; then
+if [[ -f "README.md" ]] && contains "README.md" "Current public version: \`$PUBLIC_VERSION\`"; then
   pass "README.md current version marker"
 else
   fail "README.md current version marker"
 fi
 
-if [[ -f "CHANGELOG.md" ]] && contains "CHANGELOG.md" "Published $VERSION on July 9, 2026"; then
+if [[ -f "CHANGELOG.md" ]] && contains "CHANGELOG.md" "Published $PUBLIC_VERSION on July 9, 2026"; then
   pass "CHANGELOG.md current upgrade marker"
 else
   fail "CHANGELOG.md current upgrade marker"
 fi
 
-if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $VERSION: $CURRENT_UPGRADE_TITLE"; then
+if [[ -f "docs/TODO.md" ]] && contains "docs/TODO.md" "## $DEVELOPMENT_VERSION: $DEVELOPMENT_UPGRADE_TITLE (In Development)"; then
   pass "docs/TODO.md current version section"
 else
   fail "docs/TODO.md current version section"
 fi
 
-if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$VERSION\` $CURRENT_UPGRADE_TITLE"; then
+if [[ -f "docs/ROADMAP.md" ]] && contains "docs/ROADMAP.md" "\`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE"; then
   pass "docs/ROADMAP.md current version marker"
 else
   fail "docs/ROADMAP.md current version marker"
 fi
 
-if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $VERSION $CURRENT_VALIDATION_TITLE"; then
+if [[ -f "docs/VALIDATION.md" ]] && contains "docs/VALIDATION.md" "## $DEVELOPMENT_VERSION $CURRENT_VALIDATION_TITLE"; then
   pass "docs/VALIDATION.md current validation section"
 else
   fail "docs/VALIDATION.md current validation section"
@@ -189,7 +197,9 @@ else
 fi
 
 for spec in "${REQUIRED_ACCEPTED_SPECS[@]}"; do
-  if [[ "$spec" == "$ADOPTION_GUIDANCE_SPEC" && "$require_no_active_changes" -eq 0 && -f "$ADOPTION_GUIDANCE_CHANGE" ]]; then
+  if [[ "$spec" == "$ROLE_REVIEW_CONTEXT_SPEC" && "$require_no_active_changes" -eq 0 && -f "$ROLE_REVIEW_CONTEXT_CHANGE" ]]; then
+    pass "active spec delta exists: $spec"
+  elif [[ "$spec" == "$ADOPTION_GUIDANCE_SPEC" && "$require_no_active_changes" -eq 0 && -f "$ADOPTION_GUIDANCE_CHANGE" ]]; then
     pass "active spec delta exists: $spec"
   elif [[ -f "openspec/specs/$spec/spec.md" ]]; then
     pass "accepted spec exists: $spec"
@@ -491,12 +501,69 @@ template_contains "SKILL.md" "Automatic invocation means applying this workflow 
 template_contains "README.md" "Completion summaries and next-goal recommendations are reporting aids only" "README blocks closeout authorization"
 template_contains "SKILL.md" "Role-agent cleanup or close actions run sequentially" "SKILL.md describes sequential cleanup"
 template_contains "SKILL.md" "More than 2 files or roughly 80 diff lines is a self-check" "SKILL.md describes Leader budget self-check"
+template_contains "SKILL.md" 'MUST read `references/review-context-efficiency.md`' "SKILL.md routes context-efficient role review"
+template_contains "SKILL.md" "Context efficiency may remove repeated material only" "SKILL.md preserves context-efficiency quality boundary"
 template_contains "README.md" "automatically create successor conversations, spawn Workers, measure diff" "README blocks automation creep"
 skill_anchor_count="$(grep -cE '^[[:space:]]*template_contains "SKILL[.]md"' scripts/validate-local.sh)"
 if [[ "$skill_anchor_count" -ge "$SKILL_ANCHOR_BASELINE" ]]; then
   pass "SKILL.md anchor check count not reduced"
 else
   fail "SKILL.md anchor check count not reduced"
+fi
+template_contains "references/review-context-efficiency.md" "The packet is an index and starting point, not a restriction or substitute for original evidence" "Context-efficiency reference preserves original evidence access"
+template_contains "references/review-context-efficiency.md" "fresh short-lived session for each distinct first-pass" "Context-efficiency reference requires short-lived sessions"
+template_contains "references/review-context-efficiency.md" "stable baseline and accepted anchor" "Context-efficiency reference records stable baseline"
+template_contains "references/review-context-efficiency.md" "current delta" "Context-efficiency reference records incremental evidence"
+template_contains "references/review-context-efficiency.md" "conclusion-free factual manifest" "Context-efficiency reference isolates factual manifest conclusions"
+template_contains "references/review-context-efficiency.md" "derive separate PM and Advisor packets" "Context-efficiency reference separates PM Advisor packets"
+template_contains "references/review-context-efficiency.md" 'prepared`, `running`, `completed`, `failed-confirmed`, `result-unknown`, and `superseded' "Context-efficiency reference lists invocation states"
+template_contains "references/review-context-efficiency.md" "Do not blindly repeat the same Review ID and packet fingerprint" "Context-efficiency reference blocks blind retry"
+template_contains "templates/review-factual-manifest.md" "Stable baseline anchor:" "Factual manifest records stable baseline"
+template_contains "templates/review-factual-manifest.md" "Current commit or diff:" "Factual manifest records incremental target"
+template_contains "templates/review-factual-manifest.md" "none; this manifest is conclusion-free" "Factual manifest excludes role conclusions"
+template_contains "templates/pm-review.md" "Advisor conclusions | none" "PM packet withholds Advisor conclusions"
+template_contains "templates/advisor-review.md" "PM conclusions | none" "Advisor packet withholds PM conclusions"
+template_contains "templates/review-invocation-record.md" "Review ID:" "Invocation template records Review ID"
+template_contains "templates/review-invocation-record.md" "Attempt ID:" "Invocation template records Attempt ID"
+template_contains "templates/review-invocation-record.md" "Packet fingerprint:" "Invocation template records packet fingerprint"
+template_contains "templates/pm-review.md" "GO | NO-GO | BLOCKED-EVIDENCE" "PM template preserves complete decision status"
+template_contains "templates/advisor-review.md" "GO | NO-GO | BLOCKED-EVIDENCE" "Advisor template preserves complete decision status"
+template_contains "templates/pm-review.md" "P0:" "PM context-efficient output records P0"
+template_contains "templates/pm-review.md" "P1:" "PM context-efficient output records P1"
+template_contains "templates/pm-review.md" "P2:" "PM context-efficient output records P2"
+template_contains "templates/advisor-review.md" "P0:" "Advisor context-efficient output records P0"
+template_contains "templates/advisor-review.md" "P1:" "Advisor context-efficient output records P1"
+template_contains "templates/advisor-review.md" "P2:" "Advisor context-efficient output records P2"
+template_contains "templates/pm-review.md" "Evidence inspected:" "PM template records inspected evidence"
+template_contains "templates/pm-review.md" "Evidence gaps:" "PM template records evidence gaps"
+template_contains "templates/pm-review.md" "Validation freshness:" "PM template records validation freshness"
+template_contains "templates/pm-review.md" "Required corrections:" "PM template records corrections"
+template_contains "templates/pm-review.md" "Owner-decision needs:" "PM template records Owner decision needs"
+template_contains "templates/pm-review.md" "Recommended next action:" "PM template records next action"
+template_contains "templates/pm-review.md" "Concise rationale:" "PM template records rationale"
+template_contains "templates/advisor-review.md" "Evidence inspected:" "Advisor template records inspected evidence"
+template_contains "templates/advisor-review.md" "Evidence gaps:" "Advisor template records evidence gaps"
+template_contains "templates/advisor-review.md" "Validation freshness:" "Advisor template records validation freshness"
+template_contains "templates/advisor-review.md" "Required corrections:" "Advisor template records corrections"
+template_contains "templates/advisor-review.md" "Owner-decision needs:" "Advisor template records Owner decision needs"
+template_contains "templates/advisor-review.md" "Recommended next action:" "Advisor template records next action"
+template_contains "templates/advisor-review.md" "Concise rationale:" "Advisor template records rationale"
+template_contains "templates/review-invocation-record.md" "Parent Attempt ID" "Invocation template links retries"
+template_contains "README.md" "Development target: \`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE" "README states development target separately"
+if contains "README.md" "Current public version: \`$DEVELOPMENT_VERSION\`"; then
+  fail "README does not falsely claim development version is public"
+else
+  pass "README does not falsely claim development version is public"
+fi
+if contains "CHANGELOG.md" "Published $DEVELOPMENT_VERSION"; then
+  fail "CHANGELOG does not falsely claim development version is published"
+else
+  pass "CHANGELOG does not falsely claim development version is published"
+fi
+if contains "docs/ROADMAP.md" "\`$DEVELOPMENT_VERSION\` is the current public version"; then
+  fail "ROADMAP does not falsely claim development version is public"
+else
+  pass "ROADMAP does not falsely claim development version is public"
 fi
 template_contains "SKILL.md" "Fast Path is a reading-order shortcut only" "SKILL.md defines Fast Path as reading-order only"
 template_contains "SKILL.md" "Fast Path is not Small Task Mode" "SKILL.md separates Fast Path from Small Task Mode"

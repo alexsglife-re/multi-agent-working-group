@@ -52,6 +52,15 @@ PM/Advisor lifecycle patience:
   Closure/restart rule:
     do not close for short silence; require concrete lifecycle reason
 
+Context-efficient review plan:
+  Review ID:
+  Stable baseline anchor:
+  Incremental evidence target:
+  PM Attempt ID / packet fingerprint / state:
+  Advisor Attempt ID / packet fingerprint / state:
+  Result-unknown handling:
+    inspect process/output/CLI evidence; do not blindly retry
+
 CLI workspace trust:
   Needed:
   Status:

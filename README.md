@@ -46,6 +46,8 @@ exclusions.
 
 > Current public version: `v0.4.16`. `v0.4.16` adds Cross-Runtime Installation And Adapter Guardrails. Public release tags should point at reviewed commits; documentation version text alone is not a release, deployment, or external publication claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
 
+Development target: `v0.4.17` Role Review Context Efficiency. This development marker does not claim a v0.4.17 tag, release, or publication.
+
 ## Quick Start
 
 Use the protocol when a task benefits from independent critique, delegated work,
@@ -185,6 +187,8 @@ After an OpenSpec-backed change is archived, use closeout mode:
 ```
 
 The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, template and reference anchors, and the installed global skill plus required references when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, git gate requirements, or runtime compliance with cleanup/delegation behavior.
+
+For v0.4.17 development, validation keeps public v0.4.16 separate from development v0.4.17. Context-efficiency checks prove markers and template structure, not runtime compliance, actual token savings, or review quality.
 
 ## Development Principles
 

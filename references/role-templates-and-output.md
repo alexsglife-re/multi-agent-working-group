@@ -1,5 +1,7 @@
 # Role Templates And Output Reference
 
+For stable-baseline plus incremental PM or Advisor packets, also read `references/review-context-efficiency.md`. Use a conclusion-free factual manifest, separate no-peek role packets, and an invocation record; compact packets remain evidence indexes rather than original-evidence restrictions.
+
 This file extends `SKILL.md`. It cannot weaken `SKILL.md`, cannot override `SKILL.md`, and grants no authorization by itself. If this file conflicts with `SKILL.md`, project rules, or Owner instructions, use the stricter rule.
 
 Read this reference before dispatching PM, Advisor, Worker, or Reviewer roles, accepting role output, creating startup packets, or producing final closeout summaries.

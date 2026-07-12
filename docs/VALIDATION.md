@@ -539,6 +539,20 @@ Run these checks whenever `agents/openai.yaml` changes.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.
 - Any unresolved risk or missing validation is documented before entering the applicable commit gate.
 
+## v0.4.17 Role Review Context Efficiency Checks
+
+- Public version is `v0.4.16`; development version is `v0.4.17`. A development marker is not release evidence.
+- Negative checks reject a README current-public marker for v0.4.17, a CHANGELOG `Published v0.4.17` heading, and a ROADMAP statement that v0.4.17 is the current public version while allowing explicit in-development wording.
+- `SKILL.md` routes context-efficient PM/Advisor work to `references/review-context-efficiency.md` and retains the fail-closed quality boundary.
+- Deterministic anchors cover fresh short-lived sessions, stable baseline plus incremental evidence, conclusion-free factual manifests, and separate no-peek PM/Advisor packets.
+- PM and Advisor packets use separate no-peek inputs derived from a conclusion-free manifest.
+- Packets remain indexes, not restrictions or substitutes for task-relevant original evidence.
+- Review ID, Attempt ID, packet fingerprint, all invocation states, result location, and parent retry links remain available.
+- `running` and `result-unknown` attempts are not blindly retried or downgraded into cleanup.
+- Role outputs retain `GO`, `NO-GO`, `BLOCKED-EVIDENCE`, P0/P1/P2, evidence gaps, freshness, corrections, Owner-decision needs, next action, and rationale.
+
+A passing marker check proves documentation and template consistency only. It does not prove runtime compliance, actual token savings, or review quality, and it does not replace fresh PM/Advisor review or any gate.
+
 ## Suggested Manual Review Flow
 
 1. Read the changed files.
