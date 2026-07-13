@@ -2,7 +2,7 @@
 
 This low-risk documentation task does not use OpenSpec and does not invent C1-C4 stages.
 
-Scope: update one local paragraph, run required validation, obtain the required final review, and make no git exit.
+Scope: update one local paragraph, run required validation, obtain the required final review in a fresh short-lived non-OpenSpec role session, and make no git exit.
 
 Final applicable gate: required final review.
 

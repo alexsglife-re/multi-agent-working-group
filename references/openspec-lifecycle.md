@@ -27,24 +27,31 @@ Use this sequence whenever this skill and OpenSpec are both active for a workstr
 
 C0 Goal Analysis:
   Confirm owner goal, current task, active OpenSpec changes, risk tier, applicable skills, PM/Advisor model routing, PM/Advisor model separation, CLI agent workspace-trust needs, Advisor trusted-context boundary, git state, validation expectations, and completion target including archive.
+  Treat any PM/Advisor role sessions as short-lived `C0-bootstrap`; close or restart them before C1 with transition actor/time, and carry no C0 decision or authorization forward.
 
 C1 Proposal:
   Create or update proposal, design when needed, spec deltas, and tasks.
   PM and Advisor review scope before implementation.
+  Default to one runtime-proven PM lifecycle and one runtime-proven Advisor lifecycle for C1; use a fresh checkpoint decision for each distinct target.
 
 C2 Implementation:
   Make the documentation or code changes, run required validation, and keep tasks current.
+  Start new C2 PM/Advisor lifecycles by default; retain verified same-stage context but never an earlier decision, validation freshness, authorization, or the other role's current first pass.
 
 C3 Closeout:
   Complete required review, commit, push, status or CI checks, and post-push review when the applicable gates pass.
+  Start new C3 role lifecycles by default and keep each git checkpoint a fresh decision transaction.
 
 C4 Archive:
   Archive the OpenSpec change, validate the archived spec state, commit and push the archive when the applicable gates pass, and complete post-push review.
+  Start new C4 role lifecycles by default; close them sequentially only after required archive follow-up review completes.
 
 Do not skip C0, and do not treat C3 as final completion when C4 applies.
 ```
 
-Packet lifecycle is separate from role-agent cleanup. C1 and C2 may permit only non-destructive compaction of redundant completed-stage working material after their reviews, corrections, decisions, and validation complete. C3 retains material required by git and status gates. C4 final cleanup eligibility waits for archive validation and every applicable archive commit, push, status, and post-action review. None of these checkpoints authorizes file deletion or weakens validation, PM/Advisor/Reviewer, git, CI/status, secret-scan, release, authorization, or original-evidence requirements.
+Each C1-C4 role lifecycle requires a Stage Session ID backed by exact runtime identity and resume evidence when supported. Cross-stage reuse is prohibited by default. Canonical mandatory restart triggers and lifecycle transition evidence are owned by `references/review-context-efficiency.md`; CLI provider and trust evidence extends those rules but does not replace them.
+
+Packet lifecycle is separate from role-agent C-stage lifecycle and role-agent cleanup. C1 and C2 may permit only non-destructive compaction of redundant completed-stage working material after their reviews, corrections, decisions, and validation complete. C3 retains material required by git and status gates. C4 final cleanup eligibility waits for archive validation and every applicable archive commit, push, status, and post-action review. None of these checkpoints authorizes file deletion or weakens validation, PM/Advisor/Reviewer, git, CI/status, secret-scan, release, authorization, or original-evidence requirements.
 Local validation:
 
 ```text

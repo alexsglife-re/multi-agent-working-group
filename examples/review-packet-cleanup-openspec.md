@@ -4,11 +4,11 @@ This example compacts duplicate working material without deleting files.
 
 ## C1
 
-Both independent proposal first passes, corrections, and the scope decision are complete. The Leader records Review IDs, findings, complete role reasoning at durable result locations, and reproducible proposal/spec pointers. Redundant rendered proposal packets become eligible for non-destructive compaction; C2 evidence stays accessible.
+Both independent proposal first passes, corrections, and the scope decision are complete. The C1 role-agent lifecycle and this packet lifecycle checkpoint are distinct. The Leader records Stage Session IDs, Review IDs, findings, complete role reasoning at durable result locations, and reproducible proposal/spec pointers. Redundant rendered proposal packets become eligible for non-destructive compaction; C2 evidence stays accessible through a verified restart packet.
 
 ## C2
 
-Implementation validation and required implementation review complete. Superseded implementation packets may be compacted, but current diffs, validation, findings, and evidence needed for commit and push remain active.
+Implementation validation and required implementation review complete. Same-stage role continuity may remain available until C2 ends, while superseded implementation packets may be compacted at the packet lifecycle checkpoint. Current diffs, validation, findings, and evidence needed for commit and push remain active.
 
 ## C3
 

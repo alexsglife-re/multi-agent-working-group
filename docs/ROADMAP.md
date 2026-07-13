@@ -91,7 +91,8 @@ Exit criteria:
   plugin packaging, CI, GitHub metadata mutation, tag/release automation, or
   `SKILL.md` behavior changes.
 - `v0.4.17` Role Review Context Efficiency is documented with stable-baseline
-  plus incremental review packets, fresh short-lived sessions, no-peek input
+  plus incremental review packets, OpenSpec C-stage-scoped role lifecycles,
+  fresh non-OpenSpec checkpoint sessions, no-peek input
   separation, original-evidence access, and safe linked retry handling without
   reducing PM/Advisor capability, review frequency, or existing gates.
 - `v0.4.18` Review Packet Retention And Cleanup defines permanent, durable-audit,

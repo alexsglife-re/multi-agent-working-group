@@ -10,10 +10,33 @@ Review type:
   first-pass critique | scope challenge | pre-commit gate | post-commit review | pre-push gate | post-push review | closeout
 
 Context-efficient review identity:
+  Stage Session ID:
+  C-stage:
+    C0-bootstrap | C1 | C2 | C3 | C4 | non-openspec
+  Runtime Session ID:
+  Runtime/provider kind:
+    Claude | other
+  Runtime identity evidence source:
+  Runtime resume evidence:
+  Runtime evidence state:
+    exact-supported | unavailable | contradictory
+  Inherited context:
+    none | verified-same-stage | verified-restart-packet
+  Continuity:
+    intact-runtime-proven | restarted | degraded | unavailable
   Review ID:
   Attempt ID:
   Parent Attempt ID:
   Packet fingerprint:
+  Target fingerprint:
+  Fresh decision:
+    confirmed | blocked
+  No-peek state:
+    isolated-current-first-pass | consensus-open | contaminated
+  Validation freshness state:
+    fresh-current-target | stale | not-applicable
+  Authorization state:
+    not-granted | owner-explicit-current-scope | normal-git-gate-current | blocked
   Invocation state:
     prepared | running | completed | failed-confirmed | result-unknown | superseded
   Stable baseline anchor:
@@ -40,6 +63,7 @@ Lifecycle patience:
   Patience state:
     active | waiting | progress-check-needed | exceeded | blocked | complete
   Closure/restart reason, if any:
+    cross-stage | context-reliability | context-pressure | independence-contamination | provider-change | model-change | tool-change | trust-loss | state-ambiguity | failed-recovery | owner-instruction | not-applicable
 
 Claims challenged:
   - ...
@@ -103,6 +127,8 @@ Recommended next action:
 Concise rationale:
   ...
 ```
+
+Same-stage continuity may retain verified context and Advisor's own prior reasoning. It never inherits an earlier `GO`, validation freshness, git/archive authorization, or PM's current first-pass conclusion. Claude continuity requires exact `--resume <session-id>`, never ambiguous `--continue`. Put Lifecycle Decision Actor `leader|owner` and timezone-qualified Lifecycle Decision Time only in a separate lifecycle transition record, never in a routine same-stage packet.
 
 This packet is an index and starting point, not a restriction or substitute for original evidence. Inspect any task-relevant original evidence within the approved scope when needed.
 

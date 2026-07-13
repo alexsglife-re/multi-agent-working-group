@@ -168,6 +168,172 @@ expect_cleanup_case_reject() {
   fi
 }
 
+lifecycle_case_valid() {
+  # Positional fixture schema: current/prior C-stage and Stage Session IDs,
+  # runtime identity, checkpoint states, lifecycle trigger/reason, invocation
+  # concurrency, lifecycle event, transition flag, and transition actor/time.
+  local c_stage="$1" prior_stage="$2" stage_id="$3" prior_stage_id="$4" runtime_kind="$5" runtime_id="$6"
+  local runtime_evidence="$7" resume_evidence="$8" inherited="$9" fresh_decision="${10}" no_peek="${11}"
+  local validation_freshness="${12}" authorization="${13}" continuity="${14}" trigger="${15}" restart_reason="${16}"
+  local old_attempt_state="${17}" concurrency_resolved="${18}" lifecycle_event="${19}" transition="${20}" actor="${21}" decision_time="${22}"
+  LIFECYCLE_CASE_REASON="eligible"
+
+  case "$c_stage" in C0-bootstrap|C1|C2|C3|C4|non-openspec) ;; *) LIFECYCLE_CASE_REASON="invalid-c-stage"; return 1 ;; esac
+  case "$prior_stage" in none|C0-bootstrap|C1|C2|C3|C4|non-openspec) ;; *) LIFECYCLE_CASE_REASON="invalid-prior-c-stage"; return 1 ;; esac
+  [[ -n "$stage_id" ]] || { LIFECYCLE_CASE_REASON="missing-stage-session-id"; return 1; }
+  [[ -n "$prior_stage_id" ]] || { LIFECYCLE_CASE_REASON="missing-prior-stage-session-id"; return 1; }
+  case "$runtime_kind" in claude|other) ;; *) LIFECYCLE_CASE_REASON="invalid-runtime-kind"; return 1 ;; esac
+  [[ -n "$runtime_id" ]] || { LIFECYCLE_CASE_REASON="missing-runtime-identity"; return 1; }
+  case "$runtime_evidence" in exact-supported|unavailable|contradictory) ;; *) LIFECYCLE_CASE_REASON="invalid-runtime-evidence"; return 1 ;; esac
+  case "$inherited" in none|verified-same-stage|verified-restart-packet) ;; *) LIFECYCLE_CASE_REASON="invalid-inherited-context"; return 1 ;; esac
+  case "$fresh_decision" in confirmed|blocked) ;; *) LIFECYCLE_CASE_REASON="invalid-fresh-decision"; return 1 ;; esac
+  case "$no_peek" in isolated-current-first-pass|consensus-open|contaminated) ;; *) LIFECYCLE_CASE_REASON="invalid-no-peek"; return 1 ;; esac
+  case "$validation_freshness" in fresh-current-target|stale|not-applicable) ;; *) LIFECYCLE_CASE_REASON="invalid-validation-freshness"; return 1 ;; esac
+  case "$authorization" in not-granted|owner-explicit-current-scope|normal-git-gate-current|blocked) ;; *) LIFECYCLE_CASE_REASON="invalid-authorization"; return 1 ;; esac
+  case "$continuity" in intact-runtime-proven|restarted|degraded|unavailable) ;; *) LIFECYCLE_CASE_REASON="invalid-continuity"; return 1 ;; esac
+  case "$trigger" in none|context-reliability|context-pressure|independence-contamination|provider-change|model-change|tool-change|trust-loss|state-ambiguity|failed-recovery|owner-instruction) ;; *) LIFECYCLE_CASE_REASON="invalid-trigger"; return 1 ;; esac
+  case "$restart_reason" in cross-stage|context-reliability|context-pressure|independence-contamination|provider-change|model-change|tool-change|trust-loss|state-ambiguity|failed-recovery|owner-instruction|not-applicable) ;; *) LIFECYCLE_CASE_REASON="invalid-restart-reason"; return 1 ;; esac
+  case "$old_attempt_state" in prepared|running|completed|failed-confirmed|result-unknown|superseded) ;; *) LIFECYCLE_CASE_REASON="invalid-invocation-state"; return 1 ;; esac
+  case "$concurrency_resolved" in yes|no) ;; *) LIFECYCLE_CASE_REASON="invalid-concurrency-state"; return 1 ;; esac
+  case "$lifecycle_event" in routine|close|restart) ;; *) LIFECYCLE_CASE_REASON="invalid-lifecycle-event"; return 1 ;; esac
+  case "$transition" in yes|no) ;; *) LIFECYCLE_CASE_REASON="invalid-transition-state"; return 1 ;; esac
+
+  [[ "$resume_evidence" != *"--continue"* ]] || { LIFECYCLE_CASE_REASON="ambiguous-continue"; return 1; }
+  if [[ "$continuity" == "intact-runtime-proven" ]]; then
+    [[ "$runtime_evidence" == "exact-supported" && "$runtime_id" != "unavailable" ]] || { LIFECYCLE_CASE_REASON="false-intact-continuity"; return 1; }
+    if [[ "$runtime_kind" == "claude" ]]; then
+      [[ "$resume_evidence" == "--resume $runtime_id" ]] || { LIFECYCLE_CASE_REASON="claude-resume-runtime-mismatch"; return 1; }
+    else
+      [[ "$resume_evidence" == "exact-runtime:$runtime_id" ]] || { LIFECYCLE_CASE_REASON="other-runtime-mechanism-mismatch"; return 1; }
+    fi
+  fi
+  [[ "$fresh_decision" == "confirmed" ]] || { LIFECYCLE_CASE_REASON="inherited-or-blocked-decision"; return 1; }
+  [[ "$no_peek" == "isolated-current-first-pass" || "$no_peek" == "consensus-open" ]] || { LIFECYCLE_CASE_REASON="current-first-pass-contamination"; return 1; }
+  [[ "$validation_freshness" == "fresh-current-target" || "$validation_freshness" == "not-applicable" ]] || { LIFECYCLE_CASE_REASON="stale-validation"; return 1; }
+  [[ "$authorization" != "blocked" ]] || { LIFECYCLE_CASE_REASON="inherited-or-blocked-authorization"; return 1; }
+
+  if [[ "$prior_stage" != "none" && "$prior_stage" != "$c_stage" ]]; then
+    [[ "$stage_id" != "$prior_stage_id" ]] || { LIFECYCLE_CASE_REASON="cross-stage-reused-stage-session-id"; return 1; }
+    [[ "$continuity" != "intact-runtime-proven" ]] || { LIFECYCLE_CASE_REASON="cross-stage-intact-continuity"; return 1; }
+    [[ "$restart_reason" == "cross-stage" ]] || { LIFECYCLE_CASE_REASON="cross-stage-reason-mismatch"; return 1; }
+    [[ "$lifecycle_event" == "restart" || "$lifecycle_event" == "close" ]] || { LIFECYCLE_CASE_REASON="cross-stage-missing-lifecycle-event"; return 1; }
+    [[ "$transition" == "yes" ]] || { LIFECYCLE_CASE_REASON="cross-stage-missing-transition"; return 1; }
+  fi
+  if [[ "$trigger" != "none" ]]; then
+    [[ "$restart_reason" == "$trigger" ]] || { LIFECYCLE_CASE_REASON="trigger-reason-mismatch"; return 1; }
+    [[ "$stage_id" != "$prior_stage_id" ]] || { LIFECYCLE_CASE_REASON="mandatory-restart-reused-stage-session-id"; return 1; }
+    [[ "$continuity" != "intact-runtime-proven" ]] || { LIFECYCLE_CASE_REASON="mandatory-restart-intact-continuity"; return 1; }
+    [[ "$lifecycle_event" == "restart" || "$lifecycle_event" == "close" ]] || { LIFECYCLE_CASE_REASON="mandatory-trigger-missing-restart-or-close"; return 1; }
+    [[ "$transition" == "yes" ]] || { LIFECYCLE_CASE_REASON="mandatory-trigger-missing-transition"; return 1; }
+  fi
+  if [[ "$old_attempt_state" == "running" || "$old_attempt_state" == "result-unknown" ]]; then
+    [[ "$concurrency_resolved" == "yes" ]] || { LIFECYCLE_CASE_REASON="blind-restart-concurrency"; return 1; }
+  fi
+  if [[ "$c_stage" == "C0-bootstrap" && "$lifecycle_event" == "close" ]]; then
+    [[ "$transition" == "yes" ]] || { LIFECYCLE_CASE_REASON="c0-close-missing-transition"; return 1; }
+  fi
+  if [[ "$lifecycle_event" == "routine" ]]; then
+    [[ "$prior_stage" == "$c_stage" ]] || { LIFECYCLE_CASE_REASON="routine-not-same-stage"; return 1; }
+    [[ "$stage_id" == "$prior_stage_id" ]] || { LIFECYCLE_CASE_REASON="routine-same-stage-changed-stage-session-id"; return 1; }
+    [[ "$continuity" == "intact-runtime-proven" ]] || { LIFECYCLE_CASE_REASON="routine-non-intact-continuity"; return 1; }
+    [[ "$trigger" == "none" ]] || { LIFECYCLE_CASE_REASON="routine-has-restart-trigger"; return 1; }
+    [[ "$restart_reason" == "not-applicable" ]] || { LIFECYCLE_CASE_REASON="routine-has-restart-reason"; return 1; }
+    [[ "$transition" == "no" ]] || { LIFECYCLE_CASE_REASON="routine-has-transition"; return 1; }
+  fi
+  if [[ "$lifecycle_event" == "restart" || "$lifecycle_event" == "close" ]]; then
+    local precise_cross_stage="no" precise_c0_close="no"
+    [[ "$prior_stage" != "none" && "$prior_stage" != "$c_stage" ]] && precise_cross_stage="yes"
+    [[ "$c_stage" == "C0-bootstrap" && "$lifecycle_event" == "close" ]] && precise_c0_close="yes"
+    if [[ "$precise_cross_stage" == "no" && "$precise_c0_close" == "no" ]]; then
+      [[ "$trigger" != "none" ]] || { LIFECYCLE_CASE_REASON="unexplained-restart-or-close"; return 1; }
+      [[ "$restart_reason" == "$trigger" ]] || { LIFECYCLE_CASE_REASON="restart-or-close-reason-mismatch"; return 1; }
+    fi
+    [[ "$stage_id" != "$prior_stage_id" ]] || { LIFECYCLE_CASE_REASON="transition-reused-stage-session-id"; return 1; }
+    [[ "$continuity" != "intact-runtime-proven" ]] || { LIFECYCLE_CASE_REASON="transition-intact-continuity"; return 1; }
+    [[ "$transition" == "yes" ]] || { LIFECYCLE_CASE_REASON="restart-or-close-missing-transition"; return 1; }
+  fi
+  if [[ "$continuity" == "restarted" || "$continuity" == "degraded" || "$continuity" == "unavailable" ]]; then
+    [[ "$lifecycle_event" == "restart" || "$lifecycle_event" == "close" ]] || { LIFECYCLE_CASE_REASON="non-intact-without-transition-event"; return 1; }
+    [[ "$stage_id" != "$prior_stage_id" ]] || { LIFECYCLE_CASE_REASON="non-intact-reused-stage-session-id"; return 1; }
+    if [[ ! ( "$c_stage" == "C0-bootstrap" && "$lifecycle_event" == "close" ) ]]; then
+      [[ "$restart_reason" != "not-applicable" ]] || { LIFECYCLE_CASE_REASON="non-intact-missing-restart-reason"; return 1; }
+    fi
+    [[ "$transition" == "yes" ]] || { LIFECYCLE_CASE_REASON="non-intact-missing-transition"; return 1; }
+  fi
+  if [[ "$transition" == "yes" ]]; then
+    case "$actor" in leader|owner) ;; *) LIFECYCLE_CASE_REASON="missing-lifecycle-decision-actor"; return 1 ;; esac
+    [[ "$decision_time" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})$ ]] || { LIFECYCLE_CASE_REASON="invalid-lifecycle-decision-time"; return 1; }
+  else
+    [[ -z "$actor" && -z "$decision_time" ]] || { LIFECYCLE_CASE_REASON="routine-record-has-transition-fields"; return 1; }
+  fi
+}
+
+expect_lifecycle_case_pass() {
+  local label="$1"; shift
+  if lifecycle_case_valid "$@"; then pass "$label"; else fail "$label ($LIFECYCLE_CASE_REASON)"; fi
+}
+
+expect_lifecycle_case_reject() {
+  local label="$1" expected_reason="$2"; shift 2
+  if lifecycle_case_valid "$@"; then fail "$label"; elif [[ "$LIFECYCLE_CASE_REASON" == "$expected_reason" ]]; then pass "$label ($expected_reason)"; else fail "$label expected $expected_reason, got $LIFECYCLE_CASE_REASON"; fi
+}
+
+checkpoint_pair_valid() {
+  local first_stage="$1" second_stage="$2" first_session="$3" second_session="$4"
+  local first_review="$5" second_review="$6" first_fingerprint="$7" second_fingerprint="$8"
+  local fresh_decision="$9" validation_freshness="${10}" authorization="${11}" no_peek="${12}"
+  CHECKPOINT_PAIR_REASON="eligible"
+  [[ "$first_stage" == "$second_stage" ]] || { CHECKPOINT_PAIR_REASON="not-same-stage"; return 1; }
+  [[ "$first_session" == "$second_session" ]] || { CHECKPOINT_PAIR_REASON="not-same-stage-session"; return 1; }
+  [[ "$first_review" != "$second_review" ]] || { CHECKPOINT_PAIR_REASON="reused-review-id"; return 1; }
+  [[ -n "$first_fingerprint" && -n "$second_fingerprint" && "$first_fingerprint" != "$second_fingerprint" ]] || { CHECKPOINT_PAIR_REASON="missing-or-reused-target-fingerprint"; return 1; }
+  case "$fresh_decision" in confirmed|blocked) ;; *) CHECKPOINT_PAIR_REASON="invalid-fresh-decision"; return 1 ;; esac
+  case "$validation_freshness" in fresh-current-target|stale|not-applicable) ;; *) CHECKPOINT_PAIR_REASON="invalid-validation-freshness"; return 1 ;; esac
+  case "$authorization" in not-granted|owner-explicit-current-scope|normal-git-gate-current|blocked) ;; *) CHECKPOINT_PAIR_REASON="invalid-authorization"; return 1 ;; esac
+  case "$no_peek" in isolated-current-first-pass|consensus-open|contaminated) ;; *) CHECKPOINT_PAIR_REASON="invalid-no-peek"; return 1 ;; esac
+  [[ "$fresh_decision" == "confirmed" ]] || { CHECKPOINT_PAIR_REASON="decision-not-fresh"; return 1; }
+  [[ "$validation_freshness" == "fresh-current-target" ]] || { CHECKPOINT_PAIR_REASON="validation-not-fresh"; return 1; }
+  [[ "$authorization" != "blocked" ]] || { CHECKPOINT_PAIR_REASON="authorization-not-current"; return 1; }
+  [[ "$no_peek" == "isolated-current-first-pass" ]] || { CHECKPOINT_PAIR_REASON="no-peek-not-isolated"; return 1; }
+}
+
+expect_checkpoint_pair_pass() {
+  local label="$1"; shift
+  if checkpoint_pair_valid "$@"; then pass "$label"; else fail "$label ($CHECKPOINT_PAIR_REASON)"; fi
+}
+
+expect_checkpoint_pair_reject() {
+  local label="$1" expected_reason="$2"; shift 2
+  if checkpoint_pair_valid "$@"; then fail "$label"; elif [[ "$CHECKPOINT_PAIR_REASON" == "$expected_reason" ]]; then pass "$label ($expected_reason)"; else fail "$label expected $expected_reason, got $CHECKPOINT_PAIR_REASON"; fi
+}
+
+non_openspec_pair_valid() {
+  local first_session="$1" second_session="$2" first_review="$3" second_review="$4"
+  local target_relation="$5" attempt_relation="$6"
+  NON_OPENSPEC_PAIR_REASON="eligible"
+  case "$target_relation" in changed|unchanged-clarification) ;; *) NON_OPENSPEC_PAIR_REASON="invalid-target-relation"; return 1 ;; esac
+  case "$attempt_relation" in new-review|linked-attempt) ;; *) NON_OPENSPEC_PAIR_REASON="invalid-attempt-relation"; return 1 ;; esac
+  if [[ "$target_relation" == "changed" ]]; then
+    [[ "$first_session" != "$second_session" ]] || { NON_OPENSPEC_PAIR_REASON="changed-target-reused-session"; return 1; }
+    [[ "$first_review" != "$second_review" ]] || { NON_OPENSPEC_PAIR_REASON="changed-target-reused-review-id"; return 1; }
+    [[ "$attempt_relation" == "new-review" ]] || { NON_OPENSPEC_PAIR_REASON="changed-target-used-linked-attempt"; return 1; }
+  else
+    [[ "$first_session" == "$second_session" ]] || { NON_OPENSPEC_PAIR_REASON="clarification-changed-session"; return 1; }
+    [[ "$first_review" == "$second_review" ]] || { NON_OPENSPEC_PAIR_REASON="clarification-changed-review-id"; return 1; }
+    [[ "$attempt_relation" == "linked-attempt" ]] || { NON_OPENSPEC_PAIR_REASON="clarification-not-linked-attempt"; return 1; }
+  fi
+}
+
+expect_non_openspec_pair_pass() {
+  local label="$1"; shift
+  if non_openspec_pair_valid "$@"; then pass "$label"; else fail "$label ($NON_OPENSPEC_PAIR_REASON)"; fi
+}
+
+expect_non_openspec_pair_reject() {
+  local label="$1" expected_reason="$2"; shift 2
+  if non_openspec_pair_valid "$@"; then fail "$label"; elif [[ "$NON_OPENSPEC_PAIR_REASON" == "$expected_reason" ]]; then pass "$label ($expected_reason)"; else fail "$label expected $expected_reason, got $NON_OPENSPEC_PAIR_REASON"; fi
+}
+
 template_contains() {
   local file="$1"
   local needle="$2"
@@ -572,7 +738,10 @@ else
   fail "SKILL.md anchor check count not reduced"
 fi
 template_contains "references/review-context-efficiency.md" "The packet is an index and starting point, not a restriction or substitute for original evidence" "Context-efficiency reference preserves original evidence access"
-template_contains "references/review-context-efficiency.md" "fresh short-lived session for each distinct first-pass" "Context-efficiency reference requires short-lived sessions"
+template_contains "references/review-context-efficiency.md" "one runtime-proven PM lifecycle and one runtime-proven Advisor lifecycle" "Context-efficiency reference requires OpenSpec stage-scoped lifecycles"
+template_contains "references/review-context-efficiency.md" "For non-OpenSpec work, use a fresh short-lived session for each distinct checkpoint" "Context-efficiency reference preserves non-OpenSpec short sessions"
+template_contains "references/review-context-efficiency.md" 'Claude continuity is proven only when exact `--resume <session-id>` matches the recorded Runtime Session ID' "Context-efficiency reference requires exact Claude resume"
+template_contains "references/review-context-efficiency.md" 'Lifecycle Decision Actor `leader|owner`' "Context-efficiency reference defines transition actor"
 template_contains "references/review-context-efficiency.md" "stable baseline and accepted anchor" "Context-efficiency reference records stable baseline"
 template_contains "references/review-context-efficiency.md" "current delta" "Context-efficiency reference records incremental evidence"
 template_contains "references/review-context-efficiency.md" "conclusion-free factual manifest" "Context-efficiency reference isolates factual manifest conclusions"
@@ -587,6 +756,13 @@ template_contains "templates/advisor-review.md" "PM conclusions | none" "Advisor
 template_contains "templates/review-invocation-record.md" "Review ID:" "Invocation template records Review ID"
 template_contains "templates/review-invocation-record.md" "Attempt ID:" "Invocation template records Attempt ID"
 template_contains "templates/review-invocation-record.md" "Packet fingerprint:" "Invocation template records packet fingerprint"
+template_contains "templates/review-invocation-record.md" "Stage Session ID:" "Invocation template records Stage Session ID"
+template_contains "templates/review-invocation-record.md" "Runtime Session ID:" "Invocation template records runtime identity"
+template_contains "templates/review-invocation-record.md" "Runtime/provider kind:" "Invocation template records runtime kind"
+template_contains "templates/review-invocation-record.md" "Lifecycle Decision Actor:" "Invocation template records transition actor"
+template_contains "templates/review-invocation-record.md" "Prior Stage Session ID:" "Invocation template records prior transition lifecycle ID"
+template_contains "templates/review-invocation-record.md" "Successor Stage Session ID:" "Invocation template records successor transition lifecycle ID"
+template_contains "templates/review-invocation-record.md" "Omit them from routine same-stage records" "Invocation template omits transition fields from routine records"
 template_contains "templates/pm-review.md" "GO | NO-GO | BLOCKED-EVIDENCE" "PM template preserves complete decision status"
 template_contains "templates/advisor-review.md" "GO | NO-GO | BLOCKED-EVIDENCE" "Advisor template preserves complete decision status"
 template_contains "templates/pm-review.md" "P0:" "PM context-efficient output records P0"
@@ -646,6 +822,68 @@ template_contains "examples/review-packet-cleanup-negative.md" 'Delete `template
 template_contains "examples/review-packet-cleanup-negative.md" "incomplete durable audit record" "Negative example rejects incomplete audit record"
 template_contains "docs/VALIDATION.md" "Active and retransmitted review context is bounded" "Validation scopes context growth claim"
 template_contains "docs/VALIDATION.md" "stored lifecycle-bound packet files may grow" "Validation rejects storage cap claim"
+
+expect_checkpoint_pair_pass "Same-stage checkpoints reuse runtime lifecycle but refresh transaction identity" C2 C2 pm-c2-1 pm-c2-1 REV-C2-01 REV-C2-02 diff-sha256-a commit-sha256-b confirmed fresh-current-target normal-git-gate-current isolated-current-first-pass
+expect_checkpoint_pair_reject "Reject checkpoint pair with reused Review ID" reused-review-id C2 C2 pm-c2-1 pm-c2-1 REV-C2-01 REV-C2-01 diff-a diff-b confirmed fresh-current-target not-granted isolated-current-first-pass
+expect_checkpoint_pair_reject "Reject checkpoint pair with reused fingerprint" missing-or-reused-target-fingerprint C2 C2 pm-c2-1 pm-c2-1 REV-C2-01 REV-C2-02 diff-a diff-a confirmed fresh-current-target not-granted isolated-current-first-pass
+expect_checkpoint_pair_reject "Reject checkpoint pair invalid no-peek enum" invalid-no-peek C2 C2 pm-c2-1 pm-c2-1 REV-C2-01 REV-C2-02 diff-a diff-b confirmed fresh-current-target not-granted banana
+expect_checkpoint_pair_reject "Reject checkpoint pair across stages" not-same-stage C2 C3 pm-c2-1 pm-c3-1 REV-1 REV-2 diff-a diff-b confirmed fresh-current-target not-granted isolated-current-first-pass
+expect_checkpoint_pair_reject "Reject checkpoint pair across sessions" not-same-stage-session C2 C2 pm-c2-1 pm-c2-2 REV-1 REV-2 diff-a diff-b confirmed fresh-current-target not-granted isolated-current-first-pass
+expect_checkpoint_pair_reject "Reject checkpoint pair blocked decision" decision-not-fresh C2 C2 pm-c2-1 pm-c2-1 REV-1 REV-2 diff-a diff-b blocked fresh-current-target not-granted isolated-current-first-pass
+expect_checkpoint_pair_reject "Reject checkpoint pair stale validation" validation-not-fresh C2 C2 pm-c2-1 pm-c2-1 REV-1 REV-2 diff-a diff-b confirmed stale not-granted isolated-current-first-pass
+expect_checkpoint_pair_reject "Reject checkpoint pair blocked authorization" authorization-not-current C2 C2 pm-c2-1 pm-c2-1 REV-1 REV-2 diff-a diff-b confirmed fresh-current-target blocked isolated-current-first-pass
+expect_non_openspec_pair_pass "Non-OpenSpec changed target starts new session and Review ID" short-1 short-2 REV-NO-1 REV-NO-2 changed new-review
+expect_non_openspec_pair_pass "Non-OpenSpec unchanged clarification uses linked attempt" short-1 short-1 REV-NO-1 REV-NO-1 unchanged-clarification linked-attempt
+expect_non_openspec_pair_reject "Reject non-OpenSpec changed target reusing session" changed-target-reused-session short-1 short-1 REV-NO-1 REV-NO-2 changed new-review
+expect_non_openspec_pair_reject "Reject non-OpenSpec changed target reusing Review ID" changed-target-reused-review-id short-1 short-2 REV-NO-1 REV-NO-1 changed new-review
+expect_non_openspec_pair_reject "Reject linked attempt for changed non-OpenSpec target" changed-target-used-linked-attempt short-1 short-2 REV-NO-1 REV-NO-2 changed linked-attempt
+expect_non_openspec_pair_reject "Reject new Review ID for unchanged clarification" clarification-changed-review-id short-1 short-1 REV-NO-1 REV-NO-2 unchanged-clarification linked-attempt
+
+expect_lifecycle_case_pass "Claude same-stage exact continuity" C2 C2 advisor-c2-1 advisor-c2-1 claude claude-runtime-1 exact-supported "--resume claude-runtime-1" verified-same-stage confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_pass "Other runtime same-stage exact continuity" C2 C2 pm-c2-1 pm-c2-1 other codex-runtime-1 exact-supported "exact-runtime:codex-runtime-1" verified-same-stage confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_pass "Cross-stage transition changes lifecycle ID" C3 C2 pm-c3-1 pm-c2-1 other codex-runtime-3 exact-supported "exact-runtime:codex-runtime-3" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted none cross-stage completed yes restart yes leader 2026-07-12T18:20:00-07:00
+expect_lifecycle_case_pass "C0 close records transition evidence" C0-bootstrap none pm-c0-1 none other codex-c0 exact-supported "exact-runtime:codex-c0" none confirmed isolated-current-first-pass not-applicable not-granted restarted none not-applicable completed yes close yes leader 2026-07-12T18:21:00-07:00
+expect_lifecycle_case_pass "Mandatory restart changes lifecycle ID" C2 C2 advisor-c2-2 advisor-c2-1 claude claude-runtime-2 exact-supported "--resume claude-runtime-2" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted context-pressure context-pressure completed yes restart yes leader 2026-07-12T18:22:00-07:00
+expect_lifecycle_case_pass "Mandatory early close changes lifecycle ID" C2 C2 advisor-c2-4 advisor-c2-3 claude claude-runtime-4 exact-supported "--resume claude-runtime-4" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted degraded owner-instruction owner-instruction completed yes close yes owner 2026-07-12T18:22:30-07:00
+expect_lifecycle_case_pass "Unavailable transition changes lifecycle ID" C2 C2 advisor-c2-3 advisor-c2-2 claude unavailable unavailable unavailable verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted unavailable tool-change tool-change failed-confirmed yes restart yes owner 2026-07-12T18:23:00Z
+expect_lifecycle_case_reject "Reject missing current Stage Session ID" missing-stage-session-id C2 C2 "" pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject missing prior Stage Session ID" missing-prior-stage-session-id C2 C2 pm-c2-1 "" other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject Claude resume mismatch" claude-resume-runtime-mismatch C2 C2 advisor-c2-1 advisor-c2-1 claude claude-runtime-1 exact-supported "--resume another-runtime" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject other runtime using Claude syntax" other-runtime-mechanism-mismatch C2 C2 pm-c2-1 pm-c2-1 other codex-runtime-1 exact-supported "--resume codex-runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject ambiguous Claude continue" ambiguous-continue C2 C2 advisor-c2-1 advisor-c2-1 claude claude-runtime-1 exact-supported "--continue" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject cross-stage reused Stage Session ID" cross-stage-reused-stage-session-id C3 C2 pm-c2-1 pm-c2-1 other runtime-3 exact-supported "exact-runtime:runtime-3" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted none cross-stage completed yes restart yes leader 2026-07-12T18:25:00-07:00
+expect_lifecycle_case_reject "Reject mandatory restart reused Stage Session ID" mandatory-restart-reused-stage-session-id C2 C2 advisor-c2-1 advisor-c2-1 claude runtime-2 exact-supported "--resume runtime-2" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted trust-loss trust-loss completed yes restart yes leader 2026-07-12T18:25:00-07:00
+expect_lifecycle_case_reject "Reject trigger and restart reason mismatch" trigger-reason-mismatch C2 C2 advisor-c2-2 advisor-c2-1 claude runtime-2 exact-supported "--resume runtime-2" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted trust-loss context-pressure completed yes restart yes leader 2026-07-12T18:25:00-07:00
+expect_lifecycle_case_reject "Reject blind restart while old attempt may run" blind-restart-concurrency C2 C2 advisor-c2-2 advisor-c2-1 claude runtime-2 exact-supported "--resume runtime-2" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted state-ambiguity state-ambiguity result-unknown no restart yes leader 2026-07-12T18:24:00-07:00
+expect_lifecycle_case_reject "Reject cross-stage missing transition" cross-stage-missing-transition C3 C2 pm-c3-1 pm-c2-1 other runtime-3 exact-supported "exact-runtime:runtime-3" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted none cross-stage completed yes restart no "" ""
+expect_lifecycle_case_reject "Reject C0 close missing transition" c0-close-missing-transition C0-bootstrap none pm-c0-1 none other runtime-c0 exact-supported "exact-runtime:runtime-c0" none confirmed isolated-current-first-pass not-applicable not-granted restarted none not-applicable completed yes close no "" ""
+expect_lifecycle_case_reject "Reject unavailable continuity missing transition" mandatory-trigger-missing-transition C2 C2 pm-c2-2 pm-c2-1 other unavailable unavailable unavailable verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted unavailable tool-change tool-change failed-confirmed yes restart no "" ""
+expect_lifecycle_case_reject "Reject transition without actor" missing-lifecycle-decision-actor C3 C2 pm-c3-1 pm-c2-1 other runtime-3 exact-supported "exact-runtime:runtime-3" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted none cross-stage completed yes restart yes "" 2026-07-12T18:25:00-07:00
+expect_lifecycle_case_reject "Reject timezone-free lifecycle decision time" invalid-lifecycle-decision-time C3 C2 pm-c3-1 pm-c2-1 other runtime-3 exact-supported "exact-runtime:runtime-3" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted none cross-stage completed yes restart yes leader 2026-07-12T18:25:00
+expect_lifecycle_case_reject "Reject transition fields on routine same-stage record" routine-record-has-transition-fields C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" verified-same-stage confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no leader 2026-07-12T18:25:00-07:00
+expect_lifecycle_case_reject "Reject transition flag on routine same-stage record" routine-has-transition C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" verified-same-stage confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine yes leader 2026-07-12T18:25:00-07:00
+expect_lifecycle_case_reject "Reject routine same-stage changed lifecycle ID" routine-same-stage-changed-stage-session-id C2 C2 pm-c2-2 pm-c2-1 other runtime-2 exact-supported "exact-runtime:runtime-2" verified-same-stage confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject routine non-intact continuity" routine-non-intact-continuity C2 C2 pm-c2-1 pm-c2-1 other runtime-2 exact-supported "exact-runtime:runtime-2" verified-same-stage confirmed isolated-current-first-pass fresh-current-target not-granted restarted none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject routine restart reason" routine-has-restart-reason C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" verified-same-stage confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none context-pressure completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject unexplained same-stage restart" unexplained-restart-or-close C2 C2 pm-c2-2 pm-c2-1 other runtime-2 exact-supported "exact-runtime:runtime-2" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted restarted none not-applicable completed yes restart yes leader 2026-07-12T18:26:00-07:00
+expect_lifecycle_case_reject "Reject mandatory restart with intact continuity" mandatory-restart-intact-continuity C2 C2 pm-c2-2 pm-c2-1 other runtime-2 exact-supported "exact-runtime:runtime-2" verified-restart-packet confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven context-pressure context-pressure completed yes restart yes leader 2026-07-12T18:26:00-07:00
+expect_lifecycle_case_reject "Reject invalid continuity enum" invalid-continuity C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted banana none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid trigger enum" invalid-trigger C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven banana not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid restart reason enum" invalid-restart-reason C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none banana completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid authorization enum" invalid-authorization C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target banana intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid C-stage enum" invalid-c-stage banana C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid prior C-stage enum" invalid-prior-c-stage C2 banana pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid runtime kind enum" invalid-runtime-kind C2 C2 pm-c2-1 pm-c2-1 banana runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid runtime evidence enum" invalid-runtime-evidence C2 C2 pm-c2-1 pm-c2-1 other runtime-1 banana "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid inherited context enum" invalid-inherited-context C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" banana confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid fresh-decision enum" invalid-fresh-decision C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none banana isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid no-peek enum" invalid-no-peek C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed banana fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid validation freshness enum" invalid-validation-freshness C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass banana not-granted intact-runtime-proven none not-applicable completed yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid invocation state enum" invalid-invocation-state C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable banana yes routine no "" ""
+expect_lifecycle_case_reject "Reject invalid concurrency state enum" invalid-concurrency-state C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed banana routine no "" ""
+expect_lifecycle_case_reject "Reject invalid lifecycle event enum" invalid-lifecycle-event C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes banana no "" ""
+expect_lifecycle_case_reject "Reject invalid transition state enum" invalid-transition-state C2 C2 pm-c2-1 pm-c2-1 other runtime-1 exact-supported "exact-runtime:runtime-1" none confirmed isolated-current-first-pass fresh-current-target not-granted intact-runtime-proven none not-applicable completed yes routine banana "" ""
+
 expect_cleanup_case_pass "Valid OpenSpec C4 cleanup predicate case" completed yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
 expect_cleanup_case_pass "Valid small-task final-review cleanup predicate case" completed yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
 expect_cleanup_case_pass "Valid superseded attempt with retry lineage predicate case" superseded yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes

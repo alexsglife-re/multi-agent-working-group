@@ -67,6 +67,7 @@ Goal: make Advisor independence stronger by defaulting Advisor to a different AI
 - [x] Require Leader to ask for Advisor model/provider when no project, session, continuity, or handoff record exists.
 - [x] Record Advisor model/provider, diversity status, same-model override, and degradation reason in startup/handoff context.
 - [x] Preserve minimum-necessary Advisor context, no-peek independence, Leader verification, and existing failure rules.
+- [x] Align OpenSpec PM/Advisor lifecycles to runtime-proven C-stage continuity with checkpoint-fresh decisions and fail-closed restart triggers.
 
 ### Documentation And Validation
 

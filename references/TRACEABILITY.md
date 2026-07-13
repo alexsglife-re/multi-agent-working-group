@@ -42,6 +42,8 @@ authorization.
 These boundaries remain in `SKILL.md` and have validation anchors:
 
 - PM and Advisor expected output is independent first-pass / no-peek review before consensus.
+- OpenSpec PM and Advisor lifecycles are runtime-proven and scoped to one C1-C4 stage by default; every changed checkpoint still has a fresh Review ID and decision state, while C0 and non-OpenSpec distinct checkpoints remain short-lived.
+- Cross-stage and mandatory-trigger transitions record exact runtime evidence, a canonical reason, actor `leader|owner`, timezone-qualified decision time, and a verified successor packet without carrying old decisions or authorization.
 - Advisor output is unverified evidence rather than authority.
 - Handoff or prior agent output is evidence rather than authorization.
 

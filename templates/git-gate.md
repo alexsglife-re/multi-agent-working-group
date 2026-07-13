@@ -12,10 +12,15 @@ Target:
   Commit or range:
 
 Context-efficient review identity:
+  C-stage:
+  PM Stage Session ID / runtime-provider kind / Runtime Session ID / runtime evidence / continuity:
+  Advisor Stage Session ID / runtime-provider kind / Runtime Session ID / runtime evidence / continuity:
   Review ID:
   PM Attempt ID / packet fingerprint / state:
   Advisor Attempt ID / packet fingerprint / state:
   Stable baseline and incremental target:
+  Current target fingerprint:
+  Fresh decision / validation freshness / authorization / no-peek states:
   Any result-unknown attempt:
     none | <identity, available evidence, unresolved gate; do not blindly retry>
 

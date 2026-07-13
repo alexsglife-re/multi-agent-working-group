@@ -26,9 +26,11 @@ Context-efficiency measures must not:
 
 ## Implemented Operating Model
 
-### Short-Lived Review Sessions
+### Stage-Scoped And Short-Lived Review Sessions
 
-Each independent review checkpoint defaults to a fresh, short-lived model session. Role continuity is restored from a verified stable baseline, current state card, Review ID, and prior accepted anchor instead of automatically resuming the full model conversation history.
+For OpenSpec C1-C4, each PM and Advisor defaults to one runtime-proven role-agent lifecycle for that C-stage. Every distinct checkpoint inside the stage remains a fresh decision transaction with a new Review ID, Attempt ID, exact target fingerprint, and current decision, validation, authorization, and no-peek states. The role may retain verified same-stage context and its own reasoning, but not an earlier `GO`, validation freshness, git/archive authorization, or the other role's current first-pass conclusion.
+
+C0 is a short-lived bootstrap whose role sessions close or restart before C1. Cross-stage transitions start new lifecycles by default. Mandatory same-stage restart triggers include context reliability loss or material pressure, independence contamination, provider/model/tool changes, trust loss, unresolved state ambiguity, failed recovery, and Owner instruction. Runtime continuity requires exact runtime identity; Claude uses exact `--resume <session-id>`, never ambiguous `--continue`. Non-OpenSpec distinct checkpoints continue to use fresh short-lived sessions.
 
 Review checkpoints include:
 
@@ -40,7 +42,7 @@ Review checkpoints include:
 - post-push review; and
 - closeout.
 
-A role may remain in the same short-lived session when requesting a missing file or asking a narrow clarification for the same review target. A changed target, commit, diff, gate, or materially changed packet requires a new Review ID or a new linked attempt.
+A role may remain in the same session when requesting a missing file or asking a narrow clarification for the same review target. A changed target, commit, diff, gate, or materially changed packet requires a new Review ID; only unchanged-target clarification uses a linked attempt.
 
 A fresh model session does not erase role continuity. The review record must state whether continuity is intact, restarted from artifacts, degraded, or unavailable.
 
@@ -182,7 +184,7 @@ Record the long-term principle in project memory for local development continuit
 
 The portable workflow has a concise router rule in `SKILL.md` and the complete protocol in `references/review-context-efficiency.md`.
 
-The reference defines short-lived sessions, stable baseline anchors, incremental packets, evidence access, no-peek separation, retry safety, and the quality-preservation boundary.
+The reference defines OpenSpec C-stage-scoped lifecycles, non-OpenSpec short-lived sessions, stable baseline anchors, incremental packets, evidence access, no-peek separation, retry safety, and the quality-preservation boundary.
 
 ### Role Templates
 
@@ -213,7 +215,7 @@ The implementation and validator demonstrate that:
 
 ### P1
 
-- Treating a fresh session as permission to provide only a summary would weaken review reliability.
+- Treating a fresh or persistent session as permission to provide only a summary would weaken review reliability.
 - Including the other role's first-pass conclusion would break independent no-peek review.
 - A hard token ceiling could truncate review and create a false `GO` result.
 - Ambiguous invocation state could cause duplicate calls and unnecessary token use.

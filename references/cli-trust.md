@@ -124,3 +124,9 @@ Failure:
   Do not mark the role unavailable, silently switch models, reuse stale Advisor output, or degrade PM/Advisor separation merely because workspace trust is blocked.
   Stop at the applicable gate and report what trust step is needed in plain language.
 ```
+
+## Stage-Scoped Runtime Continuity
+
+`references/review-context-efficiency.md` is the canonical owner of lifecycle states and restart triggers. CLI trust evidence supplements that protocol with provider, model, tool environment, exact workspace-trust state, Runtime Session ID or unavailable marker, runtime identity source, and exact resume evidence. A provider/model/tool change or trust loss is a mandatory restart trigger; it cannot be recorded as intact continuity.
+
+For Claude CLI, exact same-stage continuity requires `--resume <session-id>`. Do not use ambiguous `--continue` as identity proof. `--no-session-persistence`, unavailable persistence, or an unproven process restart requires a new Stage Session ID and `restarted`, `degraded`, or `unavailable` continuity. Do not blindly launch a replacement while a prior attempt may still be `running` or `result-unknown`; quarantine it and resolve concurrent-execution risk first.

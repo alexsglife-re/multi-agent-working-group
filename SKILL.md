@@ -161,6 +161,10 @@ Rollover or successor packets do not carry that authorization into a successor c
 
 ## Agent Lifecycle And Delegation
 
+For OpenSpec work, default each PM and Advisor to one runtime-proven role-agent lifecycle within exactly one C1, C2, C3, or C4 stage. C0 role sessions are short-lived bootstrap sessions and close or restart before C1. Cross-stage transitions start new role lifecycles by default. Within one C-stage, each distinct checkpoint still requires a new Review ID, Attempt ID, exact target fingerprint, fresh decision, validation freshness, authorization state, and no-peek state; same-stage continuity never inherits an earlier `GO`, validation result, git/archive authorization, or the other role's current first-pass conclusion. Follow `references/review-context-efficiency.md` for runtime identity, canonical states, mandatory restart triggers, ambiguity quarantine, and transition-only actor/time evidence.
+
+For non-OpenSpec work, distinct checkpoints continue to use fresh short-lived role sessions. An unchanged-target narrow clarification may continue under the same session and Review ID with linked attempt evidence. Never silently substitute a provider.
+
 Do not treat short silence or a brief lack of visible output as task failure for PM/Advisor substantive review. Worker lifecycle uses the same evidence-based patience principle for substantive bounded work. Close, restart, or replace PM/Advisor only when there is a recorded lifecycle reason.
 
 For Medium, Complex, High-risk, implementation-heavy, or substantively Worker-suitable work, the Leader should dispatch bounded Worker slices instead of performing hidden Worker execution when practical.

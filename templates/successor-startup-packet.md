@@ -98,6 +98,10 @@ PM/Advisor/Reviewer continuity:
   Reviewer:
   Continuity:
   Context-efficient review identity:
+    C-stage:
+    PM Stage Session ID / runtime-provider kind / Runtime Session ID / source / resume evidence / continuity:
+    Advisor Stage Session ID / runtime-provider kind / Runtime Session ID / source / resume evidence / continuity:
+    Inherited context: none | verified-same-stage | verified-restart-packet
     Review ID:
     PM Attempt ID / packet fingerprint / state:
     Advisor Attempt ID / packet fingerprint / state:
@@ -106,6 +110,9 @@ PM/Advisor/Reviewer continuity:
     Retry decision / parent Attempt ID:
     If result-unknown, available evidence and unresolved gate:
       <successor must inspect evidence and must not blindly retry>
+    Current target fingerprint / fresh-decision / no-peek / validation / authorization states:
+    Pending mandatory restart trigger:
+    Lifecycle transition, if applicable: <prior/successor Stage Session IDs; reason; actor leader|owner; ISO-8601 time with timezone; verified successor packet>
 
 Worker lifecycle patience:
   Substantive Worker active:

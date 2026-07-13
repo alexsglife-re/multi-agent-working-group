@@ -3,6 +3,13 @@
 Version: v0.4.13 recommended template.
 
 ```text
+Stage Session ID:
+C-stage:
+Runtime Session ID or unavailable marker:
+Runtime/provider kind:
+Runtime identity evidence source:
+Exact resume evidence:
+Inherited context:
 Review ID:
 Review target:
 Decision requested:
@@ -12,6 +19,8 @@ Previous accepted anchor:
 Current commit or diff:
 Changed files and behavioral changes:
 Fresh validation evidence:
+Target fingerprint:
+Fresh decision / no-peek / validation freshness / authorization states:
 Known risks and unresolved questions:
 Original evidence pointers:
 Conclusions included:

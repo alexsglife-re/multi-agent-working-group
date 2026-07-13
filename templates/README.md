@@ -14,6 +14,8 @@ This is the collection baseline. Individual templates may declare a later develo
 - Keep filled templates current and compact.
 - Use `review-factual-manifest.md` for shared conclusion-free facts and `review-invocation-record.md` for Review ID, Attempt ID, packet fingerprint, lifecycle state, and linked retry evidence.
 - PM and Advisor packets remain separate for independent no-peek first passes and remain indexes rather than restrictions on original evidence.
+- For OpenSpec C1-C4, reuse a runtime-proven Stage Session ID within one C-stage while creating a fresh Review ID and checkpoint decision for each changed target. Cross-stage and mandatory-trigger transitions restart the lifecycle by default; non-OpenSpec distinct checkpoints remain short-lived.
+- Lifecycle transition actor/time fields belong only to transition records. Routine same-stage invocation records omit them.
 - Reusable blank templates are permanent protocol material; filled instances are lifecycle-bound working material.
 - Use `review-packet-cleanup-checklist.md` before packet compaction. Lifecycle eligibility permits non-destructive compaction only; file mutation or removal remains exact-scope Owner-only.
 - Move bulky detail into evidence references when safe local storage exists.

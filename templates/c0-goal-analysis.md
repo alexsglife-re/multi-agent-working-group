@@ -26,6 +26,10 @@ PM routing:
   Model source:
   Source freshness/current verification:
   Continuity:
+  C-stage: C0-bootstrap
+  Stage Session ID:
+  Runtime/provider kind:
+  Runtime Session ID / source / resume evidence:
 
 Advisor routing:
   Provider/model:
@@ -33,6 +37,10 @@ Advisor routing:
   Source freshness/current verification:
   Model diversity:
   Trusted-context boundary:
+  C-stage: C0-bootstrap
+  Stage Session ID:
+  Runtime/provider kind:
+  Runtime Session ID / source / resume evidence:
 
 PM/Advisor separation:
   provider-separated | model-family-separated degraded |
@@ -50,9 +58,21 @@ PM/Advisor lifecycle patience:
   Patience state:
     active | waiting | progress-check-needed | exceeded | blocked | complete
   Closure/restart rule:
-    do not close for short silence; require concrete lifecycle reason
+    close or restart before C1; do not carry C0 decisions or authorization; do not close for short silence
+  C0 transition record:
+    Prior Stage Session ID:
+    Successor Stage Session ID:
+    Restart reason: cross-stage | <other canonical reason>
+    Lifecycle Decision Actor: leader | owner
+    Lifecycle Decision Time: <ISO-8601 with timezone>
+    Verified successor packet:
 
 Context-efficient review plan:
+  Inherited context: none
+  Fresh decision: confirmed | blocked
+  No-peek state: isolated-current-first-pass | consensus-open | contaminated
+  Validation freshness: fresh-current-target | stale | not-applicable
+  Authorization state: not-granted | owner-explicit-current-scope | normal-git-gate-current | blocked
   Review ID:
   Stable baseline anchor:
   Incremental evidence target:

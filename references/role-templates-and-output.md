@@ -2,6 +2,10 @@
 
 For stable-baseline plus incremental PM or Advisor packets, also read `references/review-context-efficiency.md`. Use a conclusion-free factual manifest, separate no-peek role packets, and an invocation record; compact packets remain evidence indexes rather than original-evidence restrictions.
 
+For OpenSpec work, role templates use one runtime-proven PM lifecycle and one runtime-proven Advisor lifecycle per C1-C4 stage by default. A changed checkpoint remains a fresh decision transaction under a new Review ID and Attempt ID even when Stage Session ID remains unchanged. Same-stage roles may retain verified context and their own reasoning, but never an earlier `GO`, validation freshness, git/archive authorization, or the other role's current first-pass conclusion. C0 and non-OpenSpec rules, canonical values, exact runtime identity, restart triggers, ambiguity quarantine, and transition-only actor/time fields are defined in `references/review-context-efficiency.md`.
+
+Role lifecycle cleanup remains sequential. Do not close a same-stage role solely because one checkpoint completed when later checkpoints remain. At a cross-stage or mandatory-trigger transition, record the lifecycle reason, actor `leader|owner`, timezone-qualified ISO-8601 decision time, and verified successor packet, then close or restart roles one at a time. Routine same-stage records omit actor/time fields.
+
 This file extends `SKILL.md`. It cannot weaken `SKILL.md`, cannot override `SKILL.md`, and grants no authorization by itself. If this file conflicts with `SKILL.md`, project rules, or Owner instructions, use the stricter rule.
 
 Read this reference before dispatching PM, Advisor, Worker, or Reviewer roles, accepting role output, creating startup packets, or producing final closeout summaries.

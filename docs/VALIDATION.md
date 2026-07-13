@@ -541,10 +541,11 @@ Run these checks whenever `agents/openai.yaml` changes.
 
 ## v0.4.17 Role Review Context Efficiency Checks
 
-- Public version is `v0.4.17`, published on July 12, 2026; no next development version is declared.
+- Public version is `v0.4.17`, published on July 12, 2026; the current development target remains `v0.4.18` without changing the public release marker.
 - Deterministic checks require matching v0.4.17 public-version, changelog publication, roadmap, and completed TODO markers.
 - `SKILL.md` routes context-efficient PM/Advisor work to `references/review-context-efficiency.md` and retains the fail-closed quality boundary.
-- Deterministic anchors cover fresh short-lived sessions, stable baseline plus incremental evidence, conclusion-free factual manifests, and separate no-peek PM/Advisor packets.
+- Deterministic anchors cover runtime-proven OpenSpec C-stage lifecycles, fresh short-lived non-OpenSpec sessions, stable baseline plus incremental evidence, conclusion-free factual manifests, and separate no-peek PM/Advisor packets.
+- Positive and negative fixtures cover same-stage continuity with fresh checkpoint decisions, prior/current Stage Session ID comparison, cross-stage and mandatory-trigger restart, exact Claude resume matching, verified runtime-specific mechanisms, closed canonical enums, ambiguity quarantine, no-peek isolation, and transition-only actor/time evidence.
 - PM and Advisor packets use separate no-peek inputs derived from a conclusion-free manifest.
 - Packets remain indexes, not restrictions or substitutes for task-relevant original evidence.
 - Review ID, Attempt ID, packet fingerprint, all invocation states, result location, and parent retry links remain available.
