@@ -4,6 +4,10 @@ The v0.4.17 release adds two always-loaded `SKILL.md` anchors: mandatory routing
 
 This map supports the v0.4.17 public release. It is evidence for PM/Advisor/Leader review and does not create authorization.
 
+The v0.4.18 development target extends `references/review-context-efficiency.md` with three retention classes, OpenSpec and small-task lifecycle checkpoints, minimum durable audit evidence, and fail-closed non-destructive compaction. It preserves original-evidence access and keeps destructive removal exact-scope Owner-only.
+
+Its growth claim is limited to active and retransmitted review context. Stored lifecycle-bound files may continue growing until exact-scope Owner-authorized removal; no storage cap is claimed.
+
 ## Current SKILL.md Validation Anchors
 
 All current `template_contains "SKILL.md"` hard-boundary anchor phrases remain in `SKILL.md` and remain individually checked by `scripts/validate-local.sh`.
@@ -31,6 +35,7 @@ authorization.
 | OpenSpec C0-C4 and local validation | OpenSpec Lifecycle; Validation And Verification | references/openspec-lifecycle.md |
 | Startup packets, role output templates, cleanup status, and Leader work budget | Output Requirements | references/role-templates-and-output.md |
 | Handoff and successor startup | Rollover And Handoff | references/context-rollover.md |
+| Review packet retention, compaction, and cleanup eligibility | Context-efficient role review | references/review-context-efficiency.md |
 
 ## Explicit Hard Boundaries Added For v0.4.12
 

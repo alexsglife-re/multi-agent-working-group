@@ -4,6 +4,8 @@ These templates are reusable shapes for common Multi-Agent Working Group outputs
 
 Version: v0.4.13 recommended templates.
 
+This is the collection baseline. Individual templates may declare a later development version when first introduced or materially revised; existing template provenance is not bulk-rewritten.
+
 ## Use Rules
 
 - Templates provide structure only.
@@ -12,6 +14,8 @@ Version: v0.4.13 recommended templates.
 - Keep filled templates current and compact.
 - Use `review-factual-manifest.md` for shared conclusion-free facts and `review-invocation-record.md` for Review ID, Attempt ID, packet fingerprint, lifecycle state, and linked retry evidence.
 - PM and Advisor packets remain separate for independent no-peek first passes and remain indexes rather than restrictions on original evidence.
+- Reusable blank templates are permanent protocol material; filled instances are lifecycle-bound working material.
+- Use `review-packet-cleanup-checklist.md` before packet compaction. Lifecycle eligibility permits non-destructive compaction only; file mutation or removal remains exact-scope Owner-only.
 - Move bulky detail into evidence references when safe local storage exists.
 - Preserve unresolved P0/P1, owner-decision needs, validation freshness, stop conditions, and git authorization state.
 - Treat rollover templates as continuity evidence only; successor startup packet != automatic thread creation.
@@ -45,6 +49,7 @@ Version: v0.4.13 recommended templates.
 | `worker-assignment.md` | Dispatch one bounded Worker slice. |
 | `worker-return.md` | Capture Worker completion, blocker, validation, and changed files. |
 | `reviewer-report.md` | Capture independent review findings. |
+| `review-packet-cleanup-checklist.md` | Verify retention class, final gate, blockers, durable audit evidence, and exact cleanup scope. |
 | `blocked-report.md` | Stop cleanly when a gate, validation, or evidence blocker appears. |
 | `compact-handoff.md` | Refresh Leader handoff state without append-only growth. |
 | `successor-startup-packet.md` | Prepare rollover takeover evidence without automatically creating a new conversation. |

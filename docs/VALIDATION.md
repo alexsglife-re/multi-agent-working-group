@@ -553,6 +553,19 @@ Run these checks whenever `agents/openai.yaml` changes.
 
 A passing marker check proves documentation and template consistency only. It does not prove runtime compliance, actual token savings, or review quality, and it does not replace fresh PM/Advisor review or any gate.
 
+## v0.4.18 Review Packet Retention And Cleanup Checks
+
+- Public version remains `v0.4.17`; Development target: `v0.4.18` Review Packet Retention And Cleanup.
+- Checks cover permanent protocol material, durable audit evidence, and lifecycle-bound working material.
+- OpenSpec examples retain later-gate evidence through C1, C2, C3, and C4; small tasks use their actual final applicable gate without inventing OpenSpec.
+- Minimum audit evidence retains invocation identity, exact anchors, fingerprint, timing, decision, P0/P1/P2, validation, evidence pointers, retry lineage, cleanup disposition, and complete role reasoning at a durable location.
+- Example files are anchor-checked for documented scenarios; they are not parsed as runtime records. Separate cleanup-predicate cases fail closed with asserted reason codes for `prepared`, `running`, `result-unknown`, unresolved P0/P1, `BLOCKED-EVIDENCE`, evidence gaps, required corrections, Owner decisions, incomplete required reviews or later gates, permanent targets, incomplete audit records, incomplete retry lineage, and unknown cleanup impact.
+- Lifecycle eligibility permits non-destructive compaction only. File mutation or removal remains an exact-scope Owner-only destructive action under applicable gates.
+- Packet cleanup is distinct from sequential role-agent cleanup and cannot weaken validation, role review, git, CI/status, secret-scan, release, authorization, or original-evidence boundaries.
+- Active and retransmitted review context is bounded; stored lifecycle-bound packet files may grow until exact-scope Owner-authorized removal, and compact durable audit evidence intentionally grows with required reviews. The change does not impose a storage cap.
+
+Passing these checks proves repository documentation anchors and deterministic cleanup-predicate handling only. It does not prove automatic runtime enforcement, storage reduction, token savings, or review-quality improvement.
+
 ## Suggested Manual Review Flow
 
 1. Read the changed files.

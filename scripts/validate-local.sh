@@ -2,9 +2,9 @@
 set -euo pipefail
 
 PUBLIC_VERSION="v0.4.17"
-DEVELOPMENT_VERSION=""
+DEVELOPMENT_VERSION="v0.4.18"
 PUBLIC_UPGRADE_TITLE="Role Review Context Efficiency"
-DEVELOPMENT_UPGRADE_TITLE=""
+DEVELOPMENT_UPGRADE_TITLE="Review Packet Retention And Cleanup"
 PUBLICATION_DATE="July 12, 2026"
 CURRENT_VALIDATION_TITLE="Role Review Context Efficiency Checks"
 SKILL_ANCHOR_BASELINE=57
@@ -48,6 +48,7 @@ REQUIRED_TEMPLATES=(
   "templates/reviewer-report.md"
   "templates/review-factual-manifest.md"
   "templates/review-invocation-record.md"
+  "templates/review-packet-cleanup-checklist.md"
   "templates/successor-startup-packet.md"
   "templates/worker-assignment.md"
   "templates/worker-return.md"
@@ -108,6 +109,63 @@ contains() {
   local file="$1"
   local needle="$2"
   grep -Fq -- "$needle" "$file"
+}
+
+cleanup_case_eligible() {
+  local state="$1"
+  local p0_p1_clear="$2"
+  local blocked_evidence_clear="$3"
+  local evidence_gap_clear="$4"
+  local required_correction_clear="$5"
+  local owner_decision_clear="$6"
+  local required_reviews_and_later_gates_complete="$7"
+  local target_class="$8"
+  local audit_complete="$9"
+  local retry_lineage_complete="${10}"
+  local cleanup_impact_known="${11}"
+
+  CLEANUP_CASE_REASON="eligible"
+
+  case "$state" in
+    prepared) CLEANUP_CASE_REASON="prepared-invocation"; return 1 ;;
+    running) CLEANUP_CASE_REASON="running-invocation"; return 1 ;;
+    result-unknown) CLEANUP_CASE_REASON="result-unknown-invocation"; return 1 ;;
+    completed|failed-confirmed|superseded) ;;
+    *) CLEANUP_CASE_REASON="invalid-invocation-state"; return 1 ;;
+  esac
+  [[ "$p0_p1_clear" == "yes" ]] || { CLEANUP_CASE_REASON="unresolved-p0-p1"; return 1; }
+  [[ "$blocked_evidence_clear" == "yes" ]] || { CLEANUP_CASE_REASON="blocked-evidence"; return 1; }
+  [[ "$evidence_gap_clear" == "yes" ]] || { CLEANUP_CASE_REASON="evidence-gap"; return 1; }
+  [[ "$required_correction_clear" == "yes" ]] || { CLEANUP_CASE_REASON="required-correction"; return 1; }
+  [[ "$owner_decision_clear" == "yes" ]] || { CLEANUP_CASE_REASON="owner-decision"; return 1; }
+  [[ "$required_reviews_and_later_gates_complete" == "yes" ]] || { CLEANUP_CASE_REASON="required-review-or-later-gate"; return 1; }
+  [[ "$target_class" == "lifecycle-bound working material" ]] || { CLEANUP_CASE_REASON="permanent-or-ineligible-target"; return 1; }
+  [[ "$audit_complete" == "yes" ]] || { CLEANUP_CASE_REASON="incomplete-audit"; return 1; }
+  [[ "$retry_lineage_complete" == "yes" ]] || { CLEANUP_CASE_REASON="incomplete-retry-lineage"; return 1; }
+  [[ "$cleanup_impact_known" == "yes" ]] || { CLEANUP_CASE_REASON="unknown-cleanup-impact"; return 1; }
+}
+
+expect_cleanup_case_pass() {
+  local label="$1"
+  shift
+  if cleanup_case_eligible "$@"; then
+    pass "$label"
+  else
+    fail "$label"
+  fi
+}
+
+expect_cleanup_case_reject() {
+  local label="$1"
+  local expected_reason="$2"
+  shift 2
+  if cleanup_case_eligible "$@"; then
+    fail "$label"
+  elif [[ "$CLEANUP_CASE_REASON" == "$expected_reason" ]]; then
+    pass "$label ($expected_reason)"
+  else
+    fail "$label expected $expected_reason, got $CLEANUP_CASE_REASON"
+  fi
 }
 
 template_contains() {
@@ -228,6 +286,8 @@ fi
 for template in "${REQUIRED_TEMPLATES[@]}"; do
   if [[ "$template" == "templates/README.md" ]]; then
     version_marker="Version: $TEMPLATE_VERSION recommended templates."
+  elif [[ "$template" == "templates/review-packet-cleanup-checklist.md" ]]; then
+    version_marker="Version: v0.4.18 development template."
   else
     version_marker="Version: $TEMPLATE_VERSION recommended template."
   fi
@@ -550,6 +610,58 @@ template_contains "templates/advisor-review.md" "Owner-decision needs:" "Advisor
 template_contains "templates/advisor-review.md" "Recommended next action:" "Advisor template records next action"
 template_contains "templates/advisor-review.md" "Concise rationale:" "Advisor template records rationale"
 template_contains "templates/review-invocation-record.md" "Parent Attempt ID" "Invocation template links retries"
+template_contains "references/review-context-efficiency.md" "Permanent protocol material" "Retention reference defines permanent protocol material"
+template_contains "references/review-context-efficiency.md" "Durable audit evidence" "Retention reference defines durable audit evidence"
+template_contains "references/review-context-efficiency.md" "Lifecycle-bound working material" "Retention reference defines lifecycle-bound working material"
+template_contains "references/review-context-efficiency.md" "A shared conclusion-free factual manifest is lifecycle-bound working material" "Retention reference classifies shared factual manifest"
+template_contains "references/review-context-efficiency.md" '`failed-confirmed` means' "Retention reference defines failed-confirmed"
+template_contains "references/review-context-efficiency.md" '`superseded` means' "Retention reference defines superseded"
+template_contains "references/review-context-efficiency.md" "C1:" "Retention reference defines C1 checkpoint"
+template_contains "references/review-context-efficiency.md" "C2:" "Retention reference defines C2 checkpoint"
+template_contains "references/review-context-efficiency.md" "C3:" "Retention reference defines C3 retention"
+template_contains "references/review-context-efficiency.md" "C4:" "Retention reference defines C4 final cleanup timing"
+template_contains "references/review-context-efficiency.md" "required final review for no-git work" "Retention reference defines no-git final gate"
+template_contains "references/review-context-efficiency.md" "actual-commit review for commit-only work" "Retention reference defines commit-only final gate"
+template_contains "references/review-context-efficiency.md" "status or CI evidence plus post-push review" "Retention reference defines pushed final gate"
+template_contains "references/review-context-efficiency.md" "post-action closeout review for Owner-authorized tag, release, publication, or deployment" "Retention reference defines publication final gate"
+template_contains "references/review-context-efficiency.md" "without mutating or removing the original files" "Retention reference defines non-destructive compaction"
+template_contains "references/review-context-efficiency.md" "Lifecycle eligibility permits non-destructive compaction only" "Retention reference blocks implicit deletion"
+template_contains "references/review-context-efficiency.md" "Durable audit evidence intentionally grows linearly" "Retention reference states intentional audit growth"
+template_contains "references/review-context-efficiency.md" "a terse decision summary alone is insufficient" "Retention reference preserves complete role reasoning"
+template_contains "templates/review-invocation-record.md" "Retention class:" "Invocation template records retention class"
+template_contains "templates/review-invocation-record.md" "Final applicable gate or OpenSpec checkpoint:" "Invocation template records final checkpoint"
+template_contains "templates/review-invocation-record.md" "Cleanup blocker check:" "Invocation template records blocker check"
+template_contains "templates/review-invocation-record.md" "Retained-record location:" "Invocation template records durable result"
+template_contains "templates/review-packet-cleanup-checklist.md" "No prepared, running, or result-unknown invocation:" "Cleanup checklist rejects active ambiguous state"
+template_contains "templates/review-packet-cleanup-checklist.md" "No unresolved P0/P1 or BLOCKED-EVIDENCE:" "Cleanup checklist rejects unresolved blockers"
+template_contains "templates/review-packet-cleanup-checklist.md" "This checklist never authorizes deletion" "Cleanup checklist blocks destructive authorization"
+template_contains "examples/review-packet-cleanup-openspec.md" "C2 completion is not final cleanup" "OpenSpec cleanup example retains later gate evidence"
+template_contains "examples/review-packet-cleanup-small-task.md" "does not invent C1-C4 stages" "Small task cleanup example avoids invented OpenSpec"
+template_contains "examples/review-packet-cleanup-negative.md" 'invocation is `running`' "Negative example rejects running invocation"
+template_contains "examples/review-packet-cleanup-negative.md" 'invocation is `result-unknown`' "Negative example rejects unknown result"
+template_contains "examples/review-packet-cleanup-negative.md" "P0 or P1 remains unresolved" "Negative example rejects unresolved P0 P1"
+template_contains "examples/review-packet-cleanup-negative.md" '`BLOCKED-EVIDENCE` or an evidence gap' "Negative example rejects evidence gaps"
+template_contains "examples/review-packet-cleanup-negative.md" "before status/CI evidence or post-push review" "Negative example rejects incomplete gate"
+template_contains "examples/review-packet-cleanup-negative.md" 'Delete `templates/pm-review.md`' "Negative example rejects blank template deletion"
+template_contains "examples/review-packet-cleanup-negative.md" "incomplete durable audit record" "Negative example rejects incomplete audit record"
+template_contains "docs/VALIDATION.md" "Active and retransmitted review context is bounded" "Validation scopes context growth claim"
+template_contains "docs/VALIDATION.md" "stored lifecycle-bound packet files may grow" "Validation rejects storage cap claim"
+expect_cleanup_case_pass "Valid OpenSpec C4 cleanup predicate case" completed yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_pass "Valid small-task final-review cleanup predicate case" completed yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_pass "Valid superseded attempt with retry lineage predicate case" superseded yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject prepared invocation predicate case" prepared-invocation prepared yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject running invocation predicate case" running-invocation running yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject result-unknown invocation predicate case" result-unknown-invocation result-unknown yes yes yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject unresolved P0/P1 predicate case" unresolved-p0-p1 completed no yes yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject BLOCKED-EVIDENCE predicate case" blocked-evidence completed yes no yes yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject evidence-gap predicate case" evidence-gap completed yes yes no yes yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject required-correction predicate case" required-correction completed yes yes yes no yes yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject Owner-decision predicate case" owner-decision completed yes yes yes yes no yes "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject required-review or later-gate predicate case" required-review-or-later-gate completed yes yes yes yes yes no "lifecycle-bound working material" yes yes yes
+expect_cleanup_case_reject "Reject permanent blank-template target predicate case" permanent-or-ineligible-target completed yes yes yes yes yes yes "permanent protocol material" yes yes yes
+expect_cleanup_case_reject "Reject incomplete retained audit predicate case" incomplete-audit completed yes yes yes yes yes yes "lifecycle-bound working material" no yes yes
+expect_cleanup_case_reject "Reject superseded attempt without retry lineage predicate case" incomplete-retry-lineage superseded yes yes yes yes yes yes "lifecycle-bound working material" yes no yes
+expect_cleanup_case_reject "Reject unknown cleanup-impact predicate case" unknown-cleanup-impact completed yes yes yes yes yes yes "lifecycle-bound working material" yes yes no
 template_contains "README.md" "Current public version: \`$PUBLIC_VERSION\`" "README states current public version"
 template_contains "README.md" "\`$PUBLIC_VERSION\` is the current public version, released on $PUBLICATION_DATE" "README states public release date"
 template_contains "CHANGELOG.md" "Published $PUBLIC_VERSION on $PUBLICATION_DATE: $PUBLIC_UPGRADE_TITLE" "CHANGELOG states current publication"

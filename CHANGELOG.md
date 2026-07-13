@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Development target v0.4.18: Review Packet Retention And Cleanup
+
+- Classify permanent protocol material, durable audit evidence, and lifecycle-bound working material.
+- Add OpenSpec C1-C4 compaction checkpoints and final applicable gates for non-OpenSpec tasks.
+- Preserve complete PM/Advisor reasoning, reproducible original-evidence pointers, and fail-closed blockers.
+- Keep compaction non-destructive; file removal remains an exact-scope Owner-only action.
+- Bound active and retransmitted review context while acknowledging that stored lifecycle-bound files may grow until exact-scope Owner-authorized removal and durable audit evidence grows with required reviews.
+- Do not claim publication, measured token savings, proven quality improvement, or automatic cleanup.
+
 ### Published v0.4.17 on July 12, 2026: Role Review Context Efficiency
 
 - Add stable-baseline plus incremental PM and Advisor packets, fresh short-lived sessions, original-evidence access, and no-peek isolation.

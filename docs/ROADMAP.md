@@ -25,6 +25,8 @@ Exit criteria:
 `v0.4.0` local stabilization through `v0.4.17` Role Review Context Efficiency
 are complete and publicly released.
 
+`v0.4.18` Review Packet Retention And Cleanup is the current development target; it is not published.
+
 Goal: make the workflow easier to apply consistently.
 
 - Add `examples/` with small, medium, commit-gate, push-gate, and handoff scenarios.
@@ -92,6 +94,11 @@ Exit criteria:
   plus incremental review packets, fresh short-lived sessions, no-peek input
   separation, original-evidence access, and safe linked retry handling without
   reducing PM/Advisor capability, review frequency, or existing gates.
+- `v0.4.18` Review Packet Retention And Cleanup defines permanent, durable-audit,
+  and lifecycle-bound retention classes; OpenSpec and small-task checkpoints;
+  fail-closed blockers; and non-destructive compaction without automatic or
+  implicitly authorized deletion. It controls active and retransmitted context,
+  not total stored files; stored packets may grow until authorized removal.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -156,3 +163,5 @@ on July 12, 2026. It adds context-efficient role review without reducing
 PM/Advisor capability, review scope, independent no-peek review, or access to
 task-relevant original evidence. Future tags, GitHub Releases, deployments, and
 publications remain Owner-only actions and require explicit authorization.
+
+The current development target is `v0.4.18` Review Packet Retention And Cleanup. It does not claim publication, measured token savings, proven quality improvement, or runtime enforcement.

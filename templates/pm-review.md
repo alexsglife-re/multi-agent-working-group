@@ -101,3 +101,5 @@ Concise rationale:
 ```
 
 This packet is an index and starting point, not a restriction or substitute for original evidence. Inspect any task-relevant original evidence within the approved scope when needed.
+
+This reusable blank template is permanent protocol material. A filled PM packet is lifecycle-bound working material; its complete required reasoning and minimum durable audit record remain durable after any eligible non-destructive compaction.

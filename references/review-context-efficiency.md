@@ -20,6 +20,8 @@ Record Review ID, Attempt ID, role, review type, target, stable baseline anchor,
 
 States are `prepared`, `running`, `completed`, `failed-confirmed`, `result-unknown`, and `superseded`. Do not blindly repeat the same Review ID and packet fingerprint while it is `running` or `result-unknown`. First inspect process, output, and CLI status evidence. Short silence is not failure or cleanup. A confirmed retry uses a new Attempt ID linked to its parent and preserves the same capability and scope.
 
+`failed-confirmed` means direct process, output, or CLI evidence confirms that the attempt cannot produce an acceptable result. `superseded` means a newer linked attempt or materially changed review target has replaced the attempt after its lineage and final disposition were recorded. Neither state by itself proves cleanup eligibility.
+
 ## Required Role Response
 
 Record:
@@ -32,3 +34,32 @@ Record:
 - Recommended next action and concise rationale.
 
 Role output and packet records are evidence, not authorization.
+
+## Retention Classes
+
+Classify review material by purpose:
+
+1. **Permanent protocol material:** reusable blank templates, stable project rules, accepted specifications, and archived OpenSpec artifacts. These are never packet-cleanup targets.
+2. **Durable audit evidence:** invocation identity, exact target anchors, fingerprint, timing, decision, P0/P1/P2 findings, validation, evidence pointers, retry lineage, cleanup disposition, and each required role's complete reasoning, option comparison, recommendation, objections, and key error details directly or at a durable result location; a terse decision summary alone is insufficient.
+3. **Lifecycle-bound working material:** filled packets, generated prompts, copied unchanged evidence, scratch manifests, and superseded renderings. A filled instance remains lifecycle-bound even when created from a permanent blank template.
+
+A shared conclusion-free factual manifest is lifecycle-bound working material unless a specific manifest field is retained as part of the durable audit record. Durable audit evidence intentionally grows linearly with required reviews. The protocol bounds active and retransmitted review context, not stored files: lifecycle-bound packet files may continue growing until exact-scope Owner-authorized removal. These eligibility and audit rules do not impose a storage cap.
+
+## Lifecycle Checkpoints
+
+For OpenSpec-backed work:
+
+- **C1:** after both independent first passes, corrections, and the scope decision complete, redundant proposal-review material may be non-destructively compacted; retain the durable record and evidence needed by C2.
+- **C2:** after validation and required implementation review complete, superseded implementation-review material may be non-destructively compacted; retain everything needed for C3.
+- **C3:** retain current pre-commit, actual-commit, pre-push, post-push, status, and other gate material until each corresponding gate and follow-up review completes.
+- **C4:** final non-destructive compaction and destructive-removal eligibility occur only after archive validation, applicable archive commit, push, and status work, and required post-action reviews complete.
+
+For work that does not use OpenSpec, do not invent an OpenSpec lifecycle. Determine the final applicable gate from actual scope: required final review for no-git work; actual-commit review for commit-only work; status or CI evidence plus post-push review for pushed work; and post-action closeout review for Owner-authorized tag, release, publication, or deployment work.
+
+## Fail-Closed Cleanup Decision
+
+Non-destructive compaction replaces redundant active detail with the durable audit record and reproducible pointers without mutating or removing the original files. File mutation, deletion, or other destructive removal is not compaction.
+
+Block compaction and removal eligibility while any related invocation is `prepared`, `running`, or `result-unknown`; any P0/P1, `BLOCKED-EVIDENCE`, evidence gap, required correction, Owner decision, required review, or later applicable gate remains unresolved; or cleanup impact is unknown. A `failed-confirmed` or `superseded` attempt is eligible only after retry lineage and final disposition are durably recorded.
+
+Lifecycle eligibility permits non-destructive compaction only. Destructive removal remains an Owner-only default exclusion requiring explicit authorization naming the exact scope and all applicable gates. Do not add time-based, background, automatic, unattended, or retrospective bulk deletion. Preserve historical material prospectively unless a later exact-scope Owner-authorized task verifies eligibility.

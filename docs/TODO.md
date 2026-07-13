@@ -460,6 +460,17 @@ Goal: make first-load reading order clearer without reducing the always-loaded
 
 The completed release does not authorize any future tag, release, deployment, or publication.
 
+## v0.4.18: Review Packet Retention And Cleanup (Development)
+
+- [x] Define permanent protocol, durable audit, and lifecycle-bound working-material classes.
+- [x] Define OpenSpec C1-C4 checkpoints and final applicable gates for non-OpenSpec tasks.
+- [x] Preserve complete role reasoning, invocation identity, validation, evidence pointers, and retry lineage.
+- [x] Add fail-closed blockers and explicit non-destructive compaction semantics.
+- [x] Add cleanup checklist, positive/negative example anchors, and deterministic cleanup-predicate cases.
+- [x] Scope growth claims to active/retransmitted context; do not claim a storage cap before exact-scope Owner-authorized removal.
+- [ ] Complete implementation review, normal git closeout, OpenSpec sync/archive, and archive validation.
+- [ ] Publish only after separate explicit Owner authorization for tag/release/publication.
+
 ## v0.4.16: Cross-Runtime Installation And Adapter Guardrails
 
 Goal: document Codex and Claude Code installation paths while keeping runtime

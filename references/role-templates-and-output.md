@@ -150,6 +150,8 @@ evidence. Validation, PM/Advisor/Reviewer, git, CI/status, secret-scan,
 release/tag, or authorization failures must not be reclassified as non-blocking
 cleanup.
 
+Review-packet compaction is a different lifecycle operation from role-agent cleanup/close. Reusable blank templates remain permanent. Filled packet instances are lifecycle-bound working material; they may be non-destructively compacted only after the applicable checkpoint and blocker check. Complete required role reasoning and the minimum durable audit record remain available, and PM/Advisor access to task-relevant original evidence remains unrestricted within approved scope. Destructive file removal is never implied by packet eligibility or role-agent cleanup.
+
 Reviewer additions:
 
 ```text

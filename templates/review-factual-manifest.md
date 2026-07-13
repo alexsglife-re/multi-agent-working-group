@@ -19,3 +19,5 @@ Conclusions included:
 ```
 
 This manifest is evidence, not authorization. It may seed separate no-peek PM and Advisor packets.
+
+The blank template is permanent protocol material. A filled shared conclusion-free factual manifest is lifecycle-bound working material unless a specific field is retained in the durable audit record; it must never carry either role's first-pass conclusion.

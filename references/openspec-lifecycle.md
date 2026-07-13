@@ -43,6 +43,8 @@ C4 Archive:
 
 Do not skip C0, and do not treat C3 as final completion when C4 applies.
 ```
+
+Packet lifecycle is separate from role-agent cleanup. C1 and C2 may permit only non-destructive compaction of redundant completed-stage working material after their reviews, corrections, decisions, and validation complete. C3 retains material required by git and status gates. C4 final cleanup eligibility waits for archive validation and every applicable archive commit, push, status, and post-action review. None of these checkpoints authorizes file deletion or weakens validation, PM/Advisor/Reviewer, git, CI/status, secret-scan, release, authorization, or original-evidence requirements.
 Local validation:
 
 ```text
