@@ -1,6 +1,6 @@
 # Review Packet Cleanup Checklist
 
-Version: v0.4.18 development template.
+Version: v0.4.18 release template.
 
 ```text
 Task or OpenSpec change:

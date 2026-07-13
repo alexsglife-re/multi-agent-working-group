@@ -2,6 +2,8 @@
 
 Release note: v0.4.17 adds role-review context-efficiency documentation and templates without changing runtime installation paths or adapter maturity.
 
+Release note: v0.4.18 adds review-packet retention, cleanup, and stage-scoped role-lifecycle documentation without changing runtime installation paths or adapter maturity.
+
 This guide explains how to use Multi-Agent Working Group as a portable workflow
 protocol, where runtime-specific installation guidance lives, and how to
 migrate it to another machine or project.

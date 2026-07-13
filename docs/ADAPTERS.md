@@ -2,6 +2,8 @@
 
 The v0.4.17 release adds portable review-packet rules only. It does not upgrade an adapter maturity label or claim new runtime validation.
 
+The v0.4.18 release adds review-packet retention, cleanup, and stage-scoped role-lifecycle rules without changing adapter maturity or claiming new runtime validation.
+
 Multi-Agent Working Group is a portable workflow protocol. A runtime adapter is
 the concrete way a specific agent environment applies that protocol.
 

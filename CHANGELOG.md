@@ -6,14 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Development target v0.4.18: Review Packet Retention And Cleanup
+No next development target is currently declared.
+
+### Published v0.4.18 on July 12, 2026: Review Packet Retention And Cleanup
 
 - Classify permanent protocol material, durable audit evidence, and lifecycle-bound working material.
 - Add OpenSpec C1-C4 compaction checkpoints and final applicable gates for non-OpenSpec tasks.
+- Correct OpenSpec role lifecycles to use one runtime-proven PM lifecycle and one Advisor lifecycle per C1-C4 stage: each checkpoint gets a fresh decision, same-stage Claude continuity uses exact `--resume`, and cross-stage lifecycles restart by default.
 - Preserve complete PM/Advisor reasoning, reproducible original-evidence pointers, and fail-closed blockers.
 - Keep compaction non-destructive; file removal remains an exact-scope Owner-only action.
 - Bound active and retransmitted review context while acknowledging that stored lifecycle-bound files may grow until exact-scope Owner-authorized removal and durable audit evidence grows with required reviews.
-- Do not claim publication, measured token savings, proven quality improvement, or automatic cleanup.
+- Keep the release documentation-and-validation scoped; do not claim runtime enforcement, deployment, measured token savings, proven quality improvement, or automatic cleanup.
+
+The public release date uses `America/Los_Angeles` release-date semantics.
 
 ### Published v0.4.17 on July 12, 2026: Role Review Context Efficiency
 

@@ -539,10 +539,9 @@ Run these checks whenever `agents/openai.yaml` changes.
 - Any new examples clearly distinguish normal non-high-risk git gates from explicit Owner approval gates for high-risk/default-exclusion actions.
 - Any unresolved risk or missing validation is documented before entering the applicable commit gate.
 
-## v0.4.17 Role Review Context Efficiency Checks
+## v0.4.17 Role Review Context Efficiency Checks (Historical)
 
-- Public version is `v0.4.17`, published on July 12, 2026; the current development target remains `v0.4.18` without changing the public release marker.
-- Deterministic checks require matching v0.4.17 public-version, changelog publication, roadmap, and completed TODO markers.
+- v0.4.17 was published on July 12, 2026 and is retained here as historical validation evidence.
 - `SKILL.md` routes context-efficient PM/Advisor work to `references/review-context-efficiency.md` and retains the fail-closed quality boundary.
 - Deterministic anchors cover runtime-proven OpenSpec C-stage lifecycles, fresh short-lived non-OpenSpec sessions, stable baseline plus incremental evidence, conclusion-free factual manifests, and separate no-peek PM/Advisor packets.
 - Positive and negative fixtures cover same-stage continuity with fresh checkpoint decisions, prior/current Stage Session ID comparison, cross-stage and mandatory-trigger restart, exact Claude resume matching, verified runtime-specific mechanisms, closed canonical enums, ambiguity quarantine, no-peek isolation, and transition-only actor/time evidence.
@@ -556,13 +555,15 @@ A passing marker check proves documentation and template consistency only. It do
 
 ## v0.4.18 Review Packet Retention And Cleanup Checks
 
-- Public version remains `v0.4.17`; Development target: `v0.4.18` Review Packet Retention And Cleanup.
+- Public version is `v0.4.18`, published on July 12, 2026 under `America/Los_Angeles` release-date semantics; no next development target is currently declared.
+- Deterministic checks require matching v0.4.18 public-version, changelog publication, roadmap, completed TODO markers, and the no-active-development-target state.
 - Checks cover permanent protocol material, durable audit evidence, and lifecycle-bound working material.
 - OpenSpec examples retain later-gate evidence through C1, C2, C3, and C4; small tasks use their actual final applicable gate without inventing OpenSpec.
 - Minimum audit evidence retains invocation identity, exact anchors, fingerprint, timing, decision, P0/P1/P2, validation, evidence pointers, retry lineage, cleanup disposition, and complete role reasoning at a durable location.
 - Example files are anchor-checked for documented scenarios; they are not parsed as runtime records. Separate cleanup-predicate cases fail closed with asserted reason codes for `prepared`, `running`, `result-unknown`, unresolved P0/P1, `BLOCKED-EVIDENCE`, evidence gaps, required corrections, Owner decisions, incomplete required reviews or later gates, permanent targets, incomplete audit records, incomplete retry lineage, and unknown cleanup impact.
 - Lifecycle eligibility permits non-destructive compaction only. File mutation or removal remains an exact-scope Owner-only destructive action under applicable gates.
 - Packet cleanup is distinct from sequential role-agent cleanup and cannot weaken validation, role review, git, CI/status, secret-scan, release, authorization, or original-evidence boundaries.
+- OpenSpec C1-C4 use one runtime-proven PM lifecycle and one Advisor lifecycle per stage; changed checkpoints require fresh decisions, while same-stage continuity retains the exact runtime session unless a canonical restart trigger applies.
 - Active and retransmitted review context is bounded; stored lifecycle-bound packet files may grow until exact-scope Owner-authorized removal, and compact durable audit evidence intentionally grows with required reviews. The change does not impose a storage cap.
 
 Passing these checks proves repository documentation anchors and deterministic cleanup-predicate handling only. It does not prove automatic runtime enforcement, storage reduction, token savings, or review-quality improvement.

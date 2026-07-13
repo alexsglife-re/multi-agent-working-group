@@ -44,7 +44,7 @@ orchestration and verification, treats agent output as evidence rather than
 authority, and separates local completion, normal git gates, and Owner-only
 exclusions.
 
-> Current public version: `v0.4.17`. Development target: `v0.4.18` Review Packet Retention And Cleanup. Public release tags should point at reviewed commits; development documentation alone is not a release, deployment, or external publication claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
+> Current public version: `v0.4.18`, released on July 12, 2026 under `America/Los_Angeles` release-date semantics. No next development target is currently declared. Public release tags should point at reviewed commits; documentation alone is not a deployment claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## Quick Start
 
@@ -186,7 +186,7 @@ After an OpenSpec-backed change is archived, use closeout mode:
 
 The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, template and reference anchors, and the installed global skill plus required references when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, git gate requirements, or runtime compliance with cleanup/delegation behavior.
 
-For the v0.4.18 development target, retention checks prove documented example anchors and deterministic cleanup-predicate behavior, not runtime compliance, actual token savings, review-quality improvement, or automatic deletion.
+For the v0.4.18 public release, retention checks prove documented example anchors and deterministic cleanup-predicate behavior, not runtime compliance, actual token savings, review-quality improvement, or automatic deletion.
 The lifecycle controls active and retransmitted review context; it does not cap stored packet files. Eligible lifecycle-bound files may continue accumulating until exact-scope Owner-authorized removal.
 
 ## Development Principles
@@ -228,11 +228,12 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. `v0.4.17` is public. The `v0.4.18` development target defines lifecycle-bound review-packet retention and fail-closed cleanup without reducing review capability, independent no-peek review, original-evidence access, or existing gates.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. `v0.4.18` is public and defines lifecycle-bound review-packet retention, fail-closed cleanup, and stage-scoped PM/Advisor lifecycles without reducing review capability, independent no-peek review, original-evidence access, or existing gates. No next development target is currently declared.
 
 OpenSpec reviews default to one runtime-proven PM lifecycle and one runtime-proven Advisor lifecycle per C1-C4 stage. Each changed checkpoint still creates a fresh Review ID and decision state, while cross-stage boundaries and reliability, independence, routing, trust, ambiguity, recovery, or Owner-triggered conditions restart the lifecycle. C0 and non-OpenSpec distinct checkpoints remain short-lived. Packet-retention checkpoints are separate from role-agent lifecycle boundaries.
 
-`v0.4.17` is the current public version, released on July 12, 2026. Normal
+`v0.4.18` is the current public version, released on July 12, 2026 under
+`America/Los_Angeles` release-date semantics. Normal
 non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md`
 with required evidence; future high-risk and default-exclusion actions,
 including later tags and releases, still require explicit Owner approval.

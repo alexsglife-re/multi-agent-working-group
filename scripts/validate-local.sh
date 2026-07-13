@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PUBLIC_VERSION="v0.4.17"
-DEVELOPMENT_VERSION="v0.4.18"
-PUBLIC_UPGRADE_TITLE="Role Review Context Efficiency"
-DEVELOPMENT_UPGRADE_TITLE="Review Packet Retention And Cleanup"
+PUBLIC_VERSION="v0.4.18"
+DEVELOPMENT_VERSION=""
+PUBLIC_UPGRADE_TITLE="Review Packet Retention And Cleanup"
+DEVELOPMENT_UPGRADE_TITLE=""
 PUBLICATION_DATE="July 12, 2026"
-CURRENT_VALIDATION_TITLE="Role Review Context Efficiency Checks"
+PUBLICATION_TIMEZONE="America/Los_Angeles"
+CURRENT_VALIDATION_TITLE="Review Packet Retention And Cleanup Checks"
 SKILL_ANCHOR_BASELINE=57
 TEMPLATE_VERSION="v0.4.13"
 REQUIRED_ACCEPTED_SPECS=(
@@ -109,6 +110,50 @@ contains() {
   local file="$1"
   local needle="$2"
   grep -Fq -- "$needle" "$file"
+}
+
+release_status_contradiction() {
+  local content="$1"
+  local normalized
+  normalized="$(printf '%s' "$content" | tr '[:upper:]' '[:lower:]')"
+  normalized="${normalized//no next development target/}"
+  normalized="${normalized//no active development target/}"
+  normalized="${normalized//no successor development target/}"
+  RELEASE_STATUS_REASON=""
+
+  if [[ "$normalized" =~ v0\.4\.17.{0,120}(current[[:space:]]+public|public[[:space:]]+version[[:space:]]+remains) ]] \
+    || [[ "$normalized" =~ (current[[:space:]]+public|public[[:space:]]+version[[:space:]]+remains).{0,120}v0\.4\.17 ]]; then
+    RELEASE_STATUS_REASON="v0.4.17 is still described as current public"
+    return 0
+  fi
+  if [[ "$normalized" =~ v0\.4\.18.{0,120}(development[[:space:]]+(target|version)|unpublished|not[[:space:]]+published) ]] \
+    || [[ "$normalized" =~ (development[[:space:]]+(target|version)|unpublished|not[[:space:]]+published).{0,120}v0\.4\.18 ]]; then
+    RELEASE_STATUS_REASON="v0.4.18 is still described as development or unpublished"
+    return 0
+  fi
+  return 1
+}
+
+expect_release_status_accept() {
+  local label="$1" content="$2"
+  if release_status_contradiction "$content"; then
+    fail "$label ($RELEASE_STATUS_REASON)"
+  else
+    pass "$label"
+  fi
+}
+
+expect_release_status_reject() {
+  local label="$1" expected_reason="$2" content="$3"
+  if release_status_contradiction "$content"; then
+    if [[ "$RELEASE_STATUS_REASON" == "$expected_reason" ]]; then
+      pass "$label ($RELEASE_STATUS_REASON)"
+    else
+      fail "$label expected $expected_reason, got $RELEASE_STATUS_REASON"
+    fi
+  else
+    fail "$label expected contradiction"
+  fi
 }
 
 cleanup_case_eligible() {
@@ -453,7 +498,7 @@ for template in "${REQUIRED_TEMPLATES[@]}"; do
   if [[ "$template" == "templates/README.md" ]]; then
     version_marker="Version: $TEMPLATE_VERSION recommended templates."
   elif [[ "$template" == "templates/review-packet-cleanup-checklist.md" ]]; then
-    version_marker="Version: v0.4.18 development template."
+    version_marker="Version: v0.4.18 release template."
   else
     version_marker="Version: $TEMPLATE_VERSION recommended template."
   fi
@@ -902,7 +947,9 @@ expect_cleanup_case_reject "Reject superseded attempt without retry lineage pred
 expect_cleanup_case_reject "Reject unknown cleanup-impact predicate case" unknown-cleanup-impact completed yes yes yes yes yes yes "lifecycle-bound working material" yes yes no
 template_contains "README.md" "Current public version: \`$PUBLIC_VERSION\`" "README states current public version"
 template_contains "README.md" "\`$PUBLIC_VERSION\` is the current public version, released on $PUBLICATION_DATE" "README states public release date"
+template_contains "README.md" "\`$PUBLICATION_TIMEZONE\` release-date semantics" "README states public release timezone semantics"
 template_contains "CHANGELOG.md" "Published $PUBLIC_VERSION on $PUBLICATION_DATE: $PUBLIC_UPGRADE_TITLE" "CHANGELOG states current publication"
+template_contains "CHANGELOG.md" "The public release date uses \`$PUBLICATION_TIMEZONE\` release-date semantics." "CHANGELOG states public release timezone semantics"
 template_contains "docs/ROADMAP.md" "\`$PUBLIC_VERSION\` $PUBLIC_UPGRADE_TITLE is the current public version" "ROADMAP states current public version"
 if [[ -n "$DEVELOPMENT_VERSION" ]]; then
   template_contains "README.md" "Development target: \`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE" "README states development target separately"
@@ -917,6 +964,40 @@ else
   if [[ "$undeclared_development_marker" -eq 0 ]]; then
     pass "No next development version declared"
   fi
+fi
+
+expect_release_status_accept "Accept public v0.4.18 fixture" 'Current public version: `v0.4.18`; released July 12, 2026.'
+expect_release_status_accept "Accept historical v0.4.17 fixture" 'v0.4.17 was released before v0.4.18.'
+expect_release_status_accept "Accept no-development-target fixture" 'v0.4.18 is public; no next development target is currently declared.'
+expect_release_status_reject "Reject v0.4.17 current-public fixture" "v0.4.17 is still described as current public" 'The CURRENT public release is v0.4.17.'
+expect_release_status_reject "Reject v0.4.17 remains-public fixture" "v0.4.17 is still described as current public" 'Public version remains `v0.4.17` pending release.'
+expect_release_status_reject "Reject v0.4.18 development-target fixture" "v0.4.18 is still described as development or unpublished" 'Development target: `v0.4.18` Review Packet Retention And Cleanup.'
+expect_release_status_reject "Reject v0.4.18 development-version fixture" "v0.4.18 is still described as development or unpublished" 'v0.4.18 is the next development version.'
+expect_release_status_reject "Reject v0.4.18 unpublished fixture" "v0.4.18 is still described as development or unpublished" 'The v0.4.18 release remains UNPUBLISHED.'
+expect_release_status_reject "Reject v0.4.18 not-published fixture" "v0.4.18 is still described as development or unpublished" 'Not published yet: v0.4.18.'
+
+stale_current_state_marker=0
+current_release_surfaces=(
+  README.md
+  CHANGELOG.md
+  docs/ADAPTERS.md
+  docs/INSTALLATION.md
+  docs/ROADMAP.md
+  docs/TODO.md
+  docs/VALIDATION.md
+  references/TRACEABILITY.md
+  templates/review-packet-cleanup-checklist.md
+)
+for current_state_file in "${current_release_surfaces[@]}"; do
+  while IFS= read -r current_state_content || [[ -n "$current_state_content" ]]; do
+    if release_status_contradiction "$current_state_content"; then
+      fail "$current_state_file $RELEASE_STATUS_REASON"
+      stale_current_state_marker=1
+    fi
+  done < "$current_state_file"
+done
+if [[ "$stale_current_state_marker" -eq 0 ]]; then
+  pass "No contradictory current public, development, unpublished, or not-published markers"
 fi
 template_contains "SKILL.md" "Fast Path is a reading-order shortcut only" "SKILL.md defines Fast Path as reading-order only"
 template_contains "SKILL.md" "Fast Path is not Small Task Mode" "SKILL.md separates Fast Path from Small Task Mode"

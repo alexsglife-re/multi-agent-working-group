@@ -22,10 +22,10 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.17` Role Review Context Efficiency
+`v0.4.0` local stabilization through `v0.4.18` Review Packet Retention And Cleanup
 are complete and publicly released.
 
-`v0.4.18` Review Packet Retention And Cleanup is the current development target; it is not published.
+No next development target is currently declared.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -159,10 +159,9 @@ Exit criteria:
 
 ## Current Recommended Next Step
 
-`v0.4.17` Role Review Context Efficiency is the current public version, released
-on July 12, 2026. It adds context-efficient role review without reducing
-PM/Advisor capability, review scope, independent no-peek review, or access to
-task-relevant original evidence. Future tags, GitHub Releases, deployments, and
-publications remain Owner-only actions and require explicit authorization.
-
-The current development target is `v0.4.18` Review Packet Retention And Cleanup. It does not claim publication, measured token savings, proven quality improvement, or runtime enforcement.
+`v0.4.18` Review Packet Retention And Cleanup is the current public version,
+released on July 12, 2026 under `America/Los_Angeles` release-date semantics.
+It adds retention and cleanup rules plus corrected stage-scoped PM/Advisor
+lifecycles without claiming runtime enforcement, deployment, measured token
+savings, or proven quality improvement. No next development target is currently
+declared.

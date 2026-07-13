@@ -1,10 +1,10 @@
 # Progressive References Traceability
 
-The v0.4.17 release adds two always-loaded `SKILL.md` anchors: mandatory routing to `references/review-context-efficiency.md` and the fail-closed quality-preservation boundary. Detailed packet, evidence-access, identity, state, and retry rules live in that reference; templates and local validation retain the corresponding fields and checks.
+The v0.4.18 release includes two always-loaded `SKILL.md` anchors: mandatory routing to `references/review-context-efficiency.md` and the fail-closed quality-preservation boundary. Detailed packet, evidence-access, identity, state, retry, retention, and cleanup rules live in that reference; templates and local validation retain the corresponding fields and checks.
 
-This map supports the v0.4.17 public release. It is evidence for PM/Advisor/Leader review and does not create authorization.
+This map supports the v0.4.18 public release. It is evidence for PM/Advisor/Leader review and does not create authorization.
 
-The v0.4.18 development target extends `references/review-context-efficiency.md` with three retention classes, OpenSpec and small-task lifecycle checkpoints, minimum durable audit evidence, and fail-closed non-destructive compaction. It preserves original-evidence access and keeps destructive removal exact-scope Owner-only.
+The v0.4.18 public release extends `references/review-context-efficiency.md` with three retention classes, OpenSpec and small-task lifecycle checkpoints, minimum durable audit evidence, and fail-closed non-destructive compaction. It preserves original-evidence access and keeps destructive removal exact-scope Owner-only.
 
 Its growth claim is limited to active and retransmitted review context. Stored lifecycle-bound files may continue growing until exact-scope Owner-authorized removal; no storage cap is claimed.
 
