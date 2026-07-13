@@ -33,6 +33,7 @@
 
 - [x] 5.1 Obtain independent PM and Claude Advisor review of the C1 proposal with no-peek first passes and resolve all P0/P1 findings before implementation.
 - [x] 5.2 Obtain independent Reviewer, PM, and Claude Advisor review of the implemented diff, preserving packet access to task-relevant original evidence.
-- [ ] 5.3 Complete normal commit, actual-commit review, push, status/CI checks when available, and post-push review only after the applicable gates pass.
-- [ ] 5.4 Sync the accepted `role-review-context-efficiency` specification and archive this change through C4 after implementation and validation.
-- [ ] 5.5 Validate the archived state with `./scripts/validate-local.sh --require-no-active-changes` and `openspec validate --all --strict`, then complete applicable archive commit/push/status and post-action reviews.
+- [x] 5.3 Complete normal commit, actual-commit review, push, status/CI checks when available, and post-push review only after the applicable gates pass.
+- [x] 5.4 Sync the accepted `role-review-context-efficiency` specification and archive this change through C4 after implementation and validation.
+- [x] 5.5 Validate the archived state with `./scripts/validate-local.sh --require-no-active-changes` and `openspec validate --all --strict`.
+- [ ] 5.6 Complete the archive commit, actual-commit review, push, status checks when available, and post-push PM/Advisor review.
