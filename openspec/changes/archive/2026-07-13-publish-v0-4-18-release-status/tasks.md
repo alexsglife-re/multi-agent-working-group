@@ -28,12 +28,12 @@
 - [x] 4.2 Sync the `public-release-status` delta into main specs, validate the synchronized specs strictly, and obtain independent PM/Advisor checkpoint review.
 - [x] 4.3 Run fresh active-change repository validation as `./scripts/validate-local.sh --skip-global-skill`, strict validation of the active change and all specs, and the staged-diff secret scan; confirm no unresolved P0/P1 without requiring no-active-change mode, and keep any plain `./scripts/validate-local.sh` result as separate machine-global comparison evidence only.
 - [x] 4.4 Obtain required Reviewer plus fresh PM/Advisor pre-commit approval and create the normal English four-section release-status commit without rewriting history.
-- [ ] 4.5 Have PM and Advisor review the actual release-status commit, rerun required validation, then obtain fresh pre-push decisions and push normally.
-- [ ] 4.6 Verify post-push HEAD equals origin/main, clean worktree, remote commit identity, and repository status; if `.github` is absent, record truthfully that no GitHub Actions workflows exist.
-- [ ] 4.7 Obtain fresh PM/Advisor post-push review and verify the exact synchronized delta, archive destination, expected archive diff, and archive validation commands.
-- [ ] 4.8 Obtain required Reviewer plus fresh PM/Advisor archive-readiness approval with no unresolved P0/P1 and confirm no OpenSpec checklist work remains after this item.
-- [ ] 4.9 Record the durable external-evidence locations that will track the archive action, archive commit/push reviews, no-active-change validation, exact tag target, Release payload, publication metadata, and sequential closeout without editing archived tasks.
-- [ ] 4.10 Confirm every preceding checkbox is complete and authorize the archive boundary; checking this final item completes the OpenSpec checklist, after which the post-archive runbook executes without mutating the archived checklist.
+- [x] 4.5 Have PM and Advisor review the actual release-status commit, rerun required validation, then obtain fresh pre-push decisions and push normally.
+- [x] 4.6 Verify post-push HEAD equals origin/main, clean worktree, remote commit identity, and repository status; if `.github` is absent, record truthfully that no GitHub Actions workflows exist.
+- [x] 4.7 Obtain fresh PM/Advisor post-push review and verify the exact synchronized delta, archive destination, expected archive diff, and archive validation commands.
+- [x] 4.8 Obtain required Reviewer plus fresh PM/Advisor archive-readiness approval with no unresolved P0/P1 and confirm no OpenSpec checklist work remains after this item.
+- [x] 4.9 Record the durable external-evidence locations that will track the archive action, archive commit/push reviews, no-active-change validation, exact tag target, Release payload, publication metadata, and sequential closeout without editing archived tasks.
+- [x] 4.10 Confirm every preceding checkbox is complete and authorize the archive boundary; checking this final item completes the OpenSpec checklist, after which the post-archive runbook executes without mutating the archived checklist.
 
 ## Post-Archive Operational Runbook (Durable External Evidence, Not OpenSpec Checkboxes)
 
