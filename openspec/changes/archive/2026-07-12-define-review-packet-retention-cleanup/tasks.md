@@ -36,4 +36,4 @@
 - [x] 5.3 Complete normal commit, actual-commit review, push, status/CI checks when available, and post-push review only after the applicable gates pass.
 - [x] 5.4 Sync the accepted `role-review-context-efficiency` specification and archive this change through C4 after implementation and validation.
 - [x] 5.5 Validate the archived state with `./scripts/validate-local.sh --require-no-active-changes` and `openspec validate --all --strict`.
-- [ ] 5.6 Complete the archive commit, actual-commit review, push, status checks when available, and post-push PM/Advisor review.
+- [x] 5.6 Complete the archive commit, actual-commit review, push, status checks when available, and post-push PM/Advisor review.
