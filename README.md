@@ -44,7 +44,7 @@ orchestration and verification, treats agent output as evidence rather than
 authority, and separates local completion, normal git gates, and Owner-only
 exclusions.
 
-> Development target: `v1.0.0` Progressive Leader State Profiles. Current public version: `v0.4.18`, released on July 12, 2026 under `America/Los_Angeles` release-date semantics. The v1.0.0 tag, GitHub Release, public publication, and deployment do not exist merely because development is active. Public release tags should point at reviewed commits; documentation alone is not a deployment claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
+> Current public version: `v1.0.0` Progressive Leader State Profiles, released on July 16, 2026 under `America/Los_Angeles` annotated-tag date semantics. `v0.4.18` remains historical release evidence from July 12, 2026. No next development target is declared. Publication is limited to the formal GitHub Release; deployment was not performed. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## Quick Start
 
@@ -172,7 +172,7 @@ When older v0.3 or earlier handoff documents have already grown large, preserve 
 
 ## Progressive Leader State Profiles
 
-The v1.0.0 development target replaces a universal line cap with progressive
+The v1.0.0 public release replaces a universal line cap with progressive
 active-state profiles selected from current coordination complexity:
 
 - Small work uses a genuinely reduced Compact profile so ordinary tasks do not
@@ -182,6 +182,12 @@ active-state profiles selected from current coordination complexity:
 - Large or unusually entangled work records `hierarchical-required` when
   Standard is insufficient. It preserves every applicable fact and continues
   to use the accepted qualitative rollover and handoff controls.
+
+The released scope covers the documented protocol, role and gate behavior,
+Compact and Standard templates, deterministic classification, and honest
+`hierarchical-required` detection. It does not claim calibrated blocking
+thresholds, Hierarchical storage, runtime enforcement, measured savings, or
+validated support for every named runtime.
 
 The complete applicable retention floor always wins over document size. Current
 state stays readable by projecting each control fact once and pointing to
@@ -216,7 +222,7 @@ After an OpenSpec-backed change is archived, use closeout mode:
 
 The command is read-only and does not use the network. It checks `SKILL.md` frontmatter, current version markers, accepted OpenSpec specs, `openspec validate --all`, active-change state, template and reference anchors, and the installed global skill plus required references when present. It is only a convenience check; it does not replace PM, Advisor, Reviewer, secret scanning, OpenSpec archive, git gate requirements, or runtime compliance with cleanup/delegation behavior.
 
-For the v0.4.18 public release, retention checks prove documented example anchors and deterministic cleanup-predicate behavior, not runtime compliance, actual token savings, review-quality improvement, or automatic deletion.
+For the historical v0.4.18 release, retention checks prove documented example anchors and deterministic cleanup-predicate behavior, not runtime compliance, actual token savings, review-quality improvement, or automatic deletion.
 The lifecycle controls active and retransmitted review context; it does not cap stored packet files. Eligible lifecycle-bound files may continue accumulating until exact-scope Owner-authorized removal.
 
 ## Development Principles
@@ -258,17 +264,18 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. Development target: `v1.0.0` Progressive Leader State Profiles. Current public version: `v0.4.18`. The public release defines lifecycle-bound review-packet retention, fail-closed cleanup, and stage-scoped PM/Advisor lifecycles without reducing review capability, independent no-peek review, original-evidence access, or existing gates. The development declaration does not claim that a v1.0.0 tag, GitHub Release, public publication, or deployment exists.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. Current public version: `v1.0.0` Progressive Leader State Profiles. `v0.4.18` is historical release evidence, and no next development target is declared. The public release defines progressive Leader-state profiles together with lifecycle-bound review-packet retention, fail-closed cleanup, and stage-scoped PM/Advisor lifecycles without reducing review capability, independent no-peek review, original-evidence access, or existing gates. Publication is limited to the formal GitHub Release; deployment was not performed.
 
-For the development target, structural thresholds are mandatory classification
+For the public release, structural thresholds are mandatory classification
 pilot baselines; exceeding them alone never blocks work. Physical line and
 UTF-8-byte size bands are warning-only pilot baselines. Hierarchical
 root/card/shard storage is not implemented in this target.
 
 OpenSpec reviews default to one runtime-proven PM lifecycle and one runtime-proven Advisor lifecycle per C1-C4 stage. Each changed checkpoint still creates a fresh Review ID and decision state, while cross-stage boundaries and reliability, independence, routing, trust, ambiguity, recovery, or Owner-triggered conditions restart the lifecycle. C0 and non-OpenSpec distinct checkpoints remain short-lived. Packet-retention checkpoints are separate from role-agent lifecycle boundaries.
 
-`v0.4.18` is the current public version, released on July 12, 2026 under
-`America/Los_Angeles` release-date semantics. Normal
+`v1.0.0` is the current public version, released on July 16, 2026 under
+`America/Los_Angeles` annotated-tag date semantics. `v0.4.18` remains historical
+release evidence from July 12, 2026. Normal
 non-high-risk commits and pushes follow the PM plus Advisor gate in `SKILL.md`
 with required evidence; future high-risk and default-exclusion actions,
 including later tags and releases, still require explicit Owner approval.

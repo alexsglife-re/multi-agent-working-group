@@ -2,7 +2,7 @@
 
 The v0.4.18 release includes two always-loaded `SKILL.md` anchors: mandatory routing to `references/review-context-efficiency.md` and the fail-closed quality-preservation boundary. Detailed packet, evidence-access, identity, state, retry, retention, and cleanup rules live in that reference; templates and local validation retain the corresponding fields and checks.
 
-This map supports the v0.4.18 public release. It is evidence for PM/Advisor/Leader review and does not create authorization.
+This map supports the v1.0.0 public release and preserves v0.4.18 as historical evidence. It is evidence for PM/Advisor/Leader review and does not create authorization.
 
 The v0.4.18 public release extends `references/review-context-efficiency.md` with three retention classes, OpenSpec and small-task lifecycle checkpoints, minimum durable audit evidence, and fail-closed non-destructive compaction. It preserves original-evidence access and keeps destructive removal exact-scope Owner-only.
 
@@ -40,8 +40,14 @@ authorization.
 
 ## Progressive Leader-State Profile Anchors
 
-This section maps the v1.0.0 development target only; it is not part of the
-current v0.4.18 public-release claim.
+This section maps the current v1.0.0 public release. No next development target
+is declared.
+
+The released scope covers the documented protocol, role and gate behavior,
+Compact and Standard templates, deterministic classification, and honest
+`hierarchical-required` detection. It does not claim calibrated blocking
+thresholds, Hierarchical storage, runtime enforcement, measured savings, or
+validated support for every named runtime.
 
 `SKILL.md` now mandates `references/leader-state-profiles.md` before profile
 selection, refresh, rendering, or transition and retains the hard-boundary

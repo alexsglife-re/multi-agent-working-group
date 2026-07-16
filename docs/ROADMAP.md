@@ -22,18 +22,22 @@ Exit criteria:
 
 ## Stage 2: Examples And Operating Patterns
 
-`v0.4.0` local stabilization through `v0.4.18` Review Packet Retention And Cleanup
+`v0.4.0` local stabilization through `v1.0.0` Progressive Leader State Profiles
 are complete and publicly released.
 
-Development target: `v1.0.0` Progressive Leader State Profiles.
-Current public version: `v0.4.18`.
+Current public version: `v1.0.0` Progressive Leader State Profiles.
+`v0.4.18` remains historical release evidence. No next development target is declared.
 
 Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
 Physical line and UTF-8-byte size bands are
 warning-only pilot baselines. Hierarchical
 root/card/shard storage is not implemented in this target.
-The development declaration does not claim a v1.0.0 tag, GitHub Release, public
-publication, or deployment.
+The released scope covers the documented protocol, role and gate behavior,
+Compact and Standard templates, deterministic classification, and honest
+`hierarchical-required` detection; calibrated blocking thresholds, Hierarchical
+storage, runtime enforcement, measured savings, and universal runtime support
+remain outside that scope.
+Publication is limited to the formal GitHub Release. Deployment was not performed.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -108,7 +112,7 @@ Exit criteria:
   fail-closed blockers; and non-destructive compaction without automatic or
   implicitly authorized deletion. It controls active and retransmitted context,
   not total stored files; stored packets may grow until authorized removal.
-- `v1.0.0` Progressive Leader State Profiles is the active development target.
+- `v1.0.0` Progressive Leader State Profiles is the current public version.
   It scales from reduced Compact state for small work, through a single-file
   Standard profile for medium work, to an honest `hierarchical-required`
   classification for large or entangled work without claiming that
@@ -190,13 +194,14 @@ create either OpenSpec change.
 
 ## Current Recommended Next Step
 
-Development target: `v1.0.0` Progressive Leader State Profiles.
-Current public version: `v0.4.18`, released on July 12, 2026 under
-`America/Los_Angeles` release-date semantics. The development work adds
-progressive state control without claiming a v1.0.0 tag, GitHub Release, public
-publication, deployment, or completed Hierarchical root/card/shard storage.
+Current public version: `v1.0.0` Progressive Leader State Profiles, released on
+July 16, 2026 under `America/Los_Angeles` annotated-tag date semantics.
+`v0.4.18` remains historical release evidence from July 12, 2026. No next
+development target is declared. The release adds progressive state control;
+publication is limited to the formal GitHub Release, deployment was not
+performed, and Hierarchical root/card/shard storage remains unimplemented.
 Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
 Physical line and UTF-8-byte size bands are
 warning-only pilot baselines.
 
-`v0.4.18` Review Packet Retention And Cleanup is the current public version.
+`v1.0.0` Progressive Leader State Profiles is the current public version.

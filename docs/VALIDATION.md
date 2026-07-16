@@ -22,9 +22,11 @@ The command also checks that tracked Markdown documentation is English-only.
 Ignored local reference checkouts under `references/external/` are not project
 publication docs and are not included in that check.
 
-Development target: `v1.0.0` Progressive Leader State Profiles.
-Current public version: `v0.4.18`. The development declaration is not evidence that a
-v1.0.0 tag, GitHub Release, public publication, or deployment exists.
+Current public version: `v1.0.0` Progressive Leader State Profiles, released on
+July 16, 2026 under `America/Los_Angeles` annotated-tag date semantics.
+`v0.4.18` remains historical release evidence. No next development target is
+declared. Publication is limited to the formal GitHub Release; deployment was
+not performed.
 
 ## Baseline Checks
 
@@ -559,10 +561,9 @@ A passing marker check proves documentation and template consistency only. It do
 
 ## v0.4.18 Review Packet Retention And Cleanup Checks
 
-- Public version is `v0.4.18`, published on July 12, 2026 under `America/Los_Angeles` release-date semantics. At publication time, no next development target had been declared; v1.0.0 was declared later and remains a development target.
-- Historical v0.4.18 checks retain matching public-version, changelog publication,
-  roadmap, and completed TODO evidence. The former no-active-development-target
-  marker is historical publication context, not the current development state.
+- Historical version is `v0.4.18`, published on July 12, 2026 under
+  `America/Los_Angeles` release-date semantics. Its checks retain matching
+  changelog publication, roadmap, and completed TODO evidence.
 - Checks cover permanent protocol material, durable audit evidence, and lifecycle-bound working material.
 - OpenSpec examples retain later-gate evidence through C1, C2, C3, and C4; small tasks use their actual final applicable gate without inventing OpenSpec.
 - Minimum audit evidence retains invocation identity, exact anchors, fingerprint, timing, decision, P0/P1/P2, validation, evidence pointers, retry lineage, cleanup disposition, and complete role reasoning at a durable location.
@@ -574,12 +575,23 @@ A passing marker check proves documentation and template consistency only. It do
 
 Passing these checks proves repository documentation anchors and deterministic cleanup-predicate handling only. It does not prove automatic runtime enforcement, storage reduction, token savings, or review-quality improvement.
 
-## v1.0.0 Progressive Leader State Profile Checks (Development Target)
+## v1.0.0 Progressive Leader State Profile Checks
+
+Public version is `v1.0.0`, published on July 16, 2026 under
+`America/Los_Angeles` annotated-tag date semantics. No next development target
+is declared. Publication is limited to the formal GitHub Release; deployment
+was not performed.
 
 Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
 Physical line and UTF-8-byte size bands are
 warning-only pilot baselines.
 Hierarchical root/card/shard storage is not implemented in this target.
+
+The released scope covers the documented protocol, role and gate behavior,
+Compact and Standard templates, deterministic classification, and honest
+`hierarchical-required` detection. Hierarchical storage, calibrated blocking
+thresholds, runtime enforcement, measured savings, and universal runtime
+support remain outside that scope.
 
 Profile validation should cover:
 

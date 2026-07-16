@@ -1,6 +1,6 @@
 # Compact Leader State Template
 
-Version: v1.0.0 development template.
+Version: v1.0.0 release template.
 
 Use for a freshly measured current-active state that satisfies every Compact
 structural ceiling. This is one active-state and handoff instance, not a full

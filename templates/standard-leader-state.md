@@ -1,6 +1,6 @@
 # Standard Leader State Template
 
-Version: v1.0.0 development template.
+Version: v1.0.0 release template.
 
 Use when a freshly measured current-active state exceeds at least one Compact
 ceiling, satisfies every Standard ceiling, and remains a reliable single-file

@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PUBLIC_VERSION="v0.4.18"
-DEVELOPMENT_VERSION="v1.0.0"
-PUBLIC_UPGRADE_TITLE="Review Packet Retention And Cleanup"
-DEVELOPMENT_UPGRADE_TITLE="Progressive Leader State Profiles"
-PUBLICATION_DATE="July 12, 2026"
+PUBLIC_VERSION="v1.0.0"
+PUBLIC_UPGRADE_TITLE="Progressive Leader State Profiles"
+PUBLICATION_DATE="July 16, 2026"
 PUBLICATION_TIMEZONE="America/Los_Angeles"
-CURRENT_VALIDATION_TITLE="Review Packet Retention And Cleanup Checks"
+CURRENT_VALIDATION_TITLE="Progressive Leader State Profile Checks"
 SKILL_ANCHOR_BASELINE=59
 TEMPLATE_VERSION="v0.4.13"
 REQUIRED_ACCEPTED_SPECS=(
@@ -118,71 +116,96 @@ contains() {
 
 release_status_contradiction() {
   local content="$1"
-  local normalized
-  local v1_tag_claim=0
-  local v1_github_release_claim=0
-  local v1_publication_claim=0
-  local v1_deployment_claim=0
-  normalized="$(printf '%s' "$content" | tr '[:upper:]' '[:lower:]')"
+  local normalized publication_date_normalized
+  normalized="$(printf '%s' "$content" | tr '[:upper:]' '[:lower:]' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+  publication_date_normalized="$(printf '%s' "$PUBLICATION_DATE" | tr '[:upper:]' '[:lower:]')"
   normalized="${normalized//\`/}"
-  normalized="${normalized//no next development target/}"
-  normalized="${normalized//no active development target/}"
-  normalized="${normalized//no successor development target/}"
   RELEASE_STATUS_REASON=""
 
-  if [[ "$normalized" =~ v0\.4\.17.{0,120}(current[[:space:]]+public|public[[:space:]]+version[[:space:]]+remains) ]] \
-    || [[ "$normalized" =~ (current[[:space:]]+public|public[[:space:]]+version[[:space:]]+remains).{0,120}v0\.4\.17 ]]; then
-    RELEASE_STATUS_REASON="v0.4.17 is still described as current public"
+  if [[ "$normalized" =~ (current[[:space:]]+public[[:space:]]+(version|release)([[:space:]]+is|:)|public[[:space:]]+version[[:space:]]+remains)[[:space:]]*v0\.4\.18 ]] \
+    || [[ "$normalized" =~ v0\.4\.18[[:space:]]+(is|remains)[[:space:]]+the[[:space:]]+current[[:space:]]+public[[:space:]]+(version|release) ]]; then
+    RELEASE_STATUS_REASON="v0.4.18 is still described as current public"
     return 0
   fi
-  if [[ "$normalized" =~ development[[:space:]]+target:[[:space:]]*v0\.4\.18 ]] \
-    || [[ "$normalized" =~ v0\.4\.18[[:space:]]+is[[:space:]]+the[[:space:]]+next[[:space:]]+development[[:space:]]+version ]] \
-    || [[ "$normalized" =~ next[[:space:]]+development[[:space:]]+version([[:space:]]+is|:)[[:space:]]*v0\.4\.18 ]] \
-    || [[ "$normalized" =~ v0\.4\.18[[:space:]]+(release[[:space:]]+)?remains[[:space:]]+unpublished ]] \
-    || [[ "$normalized" =~ not[[:space:]]+published[[:space:]]+yet:[[:space:]]*v0\.4\.18 ]]; then
-    RELEASE_STATUS_REASON="v0.4.18 is still described as development or unpublished"
+  if [[ "$normalized" =~ development[[:space:]]+target:[[:space:]]*v1\.0\.0 ]] \
+    || [[ "$normalized" =~ v1\.0\.0[[:space:]]+development[[:space:]]+target ]] \
+    || [[ "$normalized" =~ v1\.0\.0[[:space:]]+remains[[:space:]]+the[[:space:]]+development[[:space:]]+target ]] \
+    || [[ "$normalized" =~ v1\.0\.0[[:space:]]+is[[:space:]]+the[[:space:]]+next[[:space:]]+development[[:space:]]+version ]] \
+    || [[ "$normalized" =~ next[[:space:]]+development[[:space:]]+version([[:space:]]+is|:)[[:space:]]*v1\.0\.0 ]]; then
+    RELEASE_STATUS_REASON="v1.0.0 is still described as development"
     return 0
   fi
-  # Match only affirmative public/release claims for the configured development
-  # version. Do not use proximity matching here: the authorized declaration
-  # intentionally places development v1.0.0 beside current public v0.4.18.
-  if { [[ "$normalized" =~ v1\.0\.0[[:space:]]+tag[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+created|was[[:space:]]+created) ]] \
-      || [[ "$normalized" =~ tag[[:space:]]+v1\.0\.0[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+created|was[[:space:]]+created) ]] \
-      || [[ "$normalized" =~ ^[[:space:]]*created[[:space:]]+(the[[:space:]]+)?(tag[[:space:]]+)?v1\.0\.0[[:space:]]+tag ]]; } \
-    && [[ ! "$normalized" =~ no[[:space:]]+(the[[:space:]]+)?v1\.0\.0[[:space:]]+tag[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+created|was[[:space:]]+created) ]] \
-    && [[ ! "$normalized" =~ v1\.0\.0[[:space:]]+tag[[:space:]]+(does[[:space:]]+not[[:space:]]+exist|has[[:space:]]+not[[:space:]]+been[[:space:]]+created|was[[:space:]]+not[[:space:]]+created) ]]; then
-    v1_tag_claim=1
+  if [[ "$normalized" =~ (active[[:space:]]+)?development[[:space:]]+target([[:space:]]+is|:)[[:space:]]*v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+    RELEASE_STATUS_REASON="an unconfigured development target is declared"
+    return 0
   fi
-  if { [[ "$normalized" =~ (github[[:space:]]+)?release[[:space:]]+v1\.0\.0[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+published|was[[:space:]]+published) ]] \
-      || [[ "$normalized" =~ v1\.0\.0[[:space:]]+github[[:space:]]+release[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+published|was[[:space:]]+published) ]]; } \
-    && [[ ! "$normalized" =~ no[[:space:]]+(github[[:space:]]+)?release[[:space:]]+v1\.0\.0[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+published|was[[:space:]]+published) ]] \
-    && [[ ! "$normalized" =~ (github[[:space:]]+)?release[[:space:]]+v1\.0\.0[[:space:]]+(does[[:space:]]+not[[:space:]]+exist|has[[:space:]]+not[[:space:]]+been[[:space:]]+published|was[[:space:]]+not[[:space:]]+published) ]]; then
-    v1_github_release_claim=1
+  if [[ "$normalized" =~ v[0-9]+\.[0-9]+\.[0-9]+[[:space:]]+remains[[:space:]]+the[[:space:]]+development[[:space:]]+target ]]; then
+    RELEASE_STATUS_REASON="an unconfigured development target is declared"
+    return 0
   fi
-  if { [[ "$normalized" =~ v1\.0\.0[[:space:]]+public[[:space:]]+publication[[:space:]]+exists ]] \
-      || [[ "$normalized" =~ public[[:space:]]+publication[[:space:]]+(of|for)[[:space:]]+v1\.0\.0[[:space:]]+exists ]]; } \
-    && [[ ! "$normalized" =~ no[[:space:]]+(v1\.0\.0[[:space:]]+public[[:space:]]+publication|public[[:space:]]+publication[[:space:]]+(of|for)[[:space:]]+v1\.0\.0)[[:space:]]+exists ]] \
-    && [[ ! "$normalized" =~ (v1\.0\.0[[:space:]]+public[[:space:]]+publication|public[[:space:]]+publication[[:space:]]+(of|for)[[:space:]]+v1\.0\.0)[[:space:]]+does[[:space:]]+not[[:space:]]+exist ]]; then
-    v1_publication_claim=1
+  if [[ "$normalized" =~ (no[[:space:]]+v1\.0\.0[[:space:]]+tag[[:space:]]+exists|v1\.0\.0[[:space:]]+tag[[:space:]]+(does[[:space:]]+not[[:space:]]+exist|has[[:space:]]+not[[:space:]]+been[[:space:]]+created|was[[:space:]]+not[[:space:]]+created)) ]] \
+    || [[ "$normalized" =~ (no[[:space:]]+github[[:space:]]+release[[:space:]]+v1\.0\.0[[:space:]]+exists|no[[:space:]]+github[[:space:]]+release[[:space:]]+exists[[:space:]]+for[[:space:]]+v1\.0\.0|github[[:space:]]+release[[:space:]]+v1\.0\.0[[:space:]]+(does[[:space:]]+not[[:space:]]+exist|has[[:space:]]+not[[:space:]]+been[[:space:]]+published)) ]] \
+    || [[ "$normalized" =~ (v1\.0\.0[[:space:]]+(has[[:space:]]+not[[:space:]]+been|remains)[[:space:]]+(published|released|unpublished)|no[[:space:]]+v1\.0\.0[[:space:]]+public[[:space:]]+publication[[:space:]]+exists) ]]; then
+    RELEASE_STATUS_REASON="v1.0.0 is still described as unpublished"
+    return 0
   fi
-  if { [[ "$normalized" =~ v1\.0\.0[[:space:]]+(is[[:space:]]+|has[[:space:]]+been[[:space:]]+|was[[:space:]]+)?deployed ]] \
-      || [[ "$normalized" =~ (deployment[[:space:]]+(of|for)[[:space:]]+v1\.0\.0|v1\.0\.0[[:space:]]+deployment)[[:space:]]+exists ]]; } \
-    && [[ ! "$normalized" =~ v1\.0\.0[[:space:]]+(is[[:space:]]+not|has[[:space:]]+not[[:space:]]+been|was[[:space:]]+not)[[:space:]]+deployed ]] \
-    && [[ ! "$normalized" =~ no[[:space:]]+(deployment[[:space:]]+(of|for)[[:space:]]+v1\.0\.0|v1\.0\.0[[:space:]]+deployment)[[:space:]]+exists ]]; then
-    v1_deployment_claim=1
+  if [[ "$normalized" =~ v1\.0\.0[[:space:]]+(is[[:space:]]+|has[[:space:]]+been[[:space:]]+|was[[:space:]]+)?deployed ]] \
+    || [[ "$normalized" =~ (deployment[[:space:]]+(of|for)[[:space:]]+v1\.0\.0|v1\.0\.0[[:space:]]+deployment)[[:space:]]+exists ]] \
+    || { [[ "$normalized" =~ deployment[[:space:]]+was[[:space:]]+performed ]] \
+      && [[ ! "$normalized" =~ (no[[:space:]]+deployment[[:space:]]+was[[:space:]]+performed|deployment[[:space:]]+was[[:space:]]+not[[:space:]]+performed|does[[:space:]]+not[[:space:]]+claim[[:space:]]+deployment[[:space:]]+was[[:space:]]+performed|no[[:space:]]+claim[[:space:]]+is[[:space:]]+made[[:space:]]+that[[:space:]]+deployment[[:space:]]+was[[:space:]]+performed) ]]; }; then
+    RELEASE_STATUS_REASON="v1.0.0 is incorrectly described as deployed"
+    return 0
   fi
-  if [[ "$normalized" =~ current[[:space:]]+public[[:space:]]+(version|release)([[:space:]]+is|:)[[:space:]]*v1\.0\.0 ]] \
-    || [[ "$normalized" =~ v1\.0\.0[[:space:]]+is[[:space:]]+the[[:space:]]+current[[:space:]]+public[[:space:]]+(version|release) ]] \
-    || [[ "$normalized" =~ v1\.0\.0[[:space:]]+(is[[:space:]]+|has[[:space:]]+been[[:space:]]+|was[[:space:]]+)?(published|released) ]] \
-    || [[ "$normalized" =~ ^[[:space:]]*(published|released)[[:space:]]+v1\.0\.0 ]] \
-    || [[ "$v1_tag_claim" -eq 1 ]] \
-    || [[ "$v1_github_release_claim" -eq 1 ]] \
-    || [[ "$v1_publication_claim" -eq 1 ]] \
-    || [[ "$v1_deployment_claim" -eq 1 ]]; then
-    RELEASE_STATUS_REASON="v1.0.0 is claimed as public or already released"
+  if [[ "$normalized" =~ v1\.0\.0.*published[[:space:]]+(to|through)[[:space:]]+(a[[:space:]]+)?(package[[:space:]]+registry|social[[:space:]]+channel|community[[:space:]]+post|website) ]]; then
+    RELEASE_STATUS_REASON="v1.0.0 uses an unsupported publication channel"
+    return 0
+  fi
+  if [[ "$normalized" =~ publication[[:space:]]+was[[:space:]]+made[[:space:]]+through[[:space:]]+(a[[:space:]]+)?(package[[:space:]]+registry|social[[:space:]]+channel|community[[:space:]]+post|website) ]] \
+    && [[ ! "$normalized" =~ (does[[:space:]]+not[[:space:]]+claim[[:space:]]+publication[[:space:]]+was[[:space:]]+made|no[[:space:]]+claim[[:space:]]+is[[:space:]]+made[[:space:]]+that[[:space:]]+publication[[:space:]]+was[[:space:]]+made) ]]; then
+    RELEASE_STATUS_REASON="v1.0.0 uses an unsupported publication channel"
+    return 0
+  fi
+  if { [[ "$normalized" =~ (published|released)[[:space:]]+v1\.0\.0[[:space:]]+on[[:space:]]+ ]] \
+      || [[ "$normalized" =~ v1\.0\.0.*(published|released)[[:space:]]+on[[:space:]]+ ]]; } \
+    && [[ "$normalized" != *"$publication_date_normalized"* ]]; then
+    RELEASE_STATUS_REASON="v1.0.0 has an incorrect annotated-tag date"
     return 0
   fi
   return 1
+}
+
+declares_unconfigured_development_version() {
+  local input="${1:--}"
+
+  perl -0ne '
+    $normalized = lc $_;
+    $normalized =~ s/`//g;
+    $normalized =~ s/\s+/ /g;
+    $found = 1 if
+      $normalized =~ /(?:active )?development target(?: is|:) *v[0-9]+\.[0-9]+\.[0-9]+/ ||
+      $normalized =~ /v[0-9]+\.[0-9]+\.[0-9]+ development target/ ||
+      $normalized =~ /v[0-9]+\.[0-9]+\.[0-9]+ remains the development target/ ||
+      $normalized =~ /next development version(?: is|:) *v[0-9]+\.[0-9]+\.[0-9]+/;
+    END { exit($found ? 0 : 1) }
+  ' "$input"
+}
+
+expect_development_version_scanner_accept() {
+  local label="$1" content="$2"
+  if printf '%s' "$content" | declares_unconfigured_development_version -; then
+    fail "$label"
+  else
+    pass "$label"
+  fi
+}
+
+expect_development_version_scanner_reject() {
+  local label="$1" content="$2"
+  if printf '%s' "$content" | declares_unconfigured_development_version -; then
+    pass "$label"
+  else
+    fail "$label"
+  fi
 }
 
 expect_release_status_accept() {
@@ -1740,6 +1763,25 @@ template_contains() {
   fi
 }
 
+template_contains_normalized_whitespace() {
+  local file="$1"
+  local needle="$2"
+  local label="$3"
+  local normalized_file normalized_needle
+
+  if [[ ! -f "$file" ]]; then
+    fail "$label"
+    return
+  fi
+  normalized_file="$(perl -0pe 's/\s+/ /g; s/^ //; s/ $//' "$file")"
+  normalized_needle="$(printf '%s' "$needle" | perl -0pe 's/\s+/ /g; s/^ //; s/ $//')"
+  if [[ "$normalized_file" == *"$normalized_needle"* ]]; then
+    pass "$label"
+  else
+    fail "$label"
+  fi
+}
+
 repo_root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 if [[ -z "$repo_root" ]]; then
   echo "FAIL not inside a git repository" >&2
@@ -1851,7 +1893,7 @@ for template in "${REQUIRED_TEMPLATES[@]}"; do
   elif [[ "$template" == "templates/compact-leader-state.md" ||
           "$template" == "templates/standard-leader-state.md" ||
           "$template" == "templates/successor-opportunity-skeleton.md" ]]; then
-    version_marker="Version: $DEVELOPMENT_VERSION development template."
+    version_marker="Version: v1.0.0 release template."
   else
     version_marker="Version: $TEMPLATE_VERSION recommended template."
   fi
@@ -2355,76 +2397,103 @@ expect_cleanup_case_reject "Reject superseded attempt without retry lineage pred
 expect_cleanup_case_reject "Reject unknown cleanup-impact predicate case" unknown-cleanup-impact completed yes yes yes yes yes yes "lifecycle-bound working material" yes yes no
 template_contains "README.md" "Current public version: \`$PUBLIC_VERSION\`" "README states current public version"
 template_contains "README.md" "\`$PUBLIC_VERSION\` is the current public version, released on $PUBLICATION_DATE" "README states public release date"
-template_contains "README.md" "\`$PUBLICATION_TIMEZONE\` release-date semantics" "README states public release timezone semantics"
+template_contains "README.md" "\`$PUBLICATION_TIMEZONE\` annotated-tag date semantics" "README states annotated-tag date semantics"
 template_contains "CHANGELOG.md" "Published $PUBLIC_VERSION on $PUBLICATION_DATE: $PUBLIC_UPGRADE_TITLE" "CHANGELOG states current publication"
-template_contains "CHANGELOG.md" "The public release date uses \`$PUBLICATION_TIMEZONE\` release-date semantics." "CHANGELOG states public release timezone semantics"
-template_contains "docs/ROADMAP.md" "\`$PUBLIC_VERSION\` $PUBLIC_UPGRADE_TITLE is the current public version" "ROADMAP states current public version"
-if [[ -n "$DEVELOPMENT_VERSION" ]]; then
-  development_surfaces=(
-    "README.md"
-    "CHANGELOG.md"
-    "docs/ROADMAP.md"
-    "docs/TODO.md"
-    "docs/VALIDATION.md"
-  )
-  for development_surface in "${development_surfaces[@]}"; do
-    template_contains "$development_surface" "Development target: \`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE" "$development_surface states development target separately"
-    template_contains "$development_surface" "Structural thresholds are mandatory classification pilot baselines" "$development_surface states mandatory structural classification"
-    template_contains "$development_surface" "exceeding them alone never blocks work" "$development_surface states structural thresholds are non-blocking by themselves"
-    template_contains "$development_surface" "Physical line and UTF-8-byte size bands are" "$development_surface identifies physical size diagnostics"
-    template_contains "$development_surface" "warning-only pilot baselines" "$development_surface states physical size bands are warning-only"
-    template_contains "$development_surface" "Hierarchical root/card/shard storage" "$development_surface names the Hierarchical limitation"
-    template_contains "$development_surface" "not implemented in this target" "$development_surface states Hierarchical is not implemented"
-  done
+template_contains "CHANGELOG.md" "The public release date uses \`$PUBLICATION_TIMEZONE\` annotated-tag date semantics." "CHANGELOG states annotated-tag date semantics"
+if grep -Fxq -- '## Releases' "CHANGELOG.md"; then
+  pass "CHANGELOG uses the exact releases container"
 else
-  undeclared_development_marker=0
-  for version_file in README.md CHANGELOG.md docs/ROADMAP.md docs/TODO.md docs/VALIDATION.md; do
-    if grep -Eiq 'Development target:[[:space:]]*`?v[0-9]+\.[0-9]+\.[0-9]+|next development version([[:space:]]+is|:)[[:space:]]*`?v[0-9]+\.[0-9]+\.[0-9]+' "$version_file"; then
-      fail "$version_file does not declare an unconfigured development version"
-      undeclared_development_marker=1
-    fi
-  done
-  if [[ "$undeclared_development_marker" -eq 0 ]]; then
-    pass "No next development version declared"
+  fail "CHANGELOG uses the exact releases container"
+fi
+if grep -Fq '## [Unreleased]' "CHANGELOG.md"; then
+  fail "CHANGELOG removes the stale unreleased container"
+else
+  pass "CHANGELOG removes the stale unreleased container"
+fi
+template_contains "docs/ROADMAP.md" "\`$PUBLIC_VERSION\` $PUBLIC_UPGRADE_TITLE is the current public version" "ROADMAP states current public version"
+template_contains "docs/ROADMAP.md" "$PUBLICATION_DATE under \`$PUBLICATION_TIMEZONE\` annotated-tag date semantics." "ROADMAP states annotated-tag release date"
+template_contains "docs/TODO.md" "## $PUBLIC_VERSION: $PUBLIC_UPGRADE_TITLE (Published $PUBLICATION_DATE)" "TODO states public version and date"
+template_contains "docs/VALIDATION.md" "$PUBLICATION_DATE under \`$PUBLICATION_TIMEZONE\` annotated-tag date semantics." "VALIDATION states annotated-tag release date"
+template_contains "docs/VALIDATION.md" "Public version is \`$PUBLIC_VERSION\`, published on $PUBLICATION_DATE" "VALIDATION states public version and date"
+release_limitation_surfaces=(
+  "README.md"
+  "CHANGELOG.md"
+  "docs/ROADMAP.md"
+  "docs/TODO.md"
+  "docs/VALIDATION.md"
+)
+for release_limitation_surface in "${release_limitation_surfaces[@]}"; do
+  template_contains "$release_limitation_surface" "Structural thresholds are mandatory classification pilot baselines" "$release_limitation_surface states mandatory structural classification"
+  template_contains "$release_limitation_surface" "exceeding them alone never blocks work" "$release_limitation_surface states structural thresholds are non-blocking by themselves"
+  template_contains "$release_limitation_surface" "Physical line and UTF-8-byte size bands are" "$release_limitation_surface identifies physical size diagnostics"
+  template_contains "$release_limitation_surface" "warning-only pilot baselines" "$release_limitation_surface states physical size bands are warning-only"
+  template_contains "$release_limitation_surface" "Hierarchical root/card/shard storage" "$release_limitation_surface names the Hierarchical limitation"
+  template_contains "$release_limitation_surface" "not implemented in this target" "$release_limitation_surface states Hierarchical is not implemented"
+done
+
+undeclared_development_marker=0
+for version_file in README.md CHANGELOG.md docs/ROADMAP.md docs/TODO.md docs/VALIDATION.md; do
+  if declares_unconfigured_development_version "$version_file"; then
+    fail "$version_file does not declare an unconfigured development version"
+    undeclared_development_marker=1
   fi
+done
+if [[ "$undeclared_development_marker" -eq 0 ]]; then
+  pass "No next development version declared"
 fi
 
-expect_release_status_accept "Accept authorized development/public pairing fixture" 'Development target: `v1.0.0` Progressive Leader State Profiles. Current public version: `v0.4.18`.'
-expect_release_status_accept "Accept actual repository negative-status fixture" 'The v1.0.0 tag, GitHub Release, public publication, and deployment do not exist merely because development is active.'
-expect_release_status_accept "Accept no-v1-tag fixture" 'No v1.0.0 tag exists.'
-expect_release_status_accept "Accept v1-tag-does-not-exist fixture" 'The v1.0.0 tag does not exist.'
-expect_release_status_accept "Accept no-v1-tag-created fixture" 'No v1.0.0 tag has been created.'
-expect_release_status_accept "Accept v1-tag-not-created fixture" 'The v1.0.0 tag has not been created.'
-expect_release_status_accept "Accept v1-tag-was-not-created fixture" 'The v1.0.0 tag was not created.'
-expect_release_status_accept "Accept no-v1-GitHub-Release fixture" 'No GitHub Release v1.0.0 exists.'
-expect_release_status_accept "Accept v1-GitHub-Release-does-not-exist fixture" 'GitHub Release v1.0.0 does not exist.'
-expect_release_status_accept "Accept v1-GitHub-Release-not-published fixture" 'GitHub Release v1.0.0 has not been published.'
-expect_release_status_accept "Accept v1-not-published fixture" 'v1.0.0 has not been published or released.'
+expect_development_version_scanner_accept "Whole-file scanner accepts no-development-target fixture" 'v1.0.0 is public; no next development target is currently declared.'
+expect_development_version_scanner_reject "Whole-file scanner rejects wrapped development-target fixture" $'The v1.0.0 development\ntarget remains active.'
+expect_development_version_scanner_reject "Whole-file scanner rejects backticked wrapped development-target fixture" $'The `v1.0.0` development\ntarget remains active.'
+expect_development_version_scanner_reject "Whole-file scanner rejects wrapped active-target fixture" $'Active development target:\n`v1.1.0`.'
+
+expect_release_status_accept "Accept public v1.0.0 fixture" 'Current public version: `v1.0.0` Progressive Leader State Profiles.'
+expect_release_status_accept "Accept annotated v1.0.0 tag fixture" 'The annotated v1.0.0 tag exists at the reviewed commit.'
+expect_release_status_accept "Accept formal v1.0.0 GitHub Release fixture" 'GitHub Release v1.0.0 was published as a formal non-draft, non-prerelease Release.'
+expect_release_status_accept "Accept GitHub-Release-only publication fixture" 'Publication is limited to the formal GitHub Release.'
 expect_release_status_accept "Accept v1-not-deployed fixture" 'v1.0.0 has not been deployed.'
-expect_release_status_accept "Accept no-v1-public-publication fixture" 'No v1.0.0 public publication exists.'
-expect_release_status_accept "Accept development-declaration-does-not-claim fixture" 'The development declaration does not claim that a v1.0.0 tag, GitHub Release, or public publication exists.'
-expect_release_status_accept "Accept public v0.4.18 fixture" 'Current public version: `v0.4.18`; released July 12, 2026.'
-expect_release_status_accept "Accept historical v0.4.17 fixture" 'v0.4.17 was released before v0.4.18.'
-expect_release_status_accept "Accept no-development-target fixture" 'v0.4.18 is public; no next development target is currently declared.'
-expect_release_status_reject "Reject v0.4.17 current-public fixture" "v0.4.17 is still described as current public" 'The CURRENT public release is v0.4.17.'
-expect_release_status_reject "Reject v0.4.17 remains-public fixture" "v0.4.17 is still described as current public" 'Public version remains `v0.4.17` pending release.'
-expect_release_status_reject "Reject v0.4.18 development-target fixture" "v0.4.18 is still described as development or unpublished" 'Development target: `v0.4.18` Review Packet Retention And Cleanup.'
-expect_release_status_reject "Reject v0.4.18 development-version fixture" "v0.4.18 is still described as development or unpublished" 'v0.4.18 is the next development version.'
-expect_release_status_reject "Reject v0.4.18 unpublished fixture" "v0.4.18 is still described as development or unpublished" 'The v0.4.18 release remains UNPUBLISHED.'
-expect_release_status_reject "Reject v0.4.18 not-published fixture" "v0.4.18 is still described as development or unpublished" 'Not published yet: v0.4.18.'
-expect_release_status_reject "Reject v1.0.0 current-public fixture" "v1.0.0 is claimed as public or already released" 'Current public version: `v1.0.0`.'
-expect_release_status_reject "Reject v1.0.0 reverse current-public fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 is the current public release.'
-expect_release_status_reject "Reject v1.0.0 published fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 has been published.'
-expect_release_status_reject "Reject v1.0.0 released fixture" "v1.0.0 is claimed as public or already released" 'Released v1.0.0.'
-expect_release_status_reject "Reject v1.0.0 was-released fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 was released.'
-expect_release_status_reject "Reject v1.0.0 deployed fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 has been deployed.'
-expect_release_status_reject "Reject v1.0.0 deployment-exists fixture" "v1.0.0 is claimed as public or already released" 'Deployment for v1.0.0 exists.'
-expect_release_status_reject "Reject v1.0.0 public-publication fixture" "v1.0.0 is claimed as public or already released" 'The v1.0.0 public publication exists.'
-expect_release_status_reject "Reject v1.0.0 tag-exists fixture" "v1.0.0 is claimed as public or already released" 'The v1.0.0 tag exists.'
-expect_release_status_reject "Reject v1.0.0 tag-created fixture" "v1.0.0 is claimed as public or already released" 'The v1.0.0 tag was created.'
-expect_release_status_reject "Reject created-v1.0.0-tag fixture" "v1.0.0 is claimed as public or already released" 'Created the v1.0.0 tag.'
-expect_release_status_reject "Reject v1.0.0 GitHub-Release-exists fixture" "v1.0.0 is claimed as public or already released" 'GitHub Release v1.0.0 exists.'
-expect_release_status_reject "Reject v1.0.0 GitHub-Release-published fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 GitHub Release has been published.'
+expect_release_status_accept "Accept generic no-deployment fixture" 'No deployment was performed.'
+expect_release_status_accept "Accept no-deployment-claim fixture" 'This entry does not claim deployment was performed.'
+expect_release_status_accept "Accept no-deployment-claim passive fixture" 'No claim is made that deployment was performed.'
+expect_release_status_accept "Accept no-website-publication-claim fixture" 'This entry does not claim publication was made through a website.'
+expect_release_status_accept "Accept no-website-publication-claim passive fixture" 'No claim is made that publication was made through a website.'
+expect_release_status_accept "Accept historical v0.4.18 fixture" 'v0.4.18 remains historical release evidence from July 12, 2026.'
+expect_release_status_accept "Accept no-development-target fixture" 'v1.0.0 is public; no next development target is currently declared.'
+expect_release_status_accept "Accept annotated-tag date fixture" 'v1.0.0 was released on July 16, 2026 under America/Los_Angeles annotated-tag date semantics.'
+expect_release_status_reject "Reject v0.4.18 current-public fixture" "v0.4.18 is still described as current public" 'Current public version: `v0.4.18`.'
+expect_release_status_reject "Reject v0.4.18 reverse current-public fixture" "v0.4.18 is still described as current public" 'v0.4.18 is the current public release.'
+expect_release_status_reject "Reject v0.4.18 remains current-public fixture" "v0.4.18 is still described as current public" 'v0.4.18 remains the current public version.'
+expect_release_status_reject "Reject v1.0.0 development declaration fixture" "v1.0.0 is still described as development" 'Development target: `v1.0.0` Progressive Leader State Profiles.'
+expect_release_status_reject "Reject multiline v1.0.0 development declaration fixture" "v1.0.0 is still described as development" $'Development target:\n`v1.0.0` Progressive Leader State Profiles.'
+expect_release_status_reject "Reject actual former README sentence fixture" "v1.0.0 is still described as development" 'The v1.0.0 development target replaces a universal line cap with progressive active-state profiles.'
+expect_release_status_reject "Reject multiline former README sentence fixture" "v1.0.0 is still described as development" $'The v1.0.0 development\ntarget replaces a universal line cap with progressive active-state profiles.'
+expect_release_status_reject "Reject backticked multiline former README sentence fixture" "v1.0.0 is still described as development" $'The `v1.0.0` development\ntarget remains active.'
+expect_release_status_reject "Reject v1.0.0 next-development fixture" "v1.0.0 is still described as development" 'v1.0.0 is the next development version.'
+expect_release_status_reject "Reject v1.0.0 remains-development fixture" "v1.0.0 is still described as development" 'v1.0.0 remains the development target.'
+expect_release_status_reject "Reject unconfigured active-development fixture" "an unconfigured development target is declared" 'Active development target is v1.1.0.'
+expect_release_status_reject "Reject unconfigured remains-development fixture" "an unconfigured development target is declared" 'v1.1.0 remains the development target.'
+expect_release_status_reject "Reject absent v1.0.0 tag fixture" "v1.0.0 is still described as unpublished" 'No v1.0.0 tag exists.'
+expect_release_status_reject "Reject absent v1.0.0 GitHub Release fixture" "v1.0.0 is still described as unpublished" 'GitHub Release v1.0.0 does not exist.'
+expect_release_status_reject "Reject reverse absent v1.0.0 GitHub Release fixture" "v1.0.0 is still described as unpublished" 'No GitHub Release exists for v1.0.0.'
+expect_release_status_reject "Reject unpublished v1.0.0 fixture" "v1.0.0 is still described as unpublished" 'v1.0.0 has not been published.'
+expect_release_status_reject "Reject no-v1-public-publication fixture" "v1.0.0 is still described as unpublished" 'No v1.0.0 public publication exists.'
+expect_release_status_reject "Reject v1.0.0 deployed fixture" "v1.0.0 is incorrectly described as deployed" 'v1.0.0 has been deployed.'
+expect_release_status_reject "Reject v1.0.0 deployment-exists fixture" "v1.0.0 is incorrectly described as deployed" 'Deployment for v1.0.0 exists.'
+expect_release_status_reject "Reject generic deployment-performed fixture" "v1.0.0 is incorrectly described as deployed" 'Deployment was performed.'
+expect_release_status_reject "Reject reverse deployment-performed fixture" "v1.0.0 is incorrectly described as deployed" 'Deployment was performed for v1.0.0.'
+expect_release_status_reject "Reject Markdown deployment-performed fixture" "v1.0.0 is incorrectly described as deployed" '- Deployment was performed.'
+expect_release_status_reject "Reject compound Changelog deployment fixture" "v1.0.0 is incorrectly described as deployed" '- Publish through the formal GitHub Release only. Deployment was performed.'
+expect_release_status_reject "Reject compound publication-boundary deployment fixture" "v1.0.0 is incorrectly described as deployed" 'Publication is limited to the formal GitHub Release; deployment was performed.'
+expect_release_status_reject "Reject unsupported publication fixture" "v1.0.0 uses an unsupported publication channel" 'v1.0.0 was published through a package registry.'
+expect_release_status_reject "Reject generic unsupported publication fixture" "v1.0.0 uses an unsupported publication channel" 'Publication was made through a website.'
+expect_release_status_reject "Reject Markdown unsupported publication fixture" "v1.0.0 uses an unsupported publication channel" '- Publication was made through a website.'
+expect_release_status_reject "Reject wrong annotated-tag date fixture" "v1.0.0 has an incorrect annotated-tag date" 'Published v1.0.0 on July 17, 2026: Progressive Leader State Profiles.'
+
+template_contains_normalized_whitespace "README.md" "Publication is limited to the formal GitHub Release; deployment was not performed." "README preserves publication and no-deployment boundary"
+template_contains_normalized_whitespace "CHANGELOG.md" "Publish through the formal GitHub Release only. Deployment was not performed." "CHANGELOG preserves publication and no-deployment boundary"
+template_contains_normalized_whitespace "docs/ROADMAP.md" "Publication is limited to the formal GitHub Release. Deployment was not performed." "ROADMAP preserves publication and no-deployment boundary"
+template_contains_normalized_whitespace "docs/TODO.md" "Publication is limited to the formal GitHub Release. Deployment was not performed." "TODO preserves publication and no-deployment boundary"
+template_contains_normalized_whitespace "docs/VALIDATION.md" "Publication is limited to the formal GitHub Release; deployment was not performed." "VALIDATION preserves publication and no-deployment boundary"
 
 stale_current_state_marker=0
 current_release_surfaces=(

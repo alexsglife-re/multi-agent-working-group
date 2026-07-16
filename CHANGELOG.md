@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## Releases
 
-Development target: `v1.0.0` Progressive Leader State Profiles.
-Current public version: `v0.4.18`.
+Current public version: `v1.0.0` Progressive Leader State Profiles.
+Historical release: `v0.4.18`, published on July 12, 2026.
+No next development target is declared.
 
-### Development target v1.0.0: Progressive Leader State Profiles
+### Published v1.0.0 on July 16, 2026: Progressive Leader State Profiles
 
 - Add Compact and Standard Leader active-state profiles selected from
   deterministic current-active structural inventory.
@@ -19,6 +20,11 @@ Current public version: `v0.4.18`.
   Physical line and UTF-8-byte size bands are warning-only pilot baselines.
 - Record `hierarchical-required` when Standard is insufficient.
   Hierarchical root/card/shard storage is not implemented in this target.
+- Bound the stable release to the documented protocol, role and gate behavior,
+  Compact and Standard templates, deterministic classification, and honest
+  `hierarchical-required` detection. Do not claim calibrated blocking
+  thresholds, Hierarchical storage, runtime enforcement, measured savings, or
+  validated support for every named runtime.
 - Add profile templates, successor projection, representative fixtures, and
   structural local checks without claiming semantic truth, authorization
   validity, factual correctness, or role-runtime execution.
@@ -26,8 +32,9 @@ Current public version: `v0.4.18`.
   evidence only. The original document and fact inventory are unavailable, so
   validation uses a labeled synthetic stress fixture rather than a historical
   reconstruction.
-- Keep v1.0.0 in development status. No v1.0.0 tag, GitHub Release, public
-  publication, or deployment is claimed or authorized by this entry.
+- Publish through the formal GitHub Release only. Deployment was not performed.
+
+The public release date uses `America/Los_Angeles` annotated-tag date semantics.
 
 ### Published v0.4.18 on July 12, 2026: Review Packet Retention And Cleanup
 

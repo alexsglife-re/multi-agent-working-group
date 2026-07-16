@@ -477,15 +477,20 @@ The public release date uses `America/Los_Angeles` release-date semantics. At
 the time v0.4.18 was published, no next development target had been declared.
 The release does not claim runtime enforcement or deployment.
 
-## v1.0.0: Progressive Leader State Profiles (Development Target)
+## v1.0.0: Progressive Leader State Profiles (Published July 16, 2026)
 
-Development target: `v1.0.0` Progressive Leader State Profiles.
-Current public version: `v0.4.18`.
+Current public version: `v1.0.0` Progressive Leader State Profiles.
+`v0.4.18` remains historical release evidence. No next development target is declared.
 
 Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
 Physical line and UTF-8-byte size bands are
 warning-only pilot baselines.
 Hierarchical root/card/shard storage is not implemented in this target.
+The released scope covers the documented protocol, role and gate behavior,
+Compact and Standard templates, deterministic classification, and honest
+`hierarchical-required` detection; it does not claim calibrated blocking
+thresholds, Hierarchical storage, runtime enforcement, measured savings, or
+validated support for every named runtime.
 
 - [x] Define deterministic current-active structural inventory and progressive
   Compact, Standard, and `hierarchical-required` selection semantics.
@@ -501,8 +506,7 @@ Hierarchical root/card/shard storage is not implemented in this target.
 - [x] Complete normal git closeout and OpenSpec archive under their applicable
   gates.
 
-This development record does not claim or authorize a v1.0.0 tag, GitHub
-Release, public publication, or deployment.
+Publication is limited to the formal GitHub Release. Deployment was not performed.
 
 ## v0.4.16: Cross-Runtime Installation And Adapter Guardrails
 

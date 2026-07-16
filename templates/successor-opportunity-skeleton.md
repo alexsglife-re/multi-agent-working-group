@@ -1,6 +1,6 @@
 # Successor Opportunity Skeleton
 
-Version: v1.0.0 development template.
+Version: v1.0.0 release template.
 
 Use only at `Rollover Opportunity` when lightweight preparation is useful.
 Refresh the canonical active state and evidence index first. This skeleton is
