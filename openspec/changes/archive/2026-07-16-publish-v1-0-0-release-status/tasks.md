@@ -26,18 +26,18 @@
 ## 4. C3 Release-Status Git Closeout
 
 - [x] 4.1 Start fresh runtime-proven C3 PM and Claude Advisor lifecycles plus fresh Reviewer participation; recheck the current `America/Los_Angeles` date before freezing release-facing documentation.
-- [ ] 4.2 Complete staged scope, secret scan, PM/Advisor/Reviewer precommit, an English release-status commit message with `Core Changes`, `Rationale`, `Remaining Work`, and `Review Notes`, actual-commit review, push, remote equality, no-GitHub-Actions metadata, and post-push reviews.
-- [ ] 4.3 Confirm README and every release-facing surface agree on public v1.0.0, historical v0.4.18, no next target, provisional thresholds, warning-only bands, interim `hierarchical-required`, unimplemented Hierarchical storage, and no deployment.
-- [ ] 4.4 Close Reviewer, PM, and Advisor sequentially and record the C3-to-C4 transition; no C3 GO or validation freshness carries into C4.
+- [x] 4.2 Complete staged scope, secret scan, PM/Advisor/Reviewer precommit, an English release-status commit message with `Core Changes`, `Rationale`, `Remaining Work`, and `Review Notes`, actual-commit review, push, remote equality, no-GitHub-Actions metadata, and post-push reviews.
+- [x] 4.3 Confirm README and every release-facing surface agree on public v1.0.0, historical v0.4.18, no next target, provisional thresholds, warning-only bands, interim `hierarchical-required`, unimplemented Hierarchical storage, and no deployment.
+- [x] 4.4 Close Reviewer, PM, and Advisor sequentially and record the C3-to-C4 transition; no C3 GO or validation freshness carries into C4.
 
 ## 5. C4 Pre-Archive Readiness
 
-- [ ] 5.1 Start fresh runtime-proven C4 PM and Claude Advisor lifecycles plus fresh Reviewer participation without inheriting C3 state.
-- [ ] 5.2 Prepare and review the accepted-spec sync with Purpose exactly `Define the authoritative current public release state, validation, lifecycle gates, exact release target, GitHub-Release-only publication boundary, and closeout requirements for v1.0.0 while preserving v0.4.18 as historical evidence.`, both renamed public-state requirements, validation of the synchronized spec, and a plan to archive with `--skip-specs` so no delta is applied twice; assert that no accepted Purpose or requirement still calls v0.4.18 current.
-- [ ] 5.3 Run strict active-state OpenSpec and repository-local validation, scope and sensitive-content checks, and obtain fresh PM/Advisor/Reviewer confirmation that the synced change is ready to archive.
-- [ ] 5.4 Record that post-archive evidence will remain in this Codex task's role/command transcript, Git commit and tag objects, remote refs, and GitHub API/Release metadata, never in later edits to the archived checklist.
-- [ ] 5.5 Review the complete external archive and publication runbook below, including truthful `.github`/zero-context evidence, exact peeled-target proof independent of `targetCommitish`, immutable remote-tag handling, incomplete-publication retry behavior, three separate fresh non-OpenSpec role groups for tag, Release, and closeout, and no deployment.
-- [ ] 5.6 Confirm every preceding checkbox is complete and obtain C4 Reviewer, PM, and Advisor authorization to cross the archive boundary while keeping the exact C4 PM and Advisor runtime sessions open for fresh archive, actual-commit, push, and post-push checkpoints.
+- [x] 5.1 Start fresh runtime-proven C4 PM and Claude Advisor lifecycles plus fresh Reviewer participation without inheriting C3 state.
+- [x] 5.2 Prepare and review the accepted-spec sync with Purpose exactly `Define the authoritative current public release state, validation, lifecycle gates, exact release target, GitHub-Release-only publication boundary, and closeout requirements for v1.0.0 while preserving v0.4.18 as historical evidence.`, both renamed public-state requirements, validation of the synchronized spec, and a plan to archive with `--skip-specs` so no delta is applied twice; assert that no accepted Purpose or requirement still calls v0.4.18 current.
+- [x] 5.3 Run strict active-state OpenSpec and repository-local validation, scope and sensitive-content checks, and obtain fresh PM/Advisor/Reviewer confirmation that the synced change is ready to archive.
+- [x] 5.4 Record that post-archive evidence will remain in this Codex task's role/command transcript, Git commit and tag objects, remote refs, and GitHub API/Release metadata, never in later edits to the archived checklist.
+- [x] 5.5 Review the complete external archive and publication runbook below, including truthful `.github`/zero-context evidence, exact peeled-target proof independent of `targetCommitish`, immutable remote-tag handling, incomplete-publication retry behavior, three separate fresh non-OpenSpec role groups for tag, Release, and closeout, and no deployment.
+- [x] 5.6 Confirm every preceding checkbox is complete and obtain C4 Reviewer, PM, and Advisor authorization to cross the archive boundary while keeping the exact C4 PM and Advisor runtime sessions open for fresh archive, actual-commit, push, and post-push checkpoints.
 
 ## Post-Archive Operational Runbook
 
