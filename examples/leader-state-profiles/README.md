@@ -32,8 +32,7 @@ profiles are designed to prevent.
 Repo-grounded cases cite a repository path in `source`. Synthetic cases use a
 stable `synthetic:*` source and must never be described as observed history.
 Profile rules come from `references/leader-state-profiles.md` and the accepted
-OpenSpec delta under
-`openspec/changes/add-progressive-leader-state-profiles/specs/`.
+specifications under `openspec/specs/`.
 
 The Owner reported that a prior Leader document grew beyond 4,000 lines. The
 original document and fact inventory are not available in this repository.

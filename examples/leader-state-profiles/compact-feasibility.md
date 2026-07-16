@@ -11,18 +11,18 @@ Fixture identity:
 
 Provenance:
   Scenario source: examples/small-doc-task.md
-  Profile rules: openspec/changes/add-progressive-leader-state-profiles/specs/leader-state-compaction/spec.md
-  Rendering rules: openspec/changes/add-progressive-leader-state-profiles/specs/copyable-role-templates/spec.md
-  Rollover rules: openspec/changes/add-progressive-leader-state-profiles/specs/leader-rollover-protocol/spec.md
-  Source status: current local OpenSpec C2 inputs.
-  Source freshness: verified for this fixture at 2026-07-15T12:00:00-07:00.
+  Profile rules: openspec/specs/leader-state-compaction/spec.md
+  Rendering rules: openspec/specs/copyable-role-templates/spec.md
+  Rollover rules: openspec/specs/leader-rollover-protocol/spec.md
+  Source status: accepted repository specifications.
+  Source freshness: verified for this fixture at 2026-07-16T02:46:47-07:00.
 
 Profile selection:
   Leader state profile: Compact
   Inventory scope: current-active-only
   Measurement source: the Scenario, Classification, and Minimal Startup Packet in examples/small-doc-task.md.
   Measurement source kind: fixture-measurement
-  Measurement time: 2026-07-15T12:00:00-07:00.
+  Measurement time: 2026-07-16T02:46:47-07:00.
   Measurement freshness: fresh
   Selection detail: full-counts
   Profile selection basis: all Compact triggers checked; none exceeded.
@@ -110,12 +110,12 @@ Next action and stop conditions:
   Stop: security, permission, credential, schema, or external-effect scope appears.
 
 Claim-indexed evidence index:
-  C-01 profile thresholds and retention floor: leader-state-compaction/spec.md; current.
-  C-02 reduced Compact rendering requirements: copyable-role-templates/spec.md; current.
+  C-01 profile thresholds and retention floor: openspec/specs/leader-state-compaction/spec.md; current.
+  C-02 reduced Compact rendering requirements: openspec/specs/copyable-role-templates/spec.md; current.
   C-03 source task scope and gate state: examples/small-doc-task.md; current for fixture.
-  C-04 successor non-inheritance rule: leader-rollover-protocol/spec.md; current.
+  C-04 successor non-inheritance rule: openspec/specs/leader-rollover-protocol/spec.md; current.
   C-05 measurement result: this file; fresh after the recorded wc checks.
-  Pointer rule: each relative filename above resolves from the repository root or the change specs directory named in Provenance.
+  Pointer rule: each relative filename above resolves from the repository root.
 
 Historical archive-note capability:
   Archive note directory convention: examples/leader-state-profiles/archive-notes/.
@@ -124,7 +124,7 @@ Historical archive-note capability:
 
 Rendering and warning assertion:
   Physical lines: 132
-  UTF-8 bytes: 7191
+  UTF-8 bytes: 7050
   Compact provisional target: 40-100 physical lines.
   Compact warning thresholds: 140 physical lines or 16384 UTF-8 bytes.
   Size warning state: within-warning; the instance is below both warning thresholds.

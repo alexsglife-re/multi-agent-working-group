@@ -498,7 +498,7 @@ Hierarchical root/card/shard storage is not implemented in this target.
   are unavailable for historical reconstruction.
 - [x] Complete structural validator integration and version-marker checks.
 - [x] Complete fresh validation and independent C2 review.
-- [ ] Complete normal git closeout and OpenSpec archive under their applicable
+- [x] Complete normal git closeout and OpenSpec archive under their applicable
   gates.
 
 This development record does not claim or authorize a v1.0.0 tag, GitHub
