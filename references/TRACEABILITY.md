@@ -31,11 +31,37 @@ authorization.
 | Model routing and CLI trust | CLI Trust And Model Routing | references/cli-trust.md |
 | Agent lifecycle and patience | Agent Lifecycle And Delegation | references/role-templates-and-output.md |
 | Context budget, Worker-first context control, and rollover | Rollover And Handoff | references/context-rollover.md |
+| Progressive Leader active-state selection, counting, retention, and transitions | Rollover And Handoff | references/leader-state-profiles.md |
 | Risk/severity/failure/git gates | Risk And Severity; Git Exit And Default Exclusions | references/git-exit-rules.md |
 | OpenSpec C0-C4 and local validation | OpenSpec Lifecycle; Validation And Verification | references/openspec-lifecycle.md |
 | Startup packets, role output templates, cleanup status, and Leader work budget | Output Requirements | references/role-templates-and-output.md |
 | Handoff and successor startup | Rollover And Handoff | references/context-rollover.md |
 | Review packet retention, compaction, and cleanup eligibility | Context-efficient role review | references/review-context-efficiency.md |
+
+## Progressive Leader-State Profile Anchors
+
+This section maps the v1.0.0 development target only; it is not part of the
+current v0.4.18 public-release claim.
+
+`SKILL.md` now mandates `references/leader-state-profiles.md` before profile
+selection, refresh, rendering, or transition and retains the hard-boundary
+summary that structural inventory classifies while size only warns and
+semantic/control failures remain fail-closed. The reference owns:
+
+- current-active-only deterministic inventory and normalized relationship keys;
+- Compact, Standard, and `hierarchical-required` classification;
+- complete accepted retention-floor routing, canonical ownership, stable
+  evidence pointers, and derived-copy freshness;
+- event-driven refresh, immediate promotion, two-checkpoint explicit demotion,
+  and no-background-mutation rules; and
+- provisional non-blocking structural classification, warning-only line/byte
+  diagnostics, and independent fail-closed semantic/control enforcement.
+
+`references/context-rollover.md` integrates profile-aware Opportunity skeletons
+and complete successor packets without changing accepted rollover states or
+transferring authorization. Local validation may check registration, anchors,
+rendered structure, and deterministic fixtures; it cannot prove inventory
+truth, semantic sufficiency, role execution, or authorization validity.
 
 ## Explicit Hard Boundaries Added For v0.4.12
 

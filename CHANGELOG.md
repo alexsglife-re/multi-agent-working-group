@@ -6,7 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-No next development target is currently declared.
+Development target: `v1.0.0` Progressive Leader State Profiles.
+Current public version: `v0.4.18`.
+
+### Development target v1.0.0: Progressive Leader State Profiles
+
+- Add Compact and Standard Leader active-state profiles selected from
+  deterministic current-active structural inventory.
+- Preserve the complete applicable retention floor and replace repeated history
+  copying with stable evidence pointers.
+- Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
+  Physical line and UTF-8-byte size bands are warning-only pilot baselines.
+- Record `hierarchical-required` when Standard is insufficient.
+  Hierarchical root/card/shard storage is not implemented in this target.
+- Add profile templates, successor projection, representative fixtures, and
+  structural local checks without claiming semantic truth, authorization
+  validity, factual correctness, or role-runtime execution.
+- Record the Owner-reported prior growth beyond 4,000 lines as continuity
+  evidence only. The original document and fact inventory are unavailable, so
+  validation uses a labeled synthetic stress fixture rather than a historical
+  reconstruction.
+- Keep v1.0.0 in development status. No v1.0.0 tag, GitHub Release, public
+  publication, or deployment is claimed or authorized by this entry.
 
 ### Published v0.4.18 on July 12, 2026: Review Packet Retention And Cleanup
 

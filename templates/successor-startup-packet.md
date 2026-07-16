@@ -2,7 +2,10 @@
 
 Version: v0.4.13 recommended template.
 
-Use this when a Leader recommends or requires rollover to a new conversation.
+Use this at `Rollover Recommended`, `Rollover Strongly Recommended`,
+`Rollover Required`, actual handoff, or an explicit Owner handoff request.
+At `Rollover Opportunity`, use `successor-opportunity-skeleton.md` only when
+lightweight preparation is useful.
 This packet is continuity evidence only. It is not automatic thread creation,
 authorization, approval, validation success, or gate bypass.
 
@@ -16,6 +19,15 @@ Date/time:
 
 Current goal:
   <owner goal>
+
+Leader state profile:
+  Compact | Standard | hierarchical-required
+Profile selection basis:
+  <current-active-only measurement source, time, freshness, and trigger result>
+Profile selection evidence:
+  <canonical active-state and measurement pointer>
+Successor profile verification:
+  not inherited; remeasure current active state before acting
 
 Owner instruction:
   <latest owner instruction that authorizes current local work>
@@ -247,6 +259,8 @@ Before continuing, the successor Leader must verify:
   - Validation evidence is fresh for the current diff.
   - PM/Advisor/Reviewer continuity is intact, restarted, degraded, or unavailable.
   - Worker state and unconsumed returns are understood.
+  - Leader state profile is freshly selected from current-active-only inventory;
+    prior profile selection and warning state are evidence, not authority.
   - Unresolved P0/P1 and owner-decision needs are explicit.
   - Commit/push/CI/archive authorization state is not inherited from old handoff text.
   - Next action is safe after re-verification.

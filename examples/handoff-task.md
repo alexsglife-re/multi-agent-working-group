@@ -113,6 +113,16 @@ Current verification:
   - Current next action: rerun validation, then re-enter commit gate review
 ```
 
+The compound next action carries one current pending Owner authorization domain
+because it re-enters the commit gate after validation:
+
+```text
+Active authorization domains: 1
+Bound authorization keys: 1
+Authorization key: auth:owner:repository:commit:main:pending:fresh-validation-and-gate-review
+Standing exclusions not counted: push, release, publication, deployment, security, permissions, schema, destructive actions
+```
+
 So the handoff helped recovery, but it did not authorize the commit.
 
 ## Restarted Consensus

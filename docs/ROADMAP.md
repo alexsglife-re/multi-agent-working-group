@@ -25,7 +25,15 @@ Exit criteria:
 `v0.4.0` local stabilization through `v0.4.18` Review Packet Retention And Cleanup
 are complete and publicly released.
 
-No next development target is currently declared.
+Development target: `v1.0.0` Progressive Leader State Profiles.
+Current public version: `v0.4.18`.
+
+Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
+Physical line and UTF-8-byte size bands are
+warning-only pilot baselines. Hierarchical
+root/card/shard storage is not implemented in this target.
+The development declaration does not claim a v1.0.0 tag, GitHub Release, public
+publication, or deployment.
 
 Goal: make the workflow easier to apply consistently.
 
@@ -100,6 +108,11 @@ Exit criteria:
   fail-closed blockers; and non-destructive compaction without automatic or
   implicitly authorized deletion. It controls active and retransmitted context,
   not total stored files; stored packets may grow until authorized removal.
+- `v1.0.0` Progressive Leader State Profiles is the active development target.
+  It scales from reduced Compact state for small work, through a single-file
+  Standard profile for medium work, to an honest `hierarchical-required`
+  classification for large or entangled work without claiming that
+  Hierarchical storage is already implemented.
 
 ## Stage 3: Lightweight Validation Tooling
 
@@ -157,11 +170,33 @@ Exit criteria:
 - Add an ADR if the project adopts automated validation, CI, or a specific packaging strategy.
 - Explore whether project-local memory templates would help long-running workstreams.
 
+### Named Leader-State Follow-ons
+
+- `add-hierarchical-leader-state-sharding`: enter this follow-on only when real
+  large-project use or accumulated pilot evidence shows that Standard is
+  insufficient. Required entry evidence includes representative current-state
+  inventories, the observed single-file failure, and a reviewable root/card/shard
+  evidence model that preserves canonical ownership, freshness, reconstruction,
+  and the complete applicable retention floor.
+- `calibrate-leader-state-profile-thresholds`: enter this follow-on only after
+  sufficient profile measurements exist and the Owner decides whether to
+  consider enforceable thresholds. Required entry evidence includes measured
+  line and UTF-8-byte distributions, structural counts, false-promotion and
+  information-loss observations, warning frequency, transition behavior, and a
+  reviewed calibration rationale.
+
+These names and entry conditions are roadmap records only. This target does not
+create either OpenSpec change.
+
 ## Current Recommended Next Step
 
-`v0.4.18` Review Packet Retention And Cleanup is the current public version,
-released on July 12, 2026 under `America/Los_Angeles` release-date semantics.
-It adds retention and cleanup rules plus corrected stage-scoped PM/Advisor
-lifecycles without claiming runtime enforcement, deployment, measured token
-savings, or proven quality improvement. No next development target is currently
-declared.
+Development target: `v1.0.0` Progressive Leader State Profiles.
+Current public version: `v0.4.18`, released on July 12, 2026 under
+`America/Los_Angeles` release-date semantics. The development work adds
+progressive state control without claiming a v1.0.0 tag, GitHub Release, public
+publication, deployment, or completed Hierarchical root/card/shard storage.
+Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
+Physical line and UTF-8-byte size bands are
+warning-only pilot baselines.
+
+`v0.4.18` Review Packet Retention And Cleanup is the current public version.

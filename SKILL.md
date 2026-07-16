@@ -21,6 +21,7 @@ Read the relevant reference before acting in these domains:
 - OpenSpec: MUST read `references/openspec-lifecycle.md` before OpenSpec proposal, implementation, validation, closeout, archive, or status reporting.
 - CLI trust/model routing: MUST read `references/cli-trust.md` before relying on Claude CLI, Codex CLI, another CLI-based role, workspace trust setup, or PM/Advisor model-separation state.
 - Rollover/handoff: MUST read `references/context-rollover.md` before context rollover, handoff, successor startup, continuity recovery, or relying on prior state.
+- Leader-state profiles: MUST read `references/leader-state-profiles.md` before selecting, refreshing, rendering, or transitioning a Compact, Standard, or `hierarchical-required` active-state profile.
 - Role output/templates: MUST read `references/role-templates-and-output.md` before dispatching PM, Advisor, Worker, Reviewer, accepting role output, creating startup packets, or producing final closeout summaries.
 - Context-efficient role review: MUST read `references/review-context-efficiency.md` before preparing, dispatching, retrying, or accepting a stable-baseline plus incremental PM or Advisor review packet.
 
@@ -152,6 +153,8 @@ Do not claim PM/Advisor independence was strengthened by model diversity when sa
 For CLI trust setup, an applicable Owner-recorded role assignment source may include current Owner instruction, global memory, project rule, project memory, handoff, startup packet, continuity record, ledger, template, or verified OpenSpec evidence. Record `owner-recorded-role-authorized` only when applicable to the exact current project and role. Record trusted state only after the post-setup read-only probe succeeds. Do not use dangerous permission-bypass flags, broaden scope, read secrets, trust parent/home/all repos, or create external effects without explicit Owner authorization.
 
 ## Rollover And Handoff
+
+Leader active state uses the progressive profile rules in `references/leader-state-profiles.md`. Structural current-active inventory selects Compact, Standard, or `hierarchical-required`; provisional line and byte bands only warn. Size never authorizes truncation or omission, and semantic or control failure remains fail-closed.
 
 Every context-budget check must record exactly one canonical ContextBudget state. Platform-visible summaries are evidence of what the Leader can see, not proof of actual total compactions. Owner-reported threshold evidence can raise the canonical state when the Owner reports a concrete count.
 

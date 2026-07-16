@@ -22,6 +22,10 @@ The command also checks that tracked Markdown documentation is English-only.
 Ignored local reference checkouts under `references/external/` are not project
 publication docs and are not included in that check.
 
+Development target: `v1.0.0` Progressive Leader State Profiles.
+Current public version: `v0.4.18`. The development declaration is not evidence that a
+v1.0.0 tag, GitHub Release, public publication, or deployment exists.
+
 ## Baseline Checks
 
 - Confirm the working tree state before editing:
@@ -555,8 +559,10 @@ A passing marker check proves documentation and template consistency only. It do
 
 ## v0.4.18 Review Packet Retention And Cleanup Checks
 
-- Public version is `v0.4.18`, published on July 12, 2026 under `America/Los_Angeles` release-date semantics; no next development target is currently declared.
-- Deterministic checks require matching v0.4.18 public-version, changelog publication, roadmap, completed TODO markers, and the no-active-development-target state.
+- Public version is `v0.4.18`, published on July 12, 2026 under `America/Los_Angeles` release-date semantics. At publication time, no next development target had been declared; v1.0.0 was declared later and remains a development target.
+- Historical v0.4.18 checks retain matching public-version, changelog publication,
+  roadmap, and completed TODO evidence. The former no-active-development-target
+  marker is historical publication context, not the current development state.
 - Checks cover permanent protocol material, durable audit evidence, and lifecycle-bound working material.
 - OpenSpec examples retain later-gate evidence through C1, C2, C3, and C4; small tasks use their actual final applicable gate without inventing OpenSpec.
 - Minimum audit evidence retains invocation identity, exact anchors, fingerprint, timing, decision, P0/P1/P2, validation, evidence pointers, retry lineage, cleanup disposition, and complete role reasoning at a durable location.
@@ -567,6 +573,55 @@ A passing marker check proves documentation and template consistency only. It do
 - Active and retransmitted review context is bounded; stored lifecycle-bound packet files may grow until exact-scope Owner-authorized removal, and compact durable audit evidence intentionally grows with required reviews. The change does not impose a storage cap.
 
 Passing these checks proves repository documentation anchors and deterministic cleanup-predicate handling only. It does not prove automatic runtime enforcement, storage reduction, token savings, or review-quality improvement.
+
+## v1.0.0 Progressive Leader State Profile Checks (Development Target)
+
+Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
+Physical line and UTF-8-byte size bands are
+warning-only pilot baselines.
+Hierarchical root/card/shard storage is not implemented in this target.
+
+Profile validation should cover:
+
+- repo-grounded Compact and Standard rendered instances with provenance;
+- takeover direct to Standard and above-Standard classification;
+- dependency/conflict and overlap boundary cases;
+- promotion, lower exit bands, and two-checkpoint demotion hysteresis;
+- Opportunity successor skeleton versus complete Recommended/Required or actual
+  handoff rendering;
+- missing required fields, stale and orphaned pointers, conflicting canonical
+  sources, invalid selection bases, and warning-only oversize cases;
+- a clearly labeled synthetic large-state stress fixture. The Owner reported a
+  prior Leader document beyond 4,000 lines, but the original document and fact
+  inventory are unavailable, so validation must not claim historical
+  reconstruction.
+
+A passing profile check proves only that the checked files have the expected
+markers and structural fields, deterministic fixture inputs produce the stated
+classification, and recorded physical-line/UTF-8-byte measurements and warning
+states are internally consistent.
+
+The release-status marker regex covers controlled canonical phrases; it is not
+exhaustive semantic proof. A manual release metadata and state check is still
+required before any release or publication closeout.
+
+It does **not** prove that:
+
+- the recorded counts or active facts are true or complete for a real project;
+- a pointer is semantically sufficient merely because it has a valid shape;
+- a canonical source is factually correct;
+- an authorization grant, denial, revocation, or git/release gate is valid;
+- PM, Advisor, Worker, Reviewer, or Leader lifecycle activity actually occurred;
+- runtime identity, exact resume, no-peek independence, lifecycle patience, or
+  cleanup behavior was executed correctly;
+- a successor can act without fresh verification;
+- a single-file projection is semantically sufficient in every unusual case;
+- the pilot thresholds are calibrated, enforceable, or safe as blocking gates.
+
+Missing required structure, invalid pointers, conflicting sources, or other
+semantic/control failures remain fail-closed independently of size. An
+otherwise valid fixture that exceeds only a provisional line or byte band must
+pass with a warning, not fail or enter a degraded safety state.
 
 ## Suggested Manual Review Flow
 

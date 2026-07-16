@@ -2,13 +2,13 @@
 set -euo pipefail
 
 PUBLIC_VERSION="v0.4.18"
-DEVELOPMENT_VERSION=""
+DEVELOPMENT_VERSION="v1.0.0"
 PUBLIC_UPGRADE_TITLE="Review Packet Retention And Cleanup"
-DEVELOPMENT_UPGRADE_TITLE=""
+DEVELOPMENT_UPGRADE_TITLE="Progressive Leader State Profiles"
 PUBLICATION_DATE="July 12, 2026"
 PUBLICATION_TIMEZONE="America/Los_Angeles"
 CURRENT_VALIDATION_TITLE="Review Packet Retention And Cleanup Checks"
-SKILL_ANCHOR_BASELINE=57
+SKILL_ANCHOR_BASELINE=59
 TEMPLATE_VERSION="v0.4.13"
 REQUIRED_ACCEPTED_SPECS=(
   "adoption-guidance"
@@ -26,6 +26,7 @@ REQUIRED_REFERENCES=(
   "references/cli-trust.md"
   "references/context-rollover.md"
   "references/git-exit-rules.md"
+  "references/leader-state-profiles.md"
   "references/openspec-lifecycle.md"
   "references/role-templates-and-output.md"
   "references/review-context-efficiency.md"
@@ -44,6 +45,7 @@ REQUIRED_TEMPLATES=(
   "templates/blocked-report.md"
   "templates/c0-goal-analysis.md"
   "templates/compact-handoff.md"
+  "templates/compact-leader-state.md"
   "templates/git-gate.md"
   "templates/pm-review.md"
   "templates/reviewer-report.md"
@@ -51,6 +53,8 @@ REQUIRED_TEMPLATES=(
   "templates/review-invocation-record.md"
   "templates/review-packet-cleanup-checklist.md"
   "templates/successor-startup-packet.md"
+  "templates/successor-opportunity-skeleton.md"
+  "templates/standard-leader-state.md"
   "templates/worker-assignment.md"
   "templates/worker-return.md"
 )
@@ -115,7 +119,12 @@ contains() {
 release_status_contradiction() {
   local content="$1"
   local normalized
+  local v1_tag_claim=0
+  local v1_github_release_claim=0
+  local v1_publication_claim=0
+  local v1_deployment_claim=0
   normalized="$(printf '%s' "$content" | tr '[:upper:]' '[:lower:]')"
+  normalized="${normalized//\`/}"
   normalized="${normalized//no next development target/}"
   normalized="${normalized//no active development target/}"
   normalized="${normalized//no successor development target/}"
@@ -126,9 +135,51 @@ release_status_contradiction() {
     RELEASE_STATUS_REASON="v0.4.17 is still described as current public"
     return 0
   fi
-  if [[ "$normalized" =~ v0\.4\.18.{0,120}(development[[:space:]]+(target|version)|unpublished|not[[:space:]]+published) ]] \
-    || [[ "$normalized" =~ (development[[:space:]]+(target|version)|unpublished|not[[:space:]]+published).{0,120}v0\.4\.18 ]]; then
+  if [[ "$normalized" =~ development[[:space:]]+target:[[:space:]]*v0\.4\.18 ]] \
+    || [[ "$normalized" =~ v0\.4\.18[[:space:]]+is[[:space:]]+the[[:space:]]+next[[:space:]]+development[[:space:]]+version ]] \
+    || [[ "$normalized" =~ next[[:space:]]+development[[:space:]]+version([[:space:]]+is|:)[[:space:]]*v0\.4\.18 ]] \
+    || [[ "$normalized" =~ v0\.4\.18[[:space:]]+(release[[:space:]]+)?remains[[:space:]]+unpublished ]] \
+    || [[ "$normalized" =~ not[[:space:]]+published[[:space:]]+yet:[[:space:]]*v0\.4\.18 ]]; then
     RELEASE_STATUS_REASON="v0.4.18 is still described as development or unpublished"
+    return 0
+  fi
+  # Match only affirmative public/release claims for the configured development
+  # version. Do not use proximity matching here: the authorized declaration
+  # intentionally places development v1.0.0 beside current public v0.4.18.
+  if { [[ "$normalized" =~ v1\.0\.0[[:space:]]+tag[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+created|was[[:space:]]+created) ]] \
+      || [[ "$normalized" =~ tag[[:space:]]+v1\.0\.0[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+created|was[[:space:]]+created) ]] \
+      || [[ "$normalized" =~ ^[[:space:]]*created[[:space:]]+(the[[:space:]]+)?(tag[[:space:]]+)?v1\.0\.0[[:space:]]+tag ]]; } \
+    && [[ ! "$normalized" =~ no[[:space:]]+(the[[:space:]]+)?v1\.0\.0[[:space:]]+tag[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+created|was[[:space:]]+created) ]] \
+    && [[ ! "$normalized" =~ v1\.0\.0[[:space:]]+tag[[:space:]]+(does[[:space:]]+not[[:space:]]+exist|has[[:space:]]+not[[:space:]]+been[[:space:]]+created|was[[:space:]]+not[[:space:]]+created) ]]; then
+    v1_tag_claim=1
+  fi
+  if { [[ "$normalized" =~ (github[[:space:]]+)?release[[:space:]]+v1\.0\.0[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+published|was[[:space:]]+published) ]] \
+      || [[ "$normalized" =~ v1\.0\.0[[:space:]]+github[[:space:]]+release[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+published|was[[:space:]]+published) ]]; } \
+    && [[ ! "$normalized" =~ no[[:space:]]+(github[[:space:]]+)?release[[:space:]]+v1\.0\.0[[:space:]]+(exists|has[[:space:]]+been[[:space:]]+published|was[[:space:]]+published) ]] \
+    && [[ ! "$normalized" =~ (github[[:space:]]+)?release[[:space:]]+v1\.0\.0[[:space:]]+(does[[:space:]]+not[[:space:]]+exist|has[[:space:]]+not[[:space:]]+been[[:space:]]+published|was[[:space:]]+not[[:space:]]+published) ]]; then
+    v1_github_release_claim=1
+  fi
+  if { [[ "$normalized" =~ v1\.0\.0[[:space:]]+public[[:space:]]+publication[[:space:]]+exists ]] \
+      || [[ "$normalized" =~ public[[:space:]]+publication[[:space:]]+(of|for)[[:space:]]+v1\.0\.0[[:space:]]+exists ]]; } \
+    && [[ ! "$normalized" =~ no[[:space:]]+(v1\.0\.0[[:space:]]+public[[:space:]]+publication|public[[:space:]]+publication[[:space:]]+(of|for)[[:space:]]+v1\.0\.0)[[:space:]]+exists ]] \
+    && [[ ! "$normalized" =~ (v1\.0\.0[[:space:]]+public[[:space:]]+publication|public[[:space:]]+publication[[:space:]]+(of|for)[[:space:]]+v1\.0\.0)[[:space:]]+does[[:space:]]+not[[:space:]]+exist ]]; then
+    v1_publication_claim=1
+  fi
+  if { [[ "$normalized" =~ v1\.0\.0[[:space:]]+(is[[:space:]]+|has[[:space:]]+been[[:space:]]+|was[[:space:]]+)?deployed ]] \
+      || [[ "$normalized" =~ (deployment[[:space:]]+(of|for)[[:space:]]+v1\.0\.0|v1\.0\.0[[:space:]]+deployment)[[:space:]]+exists ]]; } \
+    && [[ ! "$normalized" =~ v1\.0\.0[[:space:]]+(is[[:space:]]+not|has[[:space:]]+not[[:space:]]+been|was[[:space:]]+not)[[:space:]]+deployed ]] \
+    && [[ ! "$normalized" =~ no[[:space:]]+(deployment[[:space:]]+(of|for)[[:space:]]+v1\.0\.0|v1\.0\.0[[:space:]]+deployment)[[:space:]]+exists ]]; then
+    v1_deployment_claim=1
+  fi
+  if [[ "$normalized" =~ current[[:space:]]+public[[:space:]]+(version|release)([[:space:]]+is|:)[[:space:]]*v1\.0\.0 ]] \
+    || [[ "$normalized" =~ v1\.0\.0[[:space:]]+is[[:space:]]+the[[:space:]]+current[[:space:]]+public[[:space:]]+(version|release) ]] \
+    || [[ "$normalized" =~ v1\.0\.0[[:space:]]+(is[[:space:]]+|has[[:space:]]+been[[:space:]]+|was[[:space:]]+)?(published|released) ]] \
+    || [[ "$normalized" =~ ^[[:space:]]*(published|released)[[:space:]]+v1\.0\.0 ]] \
+    || [[ "$v1_tag_claim" -eq 1 ]] \
+    || [[ "$v1_github_release_claim" -eq 1 ]] \
+    || [[ "$v1_publication_claim" -eq 1 ]] \
+    || [[ "$v1_deployment_claim" -eq 1 ]]; then
+    RELEASE_STATUS_REASON="v1.0.0 is claimed as public or already released"
     return 0
   fi
   return 1
@@ -153,6 +204,1304 @@ expect_release_status_reject() {
     fi
   else
     fail "$label expected contradiction"
+  fi
+}
+
+profile_manifest_edge_dimensions_valid() {
+  local manifest="$1"
+
+  awk -F '\t' '
+    function normalized_edge_identity(token,    value, separator, pair, suffix, endpoints, swap) {
+      if (token !~ /^(conflict|overlap):/) return token
+      value = token
+      sub(/^(conflict|overlap):/, "", value)
+      separator = index(value, ":")
+      pair = substr(value, 1, separator - 1)
+      suffix = substr(value, separator + 1)
+      split(pair, endpoints, /[+]/)
+      if (endpoints[1] > endpoints[2]) { swap = endpoints[1]; endpoints[1] = endpoints[2]; endpoints[2] = swap }
+      return substr(token, 1, index(token, ":")) endpoints[1] "+" endpoints[2] ":" suffix
+    }
+    function edge_dimensions_valid(    n, parts, i, token, identity, value, dep_count, overlap_count) {
+      if ($16 == "none") return $10 == 0 && $11 == 0
+      n = split($16, parts, /[,;]/)
+      dep_count = overlap_count = 0
+      for (i = 1; i <= n; i++) {
+        token = parts[i]
+        identity = normalized_edge_identity(token)
+        if (typed_edge_seen[NR SUBSEP identity]++) return 0
+        if (token == "dep:@standard-size-warning.md#dependency-and-conflict-edges") dep_count += 30
+        else if (token == "overlap:@standard-size-warning.md#overlap-edges") overlap_count += 20
+        else if (token ~ /^gen:dep:[0-9]+$/) {
+          value = token
+          sub(/^gen:dep:/, "", value)
+          dep_count += value + 0
+        } else if (token ~ /^gen:overlap:[0-9]+$/) {
+          value = token
+          sub(/^gen:overlap:/, "", value)
+          overlap_count += value + 0
+        } else if (token ~ /^dep:[a-z0-9][-a-z0-9._\/]*>[a-z0-9][-a-z0-9._\/]*:[a-z0-9][-a-z0-9._\/+>:]*$/) {
+          dep_count++
+        } else if (token ~ /^conflict:[a-z0-9][-a-z0-9._\/]*[+][a-z0-9][-a-z0-9._\/]*:[a-z0-9][-a-z0-9._\/+>:]*$/) {
+          dep_count++
+        } else if (token ~ /^overlap:[a-z0-9][-a-z0-9._\/]*[+][a-z0-9][-a-z0-9._\/]*:[a-z0-9][-a-z0-9._\/+>:]*$/) {
+          overlap_count++
+        } else {
+          return 0
+        }
+      }
+      return dep_count == $10 && overlap_count == $11
+    }
+    NR == 1 { next }
+    !edge_dimensions_valid() {
+      print $1 ": typed edge_keys do not match dependency/conflict and overlap dimensions independently" > "/dev/stderr"
+      bad = 1
+    }
+    END { exit bad ? 1 : 0 }
+  ' "$manifest"
+}
+
+validate_profile_manifest_edge_rejection_probes() {
+  local manifest="examples/leader-state-profiles/cases.tsv"
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-MEDIUM-REPO" { $10 = $10 + 1; $11 = $11 - 1 }
+      { print }
+    ' "$manifest" | profile_manifest_edge_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects dependency/overlap redistribution with unchanged total"
+  else
+    pass "Profile manifest rejects dependency/overlap redistribution with unchanged total"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-EDGE-DEDUP" { $16 = $16 "," $16 }
+      { print }
+    ' "$manifest" | profile_manifest_edge_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects duplicate typed explicit edge tokens"
+  else
+    pass "Profile manifest rejects duplicate typed explicit edge tokens"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-EDGE-DEDUP" { sub(/^dep:/, "", $16) }
+      { print }
+    ' "$manifest" | profile_manifest_edge_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects ambiguous untyped explicit edge tokens"
+  else
+    pass "Profile manifest rejects ambiguous untyped explicit edge tokens"
+  fi
+}
+
+profile_manifest_authorization_dimensions_valid() {
+  local manifest="$1"
+
+  awk -F '\t' '
+    function normalized_key(value) {
+      return value ~ /^[a-z0-9]+(-[a-z0-9]+)*$/
+    }
+    function authorization_dimensions_valid(    n, tokens, i, token, fields, generated, count) {
+      if ($21 == "none") return $13 == 0
+      if ($13 == 0) return 0
+      n = split($21, tokens, /,/)
+      count = 0
+      for (i = 1; i <= n; i++) {
+        token = tokens[i]
+        if (authorization_seen[NR SUBSEP token]++) return 0
+        if (token ~ /^gen:auth:[0-9]+$/) {
+          if ($5 !~ /^synthetic:/) return 0
+          generated = token
+          sub(/^gen:auth:/, "", generated)
+          count += generated + 0
+        } else if (token == "@standard-size-warning.md#authorization-and-gate-state") {
+          if ($1 != "FX-SIZE-WARNING" || $5 != "synthetic:standard-structural-ceilings") return 0
+          count += 3
+        } else {
+          if (split(token, fields, /:/) != 7 || fields[1] != "auth") return 0
+          if (!normalized_key(fields[2]) || fields[2] == "none" || !normalized_key(fields[3]) || \
+              !normalized_key(fields[4]) || fields[4] ~ /-and-/ || !normalized_key(fields[5]) || \
+              !normalized_key(fields[6]) || !normalized_key(fields[7])) return 0
+          if (fields[6] != "requested" && fields[6] != "pending" && fields[6] != "granted" && \
+              fields[6] != "denied" && fields[6] != "revoked" && fields[6] != "expired") return 0
+          count++
+        }
+      }
+      return count == $13
+    }
+    NR == 1 { next }
+    !authorization_dimensions_valid() {
+      print $1 ": authorization_keys do not match the active authorization-domain count and grammar" > "/dev/stderr"
+      bad = 1
+    }
+    END { exit bad ? 1 : 0 }
+  ' "$manifest"
+}
+
+validate_profile_manifest_authorization_rejection_probes() {
+  local manifest="examples/leader-state-profiles/cases.tsv"
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-TAKEOVER-STANDARD" { sub(/:pending:/, ":denied:", $21) }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    pass "Profile manifest counts current denied authorization as active fail-closed state"
+  else
+    fail "Profile manifest counts current denied authorization as active fail-closed state"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-TAKEOVER-STANDARD" { sub(/:pending:/, ":unknown:", $21) }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects unknown as an active authorization status"
+  else
+    pass "Profile manifest rejects unknown as an active authorization status"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-TAKEOVER-STANDARD" { $13 = 2; $21 = $21 "," $21 }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects duplicate authorization keys"
+  else
+    pass "Profile manifest rejects duplicate authorization keys"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-TAKEOVER-STANDARD" { $13 = 2 }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects authorization count mismatch"
+  else
+    pass "Profile manifest rejects authorization count mismatch"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-TAKEOVER-STANDARD" { sub(/^auth:/, "", $21) }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects untyped authorization keys"
+  else
+    pass "Profile manifest rejects untyped authorization keys"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-TAKEOVER-STANDARD" { sub(/:commit:/, ":commit-and-push:", $21) }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects merged authorization actions"
+  else
+    pass "Profile manifest rejects merged authorization actions"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-TAKEOVER-STANDARD" { sub(/^auth:owner:/, "auth:none:", $21) }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest rejects actor none in an active authorization key"
+  else
+    pass "Profile manifest rejects actor none in an active authorization key"
+  fi
+
+  if awk -F '\t' 'BEGIN { OFS = "\t" }
+      NR > 1 && $1 == "FX-SIZE-WARNING" { $13 = $13 + 1 }
+      { print }
+    ' "$manifest" | profile_manifest_authorization_dimensions_valid - 2>/dev/null; then
+    fail "Profile manifest excludes standing unrequested publication from the active authorization count"
+  else
+    pass "Profile manifest excludes standing unrequested publication from the active authorization count"
+  fi
+}
+
+validate_profile_manifest() {
+  local manifest="examples/leader-state-profiles/cases.tsv"
+  local expected_header
+  expected_header="case_id\tsequence_id\tstep\tscenario\tsource\tworkstreams\tblockers\trole_lifecycles\tvalidation_groups\tdependency_conflict_edges\toverlap_edges\thigh_risk_gates\tauthorization_domains\tprojection\tselection_basis\tedge_keys\texpected_profile\texpected_result\treason_code\texpectation\tauthorization_keys"
+
+  if [[ ! -f "$manifest" ]]; then
+    fail "Leader-state profile case manifest exists"
+    return
+  fi
+
+  if awk -F '\t' -v expected_header="$expected_header" '
+    function compact_ok() {
+      return $6 <= 2 && $7 <= 5 && $8 <= 8 && $9 <= 8 && $10 <= 10 && $11 <= 5 && $12 <= 2 && $13 <= 2
+    }
+    function standard_ok() {
+      return $6 <= 5 && $7 <= 10 && $8 <= 15 && $9 <= 15 && $10 <= 30 && $11 <= 20 && $12 <= 3 && $13 <= 3
+    }
+    function compact_exit_ok() {
+      return $6 <= 1 && $7 <= 4 && $8 <= 6 && $9 <= 6 && $10 <= 8 && $11 <= 4 && $12 <= 1 && $13 <= 1
+    }
+    function hierarchical_exit_ok() {
+      return $14 == "reliable-single-file" && $6 <= 4 && $7 <= 8 && $8 <= 12 && $9 <= 12 && $10 <= 24 && $11 <= 16 && $12 <= 2 && $13 <= 2
+    }
+    function classified_profile() {
+      if ($14 == "projection-failed") return "hierarchical-required"
+      if (compact_ok()) return "Compact"
+      if (standard_ok()) return "Standard"
+      return "hierarchical-required"
+    }
+    function expected_result_for_reason(reason) {
+      if (reason ~ /^ERR-/) return "fail"
+      if (reason == "WARN-LINES-NONBLOCKING") return "pass-with-warning"
+      return "pass"
+    }
+    function valid_reason(reason) {
+      return reason == "OK-CLASSIFIED" || reason == "OK-PROMOTED" || reason == "OK-RETAIN-HYSTERESIS" || \
+        reason == "OK-DEMOTION-ELIGIBLE" || reason == "OK-DEMOTED-BY-DECISION" || reason == "WARN-LINES-NONBLOCKING" || \
+        reason == "ERR-MISSING-APPLICABLE-FIELD" || reason == "ERR-STALE-POINTER" || reason == "ERR-ORPHAN-POINTER" || \
+        reason == "ERR-CONFLICTING-CANONICAL-SOURCE" || reason == "ERR-INVALID-SELECTION-BASIS"
+    }
+    NR == 1 {
+      if ($0 != expected_header || NF != 21) {
+        print "manifest header must contain the exact 21-column schema with the original 20 columns stable" > "/dev/stderr"
+        bad = 1
+      }
+      next
+    }
+    {
+      if (NF != 21) {
+        print "manifest row " NR " does not have 21 columns" > "/dev/stderr"
+        bad = 1
+        next
+      }
+      if ($1 !~ /^FX-[A-Z0-9-]+$/ || seen[$1]++) {
+        print "manifest row " NR " has an invalid or duplicate case_id: " $1 > "/dev/stderr"
+        bad = 1
+      }
+      if ($3 !~ /^[0-9]+$/ || $3 < 1) {
+        print $1 ": step must be a positive integer" > "/dev/stderr"
+        bad = 1
+      }
+      if ($6 < 1) {
+        print $1 ": an active-state fixture requires at least one workstream" > "/dev/stderr"
+        bad = 1
+      }
+      for (i = 6; i <= 13; i++) {
+        if ($i !~ /^[0-9]+$/) {
+          print $1 ": count column " i " must be a base-10 non-negative integer" > "/dev/stderr"
+          bad = 1
+        }
+      }
+      if ($14 != "reliable-single-file" && $14 != "projection-failed") {
+        print $1 ": invalid projection enum" > "/dev/stderr"
+        bad = 1
+      }
+      if ($15 != "fixture-measurement-full-counts" && $15 != "takeover-verification-full-counts" && $15 != "transition-measurement-full-counts" && $15 != "line-count-only") {
+        print $1 ": invalid selection_basis enum" > "/dev/stderr"
+        bad = 1
+      }
+      if ($17 != "Compact" && $17 != "Standard" && $17 != "hierarchical-required") {
+        print $1 ": invalid expected_profile enum" > "/dev/stderr"
+        bad = 1
+      }
+      if ($18 != "pass" && $18 != "fail" && $18 != "pass-with-warning") {
+        print $1 ": invalid expected_result enum" > "/dev/stderr"
+        bad = 1
+      }
+      if ($18 != expected_result_for_reason($19)) {
+        print $1 ": expected_result does not follow reason_code" > "/dev/stderr"
+        bad = 1
+      }
+      if (!valid_reason($19)) {
+        print $1 ": invalid reason_code" > "/dev/stderr"
+        bad = 1
+      }
+      calculated = classified_profile()
+      if ($2 == "seq-demote") {
+        if ($3 == 1 && $19 == "OK-RETAIN-HYSTERESIS" && $17 == "Standard" && compact_exit_ok()) demote_step = 1
+        else if ($3 == 2 && demote_step == 1 && $19 == "OK-DEMOTION-ELIGIBLE" && $17 == "Standard" && compact_exit_ok()) demote_step = 2
+        else if ($3 == 3 && demote_step == 2 && $19 == "OK-DEMOTED-BY-DECISION" && $17 == "Compact" && compact_exit_ok()) demote_step = 3
+        else {
+          print $1 ": invalid two-checkpoint demotion sequence" > "/dev/stderr"
+          bad = 1
+        }
+      } else if ($2 == "seq-hierarchical-demote") {
+        if ($3 == 1 && $19 == "OK-RETAIN-HYSTERESIS" && $17 == "hierarchical-required" && hierarchical_exit_ok()) hierarchical_demote_step = 1
+        else if ($3 == 2 && hierarchical_demote_step == 1 && $19 == "OK-DEMOTION-ELIGIBLE" && $17 == "hierarchical-required" && hierarchical_exit_ok()) hierarchical_demote_step = 2
+        else if ($3 == 3 && hierarchical_demote_step == 2 && $19 == "OK-DEMOTED-BY-DECISION" && $17 == "Standard" && hierarchical_exit_ok()) hierarchical_demote_step = 3
+        else {
+          print $1 ": invalid hierarchical-required to Standard demotion sequence" > "/dev/stderr"
+          bad = 1
+        }
+      } else if ($19 == "OK-PROMOTED") {
+        if ($2 != "seq-promote" || $3 != 1 || calculated != $17 || $17 == "Compact") {
+          print $1 ": invalid promotion transition" > "/dev/stderr"
+          bad = 1
+        }
+      } else if (calculated != $17) {
+        print $1 ": expected_profile " $17 " does not match structural classification " calculated > "/dev/stderr"
+        bad = 1
+      }
+
+      if ($19 == "ERR-MISSING-APPLICABLE-FIELD" && $4 != "missing-applicable-field") bad = 1
+      else if ($19 == "ERR-STALE-POINTER" && $4 != "stale-required-pointer") bad = 1
+      else if ($19 == "ERR-ORPHAN-POINTER" && ($4 != "orphan-current-pointer" || $14 != "projection-failed")) bad = 1
+      else if ($19 == "ERR-CONFLICTING-CANONICAL-SOURCE" && ($4 != "conflicting-canonical-source" || $14 != "projection-failed")) bad = 1
+      else if ($19 == "ERR-INVALID-SELECTION-BASIS" && ($4 != "invalid-selection-basis" || $15 != "line-count-only")) bad = 1
+      else if ($19 !~ /^ERR-/ && $15 == "line-count-only") bad = 1
+      if ($4 == "takeover-direct-to-standard" && $15 != "takeover-verification-full-counts") bad = 1
+      else if (($19 == "OK-PROMOTED" || $2 == "seq-demote" || $2 == "seq-hierarchical-demote") && $15 != "transition-measurement-full-counts") bad = 1
+      else if ($4 != "takeover-direct-to-standard" && $19 != "OK-PROMOTED" && $2 != "seq-demote" && $2 != "seq-hierarchical-demote" && $19 != "ERR-INVALID-SELECTION-BASIS" && $15 != "fixture-measurement-full-counts") bad = 1
+      if ($5 == "" || $20 == "") bad = 1
+    }
+    END {
+      if (NR < 2) {
+        print "manifest has no cases" > "/dev/stderr"
+        bad = 1
+      }
+      if (demote_step != 3) {
+        print "manifest lacks the complete ordered demotion sequence" > "/dev/stderr"
+        bad = 1
+      }
+      if (hierarchical_demote_step != 3) {
+        print "manifest lacks the complete ordered hierarchical-required demotion sequence" > "/dev/stderr"
+        bad = 1
+      }
+      exit bad ? 1 : 0
+    }
+  ' "$manifest" && profile_manifest_edge_dimensions_valid "$manifest" && \
+      profile_manifest_authorization_dimensions_valid "$manifest"; then
+    pass "Leader-state profile case manifest structure and classifications"
+  else
+    fail "Leader-state profile case manifest structure and classifications"
+  fi
+}
+
+manifest_fixture_matches() {
+  local case_id="$1" source="$2" expected_profile="$3" expected_result="$4" reason_code="$5" label="$6"
+  local manifest="examples/leader-state-profiles/cases.tsv"
+
+  if awk -F '\t' -v case_id="$case_id" -v source="$source" -v profile="$expected_profile" \
+      -v result="$expected_result" -v reason="$reason_code" '
+    NR > 1 && $1 == case_id {
+      matches++
+      if ($5 == source && $17 == profile && $18 == result && $19 == reason) valid++
+    }
+    END { exit !(matches == 1 && valid == 1) }
+  ' "$manifest"; then
+    pass "$label manifest linkage"
+  else
+    fail "$label manifest linkage"
+  fi
+}
+
+validate_missing_field_fixture() {
+  local file="examples/leader-state-profiles/negative-missing-applicable-field.md"
+  local derived_reason=""
+
+  if [[ -f "$file" ]] && awk '
+    function trim(value) {
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      return value
+    }
+    /^Schema required keys:/ {
+      value = $0
+      sub(/^Schema required keys:[[:space:]]*/, "", value)
+      n = split(value, items, /,/)
+      for (i = 1; i <= n; i++) required[trim(items[i])] = 1
+    }
+    /^Present keys:/ {
+      value = $0
+      sub(/^Present keys:[[:space:]]*/, "", value)
+      n = split(value, items, /,/)
+      for (i = 1; i <= n; i++) present[trim(items[i])] = 1
+    }
+    END {
+      for (key in required) {
+        required_count++
+        if (!(key in present)) missing_count++
+      }
+      exit !(required_count > 0 && missing_count > 0)
+    }
+  ' "$file"; then
+    derived_reason="ERR-MISSING-APPLICABLE-FIELD"
+    pass "Missing applicable field fixture derives set difference"
+  else
+    fail "Missing applicable field fixture derives set difference"
+  fi
+
+  [[ "$derived_reason" == "ERR-MISSING-APPLICABLE-FIELD" ]] && \
+    manifest_fixture_matches "FX-NEG-MISSING-FIELD" "$file" "Compact" "fail" "$derived_reason" "Missing applicable field fixture"
+}
+
+validate_stale_pointer_fixture() {
+  local file="examples/leader-state-profiles/negative-stale-pointer.md"
+  local required freshness allowed derived_reason=""
+
+  if [[ ! -f "$file" ]]; then
+    fail "Stale required pointer fixture exists"
+    return
+  fi
+
+  required="$(sed -n 's/^Pointer required for current action:[[:space:]]*//p' "$file")"
+  freshness="$(sed -n 's/^Pointer freshness:[[:space:]]*//p' "$file")"
+  allowed="$(sed -n 's/^Allowed freshness for current action:[[:space:]]*//p' "$file")"
+  if [[ "$required" == "yes" && -n "$freshness" && -n "$allowed" && "$freshness" != "$allowed" ]]; then
+    derived_reason="ERR-STALE-POINTER"
+    pass "Stale required pointer fixture derives freshness mismatch"
+  else
+    fail "Stale required pointer fixture derives freshness mismatch"
+  fi
+
+  [[ "$derived_reason" == "ERR-STALE-POINTER" ]] && \
+    manifest_fixture_matches "FX-NEG-STALE-POINTER" "$file" "Compact" "fail" "$derived_reason" "Stale required pointer fixture"
+}
+
+validate_orphan_pointer_fixture() {
+  local file="examples/leader-state-profiles/negative-orphan-pointer.md"
+  local required target target_path derived_reason=""
+
+  if [[ ! -f "$file" ]]; then
+    fail "Orphan pointer fixture exists"
+    return
+  fi
+
+  required="$(sed -n 's/^Pointer required for current action:[[:space:]]*//p' "$file")"
+  target="$(sed -n 's/^Pointer target:[[:space:]]*//p' "$file")"
+  target_path="${target%%#*}"
+  if [[ "$required" == "yes" && -n "$target_path" && "$target_path" != /* \
+      && "$target_path" != ".." && "$target_path" != ../* && "$target_path" != */../* \
+      && "$target_path" != */.. && "$target_path" =~ ^[A-Za-z0-9._/-]+$ \
+      && ! -e "$target_path" ]]; then
+    derived_reason="ERR-ORPHAN-POINTER"
+    pass "Orphan pointer fixture derives missing safe repository-relative target"
+  else
+    fail "Orphan pointer fixture derives missing safe repository-relative target"
+  fi
+
+  [[ "$derived_reason" == "ERR-ORPHAN-POINTER" ]] && \
+    manifest_fixture_matches "FX-NEG-ORPHAN-POINTER" "$file" "hierarchical-required" "fail" "$derived_reason" "Orphan pointer fixture"
+}
+
+validate_conflicting_canonical_source_fixture() {
+  local file="examples/leader-state-profiles/negative-conflicting-canonical-source.md"
+  local derived_reason=""
+
+  if [[ -f "$file" ]] && awk '
+    /^Canonical record:/ {
+      key = value = freshness = ""
+      if (match($0, /key=[^;]+/)) key = substr($0, RSTART + 4, RLENGTH - 4)
+      if (match($0, /value=[^;]+/)) value = substr($0, RSTART + 6, RLENGTH - 6)
+      if (match($0, /freshness=[^;[:space:]]+/)) freshness = substr($0, RSTART + 10, RLENGTH - 10)
+      if (key == "" || value == "" || freshness != "fresh") malformed = 1
+      pair = key SUBSEP value
+      if (!seen_pair[pair]++) distinct[key]++
+      records++
+    }
+    END {
+      for (key in distinct) if (distinct[key] > 1) conflicts++
+      exit !(records > 1 && conflicts > 0 && !malformed)
+    }
+  ' "$file"; then
+    derived_reason="ERR-CONFLICTING-CANONICAL-SOURCE"
+    pass "Conflicting canonical source fixture derives distinct current values"
+  else
+    fail "Conflicting canonical source fixture derives distinct current values"
+  fi
+
+  [[ "$derived_reason" == "ERR-CONFLICTING-CANONICAL-SOURCE" ]] && \
+    manifest_fixture_matches "FX-NEG-CONFLICT-SOURCE" "$file" "hierarchical-required" "fail" "$derived_reason" "Conflicting canonical source fixture"
+}
+
+validate_conflicting_authorization_binding() {
+  local file="examples/leader-state-profiles/negative-conflicting-canonical-source.md"
+  local manifest="examples/leader-state-profiles/cases.tsv"
+
+  if [[ ! -f "$file" ]]; then
+    fail "Conflicting canonical source authorization fixture exists"
+    return
+  fi
+
+  if bound_authorization_key_count_valid "$file" && awk -F '\t' -v rendered="$file" '
+    function normalized_key(value) { return value ~ /^[a-z0-9]+(-[a-z0-9]+)*$/ }
+    function valid_authorization(token,    fields) {
+      if (split(token, fields, /:/) != 7 || fields[1] != "auth") return 0
+      if (!normalized_key(fields[2]) || fields[2] == "none" || !normalized_key(fields[3]) || \
+          !normalized_key(fields[4]) || fields[4] ~ /-and-/ || !normalized_key(fields[5]) || \
+          !normalized_key(fields[6]) || !normalized_key(fields[7])) return 0
+      if (fields[6] == "revoked") revoked++
+      else if (fields[6] == "granted") granted++
+      return fields[6] == "requested" || fields[6] == "pending" || fields[6] == "granted" || \
+        fields[6] == "denied" || fields[6] == "revoked" || fields[6] == "expired"
+    }
+    FNR == NR {
+      if ($0 ~ /^Bound authorization keys:[[:space:]]*[0-9]+$/) {
+        declared = $0
+        sub(/^Bound authorization keys:[[:space:]]*/, "", declared)
+      } else if ($0 ~ /^Authorization key:[[:space:]]*auth:/) {
+        token = $0
+        sub(/^Authorization key:[[:space:]]*/, "", token)
+        if (!valid_authorization(token) || source_keys[token]++) malformed = 1
+        source_count++
+      }
+      next
+    }
+    FNR == 1 { next }
+    $1 == "FX-NEG-CONFLICT-SOURCE" {
+      matches++
+      manifest_count = split($21, manifest_tokens, /,/)
+      for (i = 1; i <= manifest_count; i++) {
+        if (manifest_keys[manifest_tokens[i]]++ || !(manifest_tokens[i] in source_keys)) malformed = 1
+      }
+      for (key in source_keys) if (!(key in manifest_keys)) malformed = 1
+      if ($5 == rendered && $13 == declared && declared == source_count && source_count == 2 && \
+          manifest_count == source_count && $18 == "fail" && $19 == "ERR-CONFLICTING-CANONICAL-SOURCE") valid++
+    }
+    END {
+      exit !(matches == 1 && valid == 1 && revoked == 1 && granted == 1 && !malformed)
+    }
+  ' "$file" "$manifest"; then
+    pass "Conflicting canonical source fixture binds revoked and granted active authorization keys to the manifest"
+  else
+    fail "Conflicting canonical source fixture binds revoked and granted active authorization keys to the manifest"
+  fi
+}
+
+validate_invalid_selection_basis_fixture() {
+  local file="examples/leader-state-profiles/negative-invalid-selection-basis.md"
+  local method structural derived_reason=""
+
+  if [[ ! -f "$file" ]]; then
+    fail "Invalid selection basis fixture exists"
+    return
+  fi
+
+  method="$(sed -n 's/^Selection basis method:[[:space:]]*//p' "$file")"
+  structural="$(sed -n 's/^Structural inventory used for selection:[[:space:]]*//p' "$file")"
+  if [[ "$method" == "line-count-only" && "$structural" == "no" ]]; then
+    derived_reason="ERR-INVALID-SELECTION-BASIS"
+    pass "Invalid selection basis fixture derives non-structural selection"
+  else
+    fail "Invalid selection basis fixture derives non-structural selection"
+  fi
+
+  [[ "$derived_reason" == "ERR-INVALID-SELECTION-BASIS" ]] && \
+    manifest_fixture_matches "FX-NEG-SELECTION-BASIS" "$file" "Compact" "fail" "$derived_reason" "Invalid selection basis fixture"
+}
+
+validate_duplicate_edge_fixture() {
+  local file="examples/leader-state-profiles/duplicate-edge-deduplication.md"
+
+  if [[ -f "$file" ]] && awk -F ';[[:space:]]*' '
+    function trim(value) {
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      return value
+    }
+    /^Edge report:/ {
+      type = from = to = key = ""
+      first = $1
+      sub(/^Edge report:[[:space:]]*type=/, "", first)
+      type = tolower(trim(first))
+      for (i = 2; i <= NF; i++) {
+        field = $i
+        if (field ~ /^from=/) { sub(/^from=/, "", field); from = tolower(trim(field)) }
+        else if (field ~ /^to=/) { sub(/^to=/, "", field); to = tolower(trim(field)) }
+        else if (field ~ /^normalized-key=/) { sub(/^normalized-key=/, "", field); key = tolower(trim(field)) }
+      }
+      if (type == "" || from == "" || to == "" || key == "") malformed = 1
+      tuple = type SUBSEP from SUBSEP to SUBSEP key
+      rows++
+      if (!seen[tuple]++) unique++
+    }
+    END {
+      expected = "dependency" SUBSEP "ws-a" SUBSEP "ws-b" SUBSEP "build-before-test"
+      exit !(rows == 3 && unique == 1 && seen[expected] == 3 && !malformed)
+    }
+  ' "$file" \
+    && awk -F '\t' -v source="$file" '
+      NR > 1 && $1 == "FX-EDGE-DEDUP" {
+        matches++
+        if ($5 == source && $10 == 1 && $11 == 0 && $16 == "dep:ws-a>ws-b:build-before-test" && \
+            $17 == "Compact" && $18 == "pass" && $19 == "OK-CLASSIFIED") valid++
+      }
+      END { exit !(matches == 1 && valid == 1) }
+    ' examples/leader-state-profiles/cases.tsv; then
+    pass "Duplicate edge fixture derives three reports as one normalized tuple and Compact manifest count"
+  else
+    fail "Duplicate edge fixture derives three reports as one normalized tuple and Compact manifest count"
+  fi
+}
+
+validate_hierarchical_demotion_fixture() {
+  local file="examples/leader-state-profiles/hierarchical-demotion-sequence.md"
+  local manifest="examples/leader-state-profiles/cases.tsv"
+
+  if [[ -f "$file" ]] && awk '
+    function value_after_colon(line) {
+      sub(/^[^:]+:[[:space:]]*/, "", line)
+      return line
+    }
+    /^## Step [123]/ { step++; next }
+    step > 0 && /^Fixture ID:/ { id[step] = value_after_colon($0); next }
+    step > 0 && /^Step:/ { sequence_step[step] = value_after_colon($0); next }
+    step > 0 && /^Checkpoint event:/ { event[step] = value_after_colon($0); next }
+    step > 0 && /^Checkpoint evidence:/ { checkpoint_evidence[step] = value_after_colon($0); next }
+    step > 0 && /^Measurement freshness:/ { freshness[step] = value_after_colon($0); next }
+    step > 0 && /^Decision evidence:/ { decision_evidence[step] = value_after_colon($0); next }
+    step > 0 && /^Decision actor:/ { decision_actor[step] = value_after_colon($0); next }
+    step > 0 && /^Decision freshness:/ { decision_freshness[step] = value_after_colon($0); next }
+    step > 0 && /^Projection assessment:/ { projection[step] = value_after_colon($0); next }
+    step > 0 && /^Projection recovery:/ { recovery[step] = value_after_colon($0); next }
+    step > 0 && /^Observable projection failures:/ { failures[step] = value_after_colon($0); next }
+    step > 0 && /^Active workstreams:/ { workstreams[step] = value_after_colon($0); next }
+    step > 0 && /^Blockers:/ { blockers[step] = value_after_colon($0); next }
+    step > 0 && /^Live role lifecycles:/ { roles[step] = value_after_colon($0); next }
+    step > 0 && /^Validation-freshness groups:/ { validation[step] = value_after_colon($0); next }
+    step > 0 && /^Dependency\/conflict edges:/ { dependencies[step] = value_after_colon($0); next }
+    step > 0 && /^Overlap edges:/ { overlaps[step] = value_after_colon($0); next }
+    step > 0 && /^High-risk gates:/ { gates[step] = value_after_colon($0); next }
+    step > 0 && /^Active authorization domains:/ { authorizations[step] = value_after_colon($0); next }
+    step > 0 && /^Prior profile:/ { prior[step] = value_after_colon($0); next }
+    step > 0 && /^Expected profile:/ { profile[step] = value_after_colon($0); next }
+    step > 0 && /^Transition direction:/ { transition[step] = value_after_colon($0); next }
+    step > 0 && /^Demotion eligibility:/ { eligibility[step] = value_after_colon($0); next }
+    END {
+      if (step != 3) bad = 1
+      for (i = 1; i <= 3; i++) {
+        expected_id[1] = "FX-HIER-DEMOTE-CP1"
+        expected_id[2] = "FX-HIER-DEMOTE-CP2"
+        expected_id[3] = "FX-HIER-DEMOTE-DECISION"
+        if (id[i] != expected_id[i] || sequence_step[i] != i || projection[i] != "reliable-single-file" || \
+            recovery[i] != "verified" || failures[i] != "none" || prior[i] != "hierarchical-required") bad = 1
+        if (workstreams[i] !~ /^[0-9]+$/ || workstreams[i] > 4 || blockers[i] !~ /^[0-9]+$/ || blockers[i] > 8 || \
+            roles[i] !~ /^[0-9]+$/ || roles[i] > 12 || validation[i] !~ /^[0-9]+$/ || validation[i] > 12 || \
+            dependencies[i] !~ /^[0-9]+$/ || dependencies[i] > 24 || overlaps[i] !~ /^[0-9]+$/ || overlaps[i] > 16 || \
+            gates[i] !~ /^[0-9]+$/ || gates[i] > 2 || authorizations[i] !~ /^[0-9]+$/ || authorizations[i] > 2) bad = 1
+      }
+      if (event[1] == "" || event[2] == "" || event[1] == event[2] || checkpoint_evidence[1] == "" || \
+          checkpoint_evidence[2] == "" || freshness[1] != "fresh" || freshness[2] != "fresh") bad = 1
+      if (profile[1] != "hierarchical-required" || transition[1] != "retain" || eligibility[1] != "") bad = 1
+      if (profile[2] != "hierarchical-required" || transition[2] != "retain" || eligibility[2] != "eligible") bad = 1
+      if (profile[3] != "Standard" || transition[3] != "demote" || eligibility[3] != "eligible" || \
+          decision_evidence[3] == "" || decision_actor[3] != "Leader" || decision_freshness[3] != "fresh") bad = 1
+      exit bad ? 1 : 0
+    }
+  ' "$file" \
+    && awk -F '\t' -v source="$file" '
+      NR > 1 && $2 == "seq-hierarchical-demote" {
+        matches++
+        if ($5 != source || $3 != matches || $14 != "reliable-single-file" || $15 != "transition-measurement-full-counts") bad = 1
+        if (matches == 1 && ($1 != "FX-HIER-DEMOTE-CP1" || $17 != "hierarchical-required" || $19 != "OK-RETAIN-HYSTERESIS")) bad = 1
+        if (matches == 2 && ($1 != "FX-HIER-DEMOTE-CP2" || $17 != "hierarchical-required" || $19 != "OK-DEMOTION-ELIGIBLE")) bad = 1
+        if (matches == 3 && ($1 != "FX-HIER-DEMOTE-DECISION" || $17 != "Standard" || $19 != "OK-DEMOTED-BY-DECISION")) bad = 1
+      }
+      END { exit !(matches == 3 && !bad) }
+    ' "$manifest"; then
+    pass "Hierarchical demotion fixture derives fresh recovered projection sequence and explicit Leader transition"
+  else
+    fail "Hierarchical demotion fixture derives fresh recovered projection sequence and explicit Leader transition"
+  fi
+}
+
+rendered_authorization_count_source_valid() {
+  local file="$1"
+
+  awk '
+    function trim(value) {
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      return value
+    }
+    {
+      line = trim($0)
+      if (line ~ /^Active authorization domains:[[:space:]]*[0-9]+$/) {
+        value = line
+        sub(/^Active authorization domains:[[:space:]]*/, "", value)
+        sources++
+      } else if (line ~ /^\| Active authorization domains \|[[:space:]]*[0-9]+[[:space:]]*\|/) {
+        split(line, table, /\|/)
+        value = trim(table[3])
+        sources++
+      }
+      if (sources > 0 && value !~ /^[0-9]+$/) malformed = 1
+    }
+    END { exit !(sources == 1 && !malformed) }
+  ' "$file"
+}
+
+bound_authorization_key_count_valid() {
+  local file="$1"
+
+  awk '
+    {
+      if ($0 ~ /^[[:space:]]*Bound authorization keys:[[:space:]]*[0-9]+$/) {
+        value = $0
+        sub(/^[[:space:]]*Bound authorization keys:[[:space:]]*/, "", value)
+        bound_sources++
+        bound_count = value + 0
+      } else if ($0 ~ /^[[:space:]]*Authorization key:[[:space:]]*auth:/) {
+        token = $0
+        sub(/^[[:space:]]*Authorization key:[[:space:]]*/, "", token)
+        sub(/;.*/, "", token)
+        if (seen[token]++) malformed = 1
+        key_count++
+      }
+    }
+    END { exit !(bound_sources == 1 && bound_count == key_count && !malformed) }
+  ' "$file"
+}
+
+detailed_authorization_contract_valid() {
+  local file="$1"
+  local expected_case="$2"
+  local manifest="examples/leader-state-profiles/cases.tsv"
+
+  awk -F '\t' -v expected_case="$expected_case" '
+    function trim(value) {
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      return value
+    }
+    function normalized_key(value) { return value ~ /^[a-z0-9]+(-[a-z0-9]+)*$/ }
+    function valid_authorization(token,    fields) {
+      if (split(token, fields, /:/) != 7 || fields[1] != "auth") return 0
+      if (!normalized_key(fields[2]) || fields[2] == "none" || !normalized_key(fields[3]) || \
+          !normalized_key(fields[4]) || fields[4] ~ /-and-/ || !normalized_key(fields[5]) || \
+          !normalized_key(fields[6]) || !normalized_key(fields[7])) return 0
+      return fields[6] == "requested" || fields[6] == "pending" || fields[6] == "granted" || \
+        fields[6] == "denied" || fields[6] == "revoked" || fields[6] == "expired"
+    }
+    FNR == NR {
+      line = trim($0)
+      if (line ~ /^Active authorization domains:[[:space:]]*[0-9]+$/) {
+        value = line
+        sub(/^Active authorization domains:[[:space:]]*/, "", value)
+        active = value + 0
+        active_sources++
+      } else if (line ~ /^\| Active authorization domains \|[[:space:]]*[0-9]+[[:space:]]*\|/) {
+        split(line, table, /\|/)
+        active = trim(table[3]) + 0
+        active_sources++
+      } else if (line ~ /^Bound authorization keys:[[:space:]]*[0-9]+$/) {
+        value = line
+        sub(/^Bound authorization keys:[[:space:]]*/, "", value)
+        bound = value + 0
+        bound_sources++
+      } else if (line ~ /^Authorization key:[[:space:]]*auth:/) {
+        token = line
+        sub(/^Authorization key:[[:space:]]*/, "", token)
+        sub(/;.*/, "", token)
+        if (!valid_authorization(token) || source_keys[token]++) malformed = 1
+        key_count++
+      }
+      next
+    }
+    FNR == 1 { next }
+    $1 == expected_case {
+      matches++
+      if ($21 == "none") {
+        manifest_key_count = 0
+        if (key_count != 0) malformed = 1
+      } else if ($21 == "@standard-size-warning.md#authorization-and-gate-state" && \
+          expected_case == "FX-SIZE-WARNING") {
+        manifest_key_count = 3
+      } else {
+        if ($21 ~ /^gen:auth:/ || $21 ~ /^@/) malformed = 1
+        manifest_key_count = split($21, manifest_tokens, /,/)
+        for (i = 1; i <= manifest_key_count; i++) {
+          if (manifest_keys[manifest_tokens[i]]++ || !(manifest_tokens[i] in source_keys)) malformed = 1
+        }
+        for (key in source_keys) if (!(key in manifest_keys)) malformed = 1
+      }
+      if ($13 == active && active == bound && bound == key_count && manifest_key_count == key_count) valid++
+    }
+    END {
+      exit !(active_sources == 1 && bound_sources == 1 && matches == 1 && valid == 1 && !malformed)
+    }
+  ' "$file" "$manifest"
+}
+
+validate_detailed_authorization_contract() {
+  local file="$1" case_id="$2" label="$3"
+
+  if detailed_authorization_contract_valid "$file" "$case_id"; then
+    pass "$label binds one Active count, one Bound count, and the exact authorization key set"
+  else
+    fail "$label binds one Active count, one Bound count, and the exact authorization key set"
+  fi
+}
+
+hierarchical_authorization_contract_valid() {
+  local file="$1"
+  local manifest="examples/leader-state-profiles/cases.tsv"
+
+  awk -F '\t' '
+    function trim(value) {
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      return value
+    }
+    function value_after_colon(value) {
+      sub(/^[^:]+:[[:space:]]*/, "", value)
+      return trim(value)
+    }
+    function normalized_key(value) { return value ~ /^[a-z0-9]+(-[a-z0-9]+)*$/ }
+    function valid_authorization(token,    fields) {
+      if (split(token, fields, /:/) != 7 || fields[1] != "auth") return 0
+      if (!normalized_key(fields[2]) || fields[2] == "none" || !normalized_key(fields[3]) || \
+          !normalized_key(fields[4]) || fields[4] ~ /-and-/ || !normalized_key(fields[5]) || \
+          !normalized_key(fields[6]) || !normalized_key(fields[7])) return 0
+      return fields[6] == "requested" || fields[6] == "pending" || fields[6] == "granted" || \
+        fields[6] == "denied" || fields[6] == "revoked" || fields[6] == "expired"
+    }
+    FNR == NR {
+      line = trim($0)
+      if (line ~ /^## Step [123]/) { step++; next }
+      if (step > 0 && line ~ /^Fixture ID:/) { id[step] = value_after_colon(line); next }
+      if (step > 0 && line ~ /^Active authorization domains:[[:space:]]*[0-9]+$/) {
+        active[step] = value_after_colon(line) + 0
+        active_sources[step]++
+        next
+      }
+      if (step > 0 && line ~ /^Bound authorization keys:[[:space:]]*[0-9]+$/) {
+        bound[step] = value_after_colon(line) + 0
+        bound_sources[step]++
+        next
+      }
+      if (step > 0 && line ~ /^Authorization key:[[:space:]]*auth:/) {
+        token = line
+        sub(/^Authorization key:[[:space:]]*/, "", token)
+        if (!valid_authorization(token) || source_keys[id[step] SUBSEP token]++) malformed = 1
+        key_count[step]++
+      }
+      next
+    }
+    FNR == 1 { next }
+    {
+      for (s = 1; s <= 3; s++) if ($1 == id[s]) {
+        matches[s]++
+        manifest_count = split($21, manifest_tokens, /,/)
+        for (i = 1; i <= manifest_count; i++) {
+          identity = id[s] SUBSEP manifest_tokens[i]
+          if (manifest_keys[identity]++ || !(identity in source_keys)) malformed = 1
+        }
+        for (identity in source_keys) {
+          split(identity, identity_parts, SUBSEP)
+          if (identity_parts[1] == id[s] && !(identity in manifest_keys)) malformed = 1
+        }
+        if ($13 == active[s] && active[s] == bound[s] && bound[s] == key_count[s] && \
+            manifest_count == key_count[s]) valid[s]++
+      }
+    }
+    END {
+      expected[1] = "FX-HIER-DEMOTE-CP1"
+      expected[2] = "FX-HIER-DEMOTE-CP2"
+      expected[3] = "FX-HIER-DEMOTE-DECISION"
+      for (s = 1; s <= 3; s++) {
+        if (id[s] != expected[s] || active_sources[s] != 1 || bound_sources[s] != 1 || \
+            matches[s] != 1 || valid[s] != 1) malformed = 1
+      }
+      exit malformed ? 1 : 0
+    }
+  ' "$file" "$manifest"
+}
+
+validate_hierarchical_authorization_contract() {
+  local file="examples/leader-state-profiles/hierarchical-demotion-sequence.md"
+
+  if hierarchical_authorization_contract_valid "$file"; then
+    pass "Hierarchical demotion binds independent Active and Bound counts plus exact keys for every step"
+  else
+    fail "Hierarchical demotion binds independent Active and Bound counts plus exact keys for every step"
+  fi
+}
+
+validate_authorization_count_source_probes() {
+  local compact_file="examples/leader-state-profiles/compact-feasibility.md"
+  local size_file="examples/leader-state-profiles/standard-size-warning.md"
+  local auxiliary_file="examples/leader-state-profiles/duplicate-edge-deduplication.md"
+  local hierarchical_file="examples/leader-state-profiles/hierarchical-demotion-sequence.md"
+
+  if awk '{ print } END { print "Active authorization domains: 0" }' "$compact_file" | \
+      rendered_authorization_count_source_valid - 2>/dev/null; then
+    fail "Rendered profile rejects a duplicate identical authorization count source"
+  else
+    pass "Rendered profile rejects a duplicate identical authorization count source"
+  fi
+
+  if awk '{ if ($0 ~ /^Bound authorization keys:[[:space:]]*3$/) print "Bound authorization keys: 4"; else print }' \
+      "$size_file" | bound_authorization_key_count_valid - 2>/dev/null; then
+    fail "Authorization binding rejects a bound-key count mismatch"
+  else
+    pass "Authorization binding rejects a bound-key count mismatch"
+  fi
+
+  if awk '{ if ($0 == "Active authorization domains: 1") print "Active authorization domains: 2"; else print }' \
+      "$auxiliary_file" | detailed_authorization_contract_valid - "FX-EDGE-DEDUP" 2>/dev/null; then
+    fail "Auxiliary authorization contract rejects an Active-only count change"
+  else
+    pass "Auxiliary authorization contract rejects an Active-only count change"
+  fi
+
+  if awk '{ if ($0 == "Bound authorization keys: 1") print "Bound authorization keys: 2"; else print }' \
+      "$auxiliary_file" | detailed_authorization_contract_valid - "FX-EDGE-DEDUP" 2>/dev/null; then
+    fail "Auxiliary authorization contract rejects a Bound-only count change"
+  else
+    pass "Auxiliary authorization contract rejects a Bound-only count change"
+  fi
+
+  if awk 'BEGIN { changed = 0 }
+      !changed && $0 == "Active authorization domains: 2" { print "Active authorization domains: 1"; changed = 1; next }
+      { print }
+    ' "$hierarchical_file" | hierarchical_authorization_contract_valid - 2>/dev/null; then
+    fail "Hierarchical authorization contract rejects an Active-only count change"
+  else
+    pass "Hierarchical authorization contract rejects an Active-only count change"
+  fi
+
+  if awk 'BEGIN { changed = 0 }
+      !changed && $0 == "Bound authorization keys: 2" { print "Bound authorization keys: 1"; changed = 1; next }
+      { print }
+    ' "$hierarchical_file" | hierarchical_authorization_contract_valid - 2>/dev/null; then
+    fail "Hierarchical authorization contract rejects a Bound-only count change"
+  else
+    pass "Hierarchical authorization contract rejects a Bound-only count change"
+  fi
+}
+
+validate_rendered_profile_fixture() {
+  local file="$1" expected_warning="$2" label="$3"
+  local embedded_lines embedded_bytes actual_lines actual_bytes warning_state computed_warning declared_profile
+
+  if [[ ! -f "$file" ]]; then
+    fail "$label exists"
+    return
+  fi
+
+  embedded_lines="$(sed -n 's/^[[:space:]]*Physical lines:[[:space:]]*//p' "$file")"
+  embedded_bytes="$(sed -n 's/^[[:space:]]*UTF-8 bytes:[[:space:]]*//p' "$file")"
+  warning_state="$(sed -n 's/^[[:space:]]*Size warning state:[[:space:]]*//p' "$file" | sed 's/[.;].*$//')"
+  declared_profile="$(sed -n 's/^[[:space:]]*Leader state profile:[[:space:]]*//p' "$file")"
+  actual_lines="$(wc -l < "$file" | tr -d '[:space:]')"
+  actual_bytes="$(LC_ALL=C wc -c < "$file" | tr -d '[:space:]')"
+
+  computed_warning="within-warning"
+  if [[ "$declared_profile" == "Compact" ]]; then
+    if [[ "$actual_lines" -gt 140 && "$actual_bytes" -gt 16384 ]]; then computed_warning="line-and-byte-warning"
+    elif [[ "$actual_lines" -gt 140 ]]; then computed_warning="line-warning"
+    elif [[ "$actual_bytes" -gt 16384 ]]; then computed_warning="byte-warning"
+    fi
+  else
+    if [[ "$actual_lines" -gt 200 && "$actual_bytes" -gt 24576 ]]; then computed_warning="line-and-byte-warning"
+    elif [[ "$actual_lines" -gt 200 ]]; then computed_warning="line-warning"
+    elif [[ "$actual_bytes" -gt 24576 ]]; then computed_warning="byte-warning"
+    fi
+  fi
+
+  if [[ "$embedded_lines" =~ ^[0-9]+$ && "$embedded_lines" == "$actual_lines" ]]; then
+    pass "$label physical-line measurement"
+  else
+    fail "$label physical-line measurement"
+  fi
+  if [[ "$embedded_bytes" =~ ^[0-9]+$ && "$embedded_bytes" == "$actual_bytes" ]]; then
+    pass "$label UTF-8-byte measurement"
+  else
+    fail "$label UTF-8-byte measurement"
+  fi
+  template_contains "$file" "Inventory scope: current-active-only" "$label current-active-only scope"
+  template_contains "$file" "Measurement source kind: fixture-measurement" "$label measurement source kind"
+  template_contains "$file" "Measurement freshness: fresh" "$label measurement freshness"
+  template_contains "$file" "Selection detail: full-counts" "$label full deterministic counts"
+  template_contains "$file" "Profile selection basis:" "$label selection basis"
+  template_contains "$file" "Projection assessment: reliable-single-file" "$label projection assessment"
+  template_contains "$file" "Checkpoint event: validation-fixture" "$label checkpoint event"
+  template_contains "$file" "Authorization" "$label authorization state"
+  template_contains "$file" "Role" "$label role continuity state"
+  template_contains "$file" "Validation" "$label validation state"
+  template_contains "$file" "Claim-" "$label claim-indexed evidence"
+  template_contains "$file" "Archive" "$label archive-note capability"
+
+  if rendered_authorization_count_source_valid "$file"; then
+    pass "$label has exactly one active authorization-domain count source"
+  else
+    fail "$label has exactly one active authorization-domain count source"
+  fi
+
+  if awk -F '\t' -v rendered="$file" '
+    function trim(value) {
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      return value
+    }
+    function clean(value) {
+      value = trim(value)
+      gsub(/`/, "", value)
+      return value
+    }
+    function value_after_colon(value) {
+      sub(/^[^:]+:[[:space:]]*/, "", value)
+      return clean(value)
+    }
+    function set_count(key, value) {
+      value = clean(value)
+      if (value !~ /^[0-9]+$/ || count_seen[key]++) malformed = 1
+      counts[key] = value + 0
+    }
+    function add_contract_keys(value, kind,    n, parts, i, key, identity) {
+      n = split(clean(value), parts, /,/)
+      for (i = 1; i <= n; i++) {
+        key = trim(parts[i])
+        if (key !~ /^[a-z0-9]+(-[a-z0-9]+)*$/) malformed = 1
+        identity = kind SUBSEP key
+        if (contract_seen[identity]++) malformed = 1
+        if (kind == "required") required[key] = 1
+        else present[key] = 1
+      }
+    }
+    function normalized_edge_identity(token,    value, separator, pair, suffix, endpoints, swap) {
+      if (token !~ /^(conflict|overlap):/) return token
+      value = token
+      sub(/^(conflict|overlap):/, "", value)
+      separator = index(value, ":")
+      pair = substr(value, 1, separator - 1)
+      suffix = substr(value, separator + 1)
+      split(pair, endpoints, /[+]/)
+      if (endpoints[1] > endpoints[2]) { swap = endpoints[1]; endpoints[1] = endpoints[2]; endpoints[2] = swap }
+      return substr(token, 1, index(token, ":")) endpoints[1] "+" endpoints[2] ":" suffix
+    }
+    function add_edge(value, kind,    token, identity) {
+      token = value
+      if (kind == "dep") sub(/^Dependency edge[: ]+/, "", token)
+      else if (kind == "conflict") sub(/^Conflict edge[: ]+/, "", token)
+      else sub(/^Overlap edge[: ]+/, "", token)
+      sub(/:[[:space:]]+unique normalized tuple.*$/, "", token)
+      token = clean(token)
+      if (kind == "dep" && token !~ /^dep:[a-z0-9][-a-z0-9._\/]*>[a-z0-9][-a-z0-9._\/]*:[a-z0-9][-a-z0-9._\/+>:]*$/) malformed = 1
+      else if (kind == "conflict" && token !~ /^conflict:[a-z0-9][-a-z0-9._\/]*[+][a-z0-9][-a-z0-9._\/]*:[a-z0-9][-a-z0-9._\/+>:]*$/) malformed = 1
+      else if (kind == "overlap" && token !~ /^overlap:[a-z0-9][-a-z0-9._\/]*[+][a-z0-9][-a-z0-9._\/]*:[a-z0-9][-a-z0-9._\/+>:]*$/) malformed = 1
+      identity = normalized_edge_identity(token)
+      if (edge_seen[identity]++) malformed = 1
+      if (kind == "overlap") rendered_overlap++
+      else rendered_dep_conflict++
+    }
+    function compact_ok() {
+      return counts["workstreams"] <= 2 && counts["blockers"] <= 5 && counts["roles"] <= 8 && \
+        counts["validation"] <= 8 && counts["dep-conflict"] <= 10 && counts["overlap"] <= 5 && \
+        counts["gates"] <= 2 && counts["authorizations"] <= 2
+    }
+    function standard_ok() {
+      return counts["workstreams"] <= 5 && counts["blockers"] <= 10 && counts["roles"] <= 15 && \
+        counts["validation"] <= 15 && counts["dep-conflict"] <= 30 && counts["overlap"] <= 20 && \
+        counts["gates"] <= 3 && counts["authorizations"] <= 3
+    }
+    FNR == NR {
+      line = trim($0)
+      if (line ~ /^Fixture ID:/) fixture_id = value_after_colon(line)
+      else if (line ~ /^Expected result:/) expected_result = value_after_colon(line)
+      else if (line ~ /^Expected reason:/) expected_reason = value_after_colon(line)
+      else if (line ~ /^Schema required keys:/) { value = line; sub(/^Schema required keys:[[:space:]]*/, "", value); add_contract_keys(value, "required") }
+      else if (line ~ /^Present keys:/) { value = line; sub(/^Present keys:[[:space:]]*/, "", value); add_contract_keys(value, "present") }
+      else if (line ~ /^Scenario source:/) source = value_after_colon(line)
+      else if (line ~ /^Measurement source:/ && source == "") source = value_after_colon(line)
+      else if (line ~ /^Leader state profile:/) declared_profile = value_after_colon(line)
+      else if (line ~ /^Projection assessment:/) projection = value_after_colon(line)
+      else if (line ~ /^Active workstreams:[[:space:]]*[0-9]+$/) set_count("workstreams", value_after_colon(line))
+      else if (line ~ /^Blockers:[[:space:]]*[0-9]+$/) set_count("blockers", value_after_colon(line))
+      else if (line ~ /^Live role lifecycles:[[:space:]]*[0-9]+$/) set_count("roles", value_after_colon(line))
+      else if (line ~ /^Validation-freshness groups:[[:space:]]*[0-9]+$/) set_count("validation", value_after_colon(line))
+      else if (line ~ /^Dependency\/conflict edges:[[:space:]]*[0-9]+$/) set_count("dep-conflict", value_after_colon(line))
+      else if (line ~ /^Overlap edges:[[:space:]]*[0-9]+$/) set_count("overlap", value_after_colon(line))
+      else if (line ~ /^High-risk gates:[[:space:]]*[0-9]+$/) set_count("gates", value_after_colon(line))
+      else if (line ~ /^Active authorization domains:[[:space:]]*[0-9]+$/) set_count("authorizations", value_after_colon(line))
+      else if (line ~ /^\| (Active workstreams|Blockers|Live role lifecycles|Validation-freshness groups|Dependency\/conflict edges|Overlap edges|High-risk gates|Active authorization domains) \|[[:space:]]*[0-9]+[[:space:]]*\|/) {
+        split(line, table, /\|/)
+        dimension = trim(table[2])
+        value = trim(table[3])
+        if (dimension == "Active workstreams") set_count("workstreams", value)
+        else if (dimension == "Blockers") set_count("blockers", value)
+        else if (dimension == "Live role lifecycles") set_count("roles", value)
+        else if (dimension == "Validation-freshness groups") set_count("validation", value)
+        else if (dimension == "Dependency/conflict edges") set_count("dep-conflict", value)
+        else if (dimension == "Overlap edges") set_count("overlap", value)
+        else if (dimension == "High-risk gates") set_count("gates", value)
+        else if (dimension == "Active authorization domains") set_count("authorizations", value)
+      }
+      if (line ~ /^Dependency edge[: ]/) add_edge(line, "dep")
+      else if (line ~ /^Conflict edge[: ]/) add_edge(line, "conflict")
+      else if (line ~ /^Overlap edge[: ]/) add_edge(line, "overlap")
+      next
+    }
+    FNR == 1 { next }
+    $1 == fixture_id {
+      manifest_matches++
+      if ($5 == source && $6 == counts["workstreams"] && $7 == counts["blockers"] && \
+          $8 == counts["roles"] && $9 == counts["validation"] && $10 == counts["dep-conflict"] && \
+          $11 == counts["overlap"] && $12 == counts["gates"] && $13 == counts["authorizations"] && \
+          $14 == projection && $17 == declared_profile && $18 == expected_result && $19 == expected_reason) manifest_valid++
+    }
+    END {
+      expected_dimensions[1] = "workstreams"
+      expected_dimensions[2] = "blockers"
+      expected_dimensions[3] = "roles"
+      expected_dimensions[4] = "validation"
+      expected_dimensions[5] = "dep-conflict"
+      expected_dimensions[6] = "overlap"
+      expected_dimensions[7] = "gates"
+      expected_dimensions[8] = "authorizations"
+      for (i = 1; i <= 8; i++) if (count_seen[expected_dimensions[i]] != 1) malformed = 1
+      for (key in required) { required_count++; if (!(key in present)) malformed = 1 }
+      for (key in present) { present_count++; if (!(key in required)) malformed = 1 }
+      if (required_count == 0 || required_count != present_count) malformed = 1
+      if (projection == "projection-failed") derived_profile = "hierarchical-required"
+      else if (projection == "reliable-single-file" && compact_ok()) derived_profile = "Compact"
+      else if (projection == "reliable-single-file" && standard_ok()) derived_profile = "Standard"
+      else if (projection == "reliable-single-file") derived_profile = "hierarchical-required"
+      else malformed = 1
+      if (fixture_id == "" || source == "" || expected_result == "" || expected_reason == "" || declared_profile != derived_profile) malformed = 1
+      if (rendered_dep_conflict != counts["dep-conflict"] || rendered_overlap != counts["overlap"]) malformed = 1
+      if (manifest_matches != 1 || manifest_valid != 1) malformed = 1
+      exit malformed ? 1 : 0
+    }
+  ' "$file" examples/leader-state-profiles/cases.tsv; then
+    pass "$label derives all dimensions, profile, applicable fields, typed relationships, and exact manifest linkage"
+  else
+    fail "$label derives all dimensions, profile, applicable fields, typed relationships, and exact manifest linkage"
+  fi
+
+  if [[ "$warning_state" == "$expected_warning" && "$warning_state" == "$computed_warning" ]]; then
+    if [[ "$expected_warning" == "within-warning" ]]; then
+      pass "$label size warning state"
+    else
+      warn "$label size warning state: $warning_state (non-blocking)"
+    fi
+  else
+    fail "$label size warning state"
+  fi
+}
+
+validate_profile_rendered_enumerations() {
+  local file="examples/leader-state-profiles/standard-size-warning.md"
+  local count record prefix remainder expected description
+  for record in \
+    "| ws-:5:active workstreams" \
+    "Dependency edge :30:dependency/conflict edges" \
+    "Overlap edge :20:overlap edges" \
+    "Blocker blocker-:10:blockers" \
+    "Role role-:15:role lifecycles" \
+    "Validation group vg-:15:validation groups" \
+    "High-risk gate gate-:3:high-risk gates" \
+    "Authorization key:3:authorization domains"; do
+    prefix="${record%%:*}"
+    remainder="${record#*:}"
+    expected="${remainder%%:*}"
+    description="${remainder#*:}"
+    count="$(grep -c "^${prefix}" "$file" || true)"
+    if [[ "$count" == "$expected" ]]; then
+      pass "Standard warning fixture enumerates $description"
+    else
+      fail "Standard warning fixture enumerates $description"
+    fi
+  done
+
+  for required_gate in \
+    "High-risk gate gate-01: tag and release decision" \
+    "High-risk gate gate-02: production deployment decision" \
+    "High-risk gate gate-03: primary schema migration decision"; do
+    if contains "$file" "$required_gate"; then
+      pass "Standard warning fixture uses a genuine high-risk gate: $required_gate"
+    else
+      fail "Standard warning fixture uses a genuine high-risk gate: $required_gate"
+    fi
+  done
+
+  if grep -Eq '^High-risk gate gate-[0-9]+: (commit|push) decision' "$file"; then
+    fail "Standard warning fixture does not classify normal commit or push as high-risk"
+  else
+    pass "Standard warning fixture does not classify normal commit or push as high-risk"
+  fi
+}
+
+validate_rendered_authorization_bindings() {
+  local manifest="examples/leader-state-profiles/cases.tsv"
+  local size_file="examples/leader-state-profiles/standard-size-warning.md"
+  local handoff_file="examples/handoff-task.md"
+
+  if bound_authorization_key_count_valid "$size_file" && awk -F '\t' '
+    function normalized_key(value) { return value ~ /^[a-z0-9]+(-[a-z0-9]+)*$/ }
+    function valid_authorization(token,    fields) {
+      if (split(token, fields, /:/) != 7 || fields[1] != "auth") return 0
+      if (!normalized_key(fields[2]) || fields[2] == "none" || !normalized_key(fields[3]) || \
+          !normalized_key(fields[4]) || fields[4] ~ /-and-/ || !normalized_key(fields[5]) || \
+          !normalized_key(fields[6]) || !normalized_key(fields[7])) return 0
+      return fields[6] == "requested" || fields[6] == "pending" || fields[6] == "granted" || \
+        fields[6] == "denied" || fields[6] == "revoked" || fields[6] == "expired"
+    }
+    FNR == NR {
+      if ($0 ~ /^Bound authorization keys:[[:space:]]*[0-9]+$/) {
+        declared = $0
+        sub(/^Bound authorization keys:[[:space:]]*/, "", declared)
+      } else if ($0 ~ /^Authorization key:[[:space:]]*auth:/) {
+        token = $0
+        sub(/^Authorization key:[[:space:]]*/, "", token)
+        sub(/;.*/, "", token)
+        if (!valid_authorization(token) || seen[token]++) malformed = 1
+        split(token, fields, /:/)
+        if (fields[4] == "publication") active_publication = 1
+        active_count++
+      } else if ($0 ~ /^Standing unrequested exclusion: publication .*not counted as an active authorization domain[.]$/) {
+        standing_publication++
+      }
+      next
+    }
+    FNR == 1 { next }
+    $1 == "FX-SIZE-WARNING" {
+      matches++
+      if ($5 == "synthetic:standard-structural-ceilings" && $13 == declared && declared == active_count && active_count == 3 && \
+          $21 == "@standard-size-warning.md#authorization-and-gate-state") valid++
+    }
+    END {
+      exit !(matches == 1 && valid == 1 && declared == 3 && active_count == 3 && standing_publication == 1 && \
+        !active_publication && !malformed)
+    }
+  ' "$size_file" "$manifest"; then
+    pass "Standard warning fixture derives three unique active authorization tuples and excludes standing publication"
+  else
+    fail "Standard warning fixture derives three unique active authorization tuples and excludes standing publication"
+  fi
+
+  if bound_authorization_key_count_valid "$handoff_file" && awk -F '\t' '
+    function normalized_key(value) { return value ~ /^[a-z0-9]+(-[a-z0-9]+)*$/ }
+    function valid_authorization(token,    fields) {
+      if (split(token, fields, /:/) != 7 || fields[1] != "auth") return 0
+      if (!normalized_key(fields[2]) || fields[2] == "none" || !normalized_key(fields[3]) || \
+          !normalized_key(fields[4]) || fields[4] ~ /-and-/ || !normalized_key(fields[5]) || \
+          !normalized_key(fields[6]) || !normalized_key(fields[7])) return 0
+      return fields[6] == "requested" || fields[6] == "pending" || fields[6] == "granted" || \
+        fields[6] == "denied" || fields[6] == "revoked" || fields[6] == "expired"
+    }
+    FNR == NR {
+      if ($0 ~ /^Bound authorization keys:[[:space:]]*[0-9]+$/) {
+        declared = $0
+        sub(/^Bound authorization keys:[[:space:]]*/, "", declared)
+      } else if ($0 ~ /^Authorization key:[[:space:]]*auth:/) {
+        token = $0
+        sub(/^Authorization key:[[:space:]]*/, "", token)
+        if (!valid_authorization(token) || seen[token]++) malformed = 1
+        split(token, fields, /:/)
+        if (fields[4] == "push") active_push = 1
+        active_count++
+      } else if ($0 ~ /^Standing exclusions not counted:/ && $0 ~ /(^|[ ,])push([, ]|$)/) {
+        standing_push++
+      }
+      next
+    }
+    FNR == 1 { next }
+    $1 == "FX-TAKEOVER-STANDARD" {
+      matches++
+      if ($5 == "examples/handoff-task.md" && $13 == declared && declared == active_count && active_count == 1 && \
+          $21 == token) valid++
+    }
+    END {
+      exit !(matches == 1 && valid == 1 && declared == 1 && active_count == 1 && standing_push == 1 && \
+        !active_push && !malformed)
+    }
+  ' "$handoff_file" "$manifest"; then
+    pass "Takeover fixture binds the current commit authorization tuple and excludes standing push"
+  else
+    fail "Takeover fixture binds the current commit authorization tuple and excludes standing push"
   fi
 }
 
@@ -499,6 +1848,10 @@ for template in "${REQUIRED_TEMPLATES[@]}"; do
     version_marker="Version: $TEMPLATE_VERSION recommended templates."
   elif [[ "$template" == "templates/review-packet-cleanup-checklist.md" ]]; then
     version_marker="Version: v0.4.18 release template."
+  elif [[ "$template" == "templates/compact-leader-state.md" ||
+          "$template" == "templates/standard-leader-state.md" ||
+          "$template" == "templates/successor-opportunity-skeleton.md" ]]; then
+    version_marker="Version: $DEVELOPMENT_VERSION development template."
   else
     version_marker="Version: $TEMPLATE_VERSION recommended template."
   fi
@@ -549,6 +1902,25 @@ template_contains "templates/README.md" "same-provider model/version variants ar
 template_contains "templates/README.md" "Do not treat short silence as failure" "templates README preserves lifecycle patience"
 template_contains "templates/README.md" "Role-agent cleanup status fields are evidence only." "templates README treats cleanup status as evidence"
 template_contains "templates/README.md" "Worker-first context control fields" "templates README documents Worker-first fields"
+for leader_state_template in \
+  "templates/compact-leader-state.md" \
+  "templates/standard-leader-state.md" \
+  "templates/successor-opportunity-skeleton.md"; do
+  template_contains "$leader_state_template" "Absence is not approval." "$leader_state_template blocks absence-as-approval"
+  template_contains "$leader_state_template" "Successor, profile, authority, validation, role, and gate decisions are not inherited." "$leader_state_template blocks inherited control state"
+  template_contains "$leader_state_template" "The complete applicable retention floor wins; do not truncate facts." "$leader_state_template preserves the retention floor"
+  template_contains "$leader_state_template" "Physical size warnings are non-blocking and never select a profile." "$leader_state_template preserves the warning-only size boundary"
+done
+template_contains "templates/compact-leader-state.md" "Physical lines:" "Compact Leader-state template records physical lines separately"
+template_contains "templates/compact-leader-state.md" "UTF-8 bytes:" "Compact Leader-state template records UTF-8 bytes separately"
+template_contains "templates/compact-leader-state.md" "status=requested|pending|granted|denied|revoked|expired" "Compact Leader-state template defines the exact active authorization status enum"
+template_contains "templates/compact-leader-state.md" "Standing default exclusions: <retained scope/stop conditions; not counted unless current action, current gate, or first next action triggers the active-domain rule>" "Compact Leader-state template separates standing exclusions from active domains"
+template_contains "templates/compact-leader-state.md" "A current denial is active, fail-closed, and counted until its action, gate, or first next action is no longer current; an unrequested standing exclusion is retained but not counted." "Compact Leader-state template counts current denial and keeps it fail-closed"
+template_contains "templates/standard-leader-state.md" "Physical lines:" "Standard Leader-state template records physical lines separately"
+template_contains "templates/standard-leader-state.md" "UTF-8 bytes:" "Standard Leader-state template records UTF-8 bytes separately"
+template_contains "templates/standard-leader-state.md" 'State enum: `requested|pending|granted|denied|revoked|expired`.' "Standard Leader-state template defines the exact active authorization status enum"
+template_contains "templates/standard-leader-state.md" "Standing default exclusions: <retained scope/stop conditions; not counted unless current action, current gate, or first next action triggers the active-domain rule>" "Standard Leader-state template separates standing exclusions from active domains"
+template_contains "templates/standard-leader-state.md" "A current denial is active, fail-closed, and counted until its action, gate, or first next action is no longer current; an unrequested standing exclusion is retained but not counted." "Standard Leader-state template counts current denial and keeps it fail-closed"
 template_contains "templates/pm-review.md" "P0:" "PM template preserves P0"
 template_contains "templates/pm-review.md" "P1:" "PM template preserves P1"
 template_contains "templates/pm-review.md" "Owner-recorded role authorization source:" "PM template records trust authorization source"
@@ -738,6 +2110,8 @@ template_contains "SKILL.md" "MUST read \`references/openspec-lifecycle.md\` bef
 template_contains "SKILL.md" "MUST read \`references/cli-trust.md\` before relying on Claude CLI" "SKILL.md routes CLI trust reference"
 template_contains "SKILL.md" "MUST read \`references/context-rollover.md\` before context rollover" "SKILL.md routes rollover reference"
 template_contains "SKILL.md" "MUST read \`references/role-templates-and-output.md\` before dispatching PM" "SKILL.md routes role output reference"
+template_contains "SKILL.md" 'MUST read `references/leader-state-profiles.md` before selecting, refreshing, rendering, or transitioning' "SKILL.md routes Leader-state profile reference"
+template_contains "SKILL.md" "Structural current-active inventory selects Compact, Standard, or \`hierarchical-required\`; provisional line and byte bands only warn." "SKILL.md preserves profile classification and warning boundary"
 template_contains "SKILL.md" "Reference files extend this file; they cannot weaken it" "SKILL.md blocks reference authority weakening"
 template_contains "SKILL.md" "If a required reference is missing or unread for an affected domain, stop before acting in that domain." "SKILL.md fails closed when reference missing"
 template_contains "references/TRACEABILITY.md" "All current \`template_contains \"SKILL.md\"\` hard-boundary anchor phrases remain in \`SKILL.md\`" "Traceability preserves SKILL anchors"
@@ -782,6 +2156,40 @@ if [[ "$skill_anchor_count" -ge "$SKILL_ANCHOR_BASELINE" ]]; then
 else
   fail "SKILL.md anchor check count not reduced"
 fi
+template_contains "references/leader-state-profiles.md" "Inventory scope: current-active-only" "Profile reference defines current-active-only inventory"
+template_contains "references/leader-state-profiles.md" "hierarchical-required" "Profile reference defines above-Standard classification"
+template_contains "references/leader-state-profiles.md" "Demotion requires all lower exit conditions at two consecutive" "Profile reference defines demotion hysteresis"
+template_contains "references/leader-state-profiles.md" "warning-only and never select a" "Profile reference preserves warning-only size boundary"
+template_contains "references/leader-state-profiles.md" "Semantic and control correctness" "Profile reference preserves fail-closed semantic boundary"
+template_contains "references/leader-state-profiles.md" "A current denial remains an active fail-closed control fact and counted domain" "Profile reference counts current denial as fail-closed state"
+validate_profile_manifest
+validate_profile_manifest_edge_rejection_probes
+validate_profile_manifest_authorization_rejection_probes
+validate_missing_field_fixture
+validate_stale_pointer_fixture
+validate_orphan_pointer_fixture
+validate_conflicting_canonical_source_fixture
+validate_conflicting_authorization_binding
+validate_invalid_selection_basis_fixture
+validate_duplicate_edge_fixture
+validate_hierarchical_demotion_fixture
+validate_rendered_profile_fixture "examples/leader-state-profiles/compact-feasibility.md" "within-warning" "Compact feasibility fixture"
+validate_rendered_profile_fixture "examples/leader-state-profiles/medium-standard.md" "within-warning" "Medium Standard fixture"
+validate_rendered_profile_fixture "examples/leader-state-profiles/standard-size-warning.md" "line-warning" "Standard size-warning fixture"
+validate_profile_rendered_enumerations
+validate_rendered_authorization_bindings
+validate_detailed_authorization_contract "examples/leader-state-profiles/compact-feasibility.md" "FX-SMALL-REPO" "Compact feasibility authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/medium-standard.md" "FX-MEDIUM-REPO" "Medium Standard authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/standard-size-warning.md" "FX-SIZE-WARNING" "Standard size-warning authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/duplicate-edge-deduplication.md" "FX-EDGE-DEDUP" "Duplicate-edge authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/negative-missing-applicable-field.md" "FX-NEG-MISSING-FIELD" "Missing-field authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/negative-stale-pointer.md" "FX-NEG-STALE-POINTER" "Stale-pointer authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/negative-orphan-pointer.md" "FX-NEG-ORPHAN-POINTER" "Orphan-pointer authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/negative-conflicting-canonical-source.md" "FX-NEG-CONFLICT-SOURCE" "Conflicting-source authorization contract"
+validate_detailed_authorization_contract "examples/leader-state-profiles/negative-invalid-selection-basis.md" "FX-NEG-SELECTION-BASIS" "Invalid-selection authorization contract"
+validate_detailed_authorization_contract "examples/handoff-task.md" "FX-TAKEOVER-STANDARD" "Takeover authorization contract"
+validate_hierarchical_authorization_contract
+validate_authorization_count_source_probes
 template_contains "references/review-context-efficiency.md" "The packet is an index and starting point, not a restriction or substitute for original evidence" "Context-efficiency reference preserves original evidence access"
 template_contains "references/review-context-efficiency.md" "one runtime-proven PM lifecycle and one runtime-proven Advisor lifecycle" "Context-efficiency reference requires OpenSpec stage-scoped lifecycles"
 template_contains "references/review-context-efficiency.md" "For non-OpenSpec work, use a fresh short-lived session for each distinct checkpoint" "Context-efficiency reference preserves non-OpenSpec short sessions"
@@ -952,7 +2360,22 @@ template_contains "CHANGELOG.md" "Published $PUBLIC_VERSION on $PUBLICATION_DATE
 template_contains "CHANGELOG.md" "The public release date uses \`$PUBLICATION_TIMEZONE\` release-date semantics." "CHANGELOG states public release timezone semantics"
 template_contains "docs/ROADMAP.md" "\`$PUBLIC_VERSION\` $PUBLIC_UPGRADE_TITLE is the current public version" "ROADMAP states current public version"
 if [[ -n "$DEVELOPMENT_VERSION" ]]; then
-  template_contains "README.md" "Development target: \`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE" "README states development target separately"
+  development_surfaces=(
+    "README.md"
+    "CHANGELOG.md"
+    "docs/ROADMAP.md"
+    "docs/TODO.md"
+    "docs/VALIDATION.md"
+  )
+  for development_surface in "${development_surfaces[@]}"; do
+    template_contains "$development_surface" "Development target: \`$DEVELOPMENT_VERSION\` $DEVELOPMENT_UPGRADE_TITLE" "$development_surface states development target separately"
+    template_contains "$development_surface" "Structural thresholds are mandatory classification pilot baselines" "$development_surface states mandatory structural classification"
+    template_contains "$development_surface" "exceeding them alone never blocks work" "$development_surface states structural thresholds are non-blocking by themselves"
+    template_contains "$development_surface" "Physical line and UTF-8-byte size bands are" "$development_surface identifies physical size diagnostics"
+    template_contains "$development_surface" "warning-only pilot baselines" "$development_surface states physical size bands are warning-only"
+    template_contains "$development_surface" "Hierarchical root/card/shard storage" "$development_surface names the Hierarchical limitation"
+    template_contains "$development_surface" "not implemented in this target" "$development_surface states Hierarchical is not implemented"
+  done
 else
   undeclared_development_marker=0
   for version_file in README.md CHANGELOG.md docs/ROADMAP.md docs/TODO.md docs/VALIDATION.md; do
@@ -966,6 +2389,20 @@ else
   fi
 fi
 
+expect_release_status_accept "Accept authorized development/public pairing fixture" 'Development target: `v1.0.0` Progressive Leader State Profiles. Current public version: `v0.4.18`.'
+expect_release_status_accept "Accept actual repository negative-status fixture" 'The v1.0.0 tag, GitHub Release, public publication, and deployment do not exist merely because development is active.'
+expect_release_status_accept "Accept no-v1-tag fixture" 'No v1.0.0 tag exists.'
+expect_release_status_accept "Accept v1-tag-does-not-exist fixture" 'The v1.0.0 tag does not exist.'
+expect_release_status_accept "Accept no-v1-tag-created fixture" 'No v1.0.0 tag has been created.'
+expect_release_status_accept "Accept v1-tag-not-created fixture" 'The v1.0.0 tag has not been created.'
+expect_release_status_accept "Accept v1-tag-was-not-created fixture" 'The v1.0.0 tag was not created.'
+expect_release_status_accept "Accept no-v1-GitHub-Release fixture" 'No GitHub Release v1.0.0 exists.'
+expect_release_status_accept "Accept v1-GitHub-Release-does-not-exist fixture" 'GitHub Release v1.0.0 does not exist.'
+expect_release_status_accept "Accept v1-GitHub-Release-not-published fixture" 'GitHub Release v1.0.0 has not been published.'
+expect_release_status_accept "Accept v1-not-published fixture" 'v1.0.0 has not been published or released.'
+expect_release_status_accept "Accept v1-not-deployed fixture" 'v1.0.0 has not been deployed.'
+expect_release_status_accept "Accept no-v1-public-publication fixture" 'No v1.0.0 public publication exists.'
+expect_release_status_accept "Accept development-declaration-does-not-claim fixture" 'The development declaration does not claim that a v1.0.0 tag, GitHub Release, or public publication exists.'
 expect_release_status_accept "Accept public v0.4.18 fixture" 'Current public version: `v0.4.18`; released July 12, 2026.'
 expect_release_status_accept "Accept historical v0.4.17 fixture" 'v0.4.17 was released before v0.4.18.'
 expect_release_status_accept "Accept no-development-target fixture" 'v0.4.18 is public; no next development target is currently declared.'
@@ -975,6 +2412,19 @@ expect_release_status_reject "Reject v0.4.18 development-target fixture" "v0.4.1
 expect_release_status_reject "Reject v0.4.18 development-version fixture" "v0.4.18 is still described as development or unpublished" 'v0.4.18 is the next development version.'
 expect_release_status_reject "Reject v0.4.18 unpublished fixture" "v0.4.18 is still described as development or unpublished" 'The v0.4.18 release remains UNPUBLISHED.'
 expect_release_status_reject "Reject v0.4.18 not-published fixture" "v0.4.18 is still described as development or unpublished" 'Not published yet: v0.4.18.'
+expect_release_status_reject "Reject v1.0.0 current-public fixture" "v1.0.0 is claimed as public or already released" 'Current public version: `v1.0.0`.'
+expect_release_status_reject "Reject v1.0.0 reverse current-public fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 is the current public release.'
+expect_release_status_reject "Reject v1.0.0 published fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 has been published.'
+expect_release_status_reject "Reject v1.0.0 released fixture" "v1.0.0 is claimed as public or already released" 'Released v1.0.0.'
+expect_release_status_reject "Reject v1.0.0 was-released fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 was released.'
+expect_release_status_reject "Reject v1.0.0 deployed fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 has been deployed.'
+expect_release_status_reject "Reject v1.0.0 deployment-exists fixture" "v1.0.0 is claimed as public or already released" 'Deployment for v1.0.0 exists.'
+expect_release_status_reject "Reject v1.0.0 public-publication fixture" "v1.0.0 is claimed as public or already released" 'The v1.0.0 public publication exists.'
+expect_release_status_reject "Reject v1.0.0 tag-exists fixture" "v1.0.0 is claimed as public or already released" 'The v1.0.0 tag exists.'
+expect_release_status_reject "Reject v1.0.0 tag-created fixture" "v1.0.0 is claimed as public or already released" 'The v1.0.0 tag was created.'
+expect_release_status_reject "Reject created-v1.0.0-tag fixture" "v1.0.0 is claimed as public or already released" 'Created the v1.0.0 tag.'
+expect_release_status_reject "Reject v1.0.0 GitHub-Release-exists fixture" "v1.0.0 is claimed as public or already released" 'GitHub Release v1.0.0 exists.'
+expect_release_status_reject "Reject v1.0.0 GitHub-Release-published fixture" "v1.0.0 is claimed as public or already released" 'v1.0.0 GitHub Release has been published.'
 
 stale_current_state_marker=0
 current_release_surfaces=(

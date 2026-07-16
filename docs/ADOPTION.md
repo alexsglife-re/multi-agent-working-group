@@ -52,6 +52,24 @@ Keep active state compact. A successor should be able to see the current goal,
 stage, changed files, validation freshness, role evidence, unresolved P0/P1,
 authorization state, and next safe action without reading a long transcript.
 
+Do not make every project copy the same full Leader template. Use the
+progressive profiles according to current active complexity:
+
+- Compact keeps small work lightweight and omits visibly empty or inapplicable
+  sections without dropping triggered facts.
+- Standard gives medium work one stable, reviewable file after a Compact
+  structural trigger is exceeded.
+- `hierarchical-required` identifies large or entangled work that cannot be
+  projected reliably into Standard; it does not pretend that root/card/shard
+  storage already exists.
+
+When migrating an existing copied full template, preserve it as historical
+evidence, re-verify current state, create a fresh Compact or Standard instance,
+and replace repeated history with stable evidence pointers. Structural
+thresholds select the profile but do not block work by themselves, and
+line/byte bands are warning-only pilot baselines. The complete applicable
+retention floor always wins over size.
+
 ## Cross-Conversation Handoff
 
 A handoff is evidence, not authority. The successor must re-check the current

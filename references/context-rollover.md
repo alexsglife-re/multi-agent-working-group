@@ -6,6 +6,22 @@ Read this reference before context rollover, handoff, successor startup, continu
 
 ## Leader Context Control
 
+Before selecting, refreshing, rendering, or transitioning active Leader state,
+read `references/leader-state-profiles.md`. Compact and Standard are
+profile-aware renderings of the layered record below, not replacements for its
+retention floor. `hierarchical-required` means Standard is insufficient; it
+does not establish a Hierarchical design or a new rollover state. Preserve all
+applicable facts and continue to use the qualitative safety controls here.
+
+At `Rollover Opportunity`, refresh the current profile, active state, and
+evidence index; update only a lightweight successor skeleton when useful. At
+Recommended, Strongly Recommended, Required, actual handoff, or
+Owner-requested handoff, prepare the complete accepted successor packet with
+every applicable retention-floor fact and the dependencies of the first next
+action. A successor freshly verifies profile selection and all existing
+authority, git, OpenSpec, validation, role, finding, and Worker state; no
+profile or packet transfers authority, approval, freshness, or continuity.
+
 For long-running or spec-bound work, the Leader should treat context size as an explicit state to manage. Project rules may provide a named protocol such as `Leader Context Control V0.3`; when present, follow that stricter project protocol.
 
 Leader state compaction:

@@ -44,7 +44,7 @@ orchestration and verification, treats agent output as evidence rather than
 authority, and separates local completion, normal git gates, and Owner-only
 exclusions.
 
-> Current public version: `v0.4.18`, released on July 12, 2026 under `America/Los_Angeles` release-date semantics. No next development target is currently declared. Public release tags should point at reviewed commits; documentation alone is not a deployment claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
+> Development target: `v1.0.0` Progressive Leader State Profiles. Current public version: `v0.4.18`, released on July 12, 2026 under `America/Los_Angeles` release-date semantics. The v1.0.0 tag, GitHub Release, public publication, and deployment do not exist merely because development is active. Public release tags should point at reviewed commits; documentation alone is not a deployment claim. Version tracking lives in `README.md`, `CHANGELOG.md`, and release tags, while `agents/openai.yaml` remains versionless interface metadata.
 
 ## Quick Start
 
@@ -170,6 +170,36 @@ The v0.4.13 templates are structure only. A filled template is evidence, not aut
 
 When older v0.3 or earlier handoff documents have already grown large, preserve them as historical evidence. Create a new `templates/compact-handoff.md` current state card, copy only verified current facts into it, and reference the old document through the evidence index instead of appending or rewriting the old text.
 
+## Progressive Leader State Profiles
+
+The v1.0.0 development target replaces a universal line cap with progressive
+active-state profiles selected from current coordination complexity:
+
+- Small work uses a genuinely reduced Compact profile so ordinary tasks do not
+  inherit a large-project scorecard or empty sections.
+- Medium work moves to a single-file Standard profile when a Compact structural
+  trigger is exceeded, while preserving stable sections and evidence pointers.
+- Large or unusually entangled work records `hierarchical-required` when
+  Standard is insufficient. It preserves every applicable fact and continues
+  to use the accepted qualitative rollover and handoff controls.
+
+The complete applicable retention floor always wins over document size. Current
+state stays readable by projecting each control fact once and pointing to
+durable reasoning, raw output, and historical notes instead of repeatedly
+copying them into the active Leader record.
+
+Structural thresholds are mandatory classification pilot baselines; exceeding
+them alone never blocks work. Physical line and UTF-8-byte size bands are
+warning-only pilot baselines. Semantic or control failures still fail closed.
+Hierarchical root/card/shard storage is not implemented in this target,
+so `hierarchical-required` is a truthful detection state rather than a
+claim that large-project storage is already solved.
+
+The Owner reported a prior Leader document growing beyond 4,000 lines before
+manual reduction to roughly 50 lines. The original document and fact inventory
+are unavailable, so the repository uses a clearly labeled synthetic stress
+fixture and does not claim to reconstruct that historical case.
+
 ## Local Validation
 
 Run the local validation command before normal commit or push gates:
@@ -228,7 +258,12 @@ paths must be removed before publication.
 
 ## Current Status
 
-This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. `v0.4.18` is public and defines lifecycle-bound review-packet retention, fail-closed cleanup, and stage-scoped PM/Advisor lifecycles without reducing review capability, independent no-peek review, original-evidence access, or existing gates. No next development target is currently declared.
+This repository is in a documentation-first stabilization stage. Stage 1 foundation docs are mostly complete. Development target: `v1.0.0` Progressive Leader State Profiles. Current public version: `v0.4.18`. The public release defines lifecycle-bound review-packet retention, fail-closed cleanup, and stage-scoped PM/Advisor lifecycles without reducing review capability, independent no-peek review, original-evidence access, or existing gates. The development declaration does not claim that a v1.0.0 tag, GitHub Release, public publication, or deployment exists.
+
+For the development target, structural thresholds are mandatory classification
+pilot baselines; exceeding them alone never blocks work. Physical line and
+UTF-8-byte size bands are warning-only pilot baselines. Hierarchical
+root/card/shard storage is not implemented in this target.
 
 OpenSpec reviews default to one runtime-proven PM lifecycle and one runtime-proven Advisor lifecycle per C1-C4 stage. Each changed checkpoint still creates a fresh Review ID and decision state, while cross-stage boundaries and reliability, independence, routing, trust, ambiguity, recovery, or Owner-triggered conditions restart the lifecycle. C0 and non-OpenSpec distinct checkpoints remain short-lived. Packet-retention checkpoints are separate from role-agent lifecycle boundaries.
 

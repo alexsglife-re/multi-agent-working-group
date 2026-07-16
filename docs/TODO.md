@@ -473,7 +473,36 @@ The completed release does not authorize any future tag, release, deployment, or
 - [x] Correct PM/Advisor lifecycle handling to be stage-scoped across OpenSpec C1-C4.
 - [x] Obtain explicit Owner authorization and define the gated tag, GitHub Release, and publication runbook; execution remains subject to its independent action gates.
 
-The public release date uses `America/Los_Angeles` release-date semantics. No next development target is currently declared. The release does not claim runtime enforcement or deployment.
+The public release date uses `America/Los_Angeles` release-date semantics. At
+the time v0.4.18 was published, no next development target had been declared.
+The release does not claim runtime enforcement or deployment.
+
+## v1.0.0: Progressive Leader State Profiles (Development Target)
+
+Development target: `v1.0.0` Progressive Leader State Profiles.
+Current public version: `v0.4.18`.
+
+Structural thresholds are mandatory classification pilot baselines; exceeding them alone never blocks work.
+Physical line and UTF-8-byte size bands are
+warning-only pilot baselines.
+Hierarchical root/card/shard storage is not implemented in this target.
+
+- [x] Define deterministic current-active structural inventory and progressive
+  Compact, Standard, and `hierarchical-required` selection semantics.
+- [x] Preserve the complete applicable retention floor, layered evidence, and
+  event-driven promotion/demotion controls.
+- [x] Add genuinely reduced Compact and Standard templates plus profile-aware
+  successor projection.
+- [x] Add representative fixtures, including a labeled synthetic large-state
+  stress case because the Owner-reported prior document and its fact inventory
+  are unavailable for historical reconstruction.
+- [x] Complete structural validator integration and version-marker checks.
+- [x] Complete fresh validation and independent C2 review.
+- [ ] Complete normal git closeout and OpenSpec archive under their applicable
+  gates.
+
+This development record does not claim or authorize a v1.0.0 tag, GitHub
+Release, public publication, or deployment.
 
 ## v0.4.16: Cross-Runtime Installation And Adapter Guardrails
 

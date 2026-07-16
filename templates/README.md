@@ -24,6 +24,19 @@ This is the collection baseline. Individual templates may declare a later develo
 - Treat Owner-recorded CLI role assignment as current-project trust setup authorization only after verifying the source applies to the current project and workstream.
 - CLI trust setup fields do not authorize parent-directory trust, home-directory trust, all-repository trust, dangerous permission bypass, secrets, global policy changes, git actions, CI, deployment, release, publication, or external effects.
 - Treat `Rollover Opportunity` as early preparation, not immediate handoff and not inherited authorization.
+- At `Rollover Opportunity`, refresh the selected profile, canonical active
+  state, and evidence index; use `successor-opportunity-skeleton.md` only when
+  lightweight preparation is useful. Use the complete successor packet for
+  Recommended, Strongly Recommended, Required, actual handoff, or an explicit
+  Owner handoff request.
+- Select Compact or Standard from current-active-only structural inventory,
+  not from document length. Physical-line and UTF-8-byte bands are diagnostic
+  warnings only; applicable accepted facts are never truncated to fit them.
+- Compact may omit genuinely inapplicable visible sections and uses its
+  section/key as implicit canonical ownership. Standard uses stable section
+  IDs. Add source/freshness metadata only for actual derived copies.
+- Absence is not approval. Every triggered accepted state-carrying field must
+  remain in the active projection or an accepted stable projection.
 - Use compression count value/source/confidence; do not claim platform-visible summaries are actual total compactions.
 - Task dashboards are evidence inputs to canonical state selection, not a separate state machine or runtime dashboard.
 - Treat global memory, project memory, handoff, and startup-packet model preferences as hints to verify for the current workstream.
@@ -54,14 +67,24 @@ This is the collection baseline. Individual templates may declare a later develo
 | `review-packet-cleanup-checklist.md` | Verify retention class, final gate, blockers, durable audit evidence, and exact cleanup scope. |
 | `blocked-report.md` | Stop cleanly when a gate, validation, or evidence blocker appears. |
 | `compact-handoff.md` | Refresh Leader handoff state without append-only growth. |
+| `compact-leader-state.md` | Render a genuinely reduced Compact current-state and handoff instance. |
+| `standard-leader-state.md` | Render a stable-section Standard current-state and handoff instance. |
+| `successor-opportunity-skeleton.md` | Prepare lightweight Opportunity evidence without creating a complete handoff. |
 | `successor-startup-packet.md` | Prepare rollover takeover evidence without automatically creating a new conversation. |
 | `git-gate.md` | Capture commit or push gate evidence. |
 
 ## Leader Rollover Use
 
+Use `successor-opportunity-skeleton.md` at `Rollover Opportunity` only when
+lightweight preparation is useful. It points to the canonical active-state
+record and does not duplicate the complete retention floor.
+
 Use `successor-startup-packet.md` when `Rollover Recommended`,
 `Rollover Strongly Recommended`, or `Rollover Required` applies. The packet is
-for a future Leader to verify current evidence before continuing. It does not
+also required for actual handoff or an explicit Owner handoff request. It is
+profile-aware, but the successor must freshly verify profile selection,
+authority, approval, git/OpenSpec state, validation freshness, findings, role
+continuity, and Worker state before acting. The packet does not
 create or authorize a successor thread, commit, push, CI, archive, release,
 deployment, publication, secret access, PM/Advisor bypass, Reviewer bypass, or
 validation bypass.
@@ -82,6 +105,22 @@ When an old document is already bloated:
 4. Put old sections in the evidence index using `current`, `stale until re-verified`, or `historical only` for freshness/status, plus `verified`, `inferred`, or `unverified` for Leader verification.
 5. Record what was intentionally not carried forward.
 6. Update only the new current state card from then on.
+
+Choose `compact-leader-state.md` when fresh current-active-only inventory
+satisfies every Compact ceiling. Choose `standard-leader-state.md` directly
+when a Compact trigger is exceeded but every Standard ceiling and reliable
+single-file projection still hold; takeover never needs to pass through
+Compact first. If Standard is exceeded or the projection is unreliable,
+record `hierarchical-required`, preserve all applicable facts, and continue
+the accepted qualitative rollover protocol. Do not force the state into either
+template or claim that a Hierarchical storage design already exists.
+
+For migration from a bloated active document, freeze the old document as
+historical evidence, freshly inventory only current active state, render the
+measured profile into a new canonical instance, and link retained history
+through the claim-indexed evidence index and archive-note pointer. Do not copy
+old narrative, stale validation, or historical gate decisions forward as
+current truth.
 
 Recommended note:
 

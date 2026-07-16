@@ -119,6 +119,33 @@ Use `--skip-global-skill` only while developing local changes before the global 
 
 Automatically using or calling this protocol means applying its workflow and checklist reasoning only. It never creates external effects by itself, and it never transfers authority from a prior machine, project, thread, handoff, or role instance.
 
+## Migrate A Copied Full Leader Document
+
+Do not keep appending to a copied full template merely because it was the
+starting format. Preserve the old document as durable historical evidence, then
+create a fresh active-state instance from
+`templates/compact-leader-state.md` or
+`templates/standard-leader-state.md`.
+
+1. Re-verify the current goal, active workstreams, blockers, roles, validation
+   groups, dependency/conflict edges, overlap edges, high-risk gates, and
+   authorization domains.
+2. Select Compact or Standard from current active structure, not from the old
+   document's line count. Record `hierarchical-required` if Standard is
+   insufficient.
+3. Copy every applicable current control fact once. Keep the complete accepted
+   retention floor even when it exceeds a warning band.
+4. Replace copied logs, resolved history, full role reasoning, and repeated
+   handoff text with stable evidence pointers. Do not delete the durable source.
+5. Record source identity and freshness only for actual derived copies, then
+   run the profile fixture and local validation checks.
+
+The profile thresholds are provisional pilot baselines. Structural thresholds
+select the profile but do not block work by themselves, and line/byte bands only
+warn. Hierarchical root/card/shard storage is not implemented in this target;
+large work continues under accepted qualitative rollover and handoff controls
+until the named follow-on is separately accepted.
+
 ## Optional Codex Global Skill Sync
 
 The installed Codex global skill is normally:
